@@ -325,3 +325,50 @@ Run Phase 0 only: a read-only audit of the existing Petfeb website and this repo
 Do not write any application code. Report routes, content, assets, visual language,
 SEO URLs, dependencies and gaps, then propose the information architecture.
 ```
+
+## Design Decisions Update (October 2026)
+
+These decisions come from the design review of the Google Stitch files generated from screen.md. They override earlier screen definitions wherever they conflict. Source for journeys: the Petfeb Solar Service Blueprint.
+
+### 1. Homepage hero modal
+- The modal shown on the hero section must include the product image.
+- The image comes from the product record managed in the admin dashboard (see section 5). Do not hard-code it.
+
+### 2. Navigation
+- Main navigation contains only: Home, About Us, Contact Us, Our Projects, Shop, Training.
+- Every other link (Journal, Buy Small, Installation, Track Order, support, legal and similar) moves to the footer.
+- Pages not in the main nav stay reachable through page calls to action and the footer.
+
+### 3. Testimonials
+- Testimonials are added, edited, hidden and deleted by an admin from the admin dashboard.
+- The public site only reads published testimonials.
+
+### 4. Buy Small access
+- Users must sign up and complete identity verification before they can use Buy Small.
+- Verification states: not started, pending, verified, rejected.
+- Buy Small stays locked until the state is verified.
+- Outright purchase keeps guest checkout (no account needed). Only Buy Small is gated.
+- Open question: which ID types are accepted and what happens after a rejection. No eligibility rules are assumed.
+
+### 5. Products and CMS
+- Products, product images, product details and accessories are managed from the admin dashboard.
+- This means a CMS layer. Every public page that shows products (Shop, Product detail, Cart, hero modal) reads from the same source.
+
+### 6. Blog
+- The Journal (blog and articles) is created, edited, published and unpublished from the admin dashboard.
+
+### 7. Admin dashboard sections
+The admin role is divided into sections, each with its own access:
+- CMS and site content
+- Blog
+- Products
+- Client verifications
+- Testimonials
+- Other site updates (orders, Buy Small plans, installers, projects)
+
+### Build order
+1. Data model and admin roles (products, accessories, testimonials, blog posts, verifications).
+2. Admin sections that write to that data.
+3. Public pages reading from it, including the hero modal, the new nav and the footer.
+4. Sign-up and identity verification, then Buy Small gated behind it.
+5. Missing screens from the blueprint checklist, starting with order confirmation and payment failure/retry.
