@@ -62,8 +62,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             )}
             <div className="flex-1 text-sm font-medium">{toast.message}</div>
             <button
+              type="button"
               onClick={() => removeToast(toast.id)}
-              className="p-1 rounded-md hover:bg-black/5 text-current/60 hover:text-current transition"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-black/5 text-current/60 hover:text-current transition cursor-pointer"
               aria-label="Close notification"
             >
               <X size={14} />

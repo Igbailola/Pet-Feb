@@ -46,7 +46,7 @@ export function SubmitButton({ pending, label = "Save" }: { pending: boolean; la
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-2 bg-[#7BB042] text-black font-semibold rounded-lg px-5 py-2.5 text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+      className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-black font-semibold rounded-xl px-5 py-2.5 min-h-[44px] text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition cursor-pointer shadow-xs"
     >
       {pending && <Loader2 size={16} className="animate-spin" />}
       {pending ? "Saving…" : label}
@@ -73,6 +73,7 @@ export function DeleteButton({
       <div className="inline-flex items-center gap-2">
         <span className="text-xs text-[#B3261E] font-medium">Confirm?</span>
         <button
+          type="button"
           onClick={async () => {
             try {
               setDeleting(true);
@@ -87,13 +88,14 @@ export function DeleteButton({
             }
           }}
           disabled={deleting}
-          className="text-xs font-medium text-white bg-[#B3261E] rounded-md px-2.5 py-1.5 hover:bg-red-700 disabled:opacity-50 transition"
+          className="text-xs font-semibold text-white bg-[#B3261E] rounded-lg px-3 py-1.5 min-h-[36px] hover:bg-red-700 disabled:opacity-50 transition cursor-pointer"
         >
           {deleting ? "Deleting…" : "Yes, delete"}
         </button>
         <button
+          type="button"
           onClick={() => setConfirming(false)}
-          className="text-xs font-medium text-[#333] bg-[#F2F2F2] rounded-md px-2.5 py-1.5 hover:bg-[#D9D9D9] transition"
+          className="text-xs font-semibold text-[#333] bg-[#F2F2F2] rounded-lg px-3 py-1.5 min-h-[36px] hover:bg-[#D9D9D9] transition cursor-pointer"
         >
           Cancel
         </button>
@@ -105,7 +107,7 @@ export function DeleteButton({
     <button
       type="button"
       onClick={() => setConfirming(true)}
-      className="text-sm font-medium text-[#B3261E] hover:underline transition"
+      className="text-sm font-semibold text-[#B3261E] hover:underline transition cursor-pointer py-1"
     >
       {label}
     </button>
@@ -135,7 +137,7 @@ export function FormField({
   if (children) {
     return (
       <div>
-        <label htmlFor={name} className="block text-sm font-medium text-[#333] mb-1.5">
+        <label htmlFor={name} className="block text-xs font-semibold text-[#333] mb-1.5">
           {label}
         </label>
         {children}
@@ -146,7 +148,7 @@ export function FormField({
   if (type === "textarea") {
     return (
       <div>
-        <label htmlFor={name} className="block text-sm font-medium text-[#333] mb-1.5">
+        <label htmlFor={name} className="block text-xs font-semibold text-[#333] mb-1.5">
           {label}
         </label>
         <textarea
@@ -157,7 +159,7 @@ export function FormField({
           placeholder={placeholder}
           rows={4}
           onChange={onChange}
-          className="w-full rounded-lg border border-[#8A8A8A] px-4 py-2.5 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
+          className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
         />
       </div>
     );
@@ -165,7 +167,7 @@ export function FormField({
 
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-[#333] mb-1.5">
+      <label htmlFor={name} className="block text-xs font-semibold text-[#333] mb-1.5">
         {label}
       </label>
       <input
@@ -177,7 +179,7 @@ export function FormField({
         placeholder={placeholder}
         step={type === "number" ? "0.01" : undefined}
         onChange={onChange}
-        className="w-full rounded-lg border border-[#8A8A8A] px-4 py-2.5 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
+        className="w-full min-h-[44px] rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
       />
     </div>
   );
@@ -187,11 +189,11 @@ export function FormField({
 export function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     published: "bg-[#E8F3DA] text-[#2F5212] border-[#C3E49E]",
-    draft: "bg-[#F2F2F2] text-[#5C5C5C] border-[#D9D9D9]",
-    hidden: "bg-[#FDF0CC] text-[#8A5A00] border-[#FBE099]",
+    draft: "bg-[#F3F4F6] text-[#4B5563] border-[#E5E7EB]",
+    hidden: "bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]",
     pending: "bg-[#FEF3C7] text-[#92400E] border-[#FDE68A]",
-    verified: "bg-[#DEF7EC] text-[#03543F] border-[#BCF0DA]",
-    rejected: "bg-[#FDE8E8] text-[#9B1C1C] border-[#F8B4B4]",
+    verified: "bg-[#E8F3DA] text-[#2F5212] border-[#C3E49E]",
+    rejected: "bg-[#FCE8E6] text-[#B3261E] border-[#F8B4B4]",
     in_stock: "bg-[#E8F3DA] text-[#2F5212] border-[#C3E49E]",
     out_of_stock: "bg-[#FCE8E6] text-[#B3261E] border-[#F8B4B4]",
   };
@@ -201,11 +203,11 @@ export function StatusBadge({ status }: { status: string }) {
     out_of_stock: "Out of stock",
   };
 
-  const style = colors[status] ?? "bg-[#F2F2F2] text-[#5C5C5C] border-[#D9D9D9]";
+  const style = colors[status] ?? "bg-[#F3F4F6] text-[#4B5563] border-[#E5E7EB]";
   const display = labels[status] ?? (status.charAt(0).toUpperCase() + status.slice(1));
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border uppercase tracking-wider ${style}`}>
       {display}
     </span>
   );
@@ -218,7 +220,7 @@ export function Breadcrumbs({
   items: { label: string; href?: string }[];
 }) {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-[#767676] mb-3">
+    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-[#6B7280] mb-3">
       <Link href="/admin" className="hover:text-black transition">
         Dashboard
       </Link>
@@ -226,13 +228,13 @@ export function Breadcrumbs({
         const isLast = idx === items.length - 1;
         return (
           <span key={idx} className="flex items-center gap-1.5">
-            <ChevronRight size={12} className="text-[#A0A0A0]" />
+            <ChevronRight size={12} className="text-[#9CA3AF]" />
             {item.href && !isLast ? (
               <Link href={item.href} className="hover:text-black transition">
                 {item.label}
               </Link>
             ) : (
-              <span className="font-medium text-black truncate max-w-[200px] sm:max-w-none">
+              <span className="font-bold text-black truncate max-w-[200px] sm:max-w-none">
                 {item.label}
               </span>
             )}
@@ -260,10 +262,10 @@ export function PageHeader({
       {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h1 className="text-2xl sm:text-3xl font-bold text-black tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {title}
           </h1>
-          {description && <p className="text-[#5C5C5C] text-sm mt-0.5">{description}</p>}
+          {description && <p className="text-[#6B7280] text-xs sm:text-sm mt-0.5">{description}</p>}
         </div>
         {action}
       </div>
@@ -274,8 +276,8 @@ export function PageHeader({
 // ─── Empty state ──────────────────────────────────────────────
 export function EmptyState({ message, action }: { message: string; action?: React.ReactNode }) {
   return (
-    <div className="text-center py-12 px-4 bg-white rounded-xl border border-[#D9D9D9]">
-      <p className="text-[#767676] text-sm mb-4">{message}</p>
+    <div className="text-center py-12 px-4 bg-white rounded-2xl border border-[#E5E7EB] shadow-xs">
+      <p className="text-[#6B7280] text-sm mb-4">{message}</p>
       {action}
     </div>
   );
@@ -284,13 +286,13 @@ export function EmptyState({ message, action }: { message: string; action?: Reac
 // ─── Table skeleton loader ───────────────────────────────────
 export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
-    <div className="bg-white rounded-xl border border-[#D9D9D9] p-4 animate-pulse">
-      <div className="h-6 bg-[#F2F2F2] rounded mb-4 w-1/3"></div>
+    <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs animate-pulse">
+      <div className="h-6 bg-[#F3F4F6] rounded-xl mb-4 w-1/3"></div>
       <div className="space-y-3">
         {Array.from({ length: rows }).map((_, r) => (
           <div key={r} className="flex gap-4">
             {Array.from({ length: cols }).map((_, c) => (
-              <div key={c} className="h-4 bg-[#F2F2F2] rounded flex-1"></div>
+              <div key={c} className="h-4 bg-[#F3F4F6] rounded-lg flex-1"></div>
             ))}
           </div>
         ))}
@@ -336,9 +338,10 @@ export function Pagination({
       </div>
       <div className="flex items-center gap-1 self-center sm:self-auto">
         <button
+          type="button"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#D9D9D9] text-xs font-medium text-[#333] hover:bg-[#F2F2F2] disabled:opacity-40 disabled:cursor-not-allowed transition"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-lg border border-[#D9D9D9] text-xs font-semibold text-[#333] hover:bg-[#F2F2F2] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
         >
           <ChevronLeft size={14} /> Previous
         </button>
@@ -354,10 +357,11 @@ export function Pagination({
           return (
             <button
               key={p}
+              type="button"
               onClick={() => onPageChange(p)}
-              className={`w-8 h-8 rounded-lg text-xs font-medium transition ${
+              className={`w-9 h-9 rounded-lg text-xs font-semibold transition cursor-pointer ${
                 currentPage === p
-                  ? "bg-[#7BB042] text-black font-bold"
+                  ? "bg-[#7BB042] text-black font-bold shadow-xs"
                   : "text-[#5C5C5C] hover:bg-[#F2F2F2]"
               }`}
             >
@@ -366,9 +370,10 @@ export function Pagination({
           );
         })}
         <button
+          type="button"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#D9D9D9] text-xs font-medium text-[#333] hover:bg-[#F2F2F2] disabled:opacity-40 disabled:cursor-not-allowed transition"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-lg border border-[#D9D9D9] text-xs font-semibold text-[#333] hover:bg-[#F2F2F2] disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
         >
           Next <ChevronRight size={14} />
         </button>
@@ -393,7 +398,7 @@ export function SortSelect<T extends string>({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className="pl-8 pr-7 py-2 bg-white rounded-lg border border-[#8A8A8A] text-xs font-medium text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition appearance-none cursor-pointer"
+        className="pl-8 pr-7 py-2 min-h-[40px] bg-white rounded-xl border border-gray-300 text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition appearance-none cursor-pointer"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

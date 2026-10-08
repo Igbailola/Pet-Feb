@@ -14,6 +14,17 @@ async function guardTestimonials() {
 
 export type ActionResult = { success?: boolean; error?: string };
 
+function revalidateTestimonialsPages(id?: string) {
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/about");
+  revalidatePath("/admin/testimonials");
+  if (id) {
+    revalidatePath(`/admin/testimonials/${id}`);
+  }
+  revalidatePath("/admin");
+}
+
 export async function createTestimonial(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
   const user = await guardTestimonials();
   const raw = {
@@ -39,8 +50,7 @@ export async function createTestimonial(_prev: ActionResult, formData: FormData)
     entityName: `Testimonial by ${parsed.data.author_name}`,
   });
 
-  revalidatePath("/admin/testimonials");
-  revalidatePath("/admin");
+  revalidateTestimonialsPages(data?.id);
   return { success: true };
 }
 
@@ -77,9 +87,7 @@ export async function updateTestimonial(_prev: ActionResult, formData: FormData)
     entityName: `Testimonial by ${parsed.data.author_name}`,
   });
 
-  revalidatePath("/admin/testimonials");
-  revalidatePath(`/admin/testimonials/${id}`);
-  revalidatePath("/admin");
+  revalidateTestimonialsPages(id);
   return { success: true };
 }
 
@@ -101,8 +109,7 @@ export async function deleteTestimonial(id: string): Promise<ActionResult> {
     entityName: `Testimonial by ${authorName}`,
   });
 
-  revalidatePath("/admin/testimonials");
-  revalidatePath("/admin");
+  revalidateTestimonialsPages(id);
   return { success: true };
 }
 

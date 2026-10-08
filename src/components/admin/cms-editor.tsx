@@ -20,10 +20,11 @@ function EditRow({ entry }: { entry: Entry }) {
     if (state.success) {
       showToast(`Updated "${entry.key}" successfully`, "success");
       setIsDirty(false);
+      router.refresh();
     } else if (state.error) {
       showToast(state.error, "error");
     }
-  }, [state, entry.key, showToast]);
+  }, [state, entry.key, router, showToast]);
 
   return (
     <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 shadow-xs">
@@ -56,9 +57,9 @@ function EditRow({ entry }: { entry: Entry }) {
           <button
             type="submit"
             disabled={pending}
-            className="inline-flex items-center gap-1.5 bg-[#7BB042] text-black font-semibold rounded-lg px-3 py-1.5 text-xs hover:bg-[#6A9E36] disabled:opacity-50 transition shadow-xs"
+            className="inline-flex items-center gap-1.5 bg-[#7BB042] text-black font-semibold rounded-lg px-3 py-1.5 text-xs hover:bg-[#6A9E36] disabled:opacity-50 transition shadow-xs cursor-pointer"
           >
-            <Save size={13} /> {pending ? "Saving…" : "Save changes"}
+            <Save size={13} /> {pending ? "Publishing…" : "Publish changes"}
           </button>
         </div>
       </form>
@@ -115,7 +116,7 @@ function NewEntryForm({ onDone }: { onDone: () => void }) {
           />
         </div>
         <div className="flex items-center gap-2 pt-1">
-          <SubmitButton pending={pending} label="Add block" />
+          <SubmitButton pending={pending} label="Publish new content block" />
           <button
             type="button"
             onClick={onDone}

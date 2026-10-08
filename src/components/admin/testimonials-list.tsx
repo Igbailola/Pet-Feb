@@ -62,7 +62,7 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
         action={
           <Link
             href="/admin/testimonials/new"
-            className="inline-flex items-center gap-2 bg-[#7BB042] text-black font-semibold rounded-lg px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-sm"
+            className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-black font-semibold rounded-xl px-4 py-2.5 min-h-[44px] text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-xs"
           >
             <Plus size={16} /> New testimonial
           </Link>
@@ -70,10 +70,10 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-xl border border-[#D9D9D9] p-4 mb-5 shadow-sm">
+      <div className="bg-white rounded-2xl border border-gray-200/90 p-4 mb-5 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-sm">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#767676]" />
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#767676]" />
             <input
               type="text"
               placeholder="Search by client name, role, or message…"
@@ -82,22 +82,23 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 rounded-lg border border-[#D9D9D9] text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
             />
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
             <div className="flex items-center gap-1.5 text-xs text-[#5C5C5C]">
               <Filter size={14} className="text-[#767676]" />
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {(["all", "published", "hidden"] as const).map((f) => (
                   <button
                     key={f}
+                    type="button"
                     onClick={() => {
                       setFilter(f);
                       setPage(1);
                     }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                    className={`px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold transition cursor-pointer flex items-center ${
                       filter === f
                         ? "bg-[#E8F3DA] text-[#2F5212] border border-[#C3E49E]"
                         : "bg-[#F8F8F8] text-[#5C5C5C] border border-[#D9D9D9] hover:bg-[#EBEBEB]"
@@ -147,7 +148,7 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
             {paginated.map((t) => (
               <div
                 key={t.id}
-                className="bg-white rounded-xl border border-[#D9D9D9] p-5 hover:border-[#7BB042] transition shadow-xs flex flex-col justify-between"
+                className="bg-white rounded-2xl border border-[#E5E7EB] p-5 hover:border-[#7BB042] transition shadow-xs flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between gap-3 mb-3">
@@ -156,7 +157,7 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
                         <img
                           src={t.photo_url}
                           alt={t.author_name}
-                          className="w-10 h-10 rounded-full object-cover bg-[#F2F2F2] flex-shrink-0 border border-[#D9D9D9]"
+                          className="w-10 h-10 rounded-full object-cover bg-[#F8F9FA] flex-shrink-0 border border-[#E5E7EB]"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-[#E8F3DA] flex items-center justify-center text-[#2F5212] font-bold text-sm flex-shrink-0">
@@ -164,20 +165,22 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
                         </div>
                       )}
                       <div className="min-w-0">
-                        <p className="text-sm font-bold text-black truncate">{t.author_name}</p>
-                        {t.author_role && <p className="text-xs text-[#5C5C5C] truncate">{t.author_role}</p>}
+                        <p className="text-sm font-bold text-black truncate" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                          {t.author_name}
+                        </p>
+                        {t.author_role && <p className="text-xs text-[#6B7280] truncate">{t.author_role}</p>}
                       </div>
                     </div>
                     <StatusBadge status={t.status} />
                   </div>
-                  <p className="text-xs sm:text-sm text-[#333] mb-4 line-clamp-3 italic">
+                  <p className="text-xs sm:text-sm text-[#333] mb-4 line-clamp-3 italic leading-relaxed">
                     &ldquo;{t.message}&rdquo;
                   </p>
                 </div>
-                <div className="flex items-center justify-between pt-3 border-t border-[#F2F2F2]">
+                <div className="flex items-center justify-between pt-3 border-t border-[#F3F4F6]">
                   <Link
                     href={`/admin/testimonials/${t.id}`}
-                    className="text-xs font-semibold text-[#3F6B1A] hover:underline"
+                    className="text-xs font-bold text-[#3F6B1A] hover:underline"
                   >
                     Edit testimonial
                   </Link>
@@ -193,7 +196,7 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
             ))}
           </div>
 
-          <div className="bg-white rounded-xl border border-[#D9D9D9] shadow-sm">
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] shadow-xs overflow-hidden">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

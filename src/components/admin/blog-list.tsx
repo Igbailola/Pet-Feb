@@ -65,7 +65,7 @@ export function BlogList({ posts }: { posts: Post[] }) {
         action={
           <Link
             href="/admin/blog/new"
-            className="inline-flex items-center gap-2 bg-[#7BB042] text-black font-semibold rounded-lg px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-sm"
+            className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-black font-semibold rounded-xl px-4 py-2.5 min-h-[44px] text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-xs"
           >
             <Plus size={16} /> New post
           </Link>
@@ -73,10 +73,10 @@ export function BlogList({ posts }: { posts: Post[] }) {
       />
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-xl border border-[#D9D9D9] p-4 mb-5 shadow-sm">
+      <div className="bg-white rounded-2xl border border-gray-200/90 p-4 mb-5 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-sm">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#767676]" />
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#767676]" />
             <input
               type="text"
               placeholder="Search by title, category, or slug…"
@@ -85,7 +85,7 @@ export function BlogList({ posts }: { posts: Post[] }) {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 rounded-lg border border-[#D9D9D9] text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
             />
           </div>
 
@@ -98,7 +98,7 @@ export function BlogList({ posts }: { posts: Post[] }) {
                   setStatusFilter(e.target.value);
                   setPage(1);
                 }}
-                className="bg-[#F8F8F8] border border-[#D9D9D9] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+                className="bg-[#F8F8F8] border border-gray-300 rounded-xl px-3 py-2 min-h-[40px] text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] cursor-pointer"
               >
                 <option value="all">All statuses</option>
                 <option value="published">Published</option>
@@ -132,47 +132,48 @@ export function BlogList({ posts }: { posts: Post[] }) {
           }
           action={
             !search && statusFilter === "all" ? (
-              <Link href="/admin/blog/new" className="text-sm font-medium text-[#3F6B1A] hover:underline">
+              <Link href="/admin/blog/new" className="text-sm font-semibold text-[#3F6B1A] hover:underline">
                 Write your first post →
               </Link>
             ) : undefined
           }
         />
       ) : (
-        <div className="bg-white rounded-xl border border-[#D9D9D9] overflow-hidden shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs sm:text-sm">
+        <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden shadow-xs">
+          {/* Desktop Table View */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-[#D9D9D9] bg-[#F8F8F8]">
-                  <th className="text-left px-4 py-3 font-semibold text-[#5C5C5C]">Title</th>
-                  <th className="text-left px-4 py-3 font-semibold text-[#5C5C5C]">Category</th>
-                  <th className="text-center px-4 py-3 font-semibold text-[#5C5C5C]">Status</th>
-                  <th className="text-left px-4 py-3 font-semibold text-[#5C5C5C]">Published date</th>
-                  <th className="text-right px-4 py-3 font-semibold text-[#5C5C5C]">Actions</th>
+                <tr className="border-b border-[#E5E7EB] bg-[#F8F9FA] text-[#6B7280] font-bold uppercase tracking-wider">
+                  <th className="text-left px-5 py-3.5">Title</th>
+                  <th className="text-left px-5 py-3.5">Category</th>
+                  <th className="text-center px-5 py-3.5">Status</th>
+                  <th className="text-left px-5 py-3.5">Published date</th>
+                  <th className="text-right px-5 py-3.5">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F2F2F2]">
+              <tbody className="divide-y divide-[#F3F4F6]">
                 {paginated.map((p) => (
                   <tr key={p.id} className="hover:bg-[#F9FCF5] transition">
-                    <td className="px-4 py-3">
+                    <td className="px-5 py-4">
                       <Link
                         href={`/admin/blog/${p.id}`}
-                        className="font-medium text-black hover:text-[#3F6B1A] transition block truncate max-w-xs sm:max-w-md"
+                        className="font-bold text-black hover:text-[#3F6B1A] transition block truncate max-w-sm"
                       >
                         {p.title}
                       </Link>
-                      <span className="text-[11px] text-[#767676] block truncate">{p.slug}</span>
+                      <span className="text-[11px] text-[#9CA3AF] block truncate">{p.slug}</span>
                     </td>
-                    <td className="px-4 py-3 text-[#5C5C5C] whitespace-nowrap">{p.category ?? "General"}</td>
-                    <td className="px-4 py-3 text-center whitespace-nowrap">
+                    <td className="px-5 py-4 text-[#4B5563] font-medium whitespace-nowrap">{p.category ?? "General"}</td>
+                    <td className="px-5 py-4 text-center whitespace-nowrap">
                       <StatusBadge status={p.status} />
                     </td>
-                    <td className="px-4 py-3 text-[#5C5C5C] whitespace-nowrap text-xs">
+                    <td className="px-5 py-4 text-[#6B7280] whitespace-nowrap text-xs">
                       {p.published_at ? new Date(p.published_at).toLocaleDateString() : "—"}
                     </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
+                    <td className="px-5 py-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-3">
-                        <Link href={`/admin/blog/${p.id}`} className="text-xs font-semibold text-[#3F6B1A] hover:underline">
+                        <Link href={`/admin/blog/${p.id}`} className="text-xs font-bold text-[#3F6B1A] hover:underline">
                           Edit
                         </Link>
                         <DeleteButton
@@ -188,6 +189,44 @@ export function BlogList({ posts }: { posts: Post[] }) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Stacked Cards View */}
+          <div className="lg:hidden divide-y divide-[#F3F4F6]">
+            {paginated.map((p) => (
+              <div key={p.id} className="p-4 space-y-2 hover:bg-[#F9FCF5] transition">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <Link
+                      href={`/admin/blog/${p.id}`}
+                      className="text-sm font-bold text-black hover:text-[#3F6B1A] transition block truncate"
+                    >
+                      {p.title}
+                    </Link>
+                    <p className="text-xs text-[#6B7280]">{p.category ?? "General"}</p>
+                  </div>
+                  <StatusBadge status={p.status} />
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-[#6B7280] pt-1">
+                  <span>
+                    {p.published_at ? `Published ${new Date(p.published_at).toLocaleDateString()}` : "Not published"}
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/blog/${p.id}`} className="text-xs font-bold text-[#3F6B1A] hover:underline">
+                      Edit
+                    </Link>
+                    <DeleteButton
+                      itemName={p.title}
+                      onDelete={async () => {
+                        await deleteBlogPost(p.id);
+                        router.refresh();
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           <Pagination

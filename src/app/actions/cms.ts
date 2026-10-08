@@ -13,13 +13,31 @@ async function guardCms() {
 
 export type ActionResult = { success?: boolean; error?: string };
 
+function revalidateCmsPages() {
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/about");
+  revalidatePath("/installation");
+  revalidatePath("/training");
+  revalidatePath("/contact");
+  revalidatePath("/admin/cms");
+  revalidatePath("/admin");
+}
+
 export async function updateSiteContent(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
-  const user = await guardCms();
+  let user;
+  try {
+    user = await guardCms();
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Access denied" };
+  }
+
   const key = formData.get("key") as string;
   const value = formData.get("value") as string;
 
+  let parsedVal;
   try {
-    JSON.parse(value);
+    parsedVal = JSON.parse(value);
   } catch {
     return { error: "Value must be valid JSON" };
   }
@@ -27,7 +45,7 @@ export async function updateSiteContent(_prev: ActionResult, formData: FormData)
   const supabase = await createClient();
   const { error } = await supabase
     .from("site_content")
-    .update({ value: JSON.parse(value) })
+    .update({ value: parsedVal })
     .eq("key", key);
   if (error) return { error: error.message };
 
@@ -40,19 +58,25 @@ export async function updateSiteContent(_prev: ActionResult, formData: FormData)
     entityName: `Content block: ${key}`,
   });
 
-  revalidatePath("/admin/cms");
-  revalidatePath("/admin");
+  revalidateCmsPages();
   return { success: true };
 }
 
 export async function createSiteContent(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
-  const user = await guardCms();
+  let user;
+  try {
+    user = await guardCms();
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Access denied" };
+  }
+
   const key = formData.get("key") as string;
   const value = formData.get("value") as string;
 
   if (!key?.trim()) return { error: "Key is required" };
+  let parsedVal;
   try {
-    JSON.parse(value);
+    parsedVal = JSON.parse(value);
   } catch {
     return { error: "Value must be valid JSON" };
   }
@@ -72,8 +96,7 @@ export async function createSiteContent(_prev: ActionResult, formData: FormData)
     entityName: `Content block: ${key.trim()}`,
   });
 
-  revalidatePath("/admin/cms");
-  revalidatePath("/admin");
+  revalidateCmsPages();
   return { success: true };
 }
 
@@ -92,7 +115,6 @@ export async function deleteSiteContent(key: string): Promise<ActionResult> {
     entityName: `Content block: ${key}`,
   });
 
-  revalidatePath("/admin/cms");
-  revalidatePath("/admin");
+  revalidateCmsPages();
   return { success: true };
 }

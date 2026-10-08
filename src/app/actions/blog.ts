@@ -14,6 +14,20 @@ async function guardBlog() {
 
 export type ActionResult = { success?: boolean; error?: string };
 
+function revalidateBlogPages(id?: string, slug?: string) {
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/blog");
+  if (slug) {
+    revalidatePath(`/blog/${slug}`);
+  }
+  revalidatePath("/admin/blog");
+  if (id) {
+    revalidatePath(`/admin/blog/${id}`);
+  }
+  revalidatePath("/admin");
+}
+
 export async function createBlogPost(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
   const user = await guardBlog();
   const raw = {
@@ -22,8 +36,8 @@ export async function createBlogPost(_prev: ActionResult, formData: FormData): P
     cover_image: (formData.get("cover_image") as string) || undefined,
     body: formData.get("body") as string,
     category: (formData.get("category") as string) || undefined,
-    status: formData.get("status") as string,
-    published_at: (formData.get("published_at") as string) || undefined,
+    status: (formData.get("status") as string) || "draft",
+    published_at: (formData.get("published_at") as string)?.trim() || (formData.get("status") === "published" ? new Date().toISOString() : undefined),
   };
   const parsed = blogPostSchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
@@ -41,8 +55,7 @@ export async function createBlogPost(_prev: ActionResult, formData: FormData): P
     entityName: parsed.data.title,
   });
 
-  revalidatePath("/admin/blog");
-  revalidatePath("/admin");
+  revalidateBlogPages(data?.id, parsed.data.slug);
   return { success: true };
 }
 
@@ -55,8 +68,8 @@ export async function updateBlogPost(_prev: ActionResult, formData: FormData): P
     cover_image: (formData.get("cover_image") as string) || undefined,
     body: formData.get("body") as string,
     category: (formData.get("category") as string) || undefined,
-    status: formData.get("status") as string,
-    published_at: (formData.get("published_at") as string) || undefined,
+    status: (formData.get("status") as string) || "draft",
+    published_at: (formData.get("published_at") as string)?.trim() || (formData.get("status") === "published" ? new Date().toISOString() : undefined),
   };
   const parsed = blogPostSchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
@@ -81,16 +94,14 @@ export async function updateBlogPost(_prev: ActionResult, formData: FormData): P
     entityName: parsed.data.title,
   });
 
-  revalidatePath("/admin/blog");
-  revalidatePath(`/admin/blog/${id}`);
-  revalidatePath("/admin");
+  revalidateBlogPages(id, parsed.data.slug);
   return { success: true };
 }
 
 export async function deleteBlogPost(id: string): Promise<ActionResult> {
   const user = await guardBlog();
   const supabase = await createClient();
-  const { data: post } = await supabase.from("blog_posts").select("title").eq("id", id).single();
+  const { data: post } = await supabase.from("blog_posts").select("title, slug").eq("id", id).single();
   const title = post?.title ?? "Blog post";
 
   const { error } = await supabase.from("blog_posts").delete().eq("id", id);
@@ -105,8 +116,7 @@ export async function deleteBlogPost(id: string): Promise<ActionResult> {
     entityName: title,
   });
 
-  revalidatePath("/admin/blog");
-  revalidatePath("/admin");
+  revalidateBlogPages(id, post?.slug);
   return { success: true };
 }
 

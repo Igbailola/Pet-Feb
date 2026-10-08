@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { createTestimonial, updateTestimonial, uploadTestimonialPhoto, type ActionResult } from "@/app/actions/testimonials";
 import { PageHeader, SubmitButton, FormField, useUnsavedChanges } from "./ui";
 import { useToast } from "./toast";
-import { Upload, ArrowLeft } from "lucide-react";
+import { Upload, ArrowLeft, CheckCircle2 } from "lucide-react";
 
 type Testimonial = {
   id: string;
@@ -27,6 +27,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
 
   const action = isEdit ? updateTestimonial : createTestimonial;
   const [state, formAction, pending] = useActionState<ActionResult, FormData>(action, {});
+  const [statusVal, setStatusVal] = useState<"published" | "hidden">(testimonial?.status === "published" ? "published" : "hidden");
   const [photoUrl, setPhotoUrl] = useState(testimonial?.photo_url ?? "");
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -38,6 +39,8 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
       setIsDirty(false);
       if (!isEdit) {
         router.push("/admin/testimonials");
+      } else {
+        router.refresh();
       }
     } else if (state.error) {
       showToast(state.error, "error");
@@ -123,16 +126,33 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
             <select
               id="status"
               name="status"
-              defaultValue={testimonial?.status ?? "hidden"}
+              value={statusVal}
+              onChange={(e) => setStatusVal(e.target.value as "published" | "hidden")}
               className="w-full rounded-lg border border-[#8A8A8A] px-4 py-2.5 text-sm text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition bg-white"
             >
-              <option value="hidden">Hidden</option>
+              <option value="hidden">Hidden / Draft</option>
               <option value="published">Published</option>
             </select>
           </FormField>
 
-          <div className="flex items-center gap-3 pt-3 border-t border-[#F2F2F2]">
-            <SubmitButton pending={pending} label={isEdit ? "Update testimonial" : "Create testimonial"} />
+          <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-[#F2F2F2]">
+            <button
+              type="submit"
+              onClick={() => setStatusVal("published")}
+              disabled={pending}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
+            >
+              <CheckCircle2 size={16} />
+              <span>{isEdit ? "Publish Changes" : "Publish Testimonial"}</span>
+            </button>
+            <button
+              type="submit"
+              onClick={() => setStatusVal("hidden")}
+              disabled={pending}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white border border-[#D9D9D9] text-[#333] hover:bg-[#F2F2F2] transition cursor-pointer disabled:opacity-50"
+            >
+              <span>Save as Hidden</span>
+            </button>
             <Link
               href="/admin/testimonials"
               className="px-4 py-2 text-xs sm:text-sm font-semibold text-[#5C5C5C] hover:bg-[#F2F2F2] rounded-lg transition"

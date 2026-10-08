@@ -17,7 +17,7 @@ export const productSchema = z.object({
 });
 
 export const productImageSchema = z.object({
-  product_id: z.string().uuid(),
+  product_id: z.string().regex(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/, "Invalid UUID format"),
   url: z.string().min(1),
   alt_text: z.string().optional(),
   sort_order: z.number().int().default(0),
@@ -47,7 +47,14 @@ export const blogPostSchema = z.object({
   body: z.string().default(""),
   category: z.string().optional(),
   status: publishStatus.default("draft"),
-  published_at: z.string().datetime().optional(),
+  published_at: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val || !val.trim()) return undefined;
+      const d = new Date(val);
+      return !isNaN(d.getTime()) ? d.toISOString() : undefined;
+    }),
 });
 
 // Reviewer decision: stores the decision and reason only. No eligibility rules.

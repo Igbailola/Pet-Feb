@@ -2,523 +2,405 @@ import Link from "next/link";
 import { requireStaff } from "@/lib/session";
 import { createClient } from "@/lib/supabase/server";
 import { SECTION_LABELS, type AdminSection } from "@/lib/rbac";
+import { getAttentionQueue } from "@/lib/attention-queue";
+import { OverviewSummaryCards } from "@/components/admin/overview-summary-cards";
+import { ContentOverviewChart } from "@/components/admin/content-overview-chart";
+import { AttentionQueueCard } from "@/components/admin/attention-queue-card";
+import { RecentActivityCard } from "@/components/admin/recent-activity-card";
+import { OverviewBottomCards } from "@/components/admin/bottom-cards";
+import type { ActivityLogEntry } from "@/lib/activity-log";
 import {
+  Plus,
+  ShieldCheck,
   Package,
   FileText,
   MessageSquareQuote,
-  ShieldCheck,
-  Plus,
-  AlertTriangle,
-  Clock,
-  ArrowRight,
-  CheckCircle2,
-  ExternalLink,
+  ShieldAlert,
 } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   const user = await requireStaff();
-  const supabase = await createClient();
 
-  // Empty state for staff with no sections
+  // ─── Empty state for staff with no sections ─────────────────────────
   if (user.sections.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6">
-        <div className="w-16 h-16 rounded-2xl bg-[#FDF0CC] flex items-center justify-center mb-5 text-[#8A5A00] shadow-sm">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 9v4" />
-            <path d="M12 17h.01" />
-            <circle cx="12" cy="12" r="10" />
-          </svg>
+      <div className="flex flex-col items-center justify-center min-h-[65vh] text-center p-6">
+        <div className="w-16 h-16 rounded-2xl bg-[#FEF3C7] flex items-center justify-center mb-5 text-[#92400E] shadow-xs">
+          <ShieldAlert size={30} />
         </div>
-        <h1 className="text-xl font-bold text-black mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+        <h1
+          className="text-2xl font-bold text-black mb-2 tracking-tight"
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+        >
           No access assigned
         </h1>
-        <p className="text-[#5C5C5C] text-sm max-w-sm mb-4">
-          Your account is registered as staff, but no admin sections have been assigned to you yet. Please contact a system administrator to grant you access.
+        <p className="text-[#6B7280] text-sm max-w-md mb-6 leading-relaxed">
+          Your account is registered as staff, but no admin sections have been assigned to you yet.
+          Please contact a system administrator to configure your section permissions.
         </p>
-        <div className="text-xs text-[#767676] bg-white border border-[#D9D9D9] px-4 py-2.5 rounded-lg">
-          Logged in as: <span className="font-semibold text-black">{user.email}</span>
+        <div className="text-xs text-[#4B5563] bg-white border border-[#E5E7EB] px-4 py-3 rounded-xl shadow-xs">
+          Logged in as: <span className="font-bold text-black">{user.email}</span>
         </div>
       </div>
     );
   }
 
-  // ─── 1. Fetch counts for held sections ─────────────────────────
-  type SummaryData = {
-    products?: { published: number; draft: number };
-    blog?: { published: number; draft: number };
-    testimonials?: { published: number; hidden: number };
-    verifications?: { pending: number };
-  };
-  const summary: SummaryData = {};
+  const supabase = await createClient();
 
-  if (user.sections.includes("products")) {
-    const { data } = await supabase.from("products").select("status");
-    const prods = data ?? [];
-    summary.products = {
-      published: prods.filter((p) => p.status === "published").length,
-      draft: prods.filter((p) => p.status === "draft").length,
-    };
-  }
+  const hasProducts = user.sections.includes("products");
+  const hasBlog = user.sections.includes("blog");
+  const hasTestimonials = user.sections.includes("testimonials");
+  const hasVerifications = user.sections.includes("verifications");
+  const hasCms = user.sections.includes("cms");
 
-  if (user.sections.includes("blog")) {
-    const { data } = await supabase.from("blog_posts").select("status");
-    const posts = data ?? [];
-    summary.blog = {
-      published: posts.filter((p) => p.status === "published").length,
-      draft: posts.filter((p) => p.status === "draft").length,
-    };
-  }
+  // ─── 1. Parallel Data Fetching ───────────────────────────────────────
+  const [
+    productsRes,
+    blogRes,
+    testimonialsRes,
+    verificationsRes,
+    logsRes,
+    attentionTasks,
+  ] = await Promise.all([
+    hasProducts
+      ? supabase
+          .from("products")
+          .select("id, name, slug, status, in_stock, price, created_at, updated_at, product_images(id, is_main, url)")
+      : Promise.resolve({ data: null }),
+    hasBlog
+      ? supabase
+          .from("blog_posts")
+          .select("id, title, slug, status, cover_image, published_at, created_at, updated_at")
+      : Promise.resolve({ data: null }),
+    hasTestimonials
+      ? supabase
+          .from("testimonials")
+          .select("id, author_name, author_role, status, photo_url, created_at, updated_at")
+      : Promise.resolve({ data: null }),
+    hasVerifications
+      ? supabase
+          .from("verification_submissions")
+          .select("id, decision, submitted_at, decided_at, profiles(full_name, email)")
+      : Promise.resolve({ data: null }),
+    supabase
+      .from("activity_logs")
+      .select("id, user_id, section, action, entity_type, entity_id, entity_name, created_at, profiles(full_name, email)")
+      .order("created_at", { ascending: false })
+      .limit(100),
+    getAttentionQueue(user),
+  ]);
 
-  if (user.sections.includes("testimonials")) {
-    const { data } = await supabase.from("testimonials").select("status");
-    const tests = data ?? [];
-    summary.testimonials = {
-      published: tests.filter((t) => t.status === "published").length,
-      hidden: tests.filter((t) => t.status === "hidden").length,
-    };
-  }
+  // ─── 2. Calculate Real Statistics ────────────────────────────────────
 
-  if (user.sections.includes("verifications")) {
-    const { data } = await supabase
-      .from("verification_submissions")
-      .select("decision")
-      .eq("decision", "pending");
-    summary.verifications = {
-      pending: (data ?? []).length,
-    };
-  }
-
-  // ─── 2. Fetch "Needs attention" items ──────────────────────────
-  type AttentionItem = {
+  // Products
+  const prods = (productsRes.data as Array<{
     id: string;
-    type: "product_draft" | "product_out_of_stock" | "blog_draft" | "testimonial_hidden" | "verification_pending";
-    title: string;
-    subtitle: string;
-    href: string;
-    badge: string;
-    badgeColor: string;
-  };
-  const attentionItems: AttentionItem[] = [];
+    name: string;
+    slug: string;
+    status: string;
+    in_stock?: boolean;
+    product_images?: Array<{ id: string; is_main: boolean; url: string }>;
+    created_at?: string;
+  }>) ?? [];
+  const publishedProducts = prods.filter((p) => p.status === "published");
+  const draftProducts = prods.filter((p) => p.status === "draft");
+  const outOfStockProducts = publishedProducts.filter((p) => p.in_stock === false);
+  const productsMissingImage = publishedProducts.filter(
+    (p) => !p.product_images || !p.product_images.some((img) => img.is_main)
+  );
 
-  if (user.sections.includes("products")) {
-    // Draft products & published out-of-stock products
-    const { data: prods } = await supabase
-      .from("products")
-      .select("id, name, status, in_stock")
-      .or("status.eq.draft,in_stock.eq.false")
-      .limit(6);
-
-    for (const p of prods ?? []) {
-      if (p.status === "draft") {
-        attentionItems.push({
-          id: `prod-draft-${p.id}`,
-          type: "product_draft",
-          title: p.name,
-          subtitle: "Product is in draft status",
-          href: `/admin/products/${p.id}`,
-          badge: "Draft",
-          badgeColor: "bg-[#F2F2F2] text-[#5C5C5C]",
-        });
-      } else if (p.status === "published" && p.in_stock === false) {
-        attentionItems.push({
-          id: `prod-oos-${p.id}`,
-          type: "product_out_of_stock",
-          title: p.name,
-          subtitle: "Published product is out of stock",
-          href: `/admin/products/${p.id}`,
-          badge: "Out of Stock",
-          badgeColor: "bg-[#FCE8E6] text-[#B3261E]",
-        });
+  const productsStats = hasProducts
+    ? {
+        published: publishedProducts.length,
+        draft: draftProducts.length,
+        outOfStock: outOfStockProducts.length,
+        total: prods.length,
       }
+    : undefined;
+
+  // Blog
+  const posts = (blogRes.data as Array<{
+    id: string;
+    title: string;
+    slug: string;
+    status: string;
+    cover_image?: string | null;
+    published_at?: string | null;
+    created_at?: string;
+  }>) ?? [];
+  const publishedBlog = posts.filter((p) => p.status === "published");
+  const draftBlog = posts.filter((p) => p.status === "draft");
+  const blogMissingCover = publishedBlog.filter((p) => !p.cover_image);
+
+  const blogStats = hasBlog
+    ? {
+        published: publishedBlog.length,
+        draft: draftBlog.length,
+        total: posts.length,
+      }
+    : undefined;
+
+  // Testimonials
+  const tests = (testimonialsRes.data as Array<{
+    id: string;
+    author_name: string;
+    author_role?: string | null;
+    status: string;
+    photo_url?: string | null;
+    created_at?: string;
+  }>) ?? [];
+  const publishedTestimonials = tests.filter((t) => t.status === "published");
+  const hiddenTestimonials = tests.filter((t) => t.status === "hidden");
+
+  const testimonialsStats = hasTestimonials
+    ? {
+        published: publishedTestimonials.length,
+        hidden: hiddenTestimonials.length,
+        total: tests.length,
+      }
+    : undefined;
+
+  // Verifications
+  const verifs = (verificationsRes.data as Array<{
+    id: string;
+    decision: string;
+    submitted_at: string;
+  }>) ?? [];
+  const pendingVerifs = verifs.filter((v) => v.decision === "pending");
+  const verifiedClients = verifs.filter((v) => v.decision === "verified");
+  const rejectedClients = verifs.filter((v) => v.decision === "rejected");
+
+  const verificationsStats = hasVerifications
+    ? {
+        pending: pendingVerifs.length,
+        total: verifs.length,
+      }
+    : undefined;
+
+  // Oldest wait time calculation
+  let oldestWaitTime: string | null = null;
+  if (pendingVerifs.length > 0) {
+    const sortedPending = [...pendingVerifs].sort(
+      (a, b) => new Date(a.submitted_at).getTime() - new Date(b.submitted_at).getTime()
+    );
+    const oldest = sortedPending[0];
+    const diffMs = Date.now() - new Date(oldest.submitted_at).getTime();
+    const diffHours = Math.floor(diffMs / 3600000);
+    if (diffHours < 1) {
+      const diffMin = Math.floor(diffMs / 60000);
+      oldestWaitTime = `${diffMin}m ago`;
+    } else if (diffHours < 24) {
+      oldestWaitTime = `${diffHours}h ago`;
+    } else {
+      const days = Math.floor(diffHours / 24);
+      oldestWaitTime = `${days}d ago`;
     }
   }
 
-  if (user.sections.includes("blog")) {
-    const { data: drafts } = await supabase
-      .from("blog_posts")
-      .select("id, title")
-      .eq("status", "draft")
-      .limit(6);
+  // Activity logs formatting
+  const logs = (logsRes.data ?? []) as Record<string, unknown>[];
+  const mappedLogs: ActivityLogEntry[] = logs.map((l) => {
+    const prof = l.profiles;
+    const profileObj = Array.isArray(prof)
+      ? prof[0] ?? null
+      : (prof as { full_name: string | null; email: string } | null);
+    return {
+      id: l.id as string,
+      user_id: l.user_id as string,
+      section: l.section as AdminSection,
+      action: l.action as string,
+      entity_type: l.entity_type as string,
+      entity_id: (l.entity_id as string | null) ?? null,
+      entity_name: l.entity_name as string,
+      created_at: l.created_at as string,
+      profiles: profileObj ?? null,
+    };
+  });
 
-    for (const b of drafts ?? []) {
-      attentionItems.push({
-        id: `blog-draft-${b.id}`,
-        type: "blog_draft",
+  // Content Health Score calculation
+  const totalItemsToCheck = publishedProducts.length + publishedBlog.length;
+  const healthDeficits =
+    productsMissingImage.length + blogMissingCover.length + outOfStockProducts.length;
+  const contentHealthScore =
+    totalItemsToCheck > 0
+      ? Math.max(10, Math.min(100, Math.round(((totalItemsToCheck - healthDeficits) / totalItemsToCheck) * 100)))
+      : 100;
+
+  // Recently Published items
+  type RecentlyPublishedItem = {
+    id: string;
+    title: string;
+    section: "products" | "blog" | "testimonials";
+    publishedAt: string;
+    href: string;
+  };
+  const recentlyPublishedList: RecentlyPublishedItem[] = [];
+
+  if (hasProducts) {
+    publishedProducts.slice(0, 3).forEach((p) => {
+      recentlyPublishedList.push({
+        id: p.id,
+        title: p.name,
+        section: "products",
+        publishedAt: p.created_at ? new Date(p.created_at).toLocaleDateString() : "Recently",
+        href: `/admin/products/${p.id}`,
+      });
+    });
+  }
+  if (hasBlog) {
+    publishedBlog.slice(0, 3).forEach((b) => {
+      recentlyPublishedList.push({
+        id: b.id,
         title: b.title,
-        subtitle: "Draft post awaiting publication",
+        section: "blog",
+        publishedAt: b.published_at ? new Date(b.published_at).toLocaleDateString() : "Recently",
         href: `/admin/blog/${b.id}`,
-        badge: "Draft",
-        badgeColor: "bg-[#F2F2F2] text-[#5C5C5C]",
       });
-    }
+    });
   }
-
-  if (user.sections.includes("testimonials")) {
-    const { data: hiddens } = await supabase
-      .from("testimonials")
-      .select("id, author_name")
-      .eq("status", "hidden")
-      .limit(6);
-
-    for (const t of hiddens ?? []) {
-      attentionItems.push({
-        id: `test-hidden-${t.id}`,
-        type: "testimonial_hidden",
-        title: `Testimonial by ${t.author_name}`,
-        subtitle: "Hidden from public website",
+  if (hasTestimonials) {
+    publishedTestimonials.slice(0, 2).forEach((t) => {
+      recentlyPublishedList.push({
+        id: t.id,
+        title: `Review by ${t.author_name}`,
+        section: "testimonials",
+        publishedAt: t.created_at ? new Date(t.created_at).toLocaleDateString() : "Recently",
         href: `/admin/testimonials/${t.id}`,
-        badge: "Hidden",
-        badgeColor: "bg-[#FDF0CC] text-[#8A5A00]",
       });
-    }
-  }
-
-  if (user.sections.includes("verifications") && summary.verifications?.pending) {
-    attentionItems.push({
-      id: "verif-pending",
-      type: "verification_pending",
-      title: `${summary.verifications.pending} Pending Client Verification${summary.verifications.pending !== 1 ? "s" : ""}`,
-      subtitle: "Clients awaiting identity verification review",
-      href: "/admin/verifications",
-      badge: "Review Required",
-      badgeColor: "bg-[#FEF3C7] text-[#92400E]",
     });
   }
 
-  // ─── 3. Fetch Recent Changes (Activity logs) ───────────────────
-  let recentLogs: {
-    id: string;
-    user_id: string;
-    section: AdminSection;
-    action: string;
-    entity_name: string;
-    created_at: string;
-    profiles?: { full_name: string | null; email: string } | null;
-  }[] = [];
+  // Greeting title
+  const displayName = user.fullName ?? user.email.split("@")[0];
+  const todayFormatted = new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
 
-  try {
-    const { data: logs } = await supabase
-      .from("activity_logs")
-      .select("id, user_id, section, action, entity_name, created_at, profiles(full_name, email)")
-      .order("created_at", { ascending: false })
-      .limit(6);
-
-    if (logs) {
-      recentLogs = (logs as Record<string, unknown>[]).map((l) => {
-        const prof = l.profiles;
-        const profileObj = Array.isArray(prof) ? prof[0] ?? null : (prof as { full_name: string | null; email: string } | null);
-        return {
-          id: l.id as string,
-          user_id: l.user_id as string,
-          section: l.section as AdminSection,
-          action: l.action as string,
-          entity_name: l.entity_name as string,
-          created_at: l.created_at as string,
-          profiles: profileObj ?? null,
-        };
-      });
-    }
-  } catch (err) {
-    console.error("Could not load activity logs:", err);
-  }
-
-  const formatRelativeTime = (timestamp: string) => {
-    try {
-      const now = Date.now();
-      const past = new Date(timestamp).getTime();
-      const diffMs = now - past;
-      const diffMin = Math.floor(diffMs / 60000);
-      if (diffMin < 1) return "Just now";
-      if (diffMin < 60) return `${diffMin}m ago`;
-      const diffHours = Math.floor(diffMin / 60);
-      if (diffHours < 24) return `${diffHours}h ago`;
-      return new Date(timestamp).toLocaleDateString(undefined, { month: "short", day: "numeric" });
-    } catch {
-      return "";
-    }
+  const getAccessBadgeText = () => {
+    if (user.sections.length === 6) return "Full Operations Access · 6 Sections";
+    if (user.sections.length === 1) return `${SECTION_LABELS[user.sections[0]]} Manager`;
+    return `${user.sections.length} Sections Assigned`;
   };
 
-  const displayName = user.fullName ?? user.email;
-
   return (
-    <div className="space-y-8">
-      {/* ── Greeting & Sections Held ── */}
-      <div>
-        <h1
-          className="text-2xl sm:text-3xl font-bold text-black tracking-tight"
-          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-        >
-          Welcome back, {displayName}
-        </h1>
-        <p className="text-[#5C5C5C] text-sm mt-1">
-          {user.sections.length === 6 ? (
-            <span>You have full administrative access across all 6 sections.</span>
-          ) : (
-            <span>
-              Your assigned sections:{" "}
-              <span className="font-semibold text-black">
-                {user.sections.map((s) => SECTION_LABELS[s]).join(", ")}
-              </span>
+    <div className="space-y-8 pb-10">
+      {/* ── 1. Greeting Row matching reference design ── */}
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
+            <h1
+              className="text-2xl sm:text-3xl font-bold text-black tracking-tight"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Good morning, {displayName}
+            </h1>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F3DA] text-[#2F5212] border border-[#C3E49E] whitespace-nowrap">
+              <ShieldCheck size={14} />
+              {getAccessBadgeText()}
             </span>
-          )}
-        </p>
-      </div>
+          </div>
+          <p className="text-xs sm:text-sm text-[#6B7280]">
+            {todayFormatted} · Petfeb Solar Operations Hub
+          </p>
+        </div>
 
-      {/* ── Summary Cards ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {user.sections.includes("products") && summary.products && (
-          <Link
-            href="/admin/products"
-            className="group bg-white rounded-xl border border-[#D9D9D9] p-5 hover:border-[#7BB042] hover:shadow-md transition"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#767676]">
-                Products
-              </span>
-              <div className="w-8 h-8 rounded-lg bg-[#E8F3DA] flex items-center justify-center text-[#2F5212] group-hover:scale-105 transition">
-                <Package size={16} />
-              </div>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {summary.products.published}
-              </span>
-              <span className="text-xs text-[#2F5212] font-semibold bg-[#E8F3DA] px-2 py-0.5 rounded-full">
-                Published
-              </span>
-            </div>
-            <p className="text-xs text-[#767676] mt-2">
-              {summary.products.draft} draft product{summary.products.draft !== 1 ? "s" : ""}
-            </p>
-          </Link>
-        )}
-
-        {user.sections.includes("blog") && summary.blog && (
-          <Link
-            href="/admin/blog"
-            className="group bg-white rounded-xl border border-[#D9D9D9] p-5 hover:border-[#7BB042] hover:shadow-md transition"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#767676]">
-                Blog
-              </span>
-              <div className="w-8 h-8 rounded-lg bg-[#DBEAFE] flex items-center justify-center text-[#1E40AF] group-hover:scale-105 transition">
-                <FileText size={16} />
-              </div>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {summary.blog.published}
-              </span>
-              <span className="text-xs text-[#1E40AF] font-semibold bg-[#DBEAFE] px-2 py-0.5 rounded-full">
-                Published
-              </span>
-            </div>
-            <p className="text-xs text-[#767676] mt-2">
-              {summary.blog.draft} draft post{summary.blog.draft !== 1 ? "s" : ""}
-            </p>
-          </Link>
-        )}
-
-        {user.sections.includes("testimonials") && summary.testimonials && (
-          <Link
-            href="/admin/testimonials"
-            className="group bg-white rounded-xl border border-[#D9D9D9] p-5 hover:border-[#7BB042] hover:shadow-md transition"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#767676]">
-                Testimonials
-              </span>
-              <div className="w-8 h-8 rounded-lg bg-[#FEF3C7] flex items-center justify-center text-[#92400E] group-hover:scale-105 transition">
-                <MessageSquareQuote size={16} />
-              </div>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {summary.testimonials.published}
-              </span>
-              <span className="text-xs text-[#2F5212] font-semibold bg-[#E8F3DA] px-2 py-0.5 rounded-full">
-                Published
-              </span>
-            </div>
-            <p className="text-xs text-[#767676] mt-2">
-              {summary.testimonials.hidden} hidden testimonial{summary.testimonials.hidden !== 1 ? "s" : ""}
-            </p>
-          </Link>
-        )}
-
-        {user.sections.includes("verifications") && summary.verifications && (
-          <Link
-            href="/admin/verifications"
-            className="group bg-white rounded-xl border border-[#D9D9D9] p-5 hover:border-[#7BB042] hover:shadow-md transition"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#767676]">
-                Verifications
-              </span>
-              <div className="w-8 h-8 rounded-lg bg-[#EDE9FE] flex items-center justify-center text-[#5B21B6] group-hover:scale-105 transition">
-                <ShieldCheck size={16} />
-              </div>
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                {summary.verifications.pending}
-              </span>
-              <span className="text-xs text-[#92400E] font-semibold bg-[#FEF3C7] px-2 py-0.5 rounded-full">
-                Pending
-              </span>
-            </div>
-            <p className="text-xs text-[#767676] mt-2">
-              Awaiting review
-            </p>
-          </Link>
-        )}
-      </div>
-
-      {/* ── Quick Actions (only for held sections) ── */}
-      <div>
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-[#767676] mb-3">
-          Quick actions
-        </h2>
-        <div className="flex flex-wrap gap-2.5">
-          {user.sections.includes("products") && (
+        {/* Quick action buttons (only for held sections) */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-2.5 flex-shrink-0">
+          {hasProducts && (
             <Link
               href="/admin/products/new"
-              className="inline-flex items-center gap-2 bg-[#7BB042] text-black font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg hover:bg-[#6A9E36] transition shadow-sm"
+              className="inline-flex items-center gap-2 bg-[#7BB042] hover:bg-[#6A9E36] text-black font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-xs whitespace-nowrap"
             >
-              <Plus size={16} /> New product
+              <Plus size={16} />
+              <span>New product</span>
             </Link>
           )}
-          {user.sections.includes("blog") && (
+
+          {hasBlog && (
             <Link
               href="/admin/blog/new"
-              className="inline-flex items-center gap-2 bg-white border border-[#D9D9D9] text-[#333] font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg hover:bg-[#F2F2F2] transition shadow-sm"
+              className="inline-flex items-center gap-2 bg-white hover:bg-[#F4F4F5] border border-[#E5E7EB] text-[#333] font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-xs whitespace-nowrap"
             >
-              <Plus size={16} /> New blog post
+              <Plus size={16} />
+              <span>New blog post</span>
             </Link>
           )}
-          {user.sections.includes("testimonials") && (
+
+          {hasTestimonials && (
             <Link
               href="/admin/testimonials/new"
-              className="inline-flex items-center gap-2 bg-white border border-[#D9D9D9] text-[#333] font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-lg hover:bg-[#F2F2F2] transition shadow-sm"
+              className="inline-flex items-center gap-2 bg-white hover:bg-[#F4F4F5] border border-[#E5E7EB] text-[#333] font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-xs whitespace-nowrap"
             >
-              <Plus size={16} /> New testimonial
+              <Plus size={16} />
+              <span>New testimonial</span>
             </Link>
           )}
         </div>
       </div>
 
-      {/* ── Grid: Needs Attention + Recent Activity ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Needs attention */}
-        <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 sm:p-6 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <AlertTriangle size={18} className="text-[#D97706]" />
-              <h2 className="text-base font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                Needs attention
-              </h2>
-            </div>
-            {attentionItems.length > 0 && (
-              <span className="text-xs font-semibold bg-[#FDF0CC] text-[#8A5A00] px-2 py-0.5 rounded-full">
-                {attentionItems.length} item{attentionItems.length !== 1 ? "s" : ""}
-              </span>
-            )}
-          </div>
+      {/* ── 2. Row of Summary Cards (4 cards in design style) ── */}
+      <OverviewSummaryCards
+        productsStats={productsStats}
+        blogStats={blogStats}
+        testimonialsStats={testimonialsStats}
+        verificationsStats={verificationsStats}
+        oldestWaitTime={oldestWaitTime}
+        hasProducts={hasProducts}
+        hasBlog={hasBlog}
+        hasTestimonials={hasTestimonials}
+        hasVerifications={hasVerifications}
+      />
 
-          {attentionItems.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
-              <div className="w-10 h-10 rounded-full bg-[#E8F3DA] text-[#2F5212] flex items-center justify-center mb-2">
-                <CheckCircle2 size={20} />
-              </div>
-              <p className="text-sm font-semibold text-black">All caught up!</p>
-              <p className="text-xs text-[#767676] mt-0.5">
-                No draft items or pending tasks in your sections.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-2 flex-1">
-              {attentionItems.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className="flex items-center justify-between p-3 rounded-lg border border-[#F2F2F2] hover:border-[#7BB042] hover:bg-[#F4F9EC] transition group"
-                >
-                  <div className="min-w-0 pr-3">
-                    <p className="text-xs sm:text-sm font-semibold text-black group-hover:text-[#2F5212] truncate">
-                      {item.title}
-                    </p>
-                    <p className="text-[11px] text-[#767676] truncate">
-                      {item.subtitle}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${item.badgeColor}`}>
-                      {item.badge}
-                    </span>
-                    <ArrowRight size={14} className="text-[#767676] group-hover:text-[#2F5212] transition" />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+      {/* ── 3. Middle Section: Content Overview Chart + Attention Queue ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <ContentOverviewChart
+            productsStats={productsStats}
+            blogStats={blogStats}
+            testimonialsStats={testimonialsStats}
+            hasProducts={hasProducts}
+            hasBlog={hasBlog}
+            hasTestimonials={hasTestimonials}
+          />
         </div>
 
-        {/* Recent Changes */}
-        <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 sm:p-6 flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Clock size={18} className="text-[#5C5C5C]" />
-              <h2 className="text-base font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                Recent changes
-              </h2>
-            </div>
-            <Link
-              href="/admin/activity"
-              className="text-xs font-semibold text-[#3F6B1A] hover:underline flex items-center gap-1"
-            >
-              View all <ExternalLink size={11} />
-            </Link>
-          </div>
-
-          {recentLogs.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
-              <p className="text-xs text-[#767676]">
-                No recent activity recorded yet. Edits made in admin sections will appear here.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3 flex-1">
-              {recentLogs.map((log) => {
-                const author = log.profiles?.full_name ?? log.profiles?.email ?? "Staff";
-                return (
-                  <div
-                    key={log.id}
-                    className="flex items-start justify-between gap-3 text-xs pb-2.5 border-b border-[#F2F2F2] last:border-b-0"
-                  >
-                    <div className="min-w-0">
-                      <p className="font-medium text-[#333] truncate">
-                        <span className="font-semibold text-black">{author}</span>{" "}
-                        <span className="text-[#5C5C5C]">{log.action}</span>{" "}
-                        <span className="font-medium text-black">&ldquo;{log.entity_name}&rdquo;</span>
-                      </p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#767676] bg-[#F2F2F2] px-1.5 py-0.5 rounded">
-                          {log.section}
-                        </span>
-                        <span className="text-[11px] text-[#A0A0A0]">
-                          {formatRelativeTime(log.created_at)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+        <div className="lg:col-span-1">
+          <AttentionQueueCard tasks={attentionTasks} />
         </div>
       </div>
+
+      {/* ── 4. Wide Table Card: Recent Activity (matching design's table) ── */}
+      <RecentActivityCard
+        logs={mappedLogs}
+        userSections={user.sections}
+      />
+
+      {/* ── 5. Bottom Row: Content Health, Verification Queue, Recently Published ── */}
+      <OverviewBottomCards
+        contentHealth={{
+          scorePct: contentHealthScore,
+          missingProductImages: productsMissingImage.length,
+          missingBlogCovers: blogMissingCover.length,
+          outOfStockProducts: outOfStockProducts.length,
+          totalPublished: publishedProducts.length + publishedBlog.length,
+        }}
+        verificationsQueue={
+          hasVerifications
+            ? {
+                pendingCount: pendingVerifs.length,
+                oldestWaitTime,
+                decisionsCount: verifs.length,
+                verifiedCount: verifiedClients.length,
+                rejectedCount: rejectedClients.length,
+              }
+            : null
+        }
+        recentlyPublished={recentlyPublishedList}
+        hasVerifications={hasVerifications}
+      />
     </div>
   );
 }

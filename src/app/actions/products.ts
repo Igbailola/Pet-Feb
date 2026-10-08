@@ -16,11 +16,47 @@ async function guardSection(section: "products" | "blog" | "testimonials" | "cms
 
 export type ActionResult = { success?: boolean; error?: string };
 
+function revalidateProductPages(productId?: string, slug?: string) {
+  revalidatePath("/", "layout");
+  revalidatePath("/");
+  revalidatePath("/shop");
+  revalidatePath("/buy-small");
+  revalidatePath("/projects");
+  revalidatePath("/cart");
+  if (slug) {
+    revalidatePath(`/shop/${slug}`);
+  }
+  revalidatePath("/admin/products");
+  if (productId) {
+    revalidatePath(`/admin/products/${productId}`);
+  }
+  revalidatePath("/admin");
+}
+
 // ─── Products ───────────────────────────────────────────────
 
 export async function createProduct(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
-  const user = await guardSection("products");
+  let user;
+  try {
+    user = await guardSection("products");
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Access denied" };
+  }
+
   const inStockVal = formData.get("in_stock");
+  let parsedSpecs: Record<string, unknown> = {};
+  const specsRaw = (formData.get("specs") as string)?.trim();
+  if (specsRaw) {
+    try {
+      parsedSpecs = JSON.parse(specsRaw);
+      if (typeof parsedSpecs !== "object" || parsedSpecs === null || Array.isArray(parsedSpecs)) {
+        return { error: "Technical Specifications must be a JSON object (e.g. {\"inverter\":\"1kVA\"})" };
+      }
+    } catch {
+      return { error: "Invalid JSON format in Technical Specifications" };
+    }
+  }
+
   const raw = {
     name: formData.get("name") as string,
     slug: formData.get("slug") as string,
@@ -29,7 +65,7 @@ export async function createProduct(_prev: ActionResult, formData: FormData): Pr
     category: formData.get("category") as string,
     status: formData.get("status") as string,
     in_stock: inStockVal === "false" ? false : true,
-    specs: JSON.parse((formData.get("specs") as string) || "{}"),
+    specs: parsedSpecs,
   };
   const parsed = productSchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
@@ -47,15 +83,35 @@ export async function createProduct(_prev: ActionResult, formData: FormData): Pr
     entityName: parsed.data.name,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath("/admin");
+  revalidateProductPages(data?.id, parsed.data.slug);
   return { success: true };
 }
 
 export async function updateProduct(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
-  const user = await guardSection("products");
+  let user;
+  try {
+    user = await guardSection("products");
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Access denied" };
+  }
+
   const id = formData.get("id") as string;
+  if (!id) return { error: "Missing product ID" };
+
   const inStockVal = formData.get("in_stock");
+  let parsedSpecs: Record<string, unknown> = {};
+  const specsRaw = (formData.get("specs") as string)?.trim();
+  if (specsRaw) {
+    try {
+      parsedSpecs = JSON.parse(specsRaw);
+      if (typeof parsedSpecs !== "object" || parsedSpecs === null || Array.isArray(parsedSpecs)) {
+        return { error: "Technical Specifications must be a JSON object (e.g. {\"inverter\":\"1kVA\"})" };
+      }
+    } catch {
+      return { error: "Invalid JSON format in Technical Specifications" };
+    }
+  }
+
   const raw = {
     name: formData.get("name") as string,
     slug: formData.get("slug") as string,
@@ -64,7 +120,7 @@ export async function updateProduct(_prev: ActionResult, formData: FormData): Pr
     category: formData.get("category") as string,
     status: formData.get("status") as string,
     in_stock: inStockVal === "false" ? false : true,
-    specs: JSON.parse((formData.get("specs") as string) || "{}"),
+    specs: parsedSpecs,
   };
   const parsed = productSchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
@@ -93,16 +149,14 @@ export async function updateProduct(_prev: ActionResult, formData: FormData): Pr
     entityName: parsed.data.name,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath(`/admin/products/${id}`);
-  revalidatePath("/admin");
+  revalidateProductPages(id, parsed.data.slug);
   return { success: true };
 }
 
 export async function toggleProductStock(id: string, inStock: boolean): Promise<ActionResult> {
   const user = await guardSection("products");
   const supabase = await createClient();
-  const { data: prod } = await supabase.from("products").select("name").eq("id", id).single();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", id).single();
   const prodName = prod?.name ?? "Product";
 
   const { error } = await supabase.from("products").update({ in_stock: inStock }).eq("id", id);
@@ -117,15 +171,14 @@ export async function toggleProductStock(id: string, inStock: boolean): Promise<
     entityName: prodName,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath("/admin");
+  revalidateProductPages(id, prod?.slug);
   return { success: true };
 }
 
 export async function deleteProduct(id: string): Promise<ActionResult> {
   const user = await guardSection("products");
   const supabase = await createClient();
-  const { data: prod } = await supabase.from("products").select("name").eq("id", id).single();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", id).single();
   const prodName = prod?.name ?? "Product";
 
   const { error } = await supabase.from("products").delete().eq("id", id);
@@ -140,63 +193,97 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
     entityName: prodName,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath("/admin");
+  revalidateProductPages(id, prod?.slug);
   return { success: true };
 }
 
 // ─── Product images ─────────────────────────────────────────
 
 export async function addProductImage(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
-  const user = await guardSection("products");
-  const productId = formData.get("product_id") as string;
-  const file = formData.get("file") as File;
-  if (!file || !file.type.startsWith("image/")) return { error: "Please select an image file" };
-
-  const supabase = await createClient();
-  const path = `products/${productId}/${Date.now()}-${file.name}`;
-  const { error: uploadErr } = await supabase.storage.from("media").upload(path, file);
-  if (uploadErr) return { error: uploadErr.message };
-
-  const { data: { publicUrl } } = supabase.storage.from("media").getPublicUrl(path);
-
-  const isMain = formData.get("is_main") === "true";
-  if (isMain) {
-    await supabase.from("product_images").update({ is_main: false }).eq("product_id", productId).eq("is_main", true);
+  let user;
+  try {
+    user = await guardSection("products");
+  } catch (err: unknown) {
+    return { error: err instanceof Error ? err.message : "Access denied" };
   }
 
-  const imgData = {
-    product_id: productId,
-    url: publicUrl,
-    alt_text: (formData.get("alt_text") as string) || file.name,
-    sort_order: Number(formData.get("sort_order") || "0"),
-    is_main: isMain,
-  };
-  const parsed = productImageSchema.safeParse(imgData);
-  if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
+  const productId = formData.get("product_id") as string;
+  if (!productId) return { error: "Missing product ID" };
 
-  const { data: inserted, error } = await supabase.from("product_images").insert(parsed.data).select("id").single();
-  if (error) return { error: error.message };
+  // Support both "files" (multiple) and "file" (single)
+  const filesList = formData.getAll("files") as File[];
+  const fileSingles = formData.getAll("file") as File[];
+  const rawFiles = filesList.length > 0 ? filesList : fileSingles;
+  const validFiles = rawFiles.filter((f) => f && typeof f === "object" && f.size > 0 && f.type.startsWith("image/"));
 
-  const { data: prod } = await supabase.from("products").select("name").eq("id", productId).single();
+  if (validFiles.length === 0) {
+    return { error: "Please select at least one valid image file (JPG, PNG, WebP)" };
+  }
 
-  await logActivity({
-    userId: user.id,
-    section: "products",
-    action: "uploaded image",
-    entityType: "product_image",
-    entityId: inserted?.id,
-    entityName: `${prod?.name ?? "Product"} image`,
-  });
+  const supabase = await createClient();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", productId).single();
 
-  revalidatePath("/admin/products");
-  revalidatePath(`/admin/products/${productId}`);
+  const isMain = formData.get("is_main") === "true";
+  let baseSortOrder = Number(formData.get("sort_order") || "0");
+  let uploadedCount = 0;
+
+  for (let i = 0; i < validFiles.length; i++) {
+    const file = validFiles[i];
+    const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+    const path = `products/${productId}/${Date.now()}-${i}-${safeName}`;
+    const { error: uploadErr } = await supabase.storage.from("media").upload(path, file);
+    if (uploadErr) {
+      if (uploadedCount === 0) return { error: uploadErr.message };
+      break;
+    }
+
+    const { data: { publicUrl } } = supabase.storage.from("media").getPublicUrl(path);
+
+    const makeThisMain = isMain && i === 0;
+    if (makeThisMain) {
+      await supabase.from("product_images").update({ is_main: false }).eq("product_id", productId).eq("is_main", true);
+    }
+
+    const imgData = {
+      product_id: productId,
+      url: publicUrl,
+      alt_text: (formData.get("alt_text") as string) || file.name,
+      sort_order: baseSortOrder + i,
+      is_main: makeThisMain,
+    };
+    const parsed = productImageSchema.safeParse(imgData);
+    if (!parsed.success) {
+      if (uploadedCount === 0) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
+      break;
+    }
+
+    const { data: inserted, error: insertErr } = await supabase.from("product_images").insert(parsed.data).select("id").single();
+    if (insertErr) {
+      if (uploadedCount === 0) return { error: insertErr.message };
+      break;
+    }
+
+    uploadedCount++;
+    await logActivity({
+      userId: user.id,
+      section: "products",
+      action: "uploaded image",
+      entityType: "product_image",
+      entityId: inserted?.id,
+      entityName: `${prod?.name ?? "Product"} image`,
+    });
+  }
+
+  revalidateProductPages(productId, prod?.slug);
   return { success: true };
 }
+
+export const uploadProductImages = addProductImage;
 
 export async function deleteProductImage(id: string): Promise<ActionResult> {
   const user = await guardSection("products");
   const supabase = await createClient();
+  const { data: img } = await supabase.from("product_images").select("product_id").eq("id", id).single();
   const { error } = await supabase.from("product_images").delete().eq("id", id);
   if (error) return { error: error.message };
 
@@ -209,7 +296,7 @@ export async function deleteProductImage(id: string): Promise<ActionResult> {
     entityName: "Product image",
   });
 
-  revalidatePath("/admin/products");
+  revalidateProductPages(img?.product_id);
   return { success: true };
 }
 
@@ -220,7 +307,7 @@ export async function setMainImage(imageId: string, productId: string): Promise<
   const { error } = await supabase.from("product_images").update({ is_main: true }).eq("id", imageId);
   if (error) return { error: error.message };
 
-  const { data: prod } = await supabase.from("products").select("name").eq("id", productId).single();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", productId).single();
 
   await logActivity({
     userId: user.id,
@@ -231,27 +318,49 @@ export async function setMainImage(imageId: string, productId: string): Promise<
     entityName: `${prod?.name ?? "Product"} image`,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath(`/admin/products/${productId}`);
+  revalidateProductPages(productId, prod?.slug);
   return { success: true };
 }
 
 // ─── Accessories ────────────────────────────────────────────
 
-export async function createAccessory(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
+export async function createAccessory(_prev: ActionResult, formData: FormData): Promise<ActionResult & { accessory?: any }> {
   const user = await guardSection("products");
+  const supabase = await createClient();
+
+  let imageUrl = (formData.get("image_url") as string) || undefined;
+  const imageFile = formData.get("image_file") as File | null;
+
+  if (imageFile && imageFile.size > 0 && typeof imageFile.name === "string") {
+    const ext = imageFile.name.split(".").pop() || "jpg";
+    const path = `accessories/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
+    const { error: uploadErr } = await supabase.storage.from("media").upload(path, imageFile, {
+      contentType: imageFile.type,
+      upsert: true,
+    });
+    if (!uploadErr) {
+      const { data: pubUrl } = supabase.storage.from("media").getPublicUrl(path);
+      imageUrl = pubUrl.publicUrl;
+    }
+  }
+
   const raw = {
     name: formData.get("name") as string,
-    description: formData.get("description") as string,
+    description: (formData.get("description") as string) || undefined,
     price: Number(formData.get("price")),
-    status: formData.get("status") as string,
+    image_url: imageUrl,
+    status: (formData.get("status") as string) || "published",
   };
   const parsed = accessorySchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("accessories").insert(parsed.data).select("id").single();
+  const { data, error } = await supabase.from("accessories").insert(parsed.data).select("*").single();
   if (error) return { error: error.message };
+
+  const attachToProductId = formData.get("attach_to_product_id") as string | null;
+  if (attachToProductId) {
+    await supabase.from("product_accessories").insert({ product_id: attachToProductId, accessory_id: data.id });
+  }
 
   await logActivity({
     userId: user.id,
@@ -262,24 +371,42 @@ export async function createAccessory(_prev: ActionResult, formData: FormData): 
     entityName: parsed.data.name,
   });
 
-  revalidatePath("/admin/products");
-  return { success: true };
+  revalidateProductPages(attachToProductId || undefined);
+  return { success: true, accessory: data };
 }
 
-export async function updateAccessory(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
+export async function updateAccessory(_prev: ActionResult, formData: FormData): Promise<ActionResult & { accessory?: any }> {
   const user = await guardSection("products");
   const id = formData.get("id") as string;
+  const supabase = await createClient();
+
+  let imageUrl = (formData.get("image_url") as string) || undefined;
+  const imageFile = formData.get("image_file") as File | null;
+
+  if (imageFile && imageFile.size > 0 && typeof imageFile.name === "string") {
+    const ext = imageFile.name.split(".").pop() || "jpg";
+    const path = `accessories/${Date.now()}-${Math.random().toString(36).slice(2, 7)}.${ext}`;
+    const { error: uploadErr } = await supabase.storage.from("media").upload(path, imageFile, {
+      contentType: imageFile.type,
+      upsert: true,
+    });
+    if (!uploadErr) {
+      const { data: pubUrl } = supabase.storage.from("media").getPublicUrl(path);
+      imageUrl = pubUrl.publicUrl;
+    }
+  }
+
   const raw = {
     name: formData.get("name") as string,
-    description: formData.get("description") as string,
+    description: (formData.get("description") as string) || undefined,
     price: Number(formData.get("price")),
-    status: formData.get("status") as string,
+    image_url: imageUrl,
+    status: (formData.get("status") as string) || "published",
   };
   const parsed = accessorySchema.safeParse(raw);
   if (!parsed.success) return { error: parsed.error.issues.map((e: {message: string}) => e.message).join(", ") };
 
-  const supabase = await createClient();
-  const { error } = await supabase.from("accessories").update(parsed.data).eq("id", id);
+  const { data, error } = await supabase.from("accessories").update(parsed.data).eq("id", id).select("*").single();
   if (error) return { error: error.message };
 
   await logActivity({
@@ -291,8 +418,8 @@ export async function updateAccessory(_prev: ActionResult, formData: FormData): 
     entityName: parsed.data.name,
   });
 
-  revalidatePath("/admin/products");
-  return { success: true };
+  revalidateProductPages();
+  return { success: true, accessory: data };
 }
 
 export async function deleteAccessory(id: string): Promise<ActionResult> {
@@ -313,7 +440,7 @@ export async function deleteAccessory(id: string): Promise<ActionResult> {
     entityName: accName,
   });
 
-  revalidatePath("/admin/products");
+  revalidateProductPages();
   return { success: true };
 }
 
@@ -324,7 +451,7 @@ export async function attachAccessory(productId: string, accessoryId: string): P
   if (error) return { error: error.message };
 
   const { data: acc } = await supabase.from("accessories").select("name").eq("id", accessoryId).single();
-  const { data: prod } = await supabase.from("products").select("name").eq("id", productId).single();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", productId).single();
 
   await logActivity({
     userId: user.id,
@@ -335,8 +462,7 @@ export async function attachAccessory(productId: string, accessoryId: string): P
     entityName: `${acc?.name ?? "Accessory"} to ${prod?.name ?? "Product"}`,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath(`/admin/products/${productId}`);
+  revalidateProductPages(productId, prod?.slug);
   return { success: true };
 }
 
@@ -347,7 +473,7 @@ export async function detachAccessory(productId: string, accessoryId: string): P
   if (error) return { error: error.message };
 
   const { data: acc } = await supabase.from("accessories").select("name").eq("id", accessoryId).single();
-  const { data: prod } = await supabase.from("products").select("name").eq("id", productId).single();
+  const { data: prod } = await supabase.from("products").select("name, slug").eq("id", productId).single();
 
   await logActivity({
     userId: user.id,
@@ -358,7 +484,6 @@ export async function detachAccessory(productId: string, accessoryId: string): P
     entityName: `${acc?.name ?? "Accessory"} from ${prod?.name ?? "Product"}`,
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath(`/admin/products/${productId}`);
+  revalidateProductPages(productId, prod?.slug);
   return { success: true };
 }
