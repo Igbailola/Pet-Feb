@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { createBlogPost, updateBlogPost, uploadBlogCover, type ActionResult } from "@/app/actions/blog";
 import { PageHeader, SubmitButton, FormField, useUnsavedChanges } from "./ui";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 import { Upload, ArrowLeft, CheckCircle2 } from "lucide-react";
 
 type Post = {
@@ -124,7 +125,7 @@ export function BlogPostForm({ post }: { post?: Post }) {
               placeholder="e.g. Solar Guides"
             />
             <FormField label="Status" name="status">
-              <select
+              <Select
                 id="status"
                 name="status"
                 value={statusVal}
@@ -133,7 +134,7 @@ export function BlogPostForm({ post }: { post?: Post }) {
               >
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
-              </select>
+              </Select>
             </FormField>
             <FormField
               label="Publish Date"

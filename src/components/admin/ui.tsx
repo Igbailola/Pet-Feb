@@ -394,11 +394,14 @@ export function SortSelect<T extends string>({
 }) {
   return (
     <div className="relative inline-flex items-center">
-      <ArrowUpDown size={14} className="absolute left-3 text-[#767676] pointer-events-none" />
+      <ArrowUpDown
+        size={14}
+        className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#767676] pointer-events-none"
+      />
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className="pl-8 pr-7 py-2 min-h-[40px] bg-white rounded-xl border border-gray-300 text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition appearance-none cursor-pointer"
+        className="pl-9 pr-8 py-2 min-h-[40px] bg-white rounded-xl border border-gray-300 text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition appearance-none cursor-pointer"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
@@ -406,7 +409,10 @@ export function SortSelect<T extends string>({
           </option>
         ))}
       </select>
-      <ChevronRight size={12} className="absolute right-2.5 text-[#767676] rotate-90 pointer-events-none" />
+      <ChevronRight
+        size={12}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#767676] rotate-90 pointer-events-none"
+      />
     </div>
   );
 }

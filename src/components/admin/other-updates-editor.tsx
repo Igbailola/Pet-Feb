@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { publishProjectAction, publishTrainingAction } from "@/app/actions/other-updates";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 
 export type PublishedItem = {
   key: string;
@@ -227,7 +228,7 @@ export function OtherUpdatesEditor({ existingItems }: OtherUpdatesEditorProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-semibold text-[#333] mb-1">Category</label>
-                  <select
+                  <Select
                     value={projCategory}
                     onChange={(e) => setProjCategory(e.target.value)}
                     className="w-full p-2.5 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
@@ -236,7 +237,7 @@ export function OtherUpdatesEditor({ existingItems }: OtherUpdatesEditorProps) {
                     <option value="Residential Solar">Residential Solar</option>
                     <option value="Industrial Microgrid">Industrial Microgrid</option>
                     <option value="Community Impact">Community Impact</option>
-                  </select>
+                  </Select>
                 </div>
 
                 <div>

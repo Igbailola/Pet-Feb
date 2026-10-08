@@ -18,6 +18,7 @@ import {
 } from "@/app/actions/products";
 import { PageHeader, SubmitButton, FormField, DeleteButton, useUnsavedChanges } from "./ui";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 import { Upload, Star, X, LinkIcon, Unlink, ArrowLeft, Plus, CheckCircle2, ImageIcon, Loader2 } from "lucide-react";
 
 type ProductImage = { id: string; url: string; alt_text: string; sort_order: number; is_main: boolean };
@@ -79,6 +80,9 @@ export function ProductForm({
   // Image upload previews
   const fileRef = useRef<HTMLInputElement>(null);
   const [previews, setPreviews] = useState<string[]>([]);
+  // Files staged before the product exists (create mode); uploaded right after creation
+  const [stagedFiles, setStagedFiles] = useState<File[]>([]);
+  const makeMainRef = useRef<HTMLInputElement>(null);
 
   // Trigger toasts on action state change
   useEffect(() => {
@@ -86,14 +90,33 @@ export function ProductForm({
       showToast(isEdit ? "Product updated successfully" : "Product created successfully", "success");
       setIsDirty(false);
       if (!isEdit) {
-        router.push("/admin/products");
+        (async () => {
+          if (state.id && stagedFiles.length > 0) {
+            const fd = new FormData();
+            stagedFiles.forEach((f) => fd.append("files", f));
+            fd.append("product_id", state.id);
+            fd.append("alt_text", "");
+            fd.append("sort_order", "0");
+            if (makeMainRef.current?.checked) fd.append("is_main", "true");
+            const res = await addProductImage({}, fd);
+            if (res.error) {
+              showToast(`Product created, but image upload failed: ${res.error}`, "error");
+            } else {
+              showToast(
+                `${stagedFiles.length} product image${stagedFiles.length > 1 ? "s" : ""} uploaded`,
+                "success"
+              );
+            }
+          }
+          router.push("/admin/products");
+        })();
       } else {
         router.refresh();
       }
     } else if (state.error) {
       showToast(state.error, "error");
     }
-  }, [state, isEdit, router, showToast]);
+  }, [state, isEdit, router, showToast, stagedFiles]);
 
   useEffect(() => {
     if (imgState.success) {
@@ -109,12 +132,79 @@ export function ProductForm({
   const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []).filter((f) => f.type.startsWith("image/"));
     if (files.length > 0) {
+      setStagedFiles(files);
       setPreviews(files.map((f) => URL.createObjectURL(f)));
     } else {
+      setStagedFiles([]);
       setPreviews([]);
       if (fileRef.current) fileRef.current.value = "";
     }
   };
+
+  const imageControls = (
+    <>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <div className="flex-1 w-full">
+          <input
+            ref={fileRef}
+            type="file"
+            name="files"
+            accept="image/*"
+            multiple
+            onChange={handleFilesChange}
+            className="block w-full text-xs text-[#333] file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white file:border file:border-[#D9D9D9] file:text-[#333] hover:file:bg-[#F2F2F2] file:cursor-pointer"
+          />
+        </div>
+        <label className="flex items-center gap-2 text-xs font-medium text-[#333] cursor-pointer whitespace-nowrap">
+          <input
+            type="checkbox"
+            name="is_main"
+            value="true"
+            ref={isEdit ? undefined : makeMainRef}
+            className="rounded text-[#7BB042] focus:ring-[#7BB042]"
+          />
+          Make primary thumbnail
+        </label>
+        <button
+          type="submit"
+          form={isEdit ? undefined : "product-form"}
+          disabled={isEdit ? imgPending || previews.length === 0 : pending || stagedFiles.length === 0}
+          className="inline-flex items-center gap-1.5 bg-[#333] hover:bg-black text-white font-semibold rounded-xl px-5 py-2.5 text-xs disabled:opacity-50 transition shadow-sm whitespace-nowrap"
+        >
+          <Upload size={14} />{" "}
+          {isEdit
+            ? imgPending
+              ? "Uploading…"
+              : `Upload ${previews.length > 1 ? `${previews.length} photos` : "photo"}`
+            : pending
+              ? "Saving…"
+              : stagedFiles.length > 1
+                ? `Upload ${stagedFiles.length} photos`
+                : "Upload photo"}
+        </button>
+      </div>
+
+      {/* Multi-image preview grid */}
+      {previews.length > 0 && (
+        <div className="pt-2 border-t border-[#E5E5E5]/60 flex flex-wrap gap-2.5">
+          {previews.map((src, i) => (
+            <div key={i} className="relative group rounded-lg overflow-hidden border border-[#D9D9D9] bg-white">
+              <img src={src} alt={`Preview ${i + 1}`} className="w-16 h-16 sm:w-20 sm:h-20 object-cover" />
+              <span className="absolute bottom-0 right-0 bg-black/70 text-white text-[9px] px-1 font-bold">
+                #{i + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!isEdit && (
+        <p className="text-[11px] text-[#767676]">
+          Selected images are uploaded automatically right after the product is created.
+        </p>
+      )}
+    </>
+  );
 
   const specsStr = product ? JSON.stringify(product.specs, null, 2) : "{}";
 
@@ -140,6 +230,7 @@ export function ProductForm({
       {/* Main product form */}
       <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 sm:p-7 mb-6 shadow-sm">
         <form
+          id="product-form"
           action={formAction}
           onChange={() => setIsDirty(true)}
           className="space-y-4"
@@ -188,7 +279,7 @@ export function ProductForm({
               placeholder="e.g. Solar kits"
             />
             <FormField label="Publish Status" name="status">
-              <select
+              <Select
                 id="status"
                 name="status"
                 value={statusVal}
@@ -197,11 +288,11 @@ export function ProductForm({
               >
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
-              </select>
+              </Select>
             </FormField>
 
             <FormField label="Availability" name="in_stock">
-              <select
+              <Select
                 id="in_stock"
                 name="in_stock"
                 defaultValue={product?.in_stock === false ? "false" : "true"}
@@ -209,7 +300,7 @@ export function ProductForm({
               >
                 <option value="true">In stock</option>
                 <option value="false">Out of stock</option>
-              </select>
+              </Select>
             </FormField>
           </div>
 
@@ -250,22 +341,27 @@ export function ProductForm({
       </div>
 
       {/* Images section (edit mode only) */}
-      {isEdit && (
-        <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 sm:p-7 mb-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-lg font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                Product Gallery
-              </h2>
-              <p className="text-xs text-[#767676]">Manage gallery images and choose the main product thumbnail</p>
-            </div>
-            <span className="text-xs text-[#5C5C5C] font-semibold bg-[#F8F8F8] border border-[#D9D9D9] px-2.5 py-1 rounded-lg">
-              {product.product_images.length} image{product.product_images.length !== 1 ? "s" : ""}
-            </span>
+      {/* Images section */}
+      <div className="bg-white rounded-xl border border-[#D9D9D9] p-5 sm:p-7 mb-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-lg font-bold text-black" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Product Gallery
+            </h2>
+            <p className="text-xs text-[#767676]">
+              {isEdit
+                ? "Manage gallery images and choose the main product thumbnail"
+                : "Choose images now — they upload right after the product is created"}
+            </p>
           </div>
+          <span className="text-xs text-[#5C5C5C] font-semibold bg-[#F8F8F8] border border-[#D9D9D9] px-2.5 py-1 rounded-lg">
+            {(isEdit ? product.product_images.length : stagedFiles.length)} image
+            {(isEdit ? product.product_images.length : stagedFiles.length) !== 1 ? "s" : ""}
+          </span>
+        </div>
 
-          {/* Existing images grid */}
-          {product.product_images.length > 0 && (
+        {/* Existing images grid */}
+        {isEdit && product.product_images.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5 mb-6">
               {product.product_images
                 .sort((a, b) => a.sort_order - b.sort_order)
@@ -318,53 +414,18 @@ export function ProductForm({
                 </span>
               )}
             </div>
-            <form action={(fd) => { imgAction(fd); }} className="space-y-3">
-              <input type="hidden" name="product_id" value={product.id} />
-              <input type="hidden" name="alt_text" value="" />
-              <input type="hidden" name="sort_order" value={product.product_images.length.toString()} />
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <div className="flex-1 w-full">
-                  <input
-                    ref={fileRef}
-                    type="file"
-                    name="files"
-                    accept="image/*"
-                    multiple
-                    onChange={handleFilesChange}
-                    className="block w-full text-xs text-[#333] file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white file:border file:border-[#D9D9D9] file:text-[#333] hover:file:bg-[#F2F2F2] file:cursor-pointer"
-                  />
-                </div>
-                <label className="flex items-center gap-2 text-xs font-medium text-[#333] cursor-pointer whitespace-nowrap">
-                  <input type="checkbox" name="is_main" value="true" className="rounded text-[#7BB042] focus:ring-[#7BB042]" />
-                  Make primary thumbnail
-                </label>
-                <button
-                  type="submit"
-                  disabled={imgPending || previews.length === 0}
-                  className="inline-flex items-center gap-1.5 bg-[#333] hover:bg-black text-white font-semibold rounded-xl px-5 py-2.5 text-xs disabled:opacity-50 transition shadow-sm whitespace-nowrap"
-                >
-                  <Upload size={14} /> {imgPending ? "Uploading…" : `Upload ${previews.length > 1 ? `${previews.length} photos` : "photo"}`}
-                </button>
-              </div>
-
-              {/* Multi-image preview grid */}
-              {previews.length > 0 && (
-                <div className="pt-2 border-t border-[#E5E5E5]/60 flex flex-wrap gap-2.5">
-                  {previews.map((src, i) => (
-                    <div key={i} className="relative group rounded-lg overflow-hidden border border-[#D9D9D9] bg-white">
-                      <img src={src} alt={`Preview ${i + 1}`} className="w-16 h-16 sm:w-20 sm:h-20 object-cover" />
-                      <span className="absolute bottom-0 right-0 bg-black/70 text-white text-[9px] px-1 font-bold">
-                        #{i + 1}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </form>
+            {isEdit ? (
+              <form action={(fd) => { imgAction(fd); }} className="space-y-3">
+                <input type="hidden" name="product_id" value={product.id} />
+                <input type="hidden" name="alt_text" value="" />
+                <input type="hidden" name="sort_order" value={product.product_images.length.toString()} />
+                {imageControls}
+              </form>
+            ) : (
+              <div className="space-y-3">{imageControls}</div>
+            )}
           </div>
-        </div>
-      )}
+      </div>
 
       {/* Accessories section (edit mode only) */}
       {isEdit && (
@@ -468,14 +529,14 @@ export function ProductForm({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-[#333] mb-1">Publish Status</label>
-                  <select
+                  <Select
                     value={accStatus}
                     onChange={(e) => setAccStatus(e.target.value as "published" | "draft")}
                     className="w-full rounded-lg border border-[#D9D9D9] px-3 py-2 text-xs text-black bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
                   >
                     <option value="published">Published</option>
                     <option value="draft">Draft</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
 

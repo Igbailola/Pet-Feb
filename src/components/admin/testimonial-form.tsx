@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { createTestimonial, updateTestimonial, uploadTestimonialPhoto, type ActionResult } from "@/app/actions/testimonials";
 import { PageHeader, SubmitButton, FormField, useUnsavedChanges } from "./ui";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 import { Upload, ArrowLeft, CheckCircle2 } from "lucide-react";
 
 type Testimonial = {
@@ -123,7 +124,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
           />
 
           <FormField label="Display Status" name="status">
-            <select
+            <Select
               id="status"
               name="status"
               value={statusVal}
@@ -132,7 +133,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
             >
               <option value="hidden">Hidden / Draft</option>
               <option value="published">Published</option>
-            </select>
+            </Select>
           </FormField>
 
           <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-[#F2F2F2]">

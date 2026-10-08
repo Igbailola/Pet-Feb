@@ -32,7 +32,7 @@ export function RouteBackButton() {
         <button
           type="button"
           onClick={handleBack}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-[#3F6B1A] bg-white hover:bg-gray-50 px-3.5 py-2 min-h-[36px] rounded-lg border border-gray-200 shadow-2xs transition cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 hover:text-[#3F6B1A] px-3.5 py-2 min-h-[36px] rounded-lg transition cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
           aria-label="Go back to previous page"
         >
           <ArrowLeft className="w-4 h-4 text-[#7BB042]" />

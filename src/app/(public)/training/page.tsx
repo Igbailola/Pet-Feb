@@ -159,11 +159,11 @@ export default function TrainingPage() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="flex flex-col gap-8 md:grid md:grid-cols-2">
           {MODULES.map((m) => (
             <div
               key={m.number}
-              className="bg-white rounded-2xl border border-gray-200/90 shadow-sm p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:border-emerald-300 transition-colors"
+              className="bg-white rounded-2xl border border-gray-200/90 shadow-sm p-6 sm:p-8 flex flex-col justify-between space-y-6 hover:border-emerald-300 transition-colors sticky top-36 z-10 md:static md:z-auto [&:nth-child(2)]:top-40 [&:nth-child(2)]:z-20 [&:nth-child(3)]:top-44 [&:nth-child(3)]:z-30 [&:nth-child(4)]:top-48 [&:nth-child(4)]:z-40"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">

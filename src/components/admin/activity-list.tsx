@@ -9,6 +9,7 @@ import { SECTION_LABELS } from "@/lib/rbac";
 import { Filter, Search, Clock, User, Trash2 } from "lucide-react";
 import { deleteActivityLog, clearAllActivityLogs } from "@/app/actions/activity";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 
 export function ActivityList({
   logs,
@@ -122,33 +123,31 @@ export function ActivityList({
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 rounded-lg border border-[#D9D9D9] text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
+              className="w-full pl-9 pr-4 py-2.5 min-h-[44px] rounded-lg border border-[#D9D9D9] text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
             />
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             {/* Section Filter */}
-            <div className="flex items-center gap-1.5 text-xs text-[#5C5C5C]">
-              <Filter size={14} className="text-[#767676]" />
-              <select
-                value={sectionFilter}
-                onChange={(e) => {
-                  setSectionFilter(e.target.value);
-                  setPage(1);
-                }}
-                className="bg-[#F8F8F8] border border-[#D9D9D9] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-              >
-                <option value="all">All sections</option>
-                {userSections.map((s) => (
-                  <option key={s} value={s}>
-                    {SECTION_LABELS[s]}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <Select
+              icon={<Filter size={14} />}
+              value={sectionFilter}
+              onChange={(e) => {
+                setSectionFilter(e.target.value);
+                setPage(1);
+              }}
+              className="bg-[#F8F8F8] border border-[#D9D9D9] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+            >
+              <option value="all">All sections</option>
+              {userSections.map((s) => (
+                <option key={s} value={s}>
+                  {SECTION_LABELS[s]}
+                </option>
+              ))}
+            </Select>
 
             {/* Action Filter */}
-            <select
+            <Select
               value={actionFilter}
               onChange={(e) => {
                 setActionFilter(e.target.value);
@@ -163,7 +162,7 @@ export function ActivityList({
               <option value="publish">Published</option>
               <option value="unpublish">Unpublished</option>
               <option value="stock">Stock status</option>
-            </select>
+            </Select>
 
             {itemLogs.length > 0 && (
               <button

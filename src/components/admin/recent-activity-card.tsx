@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { deleteActivityLog } from "@/app/actions/activity";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 
 interface RecentActivityCardProps {
   logs: ActivityLogEntry[];
@@ -120,15 +121,15 @@ export function RecentActivityCard({ logs, userSections }: RecentActivityCardPro
         {/* Filter Toolbar with increased padding */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Section filter */}
-          <div className="flex items-center gap-1.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#333]">
+          <div className="flex items-center gap-2.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#333]">
             <Filter size={14} className="text-[#6B7280]" />
-            <select
+            <Select
               value={sectionFilter}
               onChange={(e) => {
                 setSectionFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-transparent text-xs font-semibold focus:outline-none cursor-pointer"
+              className="bg-transparent pl-0 text-xs font-semibold focus:outline-none cursor-pointer"
             >
               <option value="all">All sections</option>
               {userSections.map((s) => (
@@ -136,11 +137,11 @@ export function RecentActivityCard({ logs, userSections }: RecentActivityCardPro
                   {SECTION_LABELS[s]}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           {/* Action filter */}
-          <select
+          <Select
             value={actionFilter}
             onChange={(e) => {
               setActionFilter(e.target.value);
@@ -155,7 +156,7 @@ export function RecentActivityCard({ logs, userSections }: RecentActivityCardPro
             <option value="publish">Published</option>
             <option value="unpublish">Unpublished</option>
             <option value="stock">Stock status</option>
-          </select>
+          </Select>
 
           <Link
             href="/admin/activity"

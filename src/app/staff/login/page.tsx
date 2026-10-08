@@ -207,15 +207,6 @@ function LoginFormInner() {
           <p className="text-xs text-[#767676]">
             Petfeb Solar Internal Operations & Management Portal
           </p>
-          <div>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7BB042] hover:text-[#6A9E36] hover:underline transition"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Return to Website Homepage
-            </Link>
-          </div>
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { formatNaira } from "@/lib/public-types";
+import { Select } from "@/components/ui/select";
 import {
   submitBuySmallVerificationAction,
   lookupVerificationStatusAction,
@@ -168,6 +169,8 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         state,
         idType,
         idNumber,
+        employmentStatus,
+        monthlyIncome,
         systemName: activeSystem.name,
         downPayment: downPaymentAmount,
         monthlyRepayment,
@@ -386,8 +389,8 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4">
+        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-4">
+          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-36 z-10 md:static md:z-auto">
             <span className="font-heading font-extrabold text-2xl text-[#7BB042]">01</span>
             <h3 className="font-heading font-bold text-base text-gray-900">
               Select System & Calculate
@@ -397,7 +400,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-40 z-20 md:static md:z-auto">
             <span className="font-heading font-extrabold text-2xl text-[#7BB042]">02</span>
             <h3 className="font-heading font-bold text-base text-gray-900">
               Instant KYC & NIN Upload
@@ -407,7 +410,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-44 z-30 md:static md:z-auto">
             <span className="font-heading font-extrabold text-2xl text-[#7BB042]">03</span>
             <h3 className="font-heading font-bold text-base text-gray-900">
               48-Hour Desk Approval
@@ -417,7 +420,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-48 z-40 md:static md:z-auto">
             <span className="font-heading font-extrabold text-2xl text-[#7BB042]">04</span>
             <h3 className="font-heading font-bold text-base text-gray-900">
               Installation & Handover
@@ -686,7 +689,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   <label className="text-xs font-bold text-gray-700 block">
                     Select Solar Package:
                   </label>
-                  <select
+                  <Select
                     value={selectedSystemSlug}
                     onChange={(e) => setSelectedSystemSlug(e.target.value)}
                     className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
@@ -696,7 +699,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                         {s.name} ({formatNaira(s.totalPrice)})
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
 
                 {/* Down Payment Percentage Buttons */}
@@ -851,7 +854,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                     <label className="font-semibold text-gray-700 block">
                       Employment / Income Source *
                     </label>
-                    <select
+                    <Select
                       value={employmentStatus}
                       onChange={(e) => setEmploymentStatus(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
@@ -860,14 +863,14 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                       <option value="Registered Business Owner">Registered Business Owner (CAC)</option>
                       <option value="Sole Trader / Merchant">Sole Trader / Merchant</option>
                       <option value="Independent Contractor">Independent Contractor</option>
-                    </select>
+                    </Select>
                   </div>
 
                   <div className="space-y-1.5">
                     <label className="font-semibold text-gray-700 block">
                       Estimated Monthly Income *
                     </label>
-                    <select
+                    <Select
                       value={monthlyIncome}
                       onChange={(e) => setMonthlyIncome(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
@@ -876,7 +879,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                       <option value="₦250,000 - ₦500,000">₦250,000 - ₦500,000</option>
                       <option value="₦500,000 - ₦1,000,000">₦500,000 - ₦1,000,000</option>
                       <option value="Above ₦1,000,000">Above ₦1,000,000</option>
-                    </select>
+                    </Select>
                   </div>
                 </div>
 
@@ -894,7 +897,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                       <label className="font-semibold text-gray-700 block">
                         ID Document Type *
                       </label>
-                      <select
+                      <Select
                         value={idType}
                         onChange={(e) => setIdType(e.target.value)}
                         className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
@@ -903,7 +906,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                         <option value="Voter's Card (VIN)">Permanent Voter&apos;s Card (PVC)</option>
                         <option value="Driver's License">FRSC Driver&apos;s License</option>
                         <option value="International Passport">International Passport</option>
-                      </select>
+                      </Select>
                     </div>
 
                     <div className="space-y-1.5">

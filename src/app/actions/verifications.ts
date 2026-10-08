@@ -14,6 +14,8 @@ export type BuySmallApplicationInput = {
   state?: string;
   idType: string;
   idNumber: string;
+  employmentStatus?: string;
+  monthlyIncome?: string;
   systemName?: string;
   downPayment?: number;
   monthlyRepayment?: number;
@@ -115,19 +117,54 @@ export async function submitBuySmallVerificationAction(
     const docPath = `verification/${userId}/${idType.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${idNumber}`;
 
     // 3. Insert verification submission
-    const { data: submission, error: subError } = await adminClient
+    const baseSubmission = {
+      user_id: userId,
+      id_document_path: docPath,
+      decision: "pending",
+    };
+    const submissionPayload = {
+      ...baseSubmission,
+      id_type: idType,
+      id_number: idNumber,
+      employment_status: input.employmentStatus?.trim() || null,
+      monthly_income: input.monthlyIncome?.trim() || null,
+      address: input.address?.trim() || null,
+      state: input.state?.trim() || null,
+      system_name: input.systemName?.trim() || null,
+      down_payment: typeof input.downPayment === "number" && Number.isFinite(input.downPayment)
+        ? input.downPayment
+        : null,
+      monthly_repayment:
+        typeof input.monthlyRepayment === "number" && Number.isFinite(input.monthlyRepayment)
+          ? input.monthlyRepayment
+          : null,
+    };
+
+    let { data: submission, error: subError } = await adminClient
       .from("verification_submissions")
-      .insert({
-        user_id: userId,
-        id_document_path: docPath,
-        decision: "pending",
-      })
+      .insert(submissionPayload)
       .select("id")
       .single();
+
+    // If the detail columns are not yet in the database (migration pending),
+    // retry with the base payload so the submission still goes through.
+    if (subError && subError.message?.includes("does not exist")) {
+      const retry = await adminClient
+        .from("verification_submissions")
+        .insert(baseSubmission)
+        .select("id")
+        .single();
+      submission = retry.data;
+      subError = retry.error;
+    }
 
     if (subError) {
       console.error("Verification insert error:", subError);
       return { error: `Submission failed: ${subError.message}` };
+    }
+
+    if (!submission) {
+      return { error: "Submission failed: no id returned" };
     }
 
     const refCode = `PET-BSV-2026-${submission.id.slice(0, 6).toUpperCase()}`;
@@ -309,21 +346,14 @@ export async function lookupVerificationStatusAction(
       };
     }
 
-    // Try finding by submission ID or document path
-    const { data: sub } = await adminClient
-      .from("verification_submissions")
-      .select("id, submitted_at, decision, rejection_reason, profiles(full_name, email, verification_status)")
-      .or(`id.eq.${cleanQuery},id_document_path.ilike.%${cleanQuery}%`)
-      .limit(1)
-      .maybeSingle();
-
-    if (sub) {
-      const subProfile = (Array.isArray(sub.profiles) ? sub.profiles[0] : sub.profiles) as {
-        full_name?: string;
-        email?: string;
-        verification_status?: string;
-      } | null;
-
+    const formatSubmission = (sub: {
+      id: string;
+      submitted_at: string;
+      decision: string;
+      rejection_reason?: string | null;
+      profiles?: { full_name?: string; email?: string; verification_status?: string } | { full_name?: string; email?: string; verification_status?: string }[] | null;
+    }) => {
+      const subProfile = Array.isArray(sub.profiles) ? sub.profiles[0] : sub.profiles;
       return {
         found: true,
         status: sub.decision === "approved" ? "verified" : sub.decision,
@@ -338,6 +368,36 @@ export async function lookupVerificationStatusAction(
             ? "Your verification is currently under review."
             : `Your verification was rejected: ${sub.rejection_reason || "Invalid documentation"}`,
       };
+    };
+
+    // Try finding by application reference (PET-BSV-2026-XXXXXX -> id prefix)
+    const refMatch = /^pet-bsv-2026-([0-9a-f]{6,8})$/i.exec(cleanQuery);
+    if (refMatch) {
+      const prefix = refMatch[1].toLowerCase();
+      const { data: refSub } = await adminClient
+        .from("verification_submissions")
+        .select("id, submitted_at, decision, rejection_reason, profiles(full_name, email, verification_status)")
+        .gte("id", `${prefix.padEnd(8, "0")}-0000-0000-0000-000000000000`)
+        .lt("id", `${prefix.padEnd(8, "f")}-ffff-ffff-ffff-ffffffffffff`)
+        .order("submitted_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (refSub) {
+        return formatSubmission(refSub);
+      }
+    }
+
+    // Try finding by submission ID or document path
+    const { data: sub } = await adminClient
+      .from("verification_submissions")
+      .select("id, submitted_at, decision, rejection_reason, profiles(full_name, email, verification_status)")
+      .or(`id.eq.${cleanQuery},id_document_path.ilike.%${cleanQuery}%`)
+      .limit(1)
+      .maybeSingle();
+
+    if (sub) {
+      return formatSubmission(sub);
     }
 
     return {

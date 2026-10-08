@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import {
   ShieldCheck,
   CheckCircle2,
@@ -14,7 +15,6 @@ import {
   Mail,
   UserCheck,
   ExternalLink,
-  Trash2,
   Loader2,
 } from "lucide-react";
 import { reviewVerificationAction, deleteVerificationAction } from "@/app/actions/verifications";
@@ -252,7 +252,7 @@ export function VerificationsList({ initialSubmissions }: VerificationsListProps
             placeholder="Search applicant name, email, phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-3.5 py-2.5 min-h-[44px] text-xs rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+            className="w-full pl-10 pr-3.5 py-2.5 min-h-[44px] text-sm rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
           />
         </div>
       </div>
@@ -290,9 +290,12 @@ export function VerificationsList({ initialSubmissions }: VerificationsListProps
                   {/* Customer Info */}
                   <div className="space-y-1.5 min-w-0">
                     <div className="flex flex-wrap items-center gap-2.5">
-                      <h4 className="text-sm font-bold text-[#111] truncate">
+                      <Link
+                        href={`/admin/verifications/${item.id}`}
+                        className="text-sm font-bold text-[#111] hover:text-[#3F6B1A] truncate transition"
+                      >
                         {profile?.full_name || "Applicant (Unassigned Name)"}
-                      </h4>
+                      </Link>
 
                       {/* Status Badge */}
                       <span
@@ -409,6 +412,16 @@ export function VerificationsList({ initialSubmissions }: VerificationsListProps
                         <span>Contact</span>
                       </a>
                     )}
+
+                    <button
+                      type="button"
+                      disabled={isPending}
+                      onClick={() => setDeletingItem(item)}
+                      className="text-xs font-semibold text-rose-600 hover:text-rose-800 hover:underline underline-offset-2 transition cursor-pointer disabled:opacity-50"
+                      title="Delete verification record"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -491,6 +504,57 @@ export function VerificationsList({ initialSubmissions }: VerificationsListProps
                 className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 transition disabled:opacity-50 cursor-pointer shadow-xs"
               >
                 {isPending ? "Rejecting..." : "Confirm Rejection"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Delete Confirmation Modal ─────────────────────────── */}
+      {deletingItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in-50">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-bold text-base text-[#111]">Delete Verification Record</h3>
+                <p className="text-xs text-[#5C5C5C] mt-0.5">
+                  Applicant:{" "}
+                  <strong className="text-[#333]">
+                    {deletingItem.profiles?.full_name || deletingItem.profiles?.email}
+                  </strong>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDeletingItem(null)}
+                className="w-11 h-11 flex items-center justify-center text-[#9CA3AF] hover:text-[#333] hover:bg-[#F4F4F5] rounded-xl text-lg font-bold transition cursor-pointer"
+                aria-label="Close modal"
+              >
+                ×
+              </button>
+            </div>
+
+            <p className="text-xs text-[#5C5C5C]">
+              This permanently removes this verification submission and its document reference from
+              the Customer Verifications screen. This action cannot be undone.
+            </p>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#F2F2F2]">
+              <button
+                type="button"
+                onClick={() => setDeletingItem(null)}
+                className="px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-semibold text-[#5C5C5C] hover:bg-[#F3F4F6] transition cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting || isPending}
+                onClick={handleDelete}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 transition disabled:opacity-50 cursor-pointer shadow-xs"
+              >
+                {isDeleting && <Loader2 size={14} className="animate-spin" />}
+                {isDeleting ? "Deleting..." : "Delete Record"}
               </button>
             </div>
           </div>

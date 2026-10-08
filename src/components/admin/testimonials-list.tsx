@@ -82,14 +82,14 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
             />
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-1.5 text-xs text-[#5C5C5C]">
+            <div className="flex items-center gap-2 bg-[#F8F8F8] border border-[#D9D9D9] rounded-xl px-3 py-1.5 text-xs text-[#5C5C5C]">
               <Filter size={14} className="text-[#767676]" />
-              <div className="flex gap-1.5">
+              <div className="flex gap-1">
                 {(["all", "published", "hidden"] as const).map((f) => (
                   <button
                     key={f}
@@ -98,10 +98,10 @@ export function TestimonialsList({ testimonials }: { testimonials: Testimonial[]
                       setFilter(f);
                       setPage(1);
                     }}
-                    className={`px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold transition cursor-pointer flex items-center ${
+                    className={`px-3 py-1.5 min-h-[32px] rounded-lg text-xs font-semibold transition cursor-pointer flex items-center ${
                       filter === f
-                        ? "bg-[#E8F3DA] text-[#2F5212] border border-[#C3E49E]"
-                        : "bg-[#F8F8F8] text-[#5C5C5C] border border-[#D9D9D9] hover:bg-[#EBEBEB]"
+                        ? "bg-[#3F6B1A] text-white shadow-xs"
+                        : "text-[#5C5C5C] hover:bg-[#E5E7EB]"
                     }`}
                   >
                     {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}

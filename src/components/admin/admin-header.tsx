@@ -436,7 +436,7 @@ function HeaderSearch({ user }: { user: SessionUser }) {
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          className="w-full pl-9 pr-8 py-1.5 text-xs rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] text-[#333] placeholder-[#9CA3AF] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
+          className="w-full pl-9 pr-8 py-2.5 min-h-[44px] text-sm rounded-xl border border-[#E5E7EB] bg-[#F8F9FA] text-[#333] placeholder-[#9CA3AF] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent transition"
         />
         {query && (
           <button

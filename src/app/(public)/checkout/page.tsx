@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
+import { Select } from "@/components/ui/select";
 
 const NIGERIAN_STATES = [
   "Lagos",
@@ -373,7 +374,7 @@ export default function CheckoutPage() {
                 <label className="font-semibold text-gray-700 block">
                   State *
                 </label>
-                <select
+                <Select
                   value={state}
                   onChange={(e) => setState(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
@@ -383,7 +384,7 @@ export default function CheckoutPage() {
                       {s}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <div className="space-y-1.5">

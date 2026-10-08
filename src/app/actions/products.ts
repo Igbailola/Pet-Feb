@@ -14,7 +14,7 @@ async function guardSection(section: "products" | "blog" | "testimonials" | "cms
   return user;
 }
 
-export type ActionResult = { success?: boolean; error?: string };
+export type ActionResult = { success?: boolean; error?: string; id?: string };
 
 function revalidateProductPages(productId?: string, slug?: string) {
   revalidatePath("/", "layout");
@@ -84,7 +84,7 @@ export async function createProduct(_prev: ActionResult, formData: FormData): Pr
   });
 
   revalidateProductPages(data?.id, parsed.data.slug);
-  return { success: true };
+  return { success: true, id: data?.id };
 }
 
 export async function updateProduct(_prev: ActionResult, formData: FormData): Promise<ActionResult> {

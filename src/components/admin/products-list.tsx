@@ -6,6 +6,7 @@ import { useState, useTransition } from "react";
 import { PageHeader, StatusBadge, DeleteButton, EmptyState, Pagination, SortSelect } from "./ui";
 import { deleteProduct, toggleProductStock } from "@/app/actions/products";
 import { useToast } from "./toast";
+import { Select } from "@/components/ui/select";
 import { Plus, Search, Filter, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 
 type Product = {
@@ -128,29 +129,27 @@ export function ProductsList({
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-xs sm:text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
+              className="w-full pl-10 pr-4 py-2.5 min-h-[44px] rounded-xl border border-gray-300 text-sm text-[#333] placeholder-[#767676] focus:outline-none focus:ring-2 focus:ring-[#7BB042] transition"
             />
           </div>
 
           {/* Controls: Status filter & Sort */}
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-1.5 text-xs text-[#5C5C5C]">
-              <Filter size={14} className="text-[#767676]" />
-              <select
-                value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value);
-                  setPage(1);
-                }}
-                className="bg-[#F8F8F8] border border-gray-300 rounded-xl px-3 py-2 min-h-[40px] text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] cursor-pointer"
-              >
-                <option value="all">All statuses</option>
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
-                <option value="in_stock">In stock</option>
-                <option value="out_of_stock">Out of stock</option>
-              </select>
-            </div>
+            <Select
+              icon={<Filter size={14} />}
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value);
+                setPage(1);
+              }}
+              className="bg-[#F8F8F8] border border-gray-300 rounded-xl px-3 py-2 min-h-[40px] text-xs font-semibold text-[#333] focus:outline-none focus:ring-2 focus:ring-[#7BB042] cursor-pointer"
+            >
+              <option value="all">All statuses</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+              <option value="in_stock">In stock</option>
+              <option value="out_of_stock">Out of stock</option>
+            </Select>
 
             <SortSelect<SortOption>
               value={sortBy}
