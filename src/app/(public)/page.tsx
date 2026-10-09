@@ -8,7 +8,6 @@ import {
   ArrowRight,
   CheckCircle2,
   AlertCircle,
-  Quote,
   Calendar,
   Globe2,
   SunMedium,
@@ -24,6 +23,7 @@ import {
   resolveMediaUrl,
 } from "@/lib/public-data";
 import { HeroModal } from "@/components/public/HeroModal";
+import { TestimonialCarousel } from "@/components/public/TestimonialCarousel";
 
 export const metadata: Metadata = {
   title: "Petfeb Solar | Reliable Clean Energy & Financing in Nigeria",
@@ -457,50 +457,7 @@ export default async function HomePage() {
             <p className="text-gray-500 text-sm">Customer testimonials will be featured here shortly.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {testimonials.map((t) => (
-              <div
-                key={t.id}
-                className="p-6 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between space-y-4"
-              >
-                <div className="space-y-3">
-                  <Quote className="w-6 h-6 text-[#7BB042]" />
-                  <p className="text-sm text-gray-700 italic leading-relaxed">
-                    &ldquo;{t.message}&rdquo;
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {t.photo_url ? (
-                      <img
-                        src={resolveMediaUrl(t.photo_url) ?? undefined}
-                        alt={t.author_name}
-                        className="w-11 h-11 rounded-full object-cover border-2 border-[#7BB042]/30 shadow-xs shrink-0"
-                      />
-                    ) : (
-                      <div className="w-11 h-11 rounded-full bg-[#E8F3DA] text-[#2F5212] font-bold text-xs flex items-center justify-center border border-[#C3E49E] shrink-0">
-                        {t.author_name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toUpperCase()}
-                      </div>
-                    )}
-                    <div>
-                      <h4 className="font-heading font-semibold text-sm text-gray-900">
-                        {t.author_name}
-                      </h4>
-                      {t.author_role && (
-                        <p className="text-xs text-gray-500">{t.author_role}</p>
-                      )}
-                    </div>
-                  </div>
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         )}
       </section>
 
