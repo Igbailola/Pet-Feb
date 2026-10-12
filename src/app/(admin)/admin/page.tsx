@@ -312,7 +312,7 @@ export default async function AdminDashboardPage() {
           {hasProducts && (
             <Link
               href="/admin/products/new"
-              className="inline-flex items-center gap-2 bg-[#7BB042] hover:bg-[#6A9E36] text-black font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-xs whitespace-nowrap"
+              className="inline-flex items-center gap-2 bg-[#7BB042] hover:bg-[#6A9E36] text-white font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition shadow-xs whitespace-nowrap"
             >
               <Plus size={16} />
               <span>New product</span>

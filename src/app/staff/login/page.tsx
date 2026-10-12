@@ -179,7 +179,7 @@ function LoginFormInner() {
             <button
               type="submit"
               disabled={pending}
-              className="w-full min-h-[44px] inline-flex items-center justify-center bg-[#7BB042] text-black font-bold rounded-xl px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
+              className="w-full min-h-[44px] inline-flex items-center justify-center bg-[#7BB042] text-white font-bold rounded-xl px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-xs cursor-pointer"
             >
               {pending
                 ? mode === "login" ? "Signing in…" : "Creating Admin…"

@@ -378,7 +378,7 @@ export function VerificationsList({ initialSubmissions }: VerificationsListProps
                         type="button"
                         disabled={isPending}
                         onClick={() => handleApprove(item)}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
                       >
                         <CheckCircle2 size={14} />
                         <span>Approve & Verify</span>

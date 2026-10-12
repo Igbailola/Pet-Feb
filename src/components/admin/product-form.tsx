@@ -317,7 +317,7 @@ export function ProductForm({
               type="submit"
               onClick={() => setStatusVal("published")}
               disabled={pending}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               <CheckCircle2 size={16} />
               <span>{isEdit ? "Publish Product Changes" : "Publish Product"}</span>
@@ -444,7 +444,7 @@ export function ProductForm({
               <button
                 type="button"
                 onClick={() => setShowAddAccModal(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition shadow-2xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition shadow-2xs cursor-pointer"
               >
                 <Plus size={14} /> Add Accessory
               </button>
@@ -584,7 +584,7 @@ export function ProductForm({
                       setIsSavingAcc(false);
                     }
                   }}
-                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition disabled:opacity-50"
                 >
                   {isSavingAcc ? <Loader2 size={13} className="animate-spin" /> : <CheckCircle2 size={13} />}
                   <span>Save & Attach Accessory</span>

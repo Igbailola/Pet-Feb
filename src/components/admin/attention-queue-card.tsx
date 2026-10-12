@@ -202,7 +202,7 @@ export function AttentionQueueCard({ tasks }: { tasks: AttentionTask[] }) {
                   </button>
                   <Link
                     href={task.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-black bg-[#7BB042] hover:bg-[#6A9E36] px-3 py-1.5 rounded-xl transition shadow-xs cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#7BB042] hover:bg-[#6A9E36] px-3 py-1.5 rounded-xl transition shadow-xs cursor-pointer"
                   >
                     <span>{task.actionLabel}</span>
                     <ArrowRight size={13} />

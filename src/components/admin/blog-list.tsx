@@ -66,7 +66,7 @@ export function BlogList({ posts }: { posts: Post[] }) {
         action={
           <Link
             href="/admin/blog/new"
-            className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-black font-semibold rounded-xl px-4 py-2.5 min-h-[44px] text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-xs"
+            className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-white font-bold rounded-xl px-4 py-2.5 min-h-[44px] text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-xs"
           >
             <Plus size={16} /> New post
           </Link>

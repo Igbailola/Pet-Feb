@@ -141,7 +141,7 @@ export function TestimonialForm({ testimonial }: { testimonial?: Testimonial }) 
               type="submit"
               onClick={() => setStatusVal("published")}
               disabled={pending}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition shadow-xs cursor-pointer disabled:opacity-50"
             >
               <CheckCircle2 size={16} />
               <span>{isEdit ? "Publish Changes" : "Publish Testimonial"}</span>

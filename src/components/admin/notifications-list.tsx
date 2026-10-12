@@ -318,7 +318,7 @@ export function NotificationsList({ user, tasks }: NotificationsListProps) {
                   restoreAllNotifications();
                   showToast("Cleared notifications restored");
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6A9E36] transition cursor-pointer shadow-xs"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition cursor-pointer shadow-xs"
               >
                 <RotateCcw size={14} />
                 <span>Restore {dismissedIds.length} cleared notifications</span>

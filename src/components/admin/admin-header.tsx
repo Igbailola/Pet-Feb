@@ -717,7 +717,7 @@ function ChangePasswordModal({ onClose }: { onClose: () => void }) {
             <button
               type="submit"
               disabled={isPending}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-[#7BB042] hover:bg-[#6A9E36] text-black text-xs font-bold rounded-xl disabled:opacity-50 transition shadow-xs cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] bg-[#7BB042] hover:bg-[#6A9E36] text-white text-xs font-bold rounded-xl disabled:opacity-50 transition shadow-xs cursor-pointer"
             >
               {isPending && <Loader2 size={14} className="animate-spin" />}
               {isPending ? "Updating…" : "Update password"}

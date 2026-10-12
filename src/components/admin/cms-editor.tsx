@@ -57,7 +57,7 @@ function EditRow({ entry }: { entry: Entry }) {
           <button
             type="submit"
             disabled={pending}
-            className="inline-flex items-center gap-1.5 bg-[#7BB042] text-black font-semibold rounded-lg px-3 py-1.5 text-xs hover:bg-[#6A9E36] disabled:opacity-50 transition shadow-xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 bg-[#7BB042] text-white font-bold rounded-lg px-3 py-1.5 text-xs hover:bg-[#6A9E36] disabled:opacity-50 transition shadow-xs cursor-pointer"
           >
             <Save size={13} /> {pending ? "Publishing…" : "Publish changes"}
           </button>
@@ -142,7 +142,7 @@ export function CmsEditor({ entries }: { entries: Entry[] }) {
         action={
           <button
             onClick={() => setShowNew(true)}
-            className="inline-flex items-center gap-2 bg-[#7BB042] text-black font-semibold rounded-lg px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-sm"
+            className="inline-flex items-center gap-2 bg-[#7BB042] text-white font-bold rounded-lg px-4 py-2.5 text-xs sm:text-sm hover:bg-[#6A9E36] transition shadow-sm"
           >
             <Plus size={16} /> New entry
           </button>

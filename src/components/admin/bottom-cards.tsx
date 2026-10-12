@@ -271,7 +271,7 @@ export function OverviewBottomCards({
           <div className="mt-5 pt-4 border-t border-[#F3F4F6]">
             <Link
               href="/admin/verifications"
-              className="inline-flex items-center justify-between w-full text-sm font-bold text-black bg-[#7BB042] hover:bg-[#6A9E36] px-5 py-3 rounded-xl transition shadow-xs"
+              className="inline-flex items-center justify-between w-full text-sm font-bold text-white bg-[#7BB042] hover:bg-[#6A9E36] px-5 py-3 rounded-xl transition shadow-xs"
             >
               <span>Review client submissions</span>
               <ArrowRight size={16} />

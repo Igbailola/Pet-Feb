@@ -46,7 +46,7 @@ export function SubmitButton({ pending, label = "Save" }: { pending: boolean; la
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-black font-semibold rounded-xl px-5 py-2.5 min-h-[44px] text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition cursor-pointer shadow-xs"
+      className="inline-flex items-center justify-center gap-2 bg-[#7BB042] text-white font-bold rounded-xl px-5 py-2.5 min-h-[44px] text-sm hover:bg-[#6A9E36] active:bg-[#4F8221] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition cursor-pointer shadow-xs"
     >
       {pending && <Loader2 size={16} className="animate-spin" />}
       {pending ? "Saving…" : label}
@@ -361,7 +361,7 @@ export function Pagination({
               onClick={() => onPageChange(p)}
               className={`w-9 h-9 rounded-lg text-xs font-semibold transition cursor-pointer ${
                 currentPage === p
-                  ? "bg-[#7BB042] text-black font-bold shadow-xs"
+                  ? "bg-[#7BB042] text-white font-bold shadow-xs"
                   : "text-[#5C5C5C] hover:bg-[#F2F2F2]"
               }`}
             >
