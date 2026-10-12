@@ -110,8 +110,8 @@ export default async function HomePage() {
 
           {/* Hero Content Left */}
           <div className="relative z-10 max-w-3xl p-6 sm:p-12 lg:p-16 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold bg-white/10 text-[#B4D88A] border border-white/15 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-[#7BB042] animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-[#B4D88A] border border-white/20 backdrop-blur-md shadow-xs">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042] animate-pulse" />
               <span>Solar Energy Company • Nigeria</span>
             </div>
 
@@ -124,22 +124,22 @@ export default async function HomePage() {
             </p>
 
             {/* CTAs */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6ea138] transition shadow-md min-h-[46px]"
+                className="w-auto shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-base font-bold bg-[#7BB042] text-white hover:bg-[#6ea138] transition-all shadow-md hover:shadow-lg min-h-[52px]"
               >
-                Explore products
-                <ArrowRight className="w-4 h-4" />
+                <span>Explore products</span>
+                <ArrowRight className="w-5 h-5 shrink-0" />
               </Link>
               <Link
                 href="/projects"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition border border-white/25 backdrop-blur-md min-h-[46px]"
+                className="w-auto shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-base font-bold bg-white/15 text-white hover:bg-white/25 transition-all border border-white/30 backdrop-blur-md min-h-[52px]"
               >
-                View projects
+                <span>View projects</span>
               </Link>
               {heroProduct && (
-                <div className="pt-1 sm:pt-0">
+                <div className="pt-1 sm:pt-0 shrink-0">
                   <HeroModal product={heroProduct} />
                 </div>
               )}
@@ -393,10 +393,10 @@ export default async function HomePage() {
 
                       <Link
                         href={`/shop/${product.slug}`}
-                        className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-[10px] text-xs font-bold bg-[#7BB042] text-black hover:bg-[#6ea138] transition shadow-xs text-center min-h-[40px]"
+                        className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6ea138] transition shadow-xs text-center min-h-[44px]"
                       >
                         View Details & Specs
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-4 h-4" />
                       </Link>
                     </div>
                   </div>
@@ -446,17 +446,17 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3.5 pt-2">
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
             <Link
               href="/buy-small"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-[#333333] text-white hover:bg-black transition shadow-sm min-h-[44px]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-sm font-bold bg-[#1F3A0B] text-white hover:bg-black transition shadow-sm min-h-[50px]"
             >
               See how Buy Small works
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/buy-small#portal-section"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 transition min-h-[44px]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-sm font-bold bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 transition min-h-[50px]"
             >
               Apply now for financing
             </Link>
@@ -516,7 +516,7 @@ export default async function HomePage() {
             <div className="pt-2">
               <Link
                 href="/installation"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6ea138] transition shadow-xs min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6ea138] transition shadow-xs min-h-[50px]"
               >
                 Request installation
                 <ArrowRight className="w-4 h-4" />
@@ -677,14 +677,14 @@ export default async function HomePage() {
               Equipping electricians, university graduates, and aspiring technicians with hands-on rooftop practicals, lithium battery sizing, and electrical safety standards.
             </p>
 
-            <div className="flex flex-wrap gap-2.5 pt-2">
-              <span className="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
+            <div className="flex flex-wrap gap-3 pt-2">
+              <span className="text-xs font-semibold bg-white/10 px-4 py-2 rounded-full border border-white/20">
                 Next Cohort: Nov 2026
               </span>
-              <span className="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
+              <span className="text-xs font-semibold bg-white/10 px-4 py-2 rounded-full border border-white/20">
                 Port Harcourt & Lagos Hubs
               </span>
-              <span className="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
+              <span className="text-xs font-semibold bg-white/10 px-4 py-2 rounded-full border border-white/20">
                 Hands-on Rooftop Lab
               </span>
             </div>
@@ -692,7 +692,7 @@ export default async function HomePage() {
             <div className="pt-3">
               <Link
                 href="/training"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-[10px] text-sm font-bold bg-[#7BB042] text-black hover:bg-[#6ea138] transition shadow-xs min-h-[44px]"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6ea138] transition shadow-xs min-h-[50px]"
               >
                 Join training
                 <ArrowRight className="w-4 h-4" />
@@ -824,10 +824,10 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 relative z-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
             <Link
               href="/contact"
-              className="w-full sm:w-auto px-7 py-3.5 rounded-[10px] text-sm font-bold bg-[#333333] text-white hover:bg-black transition shadow-sm min-h-[46px] inline-flex items-center justify-center"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold bg-[#1F3A0B] text-white hover:bg-black transition shadow-sm min-h-[50px] inline-flex items-center justify-center"
             >
               Talk to Petfeb Engineers
             </Link>
@@ -835,7 +835,7 @@ export default async function HomePage() {
               href="https://wa.me/2348135854054"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-7 py-3.5 rounded-[10px] text-sm font-bold bg-white text-black hover:bg-gray-100 transition shadow-sm min-h-[46px] inline-flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl text-sm font-bold bg-white text-gray-950 hover:bg-gray-100 transition shadow-sm min-h-[50px] inline-flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4 text-[#3F6B1A]" />
               WhatsApp Engineering Desk

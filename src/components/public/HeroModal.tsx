@@ -47,12 +47,12 @@ export function HeroModal({ product }: HeroModalProps) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+        className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full text-sm font-semibold text-emerald-950 bg-emerald-50/95 hover:bg-emerald-100 border border-emerald-200 transition shadow-sm min-h-[50px] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
         aria-haspopup="dialog"
       >
         <Zap className="w-4 h-4 text-[#7BB042]" />
         <span>Featured Kit: {product.name}</span>
-        <Info className="w-3.5 h-3.5 text-emerald-600" />
+        <Info className="w-4 h-4 text-emerald-700" />
       </button>
 
       {/* Modal Backdrop & Dialog */}
@@ -166,7 +166,7 @@ export function HeroModal({ product }: HeroModalProps) {
               <Link
                 href={`/shop/${product.slug}`}
                 onClick={() => setIsOpen(false)}
-                className="w-full sm:w-1/2 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg text-sm font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition text-center shadow-sm"
+                className="w-full sm:w-1/2 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6ea138] transition text-center shadow-xs min-h-[48px]"
               >
                 View Full Details
                 <ArrowRight className="w-4 h-4" />
@@ -174,7 +174,7 @@ export function HeroModal({ product }: HeroModalProps) {
               <Link
                 href="/installation"
                 onClick={() => setIsOpen(false)}
-                className="w-full sm:w-1/2 inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-sm font-semibold bg-gray-100 text-gray-800 hover:bg-gray-200 transition text-center"
+                className="w-full sm:w-1/2 inline-flex items-center justify-center px-5 py-3.5 rounded-xl text-sm font-bold bg-gray-100 text-gray-900 hover:bg-gray-200 transition text-center min-h-[48px]"
               >
                 Inquire Installation
               </Link>

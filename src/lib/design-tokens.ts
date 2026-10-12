@@ -17,7 +17,7 @@ export const tokens = {
     icon: "inline-flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl transition active:scale-95 cursor-pointer focus:outline-none focus:ring-2 select-none",
     variants: {
       primary:
-        "bg-[#7BB042] text-black hover:bg-[#6AA035] active:bg-[#5C8C2E] focus:ring-[#7BB042] shadow-xs font-bold",
+        "bg-[#7BB042] text-white hover:bg-[#6AA035] active:bg-[#5C8C2E] focus:ring-[#7BB042] shadow-xs font-bold",
       secondary:
         "bg-[#3F6B1A] text-white hover:bg-[#345915] active:bg-[#2A4711] focus:ring-[#3F6B1A] shadow-xs font-semibold",
       outline:

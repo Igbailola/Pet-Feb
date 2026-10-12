@@ -6,156 +6,126 @@ import {
   CreditCard,
   CheckCircle2,
   ShieldCheck,
-  Upload,
   Calendar,
   Building2,
   Clock,
   ArrowRight,
-  ArrowLeft,
-  FileText,
-  UserCheck,
+  ChevronDown,
   Check,
   AlertCircle,
-  HelpCircle,
   Zap,
   PhoneCall,
   Sparkles,
-  ChevronDown,
-  Layers,
-  ChevronRight,
+  Lock,
+  MapPin,
+  IdCard,
+  FileText,
+  UserCheck,
 } from "lucide-react";
 import { formatNaira } from "@/lib/public-types";
-import { Select } from "@/components/ui/select";
 import {
   submitBuySmallVerificationAction,
   lookupVerificationStatusAction,
 } from "@/app/actions/verifications";
 
-const SOLAR_SYSTEMS = [
+const PACKAGES = [
   {
-    slug: "petfeb-1kva-starter-kit",
-    name: "1kVA Starter Solar Kit",
-    capacityDesc: "Lights, TV, Fans, Laptops, Wi-Fi",
-    totalPrice: 450000,
-    imageUrl: "/api/websitepic/battery",
-    specs: "1kVA Inverter • 1 x 100Ah Battery • 2 x 200W Panels",
+    id: "5kva-commercial",
+    name: "Petfeb 5kW Hybrid Inverter + 5.12kWh LiFePO4 System",
+    price: 3950000,
+    specs: "Tier-1 A-Grade Cells & Pure Sine Wave Inverter",
+    weeklyEstimated: 54788,
   },
   {
-    slug: "petfeb-3kva-home-kit",
-    name: "3kVA Whole-Home Solar Kit",
-    capacityDesc: "Fridge, Freezer, TV, Fans, Lighting",
-    totalPrice: 1850000,
-    imageUrl: "/api/websitepic/residential",
+    id: "3kva-residential",
+    name: "Petfeb 3kVA Whole-Home Solar Kit",
+    price: 1850000,
     specs: "3kVA Inverter • 2 x 200Ah Batteries • 6 x 400W Panels",
+    weeklyEstimated: 25650,
   },
   {
-    slug: "5kva-whole-home",
-    name: "5kVA Premium Hybrid System",
-    capacityDesc: "Inverter AC, Pumping Machine, Deep Freezers",
-    totalPrice: 2850000,
-    imageUrl: "/api/websitepic/commercial",
-    specs: "5kVA Inverter • 10kWh Lithium Bank • 10 x 400W Panels",
+    id: "1kva-starter",
+    name: "Petfeb 1kVA Starter Solar Kit",
+    price: 450000,
+    specs: "1kVA Inverter • 1 x 100Ah Battery • 2 x 200W Panels",
+    weeklyEstimated: 6250,
   },
 ];
 
 const FAQS = [
   {
-    q: "How does the Buy Small solar installment plan work?",
-    a: "Buy Small allows you to acquire a complete turnkey solar power system with just 30% initial equity down-payment. Once your simple digital KYC and NIN verification are approved, our engineers install the system within 48 hours. You then spread the remaining balance over 6 or 12 convenient monthly installments.",
+    q: "What happens if the national grid drops or solar radiation is low during my repayment term?",
+    a: "Your hybrid system is engineered with an intelligent multi-source automatic transfer switch. It draws from solar arrays during daylight hours, stores power in high-efficiency LiFePO4 batteries, and seamlessly coordinates with grid or backup generator supplies when needed. The physical system continues generating clean power regardless of national grid stability.",
   },
   {
-    q: "What documents are required to apply and verify?",
-    a: "You need a valid government-issued ID (National Identity Number/NIN, Permanent Voter's Card, Driver's License, or International Passport), your verifiable residential address, and a recent utility bill or proof of residence. No collateral is required.",
+    q: "Can I pay off my remaining balance early without penalty?",
+    a: "Yes. Buy Small allows complete early liquidation at any point during your tenure with 0% penalty fees. You only pay the outstanding principal balance without future unaccrued fees.",
   },
   {
-    q: "How long does verification and credit review take?",
-    a: "Our verification desk in Lagos, Abuja, and Port Harcourt reviews digital submissions within 24 to 48 business hours. You receive status updates via WhatsApp and SMS.",
+    q: "Who holds ownership of the hardware during the repayment period?",
+    a: "Hardware is placed in custody at your verified premises upon initial 30% deposit and installation signoff. Full legal ownership and warranty certificate title transfer to you immediately upon completion of the final scheduled installment.",
   },
   {
-    q: "Can I pay off my remaining balance early?",
-    a: "Yes! There are zero penalty fees for early liquidation. You can clear your remaining installments at any time with complete transparency.",
-  },
-  {
-    q: "What happens if a component needs maintenance during the repayment period?",
-    a: "Your system remains under full Petfeb engineering warranty. If an inverter or battery component exhibits a manufacturer fault, our certified field engineers repair or replace it without voiding your agreement.",
-  },
-  {
-    q: "What happens if I relocate to another property before finishing payments?",
-    a: "You simply notify our customer desk. Petfeb field technicians can safely dismantle, transport, and re-commission your solar installation at your new home or office location for a modest re-installation fee.",
+    q: "What if I relocate my business or residence to a new site?",
+    a: "Simply inform our technical support desk at least 7 business days prior to your move. Certified Petfeb engineers will safely decommission, transport, and re-mount your system at your new location for a standardized re-installation fee without affecting your financing contract.",
   },
 ];
 
 interface BuySmallPageProps {
-  searchParams: Promise<{ product?: string }>;
+  searchParams: Promise<{ product?: string; deposit?: string }>;
 }
 
 export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
   const resolvedParams = use(searchParams);
-  const preselectedSlug = resolvedParams?.product || "";
+  const preselectedDeposit = Number(resolvedParams?.deposit) || 30;
 
-  // Financing calculator state
-  const initialSystem =
-    SOLAR_SYSTEMS.find((s) => s.slug === preselectedSlug) || SOLAR_SYSTEMS[0];
-  const [selectedSystemSlug, setSelectedSystemSlug] = useState(initialSystem.slug);
-  const [downPaymentPercent, setDownPaymentPercent] = useState(30);
-  const [tenorMonths, setTenorMonths] = useState(6);
+  // Selected package
+  const [selectedPkgId, setSelectedPkgId] = useState(PACKAGES[0].id);
+  const [depositPct, setDepositPct] = useState<30 | 40 | 50>(
+    preselectedDeposit === 40 || preselectedDeposit === 50 ? preselectedDeposit : 30
+  );
+  const [cadence, setCadence] = useState<"Weekly" | "Bi-Weekly" | "Monthly">("Weekly");
+  const [includeInstallation, setIncludeInstallation] = useState(true);
 
-  // Application Form state
+  // Application / Lookup modal/form toggle
+  const [showApplyForm, setShowApplyForm] = useState(false);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [state, setState] = useState("Lagos");
-  const [employmentStatus, setEmploymentStatus] = useState("Salaried Employee");
-  const [monthlyIncome, setMonthlyIncome] = useState("₦200,000 - ₦500,000");
-  const [idType, setIdType] = useState("National Identification Number (NIN)");
+  const [idType, setIdType] = useState("National Identity Number (NIN)");
   const [idNumber, setIdNumber] = useState("");
-  const [idFileUploaded, setIdFileUploaded] = useState(false);
-  const [utilityFileUploaded, setUtilityFileUploaded] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-
-  // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedApplication, setSubmittedApplication] = useState<null | {
-    refCode: string;
-    submittedAt: string;
-    systemName: string;
-    downPayment: number;
-    monthlyRepayment: number;
-    fullName: string;
-    email: string;
-  }>(null);
+  const [submittedRef, setSubmittedRef] = useState<string | null>(null);
 
-  // Status Check lookup tab
-  const [activeTab, setActiveTab] = useState<"apply" | "track">("apply");
-  const [lookupCode, setLookupCode] = useState("");
-  const [isLookingUp, setIsLookingUp] = useState(false);
-  const [lookupResult, setLookupResult] = useState<null | {
-    ref: string;
-    status: string;
-    message: string;
-  }>(null);
+  const selectedPkg = PACKAGES.find((p) => p.id === selectedPkgId) || PACKAGES[0];
+  const installationFee = includeInstallation ? 120000 : 0;
+  const totalPrice = selectedPkg.price + installationFee;
+  const initialDeposit = Math.round((totalPrice * depositPct) / 100);
+  const financedPrincipal = totalPrice - initialDeposit;
 
-  // FAQ accordion state
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  // Weekly, biweekly, monthly installments over 52 weeks (12 months)
+  const weeklyInstallment = Math.round(financedPrincipal / 52);
+  const biweeklyInstallment = Math.round(financedPrincipal / 26);
+  const monthlyInstallment = Math.round(financedPrincipal / 12);
 
-  const activeSystem =
-    SOLAR_SYSTEMS.find((s) => s.slug === selectedSystemSlug) || SOLAR_SYSTEMS[0];
+  const currentCommitment =
+    cadence === "Weekly"
+      ? weeklyInstallment
+      : cadence === "Bi-Weekly"
+      ? biweeklyInstallment
+      : monthlyInstallment;
 
-  const downPaymentAmount = Math.round(
-    activeSystem.totalPrice * (downPaymentPercent / 100)
-  );
-  const balanceAmount = activeSystem.totalPrice - downPaymentAmount;
-  const monthlyRepayment = Math.round(balanceAmount / tenorMonths);
-
-  const handleApply = async (e: React.FormEvent) => {
+  const handleApplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeTerms) {
-      alert("Please agree to the Buy Small financing and verification terms.");
+      alert("Please agree to the financing terms.");
       return;
     }
     if (!idNumber) {
-      alert("Please provide your ID / NIN number for verification.");
+      alert("Please enter your NIN or ID number.");
       return;
     }
 
@@ -169,11 +139,11 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         state,
         idType,
         idNumber,
-        employmentStatus,
-        monthlyIncome,
-        systemName: activeSystem.name,
-        downPayment: downPaymentAmount,
-        monthlyRepayment,
+        employmentStatus: "Verified Individual / SME",
+        monthlyIncome: "₦200,000+",
+        systemName: selectedPkg.name,
+        downPayment: initialDeposit,
+        monthlyRepayment: monthlyInstallment,
       });
 
       if (res.error) {
@@ -182,981 +152,800 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         return;
       }
 
-      setSubmittedApplication({
-        refCode: res.refCode || `PET-BSV-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-        submittedAt: new Date().toLocaleDateString("en-NG", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
-        systemName: activeSystem.name,
-        downPayment: downPaymentAmount,
-        monthlyRepayment,
-        fullName,
-        email,
-      });
-    } catch (err: unknown) {
-      console.error(err);
-      alert("Something went wrong while submitting. Please try again.");
+      setSubmittedRef(res.refCode || "PET-BSV-2026-CONFIRMED");
+    } catch {
+      alert("Submission error. Please try again or chat with our desk.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleLookup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!lookupCode.trim()) return;
-
-    setIsLookingUp(true);
-    try {
-      const res = await lookupVerificationStatusAction(lookupCode);
-      if (res.found) {
-        setLookupResult({
-          ref: lookupCode.trim().toUpperCase(),
-          status: res.status || "pending",
-          message:
-            res.message ||
-            "Verification record retrieved. Your profile status is updated in real-time.",
-        });
-      } else {
-        setLookupResult({
-          ref: lookupCode.trim().toUpperCase(),
-          status: "not_found",
-          message:
-            res.message ||
-            "No application record was found for this code or email. Please check your spelling or apply above.",
-        });
-      }
-    } catch {
-      setLookupResult({
-        ref: lookupCode.trim().toUpperCase(),
-        status: "action_needed",
-        message:
-          "Unable to query verification status at this time. Please retry in a few moments.",
-      });
-    } finally {
-      setIsLookingUp(false);
-    }
-  };
-
   return (
     <div className="space-y-16 sm:space-y-24 pb-20">
-      {/* ── 1. Split Hero Section (Rich Landing Style) ──────────── */}
-      <section className="bg-gradient-to-b from-emerald-50/60 to-[#F8F9FA] pt-10 sm:pt-16 pb-16 border-b border-gray-200">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Heading, Proposition, CTAs */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-100/90 text-[#3F6B1A] border border-emerald-200">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/api/logo" alt="Logo" className="w-5 h-5 object-contain" />
-                <span>Petfeb Buy Small Financing Initiative</span>
-              </div>
+      {/* ── 1. Hero Header Band (Deep Dark Green #1F3A0B per stitch frame) ── */}
+      <section className="bg-[#1F3A0B] text-white pt-8 sm:pt-14 pb-14 sm:pb-20 border-b border-emerald-950 relative overflow-hidden">
+        {/* Subtle sun-arc motif in top-right */}
+        <div
+          className="absolute -top-16 -right-16 w-80 h-80 rounded-full pointer-events-none opacity-10 border-[32px] border-[#7BB042]"
+          aria-hidden="true"
+        />
 
-              <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-950 tracking-tight leading-tight">
-                Power Your Home Today, Pay Small-Small With Zero Stress
-              </h1>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 relative z-10 space-y-8">
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="text-xs text-emerald-200/70">
+            <ol className="flex items-center gap-1.5">
+              <li>
+                <Link href="/" className="hover:text-white transition">
+                  Home
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-white font-semibold">Buy Small</li>
+            </ol>
+          </nav>
 
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                Say goodbye to fuel queues, generator smoke, and volatile electricity tariffs. Acquire a certified, tier-1 solar system with just a <span className="font-bold text-gray-900">30% initial down-payment</span> and spread the remaining balance across 6 to 12 comfortable monthly payments.
-              </p>
-
-              {/* Trust Checkmarks */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm text-gray-700">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0" />
-                  <span>Instant Digital NIN Verification</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0" />
-                  <span>On-Site Installation within 48 Hours</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0" />
-                  <span>0% Hidden Fees or Surcharges</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0" />
-                  <span>Full Hardware & Battery Warranty</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3.5 pt-4">
-                <a
-                  href="#portal-section"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm text-center cursor-pointer"
-                >
-                  <CreditCard className="w-4 h-4" />
-                  Calculate & Apply Now
-                </a>
-                <a
-                  href="https://wa.me/2348135854054"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold bg-white text-gray-800 border border-gray-200 hover:bg-gray-50 transition text-center shadow-2xs"
-                >
-                  <PhoneCall className="w-4 h-4 text-[#3F6B1A]" />
-                  Chat With Financing Desk
-                </a>
-              </div>
+          <div className="space-y-5 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-emerald-300 border border-white/20">
+              <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
+              <span>Petfeb Buy Small Scheme · Flexible Asset Financing</span>
             </div>
 
-            {/* Right Column: Visual Showcase Frame with Floating Badges */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-gray-900 h-80 sm:h-[420px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/api/websitepic/hero"
-                  alt="Petfeb Solar Installation & Buy Small Financing"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+            <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
+              Power your home now. <br />
+              Pay in small amounts.
+            </h1>
 
-                {/* Floating Top Badge */}
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-[#3F6B1A] border border-white/40 shadow-sm flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#F5B82E]" />
-                  <span>30% Initial Down-Payment</span>
-                </div>
+            <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed max-w-2xl">
+              Clean energy shouldn&apos;t drain your working capital. Spread the cost of Tier-1 solar inverters, lithium storage, and panels over predictable weekly or monthly installments. Zero collateral required.
+            </p>
 
-                {/* Floating Bottom Card */}
-                <div className="absolute bottom-5 left-5 right-5 bg-black/60 backdrop-blur-md p-4 rounded-2xl border border-white/20 text-white space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#F5B82E] block">
-                    Rapid Fulfillment Guaranteed
-                  </span>
-                  <p className="text-xs sm:text-sm font-medium">
-                    Verified On-Site Installation Within 48 Hours Across Lagos, Abuja & Port Harcourt
-                  </p>
-                </div>
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <a
+                href="#calculator"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm"
+              >
+                <span>Calculate My Plan</span>
+                <ChevronDown className="w-4 h-4" />
+              </a>
+
+              <a
+                href="#how-it-works"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition border border-white/20"
+              >
+                <span>How It Works</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* 4 Trust Stats Strip at bottom of hero per stitch frame */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-10 border-t border-emerald-900/80">
+            <div className="space-y-1">
+              <div className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                30%
               </div>
+              <p className="text-xs font-semibold text-[#7BB042]">Min Deposit</p>
+              <p className="text-[11px] text-emerald-200/60">demo terms pending approval</p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                Zero
+              </div>
+              <p className="text-xs font-semibold text-[#7BB042]">Collateral Required</p>
+              <p className="text-[11px] text-emerald-200/60">BVN-backed verification</p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                24h
+              </div>
+              <p className="text-xs font-semibold text-[#7BB042]">BVN Direct Approval</p>
+              <p className="text-[11px] text-emerald-200/60">instant credit assessment</p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="font-heading font-extrabold text-3xl sm:text-4xl text-white">
+                NEMSA
+              </div>
+              <p className="text-xs font-semibold text-[#7BB042]">Certified Deployment</p>
+              <p className="text-[11px] text-emerald-200/60">tier-1 hardware warranty</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 2. Real Scale & Trust Numbers ───────────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 rounded-3xl bg-white border border-gray-200/90 shadow-2xs text-center">
-          <div className="space-y-1">
-            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-[#3F6B1A]">
-              30%
-            </span>
-            <span className="text-xs text-gray-600 block font-medium">
-              Low Initial Down-Payment
-            </span>
-          </div>
-
-          <div className="space-y-1">
-            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-[#3F6B1A]">
-              48h
-            </span>
-            <span className="text-xs text-gray-600 block font-medium">
-              Average Approval & Dispatch
-            </span>
-          </div>
-
-          <div className="space-y-1">
-            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-[#3F6B1A]">
-              6 - 12m
-            </span>
-            <span className="text-xs text-gray-600 block font-medium">
-              Flexible Monthly Tenors
-            </span>
-          </div>
-
-          <div className="space-y-1">
-            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-[#3F6B1A]">
-              10+ Yrs
-            </span>
-            <span className="text-xs text-gray-600 block font-medium">
-              Solar Engineering Excellence
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. How the Buy Small Plan Works (4-Step Flow) ──────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-10">
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-            Streamlined Financing Journey
+      {/* ── 2. How Buy Small Works (4 Cards in a Row) ────────────────── */}
+      <section id="how-it-works" className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8 scroll-mt-24">
+        <div className="text-center max-w-xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
+            ENGINEERING-LED FINANCING
           </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mt-1">
-            How Buy Small Works in 4 Simple Steps
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
+            How Buy Small Works
           </h2>
-          <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-            We removed the complicated paperwork. Here is how your property gets powered up quickly and transparently.
+          <p className="text-xs sm:text-sm text-gray-600">
+            Transparent financing backed by certified hardware. No hidden fees, no opaque contracts.
           </p>
-        </div>
-
-        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-4">
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-36 z-10 md:static md:z-auto">
-            <span className="font-heading font-extrabold text-2xl text-[#7BB042]">01</span>
-            <h3 className="font-heading font-bold text-base text-gray-900">
-              Select System & Calculate
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Use our live calculator to choose your solar capacity, adjust your initial down-payment, and select a 6 or 12-month repayment period.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-40 z-20 md:static md:z-auto">
-            <span className="font-heading font-extrabold text-2xl text-[#7BB042]">02</span>
-            <h3 className="font-heading font-bold text-base text-gray-900">
-              Instant KYC & NIN Upload
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Submit your National Identification Number (NIN) along with a quick photo of your ID and proof of residence directly on our secure portal.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-44 z-30 md:static md:z-auto">
-            <span className="font-heading font-extrabold text-2xl text-[#7BB042]">03</span>
-            <h3 className="font-heading font-bold text-base text-gray-900">
-              48-Hour Desk Approval
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Our regional underwriting desk reviews your application within 24 to 48 business hours and issues your official financing agreement.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-4 sticky top-48 z-40 md:static md:z-auto">
-            <span className="font-heading font-extrabold text-2xl text-[#7BB042]">04</span>
-            <h3 className="font-heading font-bold text-base text-gray-900">
-              Installation & Handover
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Upon paying your 30% initial down-payment, Petfeb certified field technicians arrive at your site to install, ground, and commission your system.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. Who Qualifies for Buy Small? ────────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-            Eligibility Framework
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mt-1">
-            Who Qualifies for Buy Small Financing?
-          </h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center font-bold">
-              <Building2 className="w-5 h-5 text-[#7BB042]" />
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-2">
+              <span className="w-8 h-8 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] font-heading font-extrabold text-xs flex items-center justify-center">
+                01
+              </span>
+              <h3 className="font-heading font-bold text-base text-gray-900">
+                Choose Hardware
+              </h3>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Pick eligible hybrid inverters, LiFePO4 batteries, or turnkey solar systems directly from the Petfeb catalog.
+              </p>
             </div>
-            <h3 className="font-heading font-bold text-base text-gray-900 pt-1">
-              Salaried Employees
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Corporate professionals, federal/state civil servants, and healthcare workers with steady monthly payroll income.
+            <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-[#3F6B1A] font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Tier-1 Certified Only</span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-2">
+              <span className="w-8 h-8 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] font-heading font-extrabold text-xs flex items-center justify-center">
+                02
+              </span>
+              <h3 className="font-heading font-bold text-base text-gray-900">
+                Select Deposit (30%–50%)
+              </h3>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Unlock your energy equipment with flexible upfront tiers. Higher deposits lower your ongoing weekly commitments.
+              </p>
+            </div>
+            <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-[#3F6B1A] font-medium">
+              <Zap className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Customizable Cashflow</span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-2">
+              <span className="w-8 h-8 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] font-heading font-extrabold text-xs flex items-center justify-center">
+                03
+              </span>
+              <h3 className="font-heading font-bold text-base text-gray-900">
+                Choose Cadence
+              </h3>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Select weekly, bi-weekly, or monthly intervals synchronised with your revenue cycles or salary schedule.
+              </p>
+            </div>
+            <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-[#3F6B1A] font-medium">
+              <Calendar className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Auto Debit via Paystack</span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between">
+            <div className="space-y-2">
+              <span className="w-8 h-8 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] font-heading font-extrabold text-xs flex items-center justify-center">
+                04
+              </span>
+              <h3 className="font-heading font-bold text-base text-gray-900">
+                Deploy &amp; Power On
+              </h3>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Certified engineers inspect, mount, and commission your micro-grid with full replacement insurance throughout tenor.
+              </p>
+            </div>
+            <div className="pt-3 border-t border-gray-100 flex items-center gap-1.5 text-xs text-[#3F6B1A] font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Full NEMSA Compliance</span>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-center text-[11px] text-gray-400">
+          * Illustration only. All step terms, eligibility thresholds, and interest models are demo placeholders, pending Petfeb approval.
+        </p>
+      </section>
+
+      {/* ── 3. Interactive Buy Small Financing Calculator (Stitch Frame) ── */}
+      <section id="calculator" className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8 scroll-mt-24">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
+              INTERACTIVE ASSESSMENT TOOL
+            </span>
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
+              Buy Small Financing Calculator
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-600">
+              Model your hardware investment, calculate exact weekly commitment, and preview full amortization.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center font-bold">
-              <Zap className="w-5 h-5 text-[#7BB042]" />
+          <span className="inline-block px-3 py-1.5 rounded-md bg-[#F4F9EC] border border-[#7BB042]/30 text-xs font-semibold text-[#3F6B1A]">
+            Demo placeholders, pending Petfeb approval
+          </span>
+        </div>
+
+        {/* Dual Column Calculator Card */}
+        <div className="bg-white rounded-3xl border border-[#D9D9D9] p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Left Column: Inputs */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Package Selector */}
+            <div className="space-y-2">
+              <label htmlFor="package-select" className="text-xs font-bold uppercase text-gray-700 block">
+                Select Hardware Package
+              </label>
+              <div className="relative">
+                <select
+                  id="package-select"
+                  value={selectedPkgId}
+                  onChange={(e) => setSelectedPkgId(e.target.value)}
+                  className="w-full appearance-none bg-white border border-[#D9D9D9] rounded-xl pl-4 pr-12 py-3.5 text-xs sm:text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#7BB042] cursor-pointer"
+                >
+                  {PACKAGES.map((pkg) => (
+                    <option key={pkg.id} value={pkg.id}>
+                      {pkg.name} ({formatNaira(pkg.price)})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="w-5 h-5 text-gray-500 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+              <p className="text-xs text-gray-500">{selectedPkg.specs}</p>
             </div>
-            <h3 className="font-heading font-bold text-base text-gray-900 pt-1">
-              Registered Business Owners
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Retail stores, medical clinics, legal offices, and CAC-registered SMEs seeking to eliminate daily diesel costs.
-            </p>
+
+            {/* Downpayment Deposit: 3 Cards (30%, 40%, 50%) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold uppercase text-gray-700">Initial Downpayment Deposit</span>
+                <span className="text-gray-400">(demo placeholders, pending approval)</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setDepositPct(30)}
+                  className={`p-4 rounded-xl border text-left flex flex-col justify-between space-y-1 transition cursor-pointer ${
+                    depositPct === 30
+                      ? "bg-[#E8F3DA] border-[#7BB042] text-gray-950 ring-1 ring-[#7BB042]"
+                      : "bg-[#F8F9FA] border-[#D9D9D9] hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-heading font-extrabold text-base sm:text-lg">30%</span>
+                    {depositPct === 30 && <CheckCircle2 className="w-4 h-4 text-[#3F6B1A]" />}
+                  </div>
+                  <span className="font-heading font-bold text-xs text-[#3F6B1A]">
+                    {formatNaira((totalPrice * 0.3))}
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-black text-white self-start">
+                    Most popular
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setDepositPct(40)}
+                  className={`p-4 rounded-xl border text-left flex flex-col justify-between space-y-1 transition cursor-pointer ${
+                    depositPct === 40
+                      ? "bg-[#E8F3DA] border-[#7BB042] text-gray-950 ring-1 ring-[#7BB042]"
+                      : "bg-[#F8F9FA] border-[#D9D9D9] hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-heading font-extrabold text-base sm:text-lg">40%</span>
+                    {depositPct === 40 && <CheckCircle2 className="w-4 h-4 text-[#3F6B1A]" />}
+                  </div>
+                  <span className="font-heading font-bold text-xs text-[#3F6B1A]">
+                    {formatNaira((totalPrice * 0.4))}
+                  </span>
+                  <span className="text-[10px] text-gray-500 self-start">
+                    Balanced amortisation
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setDepositPct(50)}
+                  className={`p-4 rounded-xl border text-left flex flex-col justify-between space-y-1 transition cursor-pointer ${
+                    depositPct === 50
+                      ? "bg-[#E8F3DA] border-[#7BB042] text-gray-950 ring-1 ring-[#7BB042]"
+                      : "bg-[#F8F9FA] border-[#D9D9D9] hover:bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-heading font-extrabold text-base sm:text-lg">50%</span>
+                    {depositPct === 50 && <CheckCircle2 className="w-4 h-4 text-[#3F6B1A]" />}
+                  </div>
+                  <span className="font-heading font-bold text-xs text-[#3F6B1A]">
+                    {formatNaira((totalPrice * 0.5))}
+                  </span>
+                  <span className="text-[10px] text-gray-500 self-start">
+                    Lowest installment
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Repayment Cadence */}
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase text-gray-700 block">
+                Repayment Cadence
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                {(["Weekly", "Bi-Weekly", "Monthly"] as const).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCadence(c)}
+                    className={`py-2.5 px-3 rounded-lg text-xs font-bold transition border cursor-pointer ${
+                      cadence === c
+                        ? "bg-[#7BB042] text-white border-[#7BB042]"
+                        : "bg-white text-gray-700 border-[#D9D9D9] hover:bg-gray-50"
+                    }`}
+                  >
+                    {c} {c === "Weekly" ? "(52 wks)" : c === "Bi-Weekly" ? "(26 pmts)" : "(12 mos)"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tenure Duration */}
+            <div className="space-y-1.5">
+              <span className="text-xs font-bold uppercase text-gray-700 block">
+                Tenure Duration
+              </span>
+              <div className="p-3 rounded-xl bg-[#F8F9FA] border border-[#D9D9D9] text-xs font-semibold text-gray-800">
+                12 Months (52 weeks standard Petfeb plan)
+              </div>
+            </div>
+
+            {/* Installation Toggle */}
+            <label className="flex items-center justify-between p-3.5 rounded-xl border border-[#D9D9D9] bg-[#F8F9FA] cursor-pointer">
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck className="w-4 h-4 text-[#7BB042]" />
+                <div>
+                  <span className="font-semibold text-xs text-gray-900 block">
+                    Include Certified Turnkey Installation
+                  </span>
+                  <span className="text-[11px] text-gray-500">
+                    +₦120,000 professional mounting &amp; NEMSA commissioning spread into installments
+                  </span>
+                </div>
+              </div>
+              <input
+                type="checkbox"
+                checked={includeInstallation}
+                onChange={(e) => setIncludeInstallation(e.target.checked)}
+                className="w-4 h-4 text-[#7BB042] rounded focus:ring-black"
+              />
+            </label>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center font-bold">
-              <ShieldCheck className="w-5 h-5 text-[#7BB042]" />
-            </div>
-            <h3 className="font-heading font-bold text-base text-gray-900 pt-1">
-              Property Landlords
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Owners of residential duplexes, apartment blocks, and commercial office suites seeking to add solar value.
-            </p>
-          </div>
+          {/* Right Column: Estimated Plan Breakdown Card */}
+          <div className="lg:col-span-5 bg-[#F8F9FA] rounded-2xl border border-[#D9D9D9] p-6 space-y-5 flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-gray-500 uppercase tracking-wider">
+                  ESTIMATED PLAN BREAKDOWN
+                </span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#E8F3DA] text-[#3F6B1A]">
+                  BVN Instant Escrow
+                </span>
+              </div>
 
-          <div className="p-6 rounded-2xl bg-white border border-gray-200/90 shadow-2xs space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center font-bold">
-              <Sparkles className="w-5 h-5 text-[#7BB042]" />
+              <div>
+                <span className="text-xs text-gray-500 block uppercase">ONGOING COMMITMENT</span>
+                <div className="font-heading font-extrabold text-3xl sm:text-4xl text-gray-950">
+                  {formatNaira(currentCommitment)}{" "}
+                  <span className="text-sm sm:text-base font-normal text-gray-500">
+                    / {cadence === "Weekly" ? "week" : cadence === "Bi-Weekly" ? "bi-week" : "month"}
+                  </span>
+                </div>
+                <span className="text-[11px] text-gray-400 block">
+                  (demo placeholder, pending Petfeb approval)
+                </span>
+              </div>
+
+              {/* Segmented Power Meter (Deposit vs Financed Balance) */}
+              <div className="space-y-1.5 pt-2">
+                <div className="flex items-center justify-between text-[11px] text-gray-500">
+                  <span className="font-semibold text-[#3F6B1A]">Deposit Allocation ({depositPct}%)</span>
+                  <span>Financed Balance ({100 - depositPct}%)</span>
+                </div>
+                <div className="grid grid-cols-10 gap-1 h-2.5">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`rounded-xs ${
+                        i < depositPct / 10 ? "bg-[#7BB042]" : "bg-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-between text-[10px] text-gray-400">
+                  <span>Downpayment paid upfront</span>
+                  <span>Amortised over 52 weeks</span>
+                </div>
+              </div>
+
+              {/* Financial Breakdown Table */}
+              <div className="divide-y divide-gray-200 text-xs pt-2">
+                <div className="py-2 flex justify-between">
+                  <span className="text-gray-500">System Hardware Price:</span>
+                  <span className="font-semibold text-gray-900">{formatNaira(selectedPkg.price)}</span>
+                </div>
+                <div className="py-2 flex justify-between">
+                  <span className="text-gray-500">Turnkey Installation:</span>
+                  <span className="font-semibold text-gray-900">{formatNaira(installationFee)}</span>
+                </div>
+                <div className="py-2 flex justify-between bg-emerald-50/50 -mx-2 px-2 rounded">
+                  <span className="font-bold text-[#3F6B1A]">Initial Downpayment ({depositPct}%):</span>
+                  <span className="font-heading font-extrabold text-[#3F6B1A]">{formatNaira(initialDeposit)}</span>
+                </div>
+                <div className="py-2 flex justify-between">
+                  <span className="text-gray-500">Financed Principal:</span>
+                  <span className="font-semibold text-gray-900">{formatNaira(financedPrincipal)}</span>
+                </div>
+                <div className="py-2 flex justify-between">
+                  <span className="text-gray-500">Admin &amp; Escrow Fee:</span>
+                  <span className="font-semibold text-[#3F6B1A]">0% Promo (NEMSA Verified)</span>
+                </div>
+              </div>
             </div>
-            <h3 className="font-heading font-bold text-base text-gray-900 pt-1">
-              Remote Professionals
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Software engineers, creative consultants, and remote contractors requiring 24/7 power for uninterrupted work.
-            </p>
+
+            <div className="space-y-3 pt-3 border-t border-gray-200">
+              <button
+                type="button"
+                onClick={() => setShowApplyForm(true)}
+                className="w-full py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm text-center cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>Continue to Apply for Buy Small</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <div className="flex items-center justify-center gap-3 text-[11px] text-gray-500 text-center">
+                <span>✓ Instant pre-qual</span>
+                <span>✓ No collateral</span>
+                <span>✓ 256-Bit Escrow</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 5. Main Application & Verification Portal ─────────── */}
-      <section id="portal-section" className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8 scroll-mt-28">
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-            Digital Onboarding Desk
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950 mt-1">
-            Apply or Track Your Verification
-          </h2>
-          <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-            Fill out your details to start a new application, or look up your pending verification code.
-          </p>
-        </div>
-
-        {/* ── PROPERLY RESIZED TAB BUTTONS (Prominent, High-Contrast & Responsive) ── */}
-        <div className="bg-gray-100/90 p-2 rounded-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-2xl border border-gray-200 shadow-xs">
-          <button
-            type="button"
-            onClick={() => setActiveTab("apply")}
-            className={`flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-sm sm:text-base font-bold transition-all cursor-pointer min-h-[52px] ${
-              activeTab === "apply"
-                ? "bg-[#7BB042] text-white shadow-md ring-2 ring-[#7BB042]"
-                : "text-gray-700 hover:text-gray-950 hover:bg-white/80"
-            }`}
-          >
-            <CreditCard className="w-5 h-5 shrink-0" />
-            <span>New Financing Application</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("track")}
-            className={`flex-1 inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl text-sm sm:text-base font-bold transition-all cursor-pointer min-h-[52px] ${
-              activeTab === "track"
-                ? "bg-[#7BB042] text-white shadow-md ring-2 ring-[#7BB042]"
-                : "text-gray-700 hover:text-gray-950 hover:bg-white/80"
-            }`}
-          >
-            <Clock className="w-5 h-5 shrink-0" />
-            <span>Track Verification Status</span>
-          </button>
-        </div>
-
-        {activeTab === "track" ? (
-          /* ── Track Verification Status Screen ──────────────────── */
-          <div className="max-w-2xl bg-white p-8 sm:p-10 rounded-3xl border border-gray-200 shadow-2xs space-y-6">
-            <div className="space-y-1">
-              <h3 className="font-heading font-bold text-xl text-gray-900">
-                Check Buy Small Verification Status
-              </h3>
-              <p className="text-xs text-gray-600">
-                Enter your Application & Verification Reference Code (e.g. PET-BSV-2026-1049).
-              </p>
-            </div>
-
-            <form onSubmit={handleLookup} className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                required
-                placeholder="PET-BSV-2026-XXXX"
-                value={lookupCode}
-                onChange={(e) => setLookupCode(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-              />
-              <button
-                type="submit"
-                disabled={isLookingUp}
-                className="px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-xs cursor-pointer disabled:opacity-50"
-              >
-                {isLookingUp ? "Checking..." : "Verify Status"}
-              </button>
-            </form>
-
-            {lookupResult && (
-              <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 text-xs space-y-2 animate-in fade-in-50">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-sm text-gray-900">{lookupResult.ref}</span>
-                  <span
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border ${
-                      lookupResult.status === "verified"
-                        ? "bg-emerald-100 text-[#3F6B1A] border-emerald-300"
-                        : lookupResult.status === "rejected"
-                        ? "bg-rose-100 text-rose-800 border-rose-300"
-                        : "bg-amber-100 text-amber-800 border-amber-200"
-                    }`}
-                  >
-                    {lookupResult.status.replace("_", " ")}
-                  </span>
-                </div>
-                <p className="text-gray-700 leading-relaxed">{lookupResult.message}</p>
+      {/* ── 4. Apply Modal / Sliding Form if Clicked ──────────────────── */}
+      {showApplyForm && (
+        <section className="max-w-[800px] mx-auto px-4 sm:px-8 animate-in fade-in-50">
+          <div className="bg-white rounded-3xl border border-[#D9D9D9] p-6 sm:p-10 shadow-xl space-y-6">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+              <div>
+                <h3 className="font-heading font-bold text-xl text-gray-900">
+                  Buy Small Digital Application
+                </h3>
+                <p className="text-xs text-gray-500">
+                  Pre-selected: {selectedPkg.name} ({depositPct}% Deposit)
+                </p>
               </div>
-            )}
-          </div>
-        ) : submittedApplication ? (
-          /* ── Submission Confirmation Receipt ──────────────────── */
-          <div className="max-w-2xl mx-auto bg-white p-8 sm:p-10 rounded-3xl border border-gray-200 shadow-sm space-y-6 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-[#3F6B1A] flex items-center justify-center mx-auto sm:mx-0">
-              <UserCheck className="w-8 h-8 text-[#7BB042]" />
-            </div>
-
-            <div className="space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-                Application Logged & Submitted
-              </span>
-              <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-gray-950">
-                Verification Request Received!
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                Thank you, {submittedApplication.fullName}. Your Buy Small application and identity documents have been routed to our verification team.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 text-xs text-left space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Verification Reference</span>
-                <span className="font-mono font-bold text-sm text-[#3F6B1A]">
-                  {submittedApplication.refCode}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Selected System</span>
-                <span className="font-semibold text-gray-900">{submittedApplication.systemName}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Initial Down Payment (30%)</span>
-                <span className="font-bold text-gray-950">
-                  {formatNaira(submittedApplication.downPayment)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Monthly Repayment</span>
-                <span className="font-bold text-[#3F6B1A]">
-                  {formatNaira(submittedApplication.monthlyRepayment)} / mo
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-2">
-                <span className="text-gray-500">Status</span>
-                <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 font-bold uppercase text-[11px]">
-                  Pending Verification
-                </span>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl bg-emerald-50 text-xs text-gray-700 text-left space-y-1">
-              <p className="font-bold text-[#3F6B1A]">What Happens Next?</p>
-              <p>
-                1. Our regional verification desk validates your NIN and uploaded utility documentation within 24-48 business hours.
-              </p>
-              <p>
-                2. You receive an official SMS and WhatsApp notice with your approved repayment schedule.
-              </p>
-              <p>
-                3. Upon initial down-payment settlement, a certified Petfeb engineering team is dispatched to install your system.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 pt-2">
-              <Link
-                href="/shop"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-xs"
-              >
-                Back to Solar Kits
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
               <button
                 type="button"
-                onClick={() => setSubmittedApplication(null)}
-                className="text-xs font-semibold text-gray-600 hover:underline cursor-pointer"
+                onClick={() => setShowApplyForm(false)}
+                className="text-xs text-gray-400 hover:text-gray-700"
               >
-                Submit Another Application
+                Close ✕
               </button>
             </div>
-          </div>
-        ) : (
-          /* ── Main Application Portal: Calculator & Verification Form ── */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            {/* Left Column: Interactive Calculator & Plan Selection */}
-            <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
-              <div className="bg-white rounded-2xl border border-gray-200/90 shadow-2xs p-6 sm:p-8 space-y-6">
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-                    Step 1 of 2
-                  </span>
-                  <h3 className="font-heading font-bold text-xl text-gray-900 mt-0.5">
-                    Live Repayment Calculator
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Adjust down payment and repayment tenor to fit your cashflow.
-                  </p>
-                </div>
 
-                {/* Select System Kit */}
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-700 block">
-                    Select Solar Package:
-                  </label>
-                  <Select
-                    value={selectedSystemSlug}
-                    onChange={(e) => setSelectedSystemSlug(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
+            {submittedRef ? (
+              <div className="p-6 rounded-2xl bg-[#E8F3DA] border border-[#7BB042] text-center space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-[#3F6B1A] mx-auto" />
+                <h4 className="font-heading font-bold text-xl text-gray-900">
+                  Application Submitted Successfully
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-700 max-w-md mx-auto">
+                  Your verification reference is <strong className="font-mono text-gray-950">{submittedRef}</strong>. Our Lagos/Abuja underwriting desk will review your details within 24 hours.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/track-order"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition"
                   >
-                    {SOLAR_SYSTEMS.map((s) => (
-                      <option key={s.slug} value={s.slug}>
-                        {s.name} ({formatNaira(s.totalPrice)})
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-
-                {/* Down Payment Percentage Buttons */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-gray-700">Initial Down Payment:</span>
-                    <span className="font-extrabold text-[#3F6B1A]">{downPaymentPercent}%</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[30, 40, 50].map((pct) => (
-                      <button
-                        key={pct}
-                        type="button"
-                        onClick={() => setDownPaymentPercent(pct)}
-                        className={`py-2 rounded-lg text-xs font-bold transition cursor-pointer border ${
-                          downPaymentPercent === pct
-                            ? "bg-emerald-50 text-[#3F6B1A] border-emerald-300 ring-1 ring-emerald-300"
-                            : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
-                        }`}
-                      >
-                        {pct}%
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tenor Selection */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-gray-700">Repayment Period:</span>
-                    <span className="font-extrabold text-[#3F6B1A]">{tenorMonths} Months</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[6, 12].map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        onClick={() => setTenorMonths(m)}
-                        className={`py-2 rounded-lg text-xs font-bold transition cursor-pointer border ${
-                          tenorMonths === m
-                            ? "bg-emerald-50 text-[#3F6B1A] border-emerald-300 ring-1 ring-emerald-300"
-                            : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
-                        }`}
-                      >
-                        {m} Months Plan
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Calculated Results Summary Box */}
-                <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 text-xs space-y-2.5">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Retail System Value</span>
-                    <span className="font-semibold text-gray-900">
-                      {formatNaira(activeSystem.totalPrice)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Initial Down Payment ({downPaymentPercent}%)</span>
-                    <span className="font-bold text-gray-950">
-                      {formatNaira(downPaymentAmount)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between border-t border-gray-200 pt-2 items-baseline">
-                    <div>
-                      <span className="font-bold text-gray-900 block">Monthly Repayment</span>
-                      <span className="text-[11px] text-gray-400">For {tenorMonths} consecutive months</span>
-                    </div>
-                    <span className="font-heading font-extrabold text-xl text-[#3F6B1A]">
-                      {formatNaira(monthlyRepayment)}
-                    </span>
-                  </div>
+                    <span>Track Status on Lookup Portal</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
-            </div>
-
-            {/* Right Column: Sign Up & Verification Application Form */}
-            <div className="lg:col-span-7">
-              <form onSubmit={handleApply} className="bg-white rounded-2xl border border-gray-200/90 shadow-2xs p-6 sm:p-8 space-y-6">
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-                    Step 2 of 2
-                  </span>
-                  <h3 className="font-heading font-bold text-xl text-gray-900 mt-0.5">
-                    Applicant Profile & Identity Verification
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Required for underwriting and scheduling on-site installation.
-                  </p>
-                </div>
-
-                {/* Contact Information */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="font-semibold text-gray-700 block">
-                      Full Legal Name (as on official ID) *
-                    </label>
+            ) : (
+              <form onSubmit={handleApplySubmit} className="space-y-4 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">Full Name</label>
                     <input
-                      type="text"
                       required
-                      placeholder="e.g. Samuel Olawale Davies"
+                      type="text"
+                      placeholder="e.g. Babatunde Adeleke"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
-
-                  <div className="space-y-1.5">
-                    <label className="font-semibold text-gray-700 block">
-                      Email Address *
-                    </label>
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">Email Address</label>
                     <input
-                      type="email"
                       required
-                      placeholder="samuel@example.com"
+                      type="email"
+                      placeholder="babatunde@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
+                </div>
 
-                  <div className="space-y-1.5">
-                    <label className="font-semibold text-gray-700 block">
-                      Phone Number (WhatsApp Active) *
-                    </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">Phone Number (+234)</label>
                     <input
-                      type="tel"
                       required
-                      placeholder="+234 813 000 0000"
+                      type="tel"
+                      placeholder="0803 123 4567"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
-
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="font-semibold text-gray-700 block">
-                      Installation Street Address *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Property address where solar system will be installed"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="font-semibold text-gray-700 block">
-                      Employment / Income Source *
-                    </label>
-                    <Select
-                      value={employmentStatus}
-                      onChange={(e) => setEmploymentStatus(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
-                    >
-                      <option value="Salaried Employee">Salaried Employee (Private / Public)</option>
-                      <option value="Registered Business Owner">Registered Business Owner (CAC)</option>
-                      <option value="Sole Trader / Merchant">Sole Trader / Merchant</option>
-                      <option value="Independent Contractor">Independent Contractor</option>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="font-semibold text-gray-700 block">
-                      Estimated Monthly Income *
-                    </label>
-                    <Select
-                      value={monthlyIncome}
-                      onChange={(e) => setMonthlyIncome(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
-                    >
-                      <option value="₦100,000 - ₦250,000">₦100,000 - ₦250,000</option>
-                      <option value="₦250,000 - ₦500,000">₦250,000 - ₦500,000</option>
-                      <option value="₦500,000 - ₦1,000,000">₦500,000 - ₦1,000,000</option>
-                      <option value="Above ₦1,000,000">Above ₦1,000,000</option>
-                    </Select>
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">State of Residence</label>
+                    <div className="relative">
+                      <select
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                        className="w-full appearance-none px-3.5 py-2.5 pr-10 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white cursor-pointer text-sm"
+                      >
+                        <option>Lagos</option>
+                        <option>Abuja (FCT)</option>
+                        <option>Rivers State</option>
+                        <option>Oyo State</option>
+                        <option>Anambra</option>
+                        <option>Other State</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
 
-                {/* ID Document & KYC Upload Section */}
-                <div className="pt-4 border-t border-gray-100 space-y-4">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-[#7BB042]" />
-                    <h4 className="font-heading font-bold text-sm text-gray-900">
-                      National ID Verification & KYC Document
-                    </h4>
-                  </div>
+                <div className="space-y-1">
+                  <label className="font-semibold text-gray-700">Installation Address</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Street, estate, or community name"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
+                  />
+                </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div className="space-y-1.5">
-                      <label className="font-semibold text-gray-700 block">
-                        ID Document Type *
-                      </label>
-                      <Select
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">Identity Document Type</label>
+                    <div className="relative">
+                      <select
                         value={idType}
                         onChange={(e) => setIdType(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white text-xs"
+                        className="w-full appearance-none px-3.5 py-2.5 pr-10 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white cursor-pointer text-sm"
                       >
-                        <option value="National Identification Number (NIN)">NIN (National ID Slip/Card)</option>
-                        <option value="Voter's Card (VIN)">Permanent Voter&apos;s Card (PVC)</option>
-                        <option value="Driver's License">FRSC Driver&apos;s License</option>
-                        <option value="International Passport">International Passport</option>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="font-semibold text-gray-700 block">
-                        ID / NIN Number *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. 11-digit NIN or Card Number"
-                        value={idNumber}
-                        onChange={(e) => setIdNumber(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                      />
+                        <option>National Identity Number (NIN)</option>
+                        <option>Bank Verification Number (BVN)</option>
+                        <option>Driver&apos;s License</option>
+                        <option>International Passport</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     </div>
                   </div>
-
-                  {/* Upload Buttons */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                    <div className="p-4 rounded-xl border border-dashed border-gray-300 hover:border-[#7BB042] bg-gray-50 text-center space-y-2 cursor-pointer transition">
-                      <Upload className="w-5 h-5 mx-auto text-gray-400" />
-                      <div>
-                        <span className="font-semibold text-xs text-gray-900 block">
-                          Upload ID Card Photo
-                        </span>
-                        <span className="text-[11px] text-gray-500">JPEG, PNG or PDF (Max 5MB)</span>
-                      </div>
-                      <label className="inline-flex px-3 py-1 rounded bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer">
-                        {idFileUploaded ? "File Attached ✓" : "Choose File"}
-                        <input
-                          type="file"
-                          className="hidden"
-                          onChange={() => setIdFileUploaded(true)}
-                        />
-                      </label>
-                    </div>
-
-                    <div className="p-4 rounded-xl border border-dashed border-gray-300 hover:border-[#7BB042] bg-gray-50 text-center space-y-2 cursor-pointer transition">
-                      <FileText className="w-5 h-5 mx-auto text-gray-400" />
-                      <div>
-                        <span className="font-semibold text-xs text-gray-900 block">
-                          Proof of Address / Electricity Bill
-                        </span>
-                        <span className="text-[11px] text-gray-500">Recent utility bill (Max 5MB)</span>
-                      </div>
-                      <label className="inline-flex px-3 py-1 rounded bg-white border border-gray-200 text-[11px] font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer">
-                        {utilityFileUploaded ? "File Attached ✓" : "Choose File"}
-                        <input
-                          type="file"
-                          className="hidden"
-                          onChange={() => setUtilityFileUploaded(true)}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Terms Checkbox */}
-                <div className="pt-2">
-                  <label className="flex items-start gap-2.5 text-xs text-gray-600 cursor-pointer">
+                  <div className="space-y-1">
+                    <label className="font-semibold text-gray-700">ID / NIN Number</label>
                     <input
-                      type="checkbox"
-                      checked={agreeTerms}
-                      onChange={(e) => setAgreeTerms(e.target.checked)}
-                      className="mt-0.5 text-[#7BB042] focus:ring-[#7BB042] rounded"
+                      required
+                      type="text"
+                      placeholder="11-digit NIN or BVN"
+                      value={idNumber}
+                      onChange={(e) => setIdNumber(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
                     />
-                    <span>
-                      I confirm that the provided information and identity documents are authentic. I agree to Petfeb International Company Limited&apos;s installment financing terms and credit verification checks.
-                    </span>
-                  </label>
+                  </div>
                 </div>
 
-                {/* Submit Application */}
+                <label className="flex items-start gap-2 pt-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    className="mt-0.5 rounded text-[#7BB042] focus:ring-black"
+                  />
+                  <span className="text-[11px] text-gray-600">
+                    I agree to Petfeb Buy Small financing terms, automated Paystack direct debit authorization, and identity verification consent.
+                  </span>
+                </label>
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg text-sm font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm cursor-pointer disabled:opacity-70 active:scale-98"
+                  className="w-full py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm cursor-pointer disabled:opacity-50 min-h-[48px]"
                 >
-                  <UserCheck className="w-4 h-4" />
-                  {isSubmitting
-                    ? "Submitting Application & Verification..."
-                    : "Submit Application & Start Verification"}
+                  {isSubmitting ? "Submitting Application..." : "Submit Verification Application"}
                 </button>
               </form>
-            </div>
+            )}
           </div>
-        )}
+        </section>
+      )}
+
+      {/* ── 5. Verified Case Scenario Banner (Stitch Frame) ──────────── */}
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <div className="bg-[#1F3A0B] text-white rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="space-y-2 max-w-2xl">
+            <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white/10 text-emerald-300">
+              VERIFIED CASE SCENARIO · IKEJA, LAGOS STATE
+            </span>
+            <h3 className="font-heading font-bold text-xl sm:text-2xl text-white">
+              Engr. Babatunde&apos;s Healthcare Diagnostic Clinic
+            </h3>
+            <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed">
+              De-escalated volatile generator operating expenses with a ₦3.95M commercial hybrid setup deployed for ₦1.18M upfront. The clinic reported saving over ₦140,000 monthly against previous diesel bills, paying the remaining balance comfortably from operational surplus.
+            </p>
+            <p className="text-[10px] text-emerald-300/60">
+              * Demonstration customer narrative; individual site savings depend on grid availability and generation irradiance.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white/5 border border-white/10 text-center shrink-0">
+            <span className="text-xs text-emerald-200 block uppercase">Net Monthly Diesel Savings</span>
+            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-[#7BB042]">
+              ~₦140,000
+            </span>
+          </div>
+        </div>
       </section>
 
-      {/* ── 6. Eligible Solar Packages Showcase ───────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-10">
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-            Financing Portfolio
+      {/* ── 6. Three-Point Verification. Zero Asset Collateral ───────── */}
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
+        <div className="space-y-2 max-w-2xl">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
+            FRICTIONLESS QUALIFICATION
           </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mt-1">
-            Pre-Engineered Packages Eligible for Buy Small
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
+            Three-Point Verification. Zero Asset Collateral.
           </h2>
-          <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-            Choose a verified capacity package. Every package includes tier-1 pure sine inverters, matched batteries, solar panels, and professional certified installation.
+          <p className="text-xs sm:text-sm text-gray-600">
+            Traditional banks demand landed property and months of physical statements. Petfeb Buy Small uses modern automated telemetry and biometric verification.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SOLAR_SYSTEMS.map((system) => {
-            const down = Math.round(system.totalPrice * 0.3);
-            const monthly = Math.round((system.totalPrice - down) / 6);
-            const isSelected = selectedSystemSlug === system.slug;
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-3 shadow-2xs">
+            <div className="w-9 h-9 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center">
+              <IdCard className="w-4 h-4" />
+            </div>
+            <h3 className="font-heading font-bold text-base text-gray-900">
+              1. Valid Nigerian Identification
+            </h3>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              National Identity Number (NIN slip or card), Valid Nigerian International Passport, Driver&apos;s License, or Permanent Voter&apos;s Card (PVC).
+            </p>
+            <div className="pt-2 text-[11px] text-[#3F6B1A] font-medium flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Instant NIMC cross-check</span>
+            </div>
+          </div>
 
-            return (
-              <div
-                key={system.slug}
-                className={`rounded-3xl bg-white border overflow-hidden flex flex-col justify-between transition-all ${
-                  isSelected
-                    ? "border-[#7BB042] ring-2 ring-[#7BB042]/20 shadow-md"
-                    : "border-gray-200/90 shadow-2xs hover:border-gray-300"
-                }`}
-              >
-                <div>
-                  <div className="h-48 bg-gray-100 overflow-hidden relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={system.imageUrl}
-                      alt={system.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                    <span className="absolute bottom-3 left-4 text-[11px] font-bold text-emerald-200 uppercase tracking-wider">
-                      {system.capacityDesc}
-                    </span>
-                  </div>
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-3 shadow-2xs">
+            <div className="w-9 h-9 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center">
+              <MapPin className="w-4 h-4" />
+            </div>
+            <h3 className="font-heading font-bold text-base text-gray-900">
+              2. Proof of Address &amp; Utility Bill
+            </h3>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              Recent electricity utility distribution bill (EKEDC, IKEDC, AEDC) or verified tenancy agreement dated within the last 3 months.
+            </p>
+            <div className="pt-2 text-[11px] text-[#3F6B1A] font-medium flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Site feasibility assessment</span>
+            </div>
+          </div>
 
-                  <div className="p-6 space-y-4">
-                    <h3 className="font-heading font-bold text-lg text-gray-900">
-                      {system.name}
-                    </h3>
-                    <p className="text-xs text-gray-500">{system.specs}</p>
+          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-3 shadow-2xs">
+            <div className="w-9 h-9 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <h3 className="font-heading font-bold text-base text-gray-900">
+              3. BVN &amp; Automated Direct-Debit
+            </h3>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              Bank Verification Number (BVN) for identity validation and tokenised debit mandate via Paystack Escrow.
+            </p>
+            <div className="pt-2 text-[11px] text-[#3F6B1A] font-medium flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>NDPR &amp; CBN compliant</span>
+            </div>
+          </div>
+        </div>
 
-                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-100 space-y-2 text-xs">
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Retail Price:</span>
-                        <span className="font-bold text-gray-900">{formatNaira(system.totalPrice)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">30% Down Payment:</span>
-                        <span className="font-extrabold text-[#3F6B1A]">{formatNaira(down)}</span>
-                      </div>
-                      <div className="flex justify-between border-t border-gray-200 pt-1.5">
-                        <span className="text-gray-500">Monthly (6 mos):</span>
-                        <span className="font-extrabold text-gray-950">{formatNaira(monthly)} / mo</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 pt-0">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedSystemSlug(system.slug);
-                      const el = document.getElementById("portal-section");
-                      el?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className={`w-full py-2.5 rounded-lg text-xs font-bold transition text-center cursor-pointer ${
-                      isSelected
-                        ? "bg-[#3F6B1A] text-white"
-                        : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                    }`}
-                  >
-                    {isSelected ? "Currently Selected ✓" : "Select & Calculate Plan"}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div className="p-4 rounded-xl bg-[#F4F9EC] border border-[#7BB042]/30 text-center max-w-4xl mx-auto">
+          <p className="text-xs text-[#3F6B1A] font-medium">
+            🛡️ Consumer Protection &amp; Privacy: Your financial data is encrypted under 256-bit SSL protocols. We do NOT hold real estate liens or demand guarantor signoffs. All agreements operate under Nigerian consumer credit safeguards (demo placeholders, pending Petfeb approval).
+          </p>
         </div>
       </section>
 
-      {/* ── 7. Frequently Asked Questions (FAQ Accordion) ──────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
-            Transparent Terms
+      {/* ── 7. Frequently Asked Questions ────────────────────────────── */}
+      <section className="max-w-[900px] mx-auto px-4 sm:px-8 space-y-8">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
+            ENGINEERING &amp; FINANCIAL CLARITY
           </span>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
             Frequently Asked Questions
           </h2>
-          <p className="text-sm text-gray-600">
-            Everything you need to know about Petfeb Buy Small financing, credit eligibility, and long-term warranties.
+          <p className="text-xs sm:text-sm text-gray-600">
+            Clear answers regarding operational custody, grid fluctuations, and buyout rules.
           </p>
         </div>
 
-        <div className="space-y-3">
-          {FAQS.map((faq, idx) => {
-            const isOpen = openFaq === idx;
-            return (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-gray-200 overflow-hidden transition"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-gray-50 transition"
-                >
-                  <span className="font-heading font-bold text-sm sm:text-base text-gray-900">
-                    {faq.q}
-                  </span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isOpen && (
-                  <div className="px-5 sm:px-6 pb-6 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        <div className="space-y-4">
+          {FAQS.map((faq, idx) => (
+            <details
+              key={idx}
+              className="group bg-white rounded-xl border border-[#D9D9D9] p-5 [&_summary::-webkit-details-marker]:none cursor-pointer"
+            >
+              <summary className="flex items-center justify-between font-heading font-bold text-sm sm:text-base text-gray-900">
+                <span>{faq.q}</span>
+                <ChevronDown className="w-4 h-4 text-gray-500 transition-transform group-open:rotate-180 shrink-0 ml-2" />
+              </summary>
+              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed pt-3 border-t border-gray-100 mt-3">
+                {faq.a}
+              </p>
+            </details>
+          ))}
         </div>
       </section>
 
-      {/* ── 8. Financing Desk Callout ───────────────────────────── */}
+      {/* ── 8. Bottom CTA Band ───────────────────────────────────────── */}
       <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        <div className="bg-[#1F3A0B] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-white">
-            Have Questions About Custom Sizing or Corporate Financing?
-          </h2>
-          <p className="text-sm sm:text-base text-emerald-100/80 max-w-xl mx-auto leading-relaxed">
-            Our financing desks in Lagos, Abuja, and Port Harcourt are ready to assist with custom corporate proposals, multi-property installments, and employer tie-in arrangements.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <a
-              href="https://wa.me/2348135854054"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-lg text-sm font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm"
+        <div className="bg-[#F8F9FA] rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-[#D9D9D9]">
+          <div className="space-y-2 max-w-xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
+              ENERGY AUTONOMY
+            </span>
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950">
+              Ready to power your facility on your own terms?
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+              Start your Buy Small application now with zero collateral and lock in predictable weekly or monthly repayments.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
+            <button
+              type="button"
+              onClick={() => setShowApplyForm(true)}
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm cursor-pointer min-h-[48px]"
             >
-              WhatsApp Support (+234 813-585-4054)
-            </a>
+              Start Buy Small Application
+            </button>
             <Link
               href="/contact"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-lg text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition border border-white/20"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-lg text-sm font-semibold bg-white text-gray-900 hover:bg-gray-50 transition border border-[#D9D9D9]"
             >
-              Send Site Survey Request
+              Speak with an Engineer
             </Link>
           </div>
+
+          <p className="text-[11px] text-gray-400">
+            National Procurement Desk: +234 800 PETFEB SOLAR · Certified by NEMSA &amp; SON (demo placeholders)
+          </p>
         </div>
       </section>
     </div>

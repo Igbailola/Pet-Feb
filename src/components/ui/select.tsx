@@ -13,7 +13,7 @@ export function Select({ className = "", children, icon, ...props }: SelectProps
     <div className="relative">
       <select
         {...props}
-        className={`appearance-none ${icon ? "pl-9" : ""} pr-9 ${className}`}
+        className={`appearance-none ${icon ? "pl-9" : ""} pr-10 ${className}`}
       >
         {children}
       </select>
@@ -24,7 +24,7 @@ export function Select({ className = "", children, icon, ...props }: SelectProps
       )}
       <ChevronDown
         size={16}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#767676] pointer-events-none"
+        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#767676] pointer-events-none"
       />
     </div>
   );
