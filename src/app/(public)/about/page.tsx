@@ -1,603 +1,339 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  ShieldCheck,
-  Award,
-  Users,
-  Compass,
-  ArrowRight,
-  CheckCircle2,
-  Calendar,
-  Globe2,
-  Sparkles,
-  Zap,
-  Building2,
-  Check,
-  CreditCard,
-  GraduationCap,
-  Wrench,
-  MapPin,
-  Lock,
-} from "lucide-react";
-import { getSiteContent } from "@/lib/public-data";
+import Image from "next/image";
+import { Check } from "lucide-react";
+import { MilestoneCardDeck } from "@/components/public/MilestoneCardDeck";
+import { TeamShowcase } from "@/components/public/TeamShowcase";
 
 export const metadata: Metadata = {
-  title: "About Us | Petfeb Solar Engineering",
+  title: "About Us | Pet-Feb Solar Energy",
   description:
-    "Learn about Petfeb International Company Limited, our history, engineering leadership, quality standards, and mission to power Nigeria sustainably.",
+    "Learn about Pet-Feb International Company Limited, our history, engineering leadership, and mission to empower Nigeria with reliable, sustainable clean energy.",
 };
 
-const STATS = [
+interface StoryMilestone {
+  period: string;
+  title: string;
+  paragraphs: string[];
+}
+
+const STORY_INTRO = [
+  "Since its founding, Pet-Feb International Company Limited has been at the forefront of Nigeria’s renewable energy transformation. What began as a small, passionate vision to reduce the country’s dependence on fossil fuels has grown into one of Nigeria’s leading names in solar innovation and sustainable power solutions.",
+  "From powering homes and businesses to empowering people through training, every year of our journey tells a story of growth, resilience, and impact.",
+];
+
+const STORY_MILESTONES: StoryMilestone[] = [
   {
-    value: "4.8",
-    unit: "MWp",
-    label: "Installed Capacity",
-    footnote: "(demo placeholders, pending Petfeb approval)",
+    period: "2019",
+    title: "The Beginning",
+    paragraphs: [
+      "Pet-Feb was officially founded with a mission to make solar energy accessible and affordable to all Nigerians. What started as a small team with a big dream quickly became a movement for cleaner, greener energy.",
+    ],
   },
   {
-    value: "12,400+",
-    unit: "",
-    label: "Homes & SMEs Powered",
-    footnote: "(demo placeholders, pending Petfeb approval)",
+    period: "2020–2021",
+    title: "Building Foundations",
+    paragraphs: [
+      "These early years were about laying the groundwork: building partnerships, gaining trust, and delivering our first major solar installations. Pet-Feb completed its first large-scale project and began training local technicians who would later become leaders in the field.",
+    ],
   },
   {
-    value: "6,000+",
-    unit: "",
-    label: "Technicians Trained",
-    footnote: "(demo placeholders, pending Petfeb approval)",
+    period: "2022",
+    title: "The Learning Curve",
+    paragraphs: [
+      "Every great journey has its turning point. For Pet-Feb, 2022 was a year of learning and refinement.",
+      "While we continued to execute smaller projects, our focus shifted toward improving operations, training, and quality assurance, preparing the foundation for the expansion to come.",
+    ],
   },
   {
-    value: "36 States",
-    unit: "",
-    label: "Operational Reach",
-    footnote: "(demo placeholders, pending Petfeb approval)",
+    period: "2023",
+    title: "Expansion Across Nigeria",
+    paragraphs: [
+      "Our next milestone came in 2023, when Pet-Feb expanded operations across Lagos, Abuja, and Port Harcourt.",
+      "With new offices, larger teams, and increased project capacity, we took bold steps toward becoming a truly national renewable energy provider.",
+    ],
+  },
+  {
+    period: "2024",
+    title: "Scaling Impact",
+    paragraphs: [
+      "The year 2024 marked one of our most impactful seasons yet. Pet-Feb executed multiple community-based projects, from rural solar outreaches and solar streetlight installations to household inverter systems across Nigeria.",
+      "Each project brought light, empowerment, and opportunity to people who needed it most.",
+    ],
+  },
+  {
+    period: "2025",
+    title: "New Horizons",
+    paragraphs: [
+      "In 2025, we took another leap forward by moving into a larger operational space in Port Harcourt and Abuja, expanding our capacity to serve customers and train more professionals.",
+      "We also strengthened international partnerships with top renewable energy manufacturers, positioning Pet-Feb as a key player in bringing advanced solar technologies to the Nigerian market.",
+    ],
   },
 ];
 
-const THREE_PILLARS = [
+const STORY_CLOSING =
+  "As we continue to grow, one thing remains constant: our commitment to innovation, sustainability, and empowering Nigeria with clean energy that lasts.";
+
+const VISION_POINTS = [
+  "Become Nigeria's most trusted provider of solar energy solutions.",
+  "Drive widespread adoption of renewable energy across Africa.",
+  "Build sustainable communities powered by clean energy.",
+  "Inspire innovation in eco-friendly technologies.",
+];
+
+const MISSION_POINTS = [
+  "Deliver world-class solar products and installations across Nigeria",
+  "Train and empower individuals with solar energy knowledge and skills.",
+  "Promote recycling and eco-friendly practices in the solar industry.",
+  "Provide customer-focused services with integrity and professionalism.",
+];
+
+const TEAM_MEMBERS = [
   {
-    number: "01",
-    tag: "Hardware Standards",
-    title: "Quality Hardware",
-    description:
-      "Direct OEM partnerships with tier-1 manufacturers. Every batch is bench-tested in Nigeria's ambient heat and harmonic surge conditions. We insist on IP65 outdoor DC enclosures and pure sine wave hybrid inverters.",
-    footerNote: "Up to 10-Year Manufacturer Warranties (demo placeholder)",
-    icon: Zap,
+    name: "Mr. Steven F. Egwuatu",
+    role: "Operations Manager / Business Development Manager",
+    image: "/figma-assets/steven-egwuatu.jpg.png",
+    bio: "Directing operational efficiency, system procurement standards, client engagement, and nationwide installation fulfillment.",
   },
   {
-    number: "02",
-    tag: "Accessible Finance",
-    title: "Buy Small Scheme",
-    description:
-      "Making solar ownership attainable without crushing upfront capital requirements. We structure 3 to 12 month installment plans backed by automated direct debits and bank-grade Paystack escrow protection for peace of mind.",
-    footerNote: "Flexible Micro-Amortization",
-    icon: CreditCard,
+    name: "Mr. Jude Egbri",
+    role: "Branch / Regional Manager (Abuja)",
+    image: "/figma-assets/jude-egbri.jpg.jpeg",
+    bio: "Overseeing Federal Capital Territory (FCT) and Northern regional installations, technical surveys, and client relationship management.",
   },
   {
-    number: "03",
-    tag: "Workforce Growth",
-    title: "Human Capacity",
-    description:
-      "Training the next generation of renewable energy engineers and certified installers through the Petfeb Solar Training Academy. Our curriculum bridges NEMSA grid-code alignment with field diagnostics.",
-    footerNote: "6,000+ Accreditations Awarded (demo placeholder)",
-    icon: GraduationCap,
+    name: "Mr. Dennis Onakposegha",
+    role: "Logistics Manager",
+    image: "/figma-assets/dennis-onakposegha.jpg.jpeg",
   },
 ];
 
-const TIMELINE = [
-  {
-    year: "2020",
-    tag: "Rural Focus",
-    title: "Foundation & First Off-Grid",
-    description:
-      "Initial deployment of rural health post solar systems and telecom tower backup packs across Ogun and Oyo states.",
-    isCurrent: false,
-  },
-  {
-    year: "2021",
-    tag: "Supply Chain",
-    title: "Hardware Sourcing Hub",
-    description:
-      "Established direct OEM supply agreements and inaugurated the central Lagos warehousing depot for rapid dispatch.",
-    isCurrent: false,
-  },
-  {
-    year: "2022",
-    tag: "Capacity Building",
-    title: "Solar Training Academy",
-    description:
-      "Launched full hands-on vocational curriculum aligned with NEMSA guidelines at our technical facility.",
-    isCurrent: false,
-  },
-  {
-    year: "2023",
-    tag: "Tech Exchange",
-    title: "Technical OEM Exchange",
-    description:
-      "Bilateral engineering visits with inverter specialists to customize surge protection for Nigerian voltage flux.",
-    isCurrent: false,
-  },
-  {
-    year: "2025",
-    tag: "Fintech & IoT",
-    title: "Buy Small & Smart Telemetry",
-    description:
-      "Rollout of structured installment micro-financing alongside cloud IoT remote telemetry for client array uptime monitoring.",
-    isCurrent: true,
-  },
+const CUSTOMER_BENEFITS = [
+  "Access to reliable, world-class solar panels, inverters, and batteries.",
+  "Continuous product innovation backed by international expertise.",
+  "Expert installation, maintenance, and training services built on global standards.",
+  "A trusted partner committed to delivering affordable and sustainable solar energy in Nigeria.",
 ];
 
-const LEADERSHIP = [
-  {
-    name: "Engr. Babatunde Adeleke",
-    role: "Managing Director & Founder",
-    bio: "Ex-PHCN electrical distribution systems lead with 18+ years supervising commercial-scale grid stabilization and industrial solar design.",
-    tag: "FNSE · COREN Reg.",
-  },
-  {
-    name: "Dr. Amina Bello",
-    role: "Chief Technical Officer",
-    bio: "PhD in High-Voltage Electrical Systems. Specialized in LiFePO4 battery management firmware, load analysis, and mini-grid synchronism.",
-    tag: "IEEE Senior Member",
-  },
-  {
-    name: "Engr. Chukwuma Obi",
-    role: "Lead Solar Installation Engineer",
-    bio: "NEMSA Master Certifier having managed over 100+ turnkey commercial rooftop installations, racking safety, and lightning protection.",
-    tag: "NEMSA Inspector #410",
-  },
-  {
-    name: "Folashade Alabi",
-    role: "Head of Solar Training Academy",
-    bio: "Renewable workforce educator who spearheaded curriculum delivery for over 6,000 certified technicians across southwest Nigeria.",
-    tag: "TVET Consultant",
-  },
-];
-
-const PARTNER_CARDS = [
-  {
-    name: "NEMSA Standards",
-    desc: "Nigerian Electricity Reg.",
-    icon: ShieldCheck,
-  },
-  {
-    name: "Tier-1 OEM Silicon",
-    desc: "Bloomberg Listed Cells",
-    icon: Zap,
-  },
-  {
-    name: "BOI Clean Energy",
-    desc: "Infrastructure Support",
-    icon: Building2,
-  },
-  {
-    name: "Paystack Escrow",
-    desc: "256-Bit SSL Amortization",
-    icon: Lock,
-  },
-  {
-    name: "SONCAP Certified",
-    desc: "Standards Org. Nigeria",
-    icon: Award,
-  },
-];
-
-export default async function AboutPage() {
-  const missionText = await getSiteContent(
-    "about.mission",
-    "To deliver robust solar hardware, flexible financing through Buy Small, and workforce development to power our nation sustainably."
-  );
-
+export default function AboutPage() {
   return (
-    <div className="space-y-16 sm:space-y-24 pb-20">
-      {/* ── 1. Hero Header Band (Green-50 with photo panel and stats) ─── */}
-      <section className="bg-[#F4F9EC] border-b border-[#D9D9D9] pt-8 sm:pt-12 pb-12 sm:pb-16 relative overflow-hidden">
-        {/* Subtle sun-arc motif in top right */}
-        <div
-          className="absolute -top-16 -right-16 w-80 h-80 rounded-full pointer-events-none opacity-20 border-[32px] border-[#7BB042]"
-          aria-hidden="true"
-        />
-
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 relative z-10 space-y-8">
-          {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="text-xs text-gray-500">
-            <ol className="flex items-center gap-1.5">
-              <li>
-                <Link href="/" className="hover:text-gray-900 transition">
-                  Home
-                </Link>
-              </li>
-              <li>&gt;</li>
-              <li>
-                <span className="text-gray-500">Company</span>
-              </li>
-              <li>&gt;</li>
-              <li className="text-gray-900 font-semibold">About Us</li>
-            </ol>
-          </nav>
-
-          {/* Hero Two Column */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white border border-[#D9D9D9] text-[#3F6B1A]">
-                <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-                <span>About Petfeb · Clean Energy Infrastructure</span>
-              </div>
-
-              <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-950 tracking-tight leading-tight">
-                Empowering Nigeria with sustainable, accessible solar energy.
-              </h1>
-
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl">
-                Petfeb is dedicated to solving power challenges for homes, businesses, and communities through quality products, innovative financing, and hands-on technical training.
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-gray-600">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-[#D9D9D9]">
-                  <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-                  <span>NEMSA Certified Tier-1 Deployments</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-[#D9D9D9]">
-                  <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-                  <span>SONCAP Verified Inverters</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Right Photo Panel */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden border border-[#D9D9D9] shadow-md bg-gray-900 h-72 sm:h-80">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/api/websitepic/commercial"
-                  alt="Petfeb Technical Hub & Operations Team"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-black/60 text-white backdrop-blur-sm border border-white/20">
-                    <MapPin className="w-3.5 h-3.5 text-[#7BB042]" />
-                    <span>Lagos Technical Hub & Operations Team · 2024</span>
-                  </span>
-                  <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-[#7BB042] text-black">
-                    VERIFIED
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 4-Stat Strip Box per stitch frame */}
-          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 shadow-sm">
-            {STATS.map((stat, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className="font-heading font-extrabold text-3xl sm:text-4xl text-gray-900">
-                  {stat.value}{" "}
-                  {stat.unit && (
-                    <span className="text-xl sm:text-2xl text-[#3F6B1A] font-bold">
-                      {stat.unit}
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs font-medium text-gray-900">{stat.label}</p>
-                <p className="text-[11px] text-gray-400">{stat.footnote}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 2. Vision & Mission Cards (Side-by-Side per stitch frame) ─── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Card: Vision (Deep Green #1F3A0B) */}
-          <div className="bg-[#1F3A0B] text-white rounded-2xl p-8 sm:p-10 flex flex-col justify-between space-y-6 shadow-sm border border-emerald-950">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-white/10 text-[#7BB042] flex items-center justify-center">
-                <Compass className="w-5 h-5" />
-              </div>
-
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7BB042]">
-                  OUR VISION
-                </span>
-                <h2 className="font-heading font-bold text-2xl text-white mt-1 leading-snug">
-                  A Nigeria where clean, reliable power is accessible to every home and enterprise.
-                </h2>
-              </div>
-
-              <p className="text-xs sm:text-sm text-emerald-100/80 leading-relaxed">
-                We envision an interconnected economy unshackled from volatile diesel prices, erratic grid supply, and the perpetual hum of generators. By standardizing high-end engineering and decentralized storage, we build energy self-reliance across all six geopolitical zones.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-emerald-900 flex items-center justify-between text-xs text-emerald-300/80">
-              <span>Decentralized Resilience</span>
-              <span className="font-medium text-white">Target: 25MW by 2028 (demo placeholder)</span>
-            </div>
-          </div>
-
-          {/* Right Card: Mission (White with checkmarks) */}
-          <div className="bg-white text-gray-900 rounded-2xl p-8 sm:p-10 border border-[#D9D9D9] flex flex-col justify-between space-y-6 shadow-sm">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
-              </div>
-
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-                  OUR MISSION
-                </span>
-                <h2 className="font-heading font-bold text-2xl text-gray-900 mt-1 leading-snug">
-                  {missionText}
-                </h2>
-              </div>
-
-              <ul className="space-y-3 pt-2 text-xs sm:text-sm text-gray-700">
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-gray-900">Tier-1 Component Integrity:</strong> Certified hybrid inverters & Grade-A LiFePO4 batteries configured for tropical heat dissipation.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-gray-900">Transparent Flexible Credit:</strong> De-risking adoption via structured 3–12 month installment contracts via Buy Small.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-gray-900">NEMSA-Standard Field Rigor:</strong> Zero-compromise earthing, lightning arrestors, and surge suppression on every install.
-                  </span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
-              <span>Operational Rigor</span>
-              <span className="font-medium text-gray-700">SONCAP Approved (demo placeholder)</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. The Three Pillars of Petfeb Engineering ────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-            INSTITUTIONAL ARCHITECTURE
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-            The Three Pillars of Petfeb Engineering
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600">
-            An integrated framework tackling equipment fragility, capital friction, and installation failure rates in Nigeria.
+    <main className="bg-white min-h-screen text-[#333333] selection:bg-[#7BB042]/20">
+      {/* 1. Hero Section ("About Pet-Feb") */}
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px] pt-12 pb-14 lg:pt-[80px] lg:pb-[80px]">
+        <div className="max-w-[640px]">
+          <h1 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black leading-tight tracking-tight">
+            About Pet-Feb
+          </h1>
+          <p className="mt-5 lg:mt-6 text-[#333333] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.6]">
+            Pet-Feb is a trusted solar energy company in Nigeria, dedicated to providing reliable and sustainable power solutions. From residential homes to large-scale projects, we design, install, and maintain systems that reduce costs, protect the environment, and empower communities with clean energy.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {THREE_PILLARS.map((pillar) => {
-            const Icon = pillar.icon;
-            return (
-              <div
-                key={pillar.number}
-                className="bg-white rounded-2xl border border-[#D9D9D9] p-6 sm:p-8 flex flex-col justify-between space-y-4 shadow-sm hover:border-black transition-colors"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading font-extrabold text-xs text-gray-400">
-                      {pillar.number}
-                    </span>
-                    <span className="text-xs font-semibold px-2 py-0.5 rounded bg-gray-100 text-gray-600">
-                      {pillar.tag}
-                    </span>
-                  </div>
-
-                  <h3 className="font-heading font-bold text-lg text-gray-900">
-                    {pillar.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-gray-100 flex items-center gap-2 text-xs font-semibold text-[#3F6B1A]">
-                  <Icon className="w-4 h-4 text-[#7BB042]" />
-                  <span>{pillar.footerNote}</span>
-                </div>
-              </div>
-            );
-          })}
+        {/* Hero installation banner */}
+        <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[442px] mt-10 lg:mt-[50px] rounded-[24px] overflow-hidden border-4 border-white shadow-[0px_4px_24px_rgba(0,0,0,0.08)] bg-neutral-100">
+          <Image
+            src="/figma-assets/about-hero.png"
+            alt="Pet-Feb solar installations nationwide"
+            fill
+            priority
+            className="object-cover"
+            sizes="(max-width: 1350px) 100vw, 1350px"
+          />
         </div>
       </section>
 
-      {/* ── 4. Chronology / Our Journey: Engineering the Transition ──── */}
-      <section className="bg-white py-14 border-y border-[#D9D9D9]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-                CHRONOLOGY
-              </span>
-              <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mt-1">
-                Our Journey: Engineering the Transition
-              </h2>
-            </div>
-            <span className="text-xs text-gray-400">
-              (demo placeholders, pending Petfeb approval)
-            </span>
-          </div>
+      {/* Subtle divider */}
+      <div className="border-b border-gray-100 w-full" aria-hidden="true" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {TIMELINE.map((item) => (
-              <div
-                key={item.year}
-                className={`p-5 rounded-2xl border flex flex-col justify-between space-y-3 relative ${
-                  item.isCurrent
-                    ? "bg-[#F4F9EC] border-[#7BB042]"
-                    : "bg-[#F8F9FA] border-[#D9D9D9]"
-                }`}
-              >
-                {item.isCurrent && (
-                  <span className="absolute -top-2.5 right-4 px-2 py-0.5 rounded text-[10px] font-bold bg-[#7BB042] text-black">
-                    CURRENT
-                  </span>
-                )}
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading font-extrabold text-xl text-gray-900">
-                      {item.year}
-                    </span>
-                    <span className="text-[11px] font-semibold text-gray-500">
-                      {item.tag}
-                    </span>
+      {/* 2. Our Story & Leadership (Dark Section with Desktop Sticky CEO Card) */}
+      <section className="bg-black text-white py-16 lg:py-[100px]">
+        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[40px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-[80px]">
+            {/* Left: Sticky CEO Leadership Card on desktop */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-start">
+              <div className="w-full max-w-[420px] lg:sticky lg:top-[124px] self-start">
+                <div className="group w-full bg-black rounded-[24px] overflow-hidden shadow-[0px_4px_12px_rgba(245,184,46,0.18)] pb-4 flex flex-col motion-safe:hover:-translate-y-1.5 hover:shadow-[0px_10px_32px_rgba(0,0,0,0.65),0px_6px_24px_rgba(245,184,46,0.24)] transition-all duration-300 ease-out">
+                  <div className="relative w-full h-[300px] sm:h-[340px] lg:h-[360px] overflow-hidden rounded-t-[24px] bg-neutral-900">
+                    <Image
+                      src="/figma-assets/about-ceo-petra.webp"
+                      alt="Mrs. Petra Solomon - CEO/Managing Director PET-FEB International Company"
+                      fill
+                      priority
+                      className="object-cover object-[center_16%] scale-[1.20] sm:scale-[1.14] lg:scale-[1.24] origin-[center_16%] motion-safe:group-hover:scale-[1.26] motion-safe:sm:group-hover:scale-[1.20] motion-safe:lg:group-hover:scale-[1.30] transition-transform duration-500 ease-out"
+                      sizes="(max-width: 1024px) 100vw, 420px"
+                    />
                   </div>
-
-                  <h3 className="font-heading font-bold text-sm text-gray-900">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    {item.description}
-                  </p>
+                  <div className="px-5 sm:px-6 pt-3.5 sm:pt-4">
+                    <h3 className="font-heading font-bold text-[22px] sm:text-[24px] text-[#e6e6e6]">
+                      Mrs. Petra Solomon
+                    </h3>
+                    <p className="text-[15px] sm:text-[16px] text-[#ebebeb] leading-[1.5] mt-1 sm:mt-1.5">
+                      CEO/Managing Director PET-FEB International Company
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Engineering Leadership ─────────────────────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-              TECHNICAL DIRECTORS & FACULTY
-            </span>
-            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mt-1">
-              Engineering Leadership
-            </h2>
-          </div>
-          <span className="text-xs text-gray-400">
-            (Team profiles are demo placeholders, pending Petfeb approval)
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {LEADERSHIP.map((member) => (
-            <div
-              key={member.name}
-              className="bg-white rounded-2xl border border-[#D9D9D9] p-6 flex flex-col justify-between space-y-4 shadow-sm hover:border-black transition-colors"
-            >
-              <div className="space-y-3">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-[#3F6B1A] flex items-center justify-center font-heading font-extrabold text-base">
-                  {member.name.split(" ")[1]?.[0] || "P"}
-                </div>
-
-                <div>
-                  <h3 className="font-heading font-bold text-base text-gray-900">
-                    {member.name}
-                  </h3>
-                  <span className="text-xs font-semibold text-[#3F6B1A] block">
-                    {member.role}
-                  </span>
-                </div>
-
-                <p className="text-xs text-gray-600 leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-gray-100">
-                <span className="text-[11px] font-mono text-gray-400 block">
-                  {member.tag}
-                </span>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── 6. Trusted Partners & Hardware Collaborators ─────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-6">
-        <div className="text-center max-w-xl mx-auto space-y-1">
-          <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
-            COLLABORATION NETWORK
-          </span>
-          <h2 className="font-heading font-bold text-xl text-gray-900">
-            Trusted Partners & Hardware Collaborators
-          </h2>
-          <p className="text-xs text-gray-500">
-            Aligned with regulatory bodies, tier-1 suppliers, and escrow partners.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {PARTNER_CARDS.map((partner, idx) => {
-            const Icon = partner.icon;
-            return (
-              <div
-                key={idx}
-                className="bg-white p-4 rounded-xl border border-[#D9D9D9] text-center space-y-2 flex flex-col items-center justify-center shadow-sm"
-              >
-                <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-700">
-                  <Icon className="w-4 h-4 text-[#7BB042]" />
-                </div>
-                <div>
-                  <span className="font-heading font-bold text-xs text-gray-900 block">
-                    {partner.name}
-                  </span>
-                  <span className="text-[11px] text-gray-500">
-                    {partner.desc}
+            {/* Right: Scrolling Story narrative, 6 milestones, and closing */}
+            <div className="lg:col-span-7 flex flex-col space-y-10 lg:space-y-12">
+              {/* Section label & Main heading */}
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
+                  <span className="font-heading font-medium text-[20px] sm:text-[24px] text-[#F5B82E] tracking-wide">
+                    Our Story
                   </span>
                 </div>
+                <h2 className="font-heading font-bold text-[32px] sm:text-[44px] lg:text-[52px] text-white tracking-tight leading-[1.15]">
+                  Building Nigeria’s Clean Energy Future One Milestone at a Time
+                </h2>
               </div>
-            );
-          })}
+
+              {/* Introduction paragraphs */}
+              <div className="space-y-4 text-[#ebebeb] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.7]">
+                {STORY_INTRO.map((para, idx) => (
+                  <p key={idx}>{para}</p>
+                ))}
+              </div>
+
+              {/* Scroll-Driven Stacking Milestone Card Deck */}
+              <MilestoneCardDeck
+                milestones={STORY_MILESTONES}
+                closing={STORY_CLOSING}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── 7. Bottom CTA Band (Warm Card per stitch frame) ──────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        <div className="bg-[#FDF0CC] rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-[#F5B82E]/40">
-          <div className="space-y-2 max-w-2xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#8A5A00]">
-              RELIABLE TRANSITION
-            </span>
-            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950">
-              Join our clean energy mission.
+      {/* 3. Our Vision & Our Mission (Side-by-side Light Section) */}
+      <section className="bg-white py-16 lg:py-[80px]">
+        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[60px] items-start">
+            {/* Our Vision */}
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-3">
+                <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
+                <h2 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black tracking-tight leading-tight">
+                  Our Vision
+                </h2>
+              </div>
+              <p className="mt-5 lg:mt-6 text-[#333333] text-[16px] lg:text-[18px] leading-[1.6]">
+                At Pet-Feb, our vision is to lead Nigeria’s transition into clean, renewable energy by delivering reliable and innovative solar solutions. We aim to create a sustainable future where homes, businesses, and communities thrive through affordable power.
+              </p>
+              <div className="mt-7 space-y-3">
+                {VISION_POINTS.map((point, idx) => (
+                  <div key={idx} className="flex items-start gap-4 py-1">
+                    <div className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-4 h-4 text-[#7BB042]" strokeWidth={2.5} />
+                    </div>
+                    <p className="text-[#5c5c5c] text-[15px] sm:text-[16px] leading-[1.6]">
+                      {point}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Our Mission */}
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-3">
+                <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
+                <h2 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black tracking-tight leading-tight">
+                  Our Mission
+                </h2>
+              </div>
+              <p className="mt-5 lg:mt-6 text-[#5c5c5c] text-[16px] lg:text-[18px] leading-[1.6]">
+                Our mission is to provide affordable, efficient, and sustainable solar power solutions that meet the energy needs of Nigerians today while safeguarding the environment for tomorrow.
+              </p>
+              <div className="mt-7 space-y-3">
+                {MISSION_POINTS.map((point, idx) => (
+                  <div key={idx} className="flex items-start gap-4 py-1">
+                    <div className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-4 h-4 text-[#7BB042]" strokeWidth={2.5} />
+                    </div>
+                    <p className="text-[#5c5c5c] text-[15px] sm:text-[16px] leading-[1.6]">
+                      {point}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Rest Of The Team */}
+      <TeamShowcase members={TEAM_MEMBERS} title="Rest Of The Team" />
+
+      {/* 5. Team's Event (Global Partnerships, Local Impact) */}
+      <section className="bg-white pb-20 lg:pb-[100px]">
+        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
+          <div className="border-b border-gray-200 mb-12 lg:mb-16" aria-hidden="true" />
+
+          {/* Event Header */}
+          <div className="space-y-2">
+            <h2 className="font-heading font-bold text-[26px] sm:text-[30px] lg:text-[32px] text-black">
+              Team’s Event
             </h2>
-            <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-              Whether you need a reliable solar installation for your home, commercial mini-grid engineering, or technical training at the Academy.
+            <p className="font-heading font-bold text-[18px] sm:text-[22px] lg:text-[24px] text-[#5c5c5c]">
+              Global Partnerships, Local Impact
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
-            <Link
-              href="/shop"
-              className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold bg-black text-white hover:bg-gray-800 transition shadow-sm"
-            >
-              Explore Solar Products
-            </Link>
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold bg-white text-black hover:bg-gray-50 transition border border-[#D9D9D9]"
-            >
-              Partner With Us
-            </Link>
+          {/* Event Card with photo and indicator */}
+          <div className="bg-white rounded-[24px] shadow-[0px_2px_22px_rgba(45,45,45,0.08)] border border-gray-100 p-4 sm:p-6 lg:p-8 mt-8">
+            <div className="relative w-full h-[320px] sm:h-[480px] lg:h-[620px] xl:h-[720px] rounded-[20px] overflow-hidden bg-neutral-900">
+              <Image
+                src="/figma-assets/about-event-china.png"
+                alt="Pet-Feb Team landmark visit to China renewable energy manufacturers"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1350px) 100vw, 1350px"
+              />
+            </div>
+
+            {/* Pagination indicator dots */}
+            <div className="flex justify-center mt-6">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
+                <span className="w-2 h-2 rounded-full bg-gray-300" />
+                <span className="w-2 h-2 rounded-full bg-gray-300" />
+              </div>
+            </div>
           </div>
 
-          <p className="text-[11px] text-gray-400">
-            (demo placeholders, pending Petfeb approval)
-          </p>
+          {/* Event Narrative Story */}
+          <div className="mt-10 lg:mt-12 text-[#5c5c5c] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.7] space-y-5 max-w-[1200px]">
+            <p>
+              At Pet-Feb, we know that the future of energy cannot be built in isolation. That’s why in March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and collaboration.
+            </p>
+            <p>
+              During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world’s leading renewable energy manufacturers. This milestone does more than strengthen our global footprint — it positions us to launch our own line of branded solar products tailored for the Nigerian market.
+            </p>
+            <p>
+              But the partnership goes beyond products. Our engineers and staff engaged in hands-on training sessions, knowledge-sharing workshops, and a meet-and-greet with industry leaders. These experiences ensure our team stays ahead with the latest solar technology, manufacturing insights, and global best practices.
+            </p>
+
+            <div className="pt-2">
+              <p className="font-heading font-semibold text-[18px] sm:text-[20px] text-gray-900 mb-3">
+                What this means for our customers:
+              </p>
+              <ul className="space-y-2.5 pl-6 list-disc">
+                {CUSTOMER_BENEFITS.map((benefit, idx) => (
+                  <li key={idx} className="text-[#5c5c5c]">
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="pt-2">
+              At Pet-Feb, our mission is bigger than energy. We are committed to reducing carbon emissions, empowering communities, and helping businesses transition to clean, sustainable power solutions. With every partnership we forge, we take one more step towards creating a greener, healthier future for Nigeria and beyond.
+            </p>
+          </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

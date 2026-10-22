@@ -1,66 +1,155 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Clock,
   User,
   Phone,
-  Mail,
   MapPin,
   Home,
+  Zap,
   CheckCircle2,
-  Upload,
   Lock,
   ArrowRight,
-  ChevronDown,
+  RotateCcw,
+  Info,
 } from "lucide-react";
+
+const PROPERTY_TYPES = [
+  "Residential Home",
+  "Commercial Office",
+  "Industrial / Factory",
+  "Healthcare / Mini-Grid",
+] as const;
+
+const SYSTEM_SIZES = [
+  "Not sure — need expert load audit",
+  "3 kVA Hybrid System (Essential lights, TVs, fridge)",
+  "5 kVA Hybrid System (Medium home / Inverter ACs)",
+  "10 kVA Hybrid System (Duplex / Corporate office)",
+  "20 kVA+ Commercial Mini-Grid",
+] as const;
 
 export function InstallationForm() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [state, setState] = useState("Lagos");
-  const [propertyType, setPropertyType] = useState<
-    "Residential Home" | "Commercial Office" | "Industrial / Factory" | "Healthcare / Mini-Grid"
-  >("Residential Home");
-  const [equipmentStatus, setEquipmentStatus] = useState<"need_both" | "install_only">("need_both");
-  const [preferredDate, setPreferredDate] = useState("");
-  const [preferredTime, setPreferredTime] = useState("Morning (9:00 AM – 1:00 PM WAT)");
-  const [notes, setNotes] = useState("");
+  const [location, setLocation] = useState("");
+  const [propertyType, setPropertyType] = useState<string>("Residential Home");
+  const [systemSize, setSystemSize] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [countdown, setCountdown] = useState(10);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  const handleReset = useCallback(() => {
+    setFullName("");
+    setPhone("");
+    setLocation("");
+    setPropertyType("Residential Home");
+    setSystemSize("");
+    setIsSubmitting(false);
+    setIsSubmitted(false);
+    setCountdown(10);
+  }, []);
+
+  // Check reduced-motion preferences on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      setReducedMotion(mediaQuery.matches);
+
+      const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+      mediaQuery.addEventListener("change", listener);
+      return () => mediaQuery.removeEventListener("change", listener);
+    }
+  }, []);
+
+  // 10-second auto-return timer when submitted, respecting reduced-motion
+  useEffect(() => {
+    if (!isSubmitted) return;
+
+    if (reducedMotion) {
+      // If user prefers reduced motion, do not auto-return with a countdown
+      return;
+    }
+
+    setCountdown(10);
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          handleReset();
+          return 10;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isSubmitted, reducedMotion, handleReset]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Client-side simulation only — no database writes or external dispatches
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-    }, 1000);
+    }, 600);
   };
 
   if (isSubmitted) {
     return (
-      <div className="bg-white rounded-3xl border border-[#D9D9D9] p-8 sm:p-12 text-center space-y-4 shadow-md">
+      <div
+        role="alert"
+        aria-live="polite"
+        className="bg-white rounded-3xl border border-[#D9D9D9] p-8 sm:p-12 text-center space-y-5 shadow-md transition-all"
+      >
         <div className="w-16 h-16 rounded-full bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center mx-auto">
           <CheckCircle2 className="w-8 h-8 text-[#7BB042]" />
         </div>
-        <h3 className="font-heading font-bold text-2xl text-gray-900">
-          Inspection Request Received
-        </h3>
-        <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
-          Thank you, <strong>{fullName}</strong>. Our regional technical desk in {state} has assigned dispatch reference <strong className="font-mono text-gray-900">INS-2026-{Math.floor(1000 + Math.random() * 9000)}</strong>. A certified solar surveyor will call you within 24 business hours to confirm your roof audit.
-        </p>
-        <div className="pt-3">
+
+        <div className="space-y-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F3DA] text-[#3F6B1A]">
+            <Info className="w-3.5 h-3.5 text-[#7BB042]" />
+            Preview Demonstration
+          </span>
+          <h3 className="font-heading font-bold text-2xl text-gray-950">
+            Installation Request Validated (Simulation)
+          </h3>
+        </div>
+
+        <div className="bg-[#F8F9FA] rounded-xl p-5 border border-gray-200 text-xs sm:text-sm text-gray-700 max-w-lg mx-auto text-left space-y-2.5">
+          <p>
+            Thank you, <strong>{fullName}</strong>. Your request for a certified technician site survey for a <strong>{propertyType}</strong> in <strong>{location}</strong> has been validated locally in this preview.
+          </p>
+          {systemSize && (
+            <p className="text-gray-600">
+              Preferred Capacity / Load: <span className="font-semibold text-gray-900">{systemSize}</span>
+            </p>
+          )}
+          <p className="text-[11px] text-[#767676] pt-1 border-t border-gray-200">
+            Notice: No live database records, SMS notifications, or backend dispatches were created during this UI preview. Production persistence will be enabled upon backend deployment.
+          </p>
+        </div>
+
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             type="button"
-            onClick={() => setIsSubmitted(false)}
-            className="px-6 py-3 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-xs cursor-pointer"
+            onClick={handleReset}
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-xs cursor-pointer inline-flex items-center justify-center gap-2 min-h-[46px]"
           >
-            Submit Another Request
+            <RotateCcw className="w-4 h-4" />
+            <span>Request Again</span>
           </button>
         </div>
+
+        {!reducedMotion && (
+          <p className="text-[11px] text-gray-400">
+            Returning to a fresh form in {countdown}s... (Click &quot;Request Again&quot; to reset immediately)
+          </p>
+        )}
       </div>
     );
   }
@@ -76,239 +165,121 @@ export function InstallationForm() {
           Request an installation or site survey
         </h2>
         <p className="text-xs text-gray-500">
-          Connect with our technical dispatch team for an on-site engineering assessment within 24 business hours.
+          Connect with Petfeb&apos;s certified regional engineering team for an on-site solar assessment within 24 business hours.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 text-xs">
-        {/* ── 1. Contact Information ──────────────────────────── */}
-        <div className="space-y-3">
-          <span className="font-heading font-bold text-xs uppercase tracking-wider text-gray-400 block">
-            1. CONTACT INFORMATION
-          </span>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">Full Name *</label>
-              <input
-                required
-                type="text"
-                placeholder="e.g. Babatunde Adeleke"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">Phone Number *</label>
-              <input
-                required
-                type="tel"
-                placeholder="+234 803 123 4567"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">Email Address *</label>
-              <input
-                required
-                type="email"
-                placeholder="name@domain.ng"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* ── 2. Property & Location ──────────────────────────── */}
-        <div className="space-y-3 pt-2 border-t border-gray-100">
-          <span className="font-heading font-bold text-xs uppercase tracking-wider text-gray-400 block">
-            2. PROPERTY &amp; LOCATION
-          </span>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="sm:col-span-2 space-y-1">
-              <label className="font-semibold text-gray-700">Property Address *</label>
-              <input
-                required
-                type="text"
-                placeholder="e.g. Plot 14, Admiralty Way, Lekki Phase 1"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">State *</label>
-              <div className="relative">
-                <select
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  className="w-full appearance-none px-3 py-2.5 pr-10 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black bg-white cursor-pointer"
-                >
-                  <option>Lagos</option>
-                  <option>Abuja (FCT)</option>
-                  <option>Rivers State</option>
-                  <option>Oyo State</option>
-                  <option>Anambra</option>
-                  <option>Ogun State</option>
-                  <option>Other State</option>
-                </select>
-                <ChevronDown className="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
-          </div>
-
-          {/* Property Type 4 Selectable Chips */}
-          <div className="space-y-1.5 pt-1">
-            <label className="font-semibold text-gray-700">Property Type *</label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {(
-                [
-                  "Residential Home",
-                  "Commercial Office",
-                  "Industrial / Factory",
-                  "Healthcare / Mini-Grid",
-                ] as const
-              ).map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setPropertyType(type)}
-                  className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition cursor-pointer text-center ${
-                    propertyType === type
-                      ? "bg-[#E8F3DA] text-[#3F6B1A] border-[#7BB042] ring-1 ring-[#7BB042]"
-                      : "bg-[#F8F9FA] text-gray-700 border-[#D9D9D9] hover:bg-gray-100"
-                  }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ── 3. Equipment Setup & Schedule ───────────────────── */}
-        <div className="space-y-3 pt-2 border-t border-gray-100">
-          <span className="font-heading font-bold text-xs uppercase tracking-wider text-gray-400 block">
-            3. EQUIPMENT SETUP &amp; INSPECTION SCHEDULE
-          </span>
-
-          <label className="font-semibold text-gray-700 block">
-            Do you already have solar equipment?
+      <form onSubmit={handleSubmit} className="space-y-5 text-xs">
+        {/* Field 1: Full Name */}
+        <div className="space-y-1.5">
+          <label htmlFor="fullName" className="font-semibold text-gray-800 flex items-center gap-1.5">
+            <User className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>Full name *</span>
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => setEquipmentStatus("need_both")}
-              className={`p-3.5 rounded-xl border text-left space-y-1 transition cursor-pointer ${
-                equipmentStatus === "need_both"
-                  ? "bg-[#E8F3DA] border-[#7BB042] text-gray-950 ring-1 ring-[#7BB042]"
-                  : "bg-white border-[#D9D9D9] text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-xs">No, I need equipment + installation</span>
-                {equipmentStatus === "need_both" && (
-                  <CheckCircle2 className="w-4 h-4 text-[#3F6B1A]" />
-                )}
-              </div>
-              <p className="text-[11px] text-gray-500">
-                Complete turnkey solar system engineered by Petfeb
-              </p>
-            </button>
+          <input
+            id="fullName"
+            type="text"
+            required
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="e.g. Engr. Chukwuma Adeleke"
+            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+          />
+        </div>
 
-            <button
-              type="button"
-              onClick={() => setEquipmentStatus("install_only")}
-              className={`p-3.5 rounded-xl border text-left space-y-1 transition cursor-pointer ${
-                equipmentStatus === "install_only"
-                  ? "bg-[#E8F3DA] border-[#7BB042] text-gray-950 ring-1 ring-[#7BB042]"
-                  : "bg-white border-[#D9D9D9] text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-xs">Yes, I need installation only</span>
-                {equipmentStatus === "install_only" && (
-                  <CheckCircle2 className="w-4 h-4 text-[#3F6B1A]" />
-                )}
-              </div>
-              <p className="text-[11px] text-gray-500">
-                Inspect and commission my existing hardware safely
-              </p>
-            </button>
-          </div>
+        {/* Field 2: WhatsApp Phone Number */}
+        <div className="space-y-1.5">
+          <label htmlFor="phone" className="font-semibold text-gray-800 flex items-center gap-1.5">
+            <Phone className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>WhatsApp phone number *</span>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="e.g. +234 813 585 4054"
+            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+          />
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">Preferred Inspection Date *</label>
-              <input
-                required
-                type="date"
-                value={preferredDate}
-                onChange={(e) => setPreferredDate(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black bg-white"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="font-semibold text-gray-700">Preferred Time Window</label>
-              <div className="relative">
-                <select
-                  value={preferredTime}
-                  onChange={(e) => setPreferredTime(e.target.value)}
-                  className="w-full appearance-none px-3 py-2.5 pr-10 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black bg-white cursor-pointer"
-                >
-                  <option>Morning (9:00 AM – 1:00 PM WAT)</option>
-                  <option>Afternoon (2:00 PM – 6:00 PM WAT)</option>
-                </select>
-                <ChevronDown className="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
-          </div>
+        {/* Field 3: Installation Location */}
+        <div className="space-y-1.5">
+          <label htmlFor="location" className="font-semibold text-gray-800 flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>Installation location (State / City) *</span>
+          </label>
+          <input
+            id="location"
+            type="text"
+            required
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="e.g. Port Harcourt, Rivers State / Lekki, Lagos"
+            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+          />
+        </div>
 
-          {/* Upload Drop Zone Box */}
-          <div className="space-y-1 pt-1">
-            <span className="font-semibold text-gray-700 block">
-              Upload Roof / Electrical Panel Photos (Optional)
-            </span>
-            <div className="border border-dashed border-[#D9D9D9] rounded-xl p-4 text-center space-y-1 bg-[#F8F9FA]">
-              <Upload className="w-5 h-5 text-gray-400 mx-auto" />
-              <p className="text-xs font-medium text-gray-700">
-                Click to upload or drag and drop roof, meter or distribution board photos
-              </p>
-              <p className="text-[10px] text-gray-400">PNG, JPG or PDF up to 10MB</p>
-            </div>
-          </div>
-
-          {/* Technical Notes Textarea */}
-          <div className="space-y-1">
-            <label className="font-semibold text-gray-700">Technical Notes / Special Instructions</label>
-            <textarea
-              rows={3}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Tell us about your daytime loads (e.g. air conditioners, deep freezers, water pumping machines) or generator capacity..."
-              className="w-full px-3 py-2.5 rounded-lg border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-black"
-            />
+        {/* Field 4: Property Type */}
+        <div className="space-y-1.5">
+          <label className="font-semibold text-gray-800 flex items-center gap-1.5">
+            <Home className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>Property type *</span>
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {PROPERTY_TYPES.map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setPropertyType(type)}
+                className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition cursor-pointer text-center ${
+                  propertyType === type
+                    ? "bg-[#E8F3DA] text-[#3F6B1A] border-[#7BB042] ring-1 ring-[#7BB042]"
+                    : "bg-[#F8F9FA] text-gray-700 border-[#D9D9D9] hover:bg-gray-100"
+                }`}
+              >
+                {type}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Submit Button & Security Note */}
-        <div className="space-y-2 pt-2">
+        {/* Field 5: Estimated Daily Load or Preferred System Size (Optional) */}
+        <div className="space-y-1.5">
+          <label htmlFor="systemSize" className="font-semibold text-gray-800 flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>Estimated daily load or preferred system size (Optional)</span>
+          </label>
+          <select
+            id="systemSize"
+            value={systemSize}
+            onChange={(e) => setSystemSize(e.target.value)}
+            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 cursor-pointer"
+          >
+            <option value="">Select estimated capacity or load requirement...</option>
+            {SYSTEM_SIZES.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Submit Button & Preview Disclaimer */}
+        <div className="space-y-3 pt-3">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 min-h-[50px]"
+            className="w-full py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-xs cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 min-h-[50px]"
           >
-            <span>{isSubmitting ? "Submitting Request..." : "Submit Installation Request"}</span>
+            <span>{isSubmitting ? "Validating Request..." : "Request Installers Now"}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
 
           <p className="text-[11px] text-gray-500 text-center flex items-center justify-center gap-1.5">
             <Lock className="w-3 h-3 text-[#7BB042]" />
-            <span>Data protected under NDPR · Free site audit with no obligation to purchase</span>
+            <span>Demonstration Preview: Client-side validation active. Live server persistence enabled on production rollout.</span>
           </p>
         </div>
       </form>

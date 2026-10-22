@@ -10,9 +10,32 @@ import type {
 export * from "./public-types";
 
 /**
+ * Checks whether Supabase is configured with a real, reachable project URL.
+ * Fails fast on missing or placeholder values (e.g. YOUR_PROJECT_REF)
+ * to avoid multi-second DNS/connection timeouts in local preview/development.
+ */
+export function isSupabaseConfigured(): boolean {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (
+    trimmed === "" ||
+    trimmed.includes("YOUR_PROJECT_REF") ||
+    trimmed.includes("your_project_ref") ||
+    trimmed.includes("example.com")
+  ) {
+    return false;
+  }
+  return true;
+}
+
+
+/**
  * Fetches a single published site content value by key, falling back to a default value.
  */
 export async function getSiteContent(key: string, fallback: string): Promise<string> {
+  if (!isSupabaseConfigured()) return fallback;
+
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -39,6 +62,8 @@ export async function getSiteContent(key: string, fallback: string): Promise<str
  * Retrieves all published products with their images.
  */
 export async function getPublishedProducts(): Promise<Product[]> {
+  if (!isSupabaseConfigured()) return [];
+
   try {
     const supabase = await createClient();
     const { data: products, error } = await supabase
@@ -66,6 +91,8 @@ export async function getPublishedProducts(): Promise<Product[]> {
  * Retrieves a single published product by slug, including attached accessories and images.
  */
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (!isSupabaseConfigured()) return null;
+
   try {
     const supabase = await createClient();
     const { data: product, error } = await supabase
@@ -120,6 +147,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
  * Retrieves all published blog posts, sorted newest first.
  */
 export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
+  if (!isSupabaseConfigured()) return [];
+
   try {
     const supabase = await createClient();
     const { data: posts, error } = await supabase
@@ -141,6 +170,8 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
  * Retrieves a single published blog post by slug.
  */
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (!isSupabaseConfigured()) return null;
+
   try {
     const supabase = await createClient();
     const { data: post, error } = await supabase
@@ -163,6 +194,8 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
  * Retrieves all published testimonials.
  */
 export async function getPublishedTestimonials(): Promise<Testimonial[]> {
+  if (!isSupabaseConfigured()) return [];
+
   try {
     const supabase = await createClient();
     const { data: testimonials, error } = await supabase
@@ -186,6 +219,8 @@ export async function getPublishedTestimonials(): Promise<Testimonial[]> {
  * 2. If missing or invalid, falls back to the first published product with a main image (or first published product).
  */
 export async function getHeroModalProduct(): Promise<Product | null> {
+  if (!isSupabaseConfigured()) return null;
+
   try {
     const supabase = await createClient();
 

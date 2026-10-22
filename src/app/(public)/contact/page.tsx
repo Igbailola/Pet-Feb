@@ -10,8 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const contactEmail = await getSiteContent("footer.contact_email", "info@petfeb.com");
-  const phone = await getSiteContent("contact.phone", "+234 813-585-4054");
+  const [contactEmail, phone] = await Promise.all([
+    getSiteContent("footer.contact_email", "info@petfeb.com"),
+    getSiteContent("contact.phone", "+234 813-585-4054"),
+  ]);
 
   return (
     <div className="space-y-0">

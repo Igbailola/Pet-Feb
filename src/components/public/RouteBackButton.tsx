@@ -8,8 +8,8 @@ export function RouteBackButton() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Do not show back button on homepage
-  if (pathname === "/") {
+  // Do not show back button on homepage or About Us page
+  if (pathname === "/" || pathname === "/about") {
     return null;
   }
 
