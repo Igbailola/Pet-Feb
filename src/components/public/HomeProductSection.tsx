@@ -7,6 +7,7 @@ import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
+import { ProductCardButton } from "@/components/public/ProductCardButton";
 
 interface HomeProductSectionProps {
   products: Product[];
@@ -14,6 +15,7 @@ interface HomeProductSectionProps {
 
 const CATEGORIES = [
   "All Product",
+  "Solar kits",
   "Solar Panels",
   "Inverters",
   "Charge Controllers",
@@ -29,6 +31,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
     if (selectedCategory === "All Product") return true;
     const cat = (p.category || "").toLowerCase();
     const target = selectedCategory.toLowerCase();
+    if (target.includes("kit")) return cat.includes("kit");
     if (target.includes("panel")) return cat.includes("panel");
     if (target.includes("inverter")) return cat.includes("inverter");
     if (target.includes("charge") || target.includes("controller")) return cat.includes("controller") || cat.includes("charge");
@@ -135,15 +138,17 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                     </div>
                   </div>
 
-                  {/* Buy Button matching Figma */}
+                  {/* Buy Button matching Figma with Green-to-White Sliding Hover Animation */}
                   <div className="pt-2">
-                    <Link
+                    <ProductCardButton
                       href={`/shop/${product.slug}`}
-                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition shadow-xs min-h-[48px]"
+                      className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-xs min-h-[48px]"
+                      ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
                     >
-                      <ShoppingBag className="w-4 h-4" />
+                      <ShoppingBag className="w-4 h-4 shrink-0" />
                       <span>Buy For {formatNaira(product.price)}</span>
-                    </Link>
+                      <ArrowRight className="w-4 h-4 shrink-0" />
+                    </ProductCardButton>
                   </div>
                 </div>
               </div>

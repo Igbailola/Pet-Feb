@@ -90,3 +90,81 @@ h1, h2, h3, h4, h5, h6 {
     transform: none !important;
   }
 }
+
+/* ── Product Card Action Button: Green-to-White Sliding Hover ────────── */
+.product-card-btn-slide {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #7bb042;
+  border: 1.5px solid #7bb042;
+  transition: box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(to right, #ffffff 50%, #7bb042 50%);
+  transform: translateX(-50%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.product-card-btn-slide:hover::before,
+.product-card-btn-slide:focus-visible::before {
+  transform: translateX(0%);
+}
+
+.product-card-btn-slide .product-card-btn-content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  color: #ffffff;
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide:hover .product-card-btn-content,
+.product-card-btn-slide:focus-visible .product-card-btn-content {
+  color: #1f3a0b;
+}
+
+.product-card-btn-slide .product-card-btn-content svg {
+  stroke: currentColor;
+  transition: stroke 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide:focus-visible {
+  outline: 2px solid #7bb042;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-btn-slide::before {
+    transition: none !important;
+    transform: none !important;
+  }
+  .product-card-btn-slide:hover::before,
+  .product-card-btn-slide:focus-visible::before {
+    transform: none !important;
+    background: #ffffff !important;
+  }
+  .product-card-btn-slide {
+    transition: none !important;
+  }
+  .product-card-btn-slide .product-card-btn-content,
+  .product-card-btn-slide .product-card-btn-content svg {
+    transition: none !important;
+  }
+}
+

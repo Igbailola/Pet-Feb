@@ -47,10 +47,6 @@ export function AddToCartSection({
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
-  const [depositPct, setDepositPct] = useState<30 | 40 | 50>(30);
-  const [frequency, setFrequency] = useState<"Weekly" | "Bi-weekly" | "Monthly">(
-    "Weekly"
-  );
 
   const handleAddToCart = () => {
     if (!product.in_stock) return;
@@ -115,7 +111,8 @@ export function AddToCartSection({
     );
   }
 
-  // Calculate approximate installments for Buy Small preview
+  // Calculate approximate installments for Buy Small preview (30% deposit baseline)
+  const depositPct = 30;
   const depositAmount = (product.price * depositPct) / 100;
   const remaining = product.price - depositAmount;
   const weeklyRate = Math.round(remaining / 40); // ~10 months weekly
@@ -251,132 +248,58 @@ export function AddToCartSection({
         )}
       </div>
 
-      {/* ── 2. Buy Small Mini-Panel (Stitch Frame layout) ──────────── */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#F8F9FA] border border-[#D9D9D9] space-y-4">
-        <div className="flex items-center justify-between">
+      {/* ── Buy Small Financing Callout ────────────────────────────── */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#F4F9EC] border border-[#D2E8B5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-[#7BB042] text-black font-bold text-xs flex items-center justify-center">
-              BS
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#3F6B1A] text-white">
+              Buy Small
             </span>
-            <div>
-              <span className="font-heading font-bold text-sm text-gray-900 block">
-                Pay from {formatNaira(weeklyRate)} / week
-              </span>
-              <span className="text-[11px] text-gray-500">Buy Small Flexible Scheme</span>
-            </div>
-          </div>
-
-          <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-[#D9D9D9] text-gray-700">
-            ZERO COLLATERAL
-          </span>
-        </div>
-
-        {/* Deposit Selector */}
-        <div className="space-y-1.5">
-          <span className="text-[11px] font-semibold text-gray-600 block">
-            Select Downpayment Deposit:
-          </span>
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            {([30, 40, 50] as const).map((pct) => (
-              <button
-                key={pct}
-                type="button"
-                onClick={() => setDepositPct(pct)}
-                className={`py-1.5 px-2 rounded-lg font-bold transition border cursor-pointer ${
-                  depositPct === pct
-                    ? "bg-[#7BB042] text-white border-[#7BB042]"
-                    : "bg-white text-gray-700 border-[#D9D9D9] hover:bg-gray-50"
-                }`}
-              >
-                {pct}% ({formatNaira((product.price * pct) / 100)})
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Frequency selector */}
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-gray-500">Frequency:</span>
-          <div className="flex items-center gap-1">
-            {(["Weekly", "Bi-weekly", "Monthly"] as const).map((freq) => (
-              <button
-                key={freq}
-                type="button"
-                onClick={() => setFrequency(freq)}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                  frequency === freq
-                    ? "bg-[#7BB042] text-white font-bold"
-                    : "text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {freq}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Segmented Power Meter per stitch frame */}
-        <div className="space-y-1 pt-1">
-          <div className="flex items-center justify-between text-[11px] text-gray-500">
-            <span>Deposit Ratio Meter</span>
-            <span className="font-semibold text-gray-900">
-              {depositPct}% Locked ({depositPct / 10}/10 blocks)
+            <span className="font-heading font-bold text-sm text-gray-950">
+              Pay from {formatNaira(weeklyRate)} / week
             </span>
           </div>
-          <div className="grid grid-cols-10 gap-1 h-2">
-            {Array.from({ length: 10 }).map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-xs ${
-                  i < depositPct / 10 ? "bg-[#7BB042]" : "bg-gray-200"
-                }`}
-              />
-            ))}
-          </div>
+          <p className="text-xs text-gray-600">
+            Spread payments in weekly or monthly installments with 30% initial deposit.
+          </p>
         </div>
 
         <Link
-          href={`/buy-small?product=${encodeURIComponent(
-            product.slug
-          )}&deposit=${depositPct}`}
-          className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-xs text-center min-h-[44px]"
+          href={`/buy-small?product=${encodeURIComponent(product.slug)}`}
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition whitespace-nowrap shadow-2xs self-start sm:self-auto shrink-0"
         >
-          <CreditCard className="w-3.5 h-3.5" />
-          <span>Buy with Buy Small</span>
+          <span>Apply with Buy Small</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </Link>
-
-        <p className="text-[10px] text-gray-400 text-center">
-          Instant automated credit check in 24 hours. (Demo placeholders, pending Petfeb approval).
-        </p>
       </div>
 
-      {/* ── 3. Installation & Delivery Details ───────────────────────── */}
+      {/* ── Installation & Delivery Summary ────────────────────────── */}
       <div className="space-y-2.5 text-xs text-gray-600 pt-2 border-t border-gray-100">
         <div className="flex items-start gap-2.5">
           <Wrench className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
           <span>
-            <strong className="text-gray-900">Installation available:</strong> Choose certified deployment at checkout. Certified Petfeb engineers available nationwide (demo placeholder).
+            <strong className="text-gray-900">Installation:</strong> Professional installation by certified Petfeb engineers available nationwide.
           </span>
         </div>
         <div className="flex items-start gap-2.5">
           <Truck className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
           <span>
-            <strong className="text-gray-900">Express Distribution:</strong> 24–48 hours transit to Lagos & Abuja hub regions; 3–5 days to all other states.
+            <strong className="text-gray-900">Delivery:</strong> 24–48 hours transit in Lagos & Abuja; 3–5 days to all other states.
           </span>
         </div>
       </div>
 
-      {/* ── 4. Trust Rail Strip ───────────────────────────────────────── */}
+      {/* ── Trust Strip ────────────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-2 pt-3 border-t border-gray-100 text-[11px] text-center text-gray-500">
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center justify-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-[#7BB042]" />
-          <span>5-Year Warranty</span>
+          <span>OEM Warranty</span>
         </div>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center justify-center gap-1.5">
           <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-          <span>NEMSA Installers</span>
+          <span>Certified Quality</span>
         </div>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex items-center justify-center gap-1.5">
           <Lock className="w-3.5 h-3.5 text-[#7BB042]" />
           <span>Paystack Secured</span>
         </div>
