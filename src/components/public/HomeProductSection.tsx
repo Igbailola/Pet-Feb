@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight, ShoppingBag } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { StaggerChildren } from "@/components/motion/StaggerChildren";
 
 interface HomeProductSectionProps {
   products: Product[];
@@ -42,7 +44,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
     <div className="space-y-10">
       {/* Header and Filter Row matching Figma frame 4144:1617 */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-        <div className="max-w-2xl space-y-4">
+        <ScrollReveal className="max-w-2xl space-y-4">
           <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-gray-950">
             Product
           </h2>
@@ -70,7 +72,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
               );
             })}
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Link to Shop right side */}
         <div className="shrink-0">
@@ -86,7 +88,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
 
       {/* 3 Product Cards Grid matching Figma frame 4144:1639 */}
       {displayProducts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <StaggerChildren key={selectedCategory} staggerDelay={0.09} distance={80} scale={0.94} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {displayProducts.map((product) => {
             const mainImg =
               product.product_images?.find((img) => img.is_main) ||
@@ -147,7 +149,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
               </div>
             );
           })}
-        </div>
+        </StaggerChildren>
       ) : (
         <div className="bg-white rounded-[24px] border border-[#EBEBEB] p-12 text-center space-y-3">
           <p className="text-sm font-semibold text-gray-800">

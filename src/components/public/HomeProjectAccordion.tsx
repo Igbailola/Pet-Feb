@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+import { ParallaxLayer } from "@/components/motion";
 
 interface ProjectItem {
   id: string;
@@ -92,14 +93,16 @@ export function HomeProjectAccordion() {
             {isExpanded && (
               <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
                 <div className="relative rounded-[16px] sm:rounded-[20px] overflow-hidden min-h-[260px] sm:min-h-[340px] flex flex-col justify-end p-6 sm:p-8 text-white border border-gray-200">
-                  {/* Background Image with Dark Tint */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={proj.image || "/figma-assets/project-china.png"}
-                    alt={proj.title}
-                    className="absolute inset-0 w-full h-full object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+                  {/* Background Image with Subtle Parallax Depth */}
+                  <ParallaxLayer travel={16} className="absolute -inset-x-0 -top-4 -bottom-4 z-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={proj.image || "/figma-assets/project-china.png"}
+                      alt={proj.title}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </ParallaxLayer>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30 z-0" />
 
                   {/* Overlay Content */}
                   <div className="relative z-10 max-w-2xl space-y-4">

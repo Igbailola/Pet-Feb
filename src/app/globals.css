@@ -44,3 +44,49 @@ h1, h2, h3, h4, h5, h6 {
     overflow-x: auto;
   }
 }
+
+/* ── Hero Entrance Sequence & Scroll Cue ─────────────────────────────── */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-delay-1 { animation-delay: 100ms; }
+.hero-delay-2 { animation-delay: 220ms; }
+.hero-delay-3 { animation-delay: 340ms; }
+.hero-delay-4 { animation-delay: 480ms; }
+.hero-delay-5 { animation-delay: 600ms; }
+.hero-delay-6 { animation-delay: 680ms; }
+.hero-delay-7 { animation-delay: 820ms; }
+
+@keyframes heroScrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.hero-scroll-cue-bounce {
+  animation: heroScrollBounce 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-up,
+  .hero-scroll-cue-bounce {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

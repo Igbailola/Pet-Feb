@@ -31,10 +31,24 @@ export const tokens = {
 
   // Input styles: consistent 44px touch height, clear focus rings and radius
   input: {
-    base: "w-full rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#7BB042] focus:outline-none focus:ring-2 focus:ring-[#7BB042]/30 transition",
-    label: "block text-xs font-semibold text-gray-800 mb-1.5",
-    helper: "text-[11px] text-gray-500 mt-1",
+    base: "w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 min-h-[44px] text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#7BB042] focus:outline-none focus:ring-2 focus:ring-[#7BB042]/30 transition",
+    label: "block text-sm font-semibold text-gray-800 mb-1.5",
+    helper: "text-xs text-gray-500 mt-1",
     error: "text-xs text-rose-600 mt-1 font-medium",
+  },
+
+  // Centralized typography scale tokens
+  typography: {
+    display: "font-heading font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[68px] tracking-tight leading-[1.08]",
+    h1: "font-heading font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-tight",
+    h2: "font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl tracking-tight",
+    h3: "font-heading font-bold text-xl sm:text-2xl leading-snug",
+    h4: "font-heading font-bold text-lg sm:text-xl",
+    bodyLarge: "text-base sm:text-lg leading-relaxed",
+    body: "text-sm sm:text-base leading-relaxed text-gray-600",
+    bodySmall: "text-xs sm:text-sm text-gray-500",
+    eyebrow: "text-xs sm:text-sm font-semibold tracking-wider uppercase",
+    caption: "text-xs text-gray-500",
   },
 
   // Cards

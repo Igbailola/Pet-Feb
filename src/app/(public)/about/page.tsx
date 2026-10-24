@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Check } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
 import { MilestoneCardDeck } from "@/components/public/MilestoneCardDeck";
 import { TeamShowcase } from "@/components/public/TeamShowcase";
+import { FloatingBounce, ParallaxLayer } from "@/components/motion";
+import { AboutImpactSection } from "@/components/public/AboutImpactSection";
+import { AboutHowWeWork } from "@/components/public/AboutHowWeWork";
+import { AboutFeaturedStory } from "@/components/public/AboutFeaturedStory";
+import { AboutClosingCta } from "@/components/public/AboutClosingCta";
 
 export const metadata: Metadata = {
   title: "About Us | Pet-Feb Solar Energy",
@@ -104,6 +110,7 @@ const TEAM_MEMBERS = [
     name: "Mr. Dennis Onakposegha",
     role: "Logistics Manager",
     image: "/figma-assets/dennis-onakposegha.jpg.jpeg",
+    bio: "Directing supply chain logistics, solar equipment transport, inventory verification, and secure on-site material delivery.",
   },
 ];
 
@@ -118,18 +125,37 @@ export default function AboutPage() {
   return (
     <main className="bg-white min-h-screen text-[#333333] selection:bg-[#7BB042]/20">
       {/* 1. Hero Section ("About Pet-Feb") */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px] pt-12 pb-14 lg:pt-[80px] lg:pb-[80px]">
-        <div className="max-w-[640px]">
-          <h1 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black leading-tight tracking-tight">
-            About Pet-Feb
+      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px] pt-12 pb-14 lg:pt-[72px] lg:pb-[64px]">
+        <div className="max-w-[840px]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F9EC] text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
+            <span>Leading Nigeria&apos;s Clean Energy Revolution</span>
+          </div>
+          <h1 className="font-heading font-extrabold text-[36px] sm:text-[48px] lg:text-[58px] text-gray-950 leading-[1.12] tracking-tight">
+            Powering Nigerian Lives &amp; Enterprises with Reliable Solar Energy
           </h1>
-          <p className="mt-5 lg:mt-6 text-[#333333] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.6]">
-            Pet-Feb is a trusted solar energy company in Nigeria, dedicated to providing reliable and sustainable power solutions. From residential homes to large-scale projects, we design, install, and maintain systems that reduce costs, protect the environment, and empower communities with clean energy.
+          <p className="mt-5 lg:mt-6 text-[#4A4A4A] text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.65]">
+            Pet-Feb International Company Limited is a trusted renewable energy company in Nigeria dedicated to providing reliable, Tier-1 clean power solutions. From residential homes to large-scale community microgrids and commercial arrays, we engineer, install, and maintain systems that eliminate generator dependency, lower operating costs, and protect the environment.
           </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-heading font-bold text-[15px] sm:text-[16px] bg-[#7BB042] text-white hover:bg-[#6CA035] shadow-[0px_4px_14px_rgba(123,176,66,0.35)] active:scale-[0.98] transition-all duration-200"
+            >
+              <span>Get a Solar Consultation</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/projects"
+              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full font-heading font-bold text-[15px] sm:text-[16px] bg-white text-gray-900 border-2 border-gray-200 hover:border-[#7BB042] hover:text-[#3F6B1A] shadow-xs active:scale-[0.98] transition-all duration-200"
+            >
+              Explore Our Projects
+            </Link>
+          </div>
         </div>
 
         {/* Hero installation banner */}
-        <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[442px] mt-10 lg:mt-[50px] rounded-[24px] overflow-hidden border-4 border-white shadow-[0px_4px_24px_rgba(0,0,0,0.08)] bg-neutral-100">
+        <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[442px] mt-10 lg:mt-[44px] rounded-[24px] overflow-hidden border-4 border-white shadow-[0px_4px_24px_rgba(0,0,0,0.08)] bg-neutral-100">
           <Image
             src="/figma-assets/about-hero.png"
             alt="Pet-Feb solar installations nationwide"
@@ -140,6 +166,9 @@ export default function AboutPage() {
           />
         </div>
       </section>
+
+      {/* 2. Verified Impact Section */}
+      <AboutImpactSection />
 
       {/* Subtle divider */}
       <div className="border-b border-gray-100 w-full" aria-hidden="true" />
@@ -152,16 +181,20 @@ export default function AboutPage() {
             <div className="lg:col-span-5 flex justify-center lg:justify-start">
               <div className="w-full max-w-[420px] lg:sticky lg:top-[124px] self-start">
                 <div className="group w-full bg-black rounded-[24px] overflow-hidden shadow-[0px_4px_12px_rgba(245,184,46,0.18)] pb-4 flex flex-col motion-safe:hover:-translate-y-1.5 hover:shadow-[0px_10px_32px_rgba(0,0,0,0.65),0px_6px_24px_rgba(245,184,46,0.24)] transition-all duration-300 ease-out">
-                  <div className="relative w-full h-[300px] sm:h-[340px] lg:h-[360px] overflow-hidden rounded-t-[24px] bg-neutral-900">
-                    <Image
-                      src="/figma-assets/about-ceo-petra.webp"
-                      alt="Mrs. Petra Solomon - CEO/Managing Director PET-FEB International Company"
-                      fill
-                      priority
-                      className="object-cover object-[center_16%] scale-[1.20] sm:scale-[1.14] lg:scale-[1.24] origin-[center_16%] motion-safe:group-hover:scale-[1.26] motion-safe:sm:group-hover:scale-[1.20] motion-safe:lg:group-hover:scale-[1.30] transition-transform duration-500 ease-out"
-                      sizes="(max-width: 1024px) 100vw, 420px"
-                    />
-                  </div>
+                  <ParallaxLayer travel={16}>
+                    <FloatingBounce distance={8} duration={2.8}>
+                      <div className="relative w-full h-[300px] sm:h-[340px] lg:h-[360px] overflow-hidden rounded-t-[24px] bg-neutral-900">
+                        <Image
+                          src="/figma-assets/about-ceo-petra.webp"
+                          alt="Mrs. Petra Solomon - CEO/Managing Director PET-FEB International Company"
+                          fill
+                          priority
+                          className="object-cover object-[center_16%] scale-[1.20] sm:scale-[1.14] lg:scale-[1.24] origin-[center_16%] motion-safe:group-hover:scale-[1.26] motion-safe:sm:group-hover:scale-[1.20] motion-safe:lg:group-hover:scale-[1.30] transition-transform duration-500 ease-out"
+                          sizes="(max-width: 1024px) 100vw, 420px"
+                        />
+                      </div>
+                    </FloatingBounce>
+                  </ParallaxLayer>
                   <div className="px-5 sm:px-6 pt-3.5 sm:pt-4">
                     <h3 className="font-heading font-bold text-[22px] sm:text-[24px] text-[#e6e6e6]">
                       Mrs. Petra Solomon
@@ -263,27 +296,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4. Rest Of The Team */}
+      {/* 4. How We Work Process */}
+      <AboutHowWeWork />
+
+      {/* 5. Leadership & Team Section */}
       <TeamShowcase members={TEAM_MEMBERS} title="Rest Of The Team" />
 
-      {/* 5. Team's Event (Global Partnerships, Local Impact) */}
-      <section className="bg-white pb-20 lg:pb-[100px]">
-        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
-          <div className="border-b border-gray-200 mb-12 lg:mb-16" aria-hidden="true" />
+      {/* 6. Featured Project or Impact Story (Light Up Umueri Flagship) */}
+      <AboutFeaturedStory />
 
+      {/* 7. Global Partnerships & Technology Standards (Team's Event) */}
+      <section className="bg-white pb-14 lg:pb-20 border-t border-gray-100">
+        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
           {/* Event Header */}
-          <div className="space-y-2">
-            <h2 className="font-heading font-bold text-[26px] sm:text-[30px] lg:text-[32px] text-black">
-              Team’s Event
+          <div className="space-y-2 mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F9EC] text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-2">
+              <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
+              <span>Global Technology Transfer</span>
+            </div>
+            <h2 className="font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl text-gray-950 tracking-tight leading-tight">
+              Team’s Event: Global Partnerships, Local Impact
             </h2>
-            <p className="font-heading font-bold text-[18px] sm:text-[22px] lg:text-[24px] text-[#5c5c5c]">
-              Global Partnerships, Local Impact
+            <p className="text-[#5c5c5c] text-sm sm:text-base max-w-2xl">
+              Bringing international engineering benchmarks and direct manufacturer trade partnerships to Nigeria.
             </p>
           </div>
 
-          {/* Event Card with photo and indicator */}
-          <div className="bg-white rounded-[24px] shadow-[0px_2px_22px_rgba(45,45,45,0.08)] border border-gray-100 p-4 sm:p-6 lg:p-8 mt-8">
-            <div className="relative w-full h-[320px] sm:h-[480px] lg:h-[620px] xl:h-[720px] rounded-[20px] overflow-hidden bg-neutral-900">
+          {/* Event Card with authentic photograph */}
+          <div className="bg-white rounded-[24px] shadow-[0px_4px_24px_rgba(45,45,45,0.06)] border border-gray-200/90 p-4 sm:p-6 lg:p-8">
+            <div className="relative w-full h-[320px] sm:h-[480px] lg:h-[600px] xl:h-[680px] rounded-[20px] overflow-hidden bg-neutral-900">
               <Image
                 src="/figma-assets/about-event-china.png"
                 alt="Pet-Feb Team landmark visit to China renewable energy manufacturers"
@@ -293,7 +334,7 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* Pagination indicator dots */}
+            {/* Pagination indicator dots matching Figma */}
             <div className="flex justify-center mt-6">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
@@ -306,13 +347,13 @@ export default function AboutPage() {
           {/* Event Narrative Story */}
           <div className="mt-10 lg:mt-12 text-[#5c5c5c] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.7] space-y-5 max-w-[1200px]">
             <p>
-              At Pet-Feb, we know that the future of energy cannot be built in isolation. That’s why in March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and collaboration.
+              At Pet-Feb, we know that the future of energy cannot be built in isolation. That’s why our team embarked on a landmark international technology initiative — a journey that opened new doors for innovation, engineering rigor, and manufacturing collaboration.
             </p>
             <p>
-              During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world’s leading renewable energy manufacturers. This milestone does more than strengthen our global footprint — it positions us to launch our own line of branded solar products tailored for the Nigerian market.
+              During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world’s leading renewable energy manufacturers. This milestone positions us to deliver climate-hardened solar products tailored specifically for the Nigerian climate.
             </p>
             <p>
-              But the partnership goes beyond products. Our engineers and staff engaged in hands-on training sessions, knowledge-sharing workshops, and a meet-and-greet with industry leaders. These experiences ensure our team stays ahead with the latest solar technology, manufacturing insights, and global best practices.
+              Our engineers engaged in hands-on factory training sessions, testing protocols, and knowledge-sharing workshops with leading equipment designers. These experiences ensure our technical team adheres to global solar installation best practices.
             </p>
 
             <div className="pt-2">
@@ -328,12 +369,24 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <p className="pt-2">
-              At Pet-Feb, our mission is bigger than energy. We are committed to reducing carbon emissions, empowering communities, and helping businesses transition to clean, sustainable power solutions. With every partnership we forge, we take one more step towards creating a greener, healthier future for Nigeria and beyond.
-            </p>
+            <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100">
+              <p className="text-sm text-[#777777]">
+                Learn more about our international manufacturing standards transfer initiative.
+              </p>
+              <Link
+                href="/projects/building-global-capacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-gray-900 border border-gray-300 hover:border-[#7BB042] hover:text-[#3F6B1A] font-heading font-semibold text-xs sm:text-sm transition-all duration-200"
+              >
+                <span>View Global Capacity Project Details</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* 8. Strong Closing CTA */}
+      <AboutClosingCta />
     </main>
   );
 }
