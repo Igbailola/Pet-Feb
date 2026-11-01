@@ -101,51 +101,56 @@ export default async function BlogPostPage({ params }: PageProps) {
                 alt={post.title}
                 className="w-full h-full object-cover"
               />
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              {/* Overlay elements for dynamic posts where text is not baked into the Figma asset */}
+              {!coverUrl.includes("blog-ph-expansion") && (
+                <>
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              {/* Content on image */}
-              <div className="absolute bottom-0 left-0 right-0 p-[32px] sm:p-[45px] flex flex-col gap-[16px]">
-                {/* Category pill */}
-                <span className="bg-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[14px] px-[16px] py-[6px] rounded-[8px] self-start">
-                  {post.category || "News"}
-                </span>
-                {/* Title */}
-                <h2 className="font-heading font-bold text-[24px] sm:text-[32px] text-white leading-[1.2] max-w-[700px]">
-                  {post.title}
-                </h2>
-                {/* Excerpt */}
-                <p className="text-white/80 font-sans text-[14px] sm:text-[16px] leading-[1.6] max-w-[600px] line-clamp-3">
-                  {post.body.slice(0, 200)}...
-                </p>
+                  {/* Content on image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-[32px] sm:p-[45px] flex flex-col gap-[16px]">
+                    {/* Category pill */}
+                    <span className="bg-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[14px] px-[16px] py-[6px] rounded-[8px] self-start">
+                      {post.category || "News"}
+                    </span>
+                    {/* Title */}
+                    <h2 className="font-heading font-bold text-[24px] sm:text-[32px] text-white leading-[1.2] max-w-[700px]">
+                      {post.title}
+                    </h2>
+                    {/* Excerpt */}
+                    <p className="text-white/80 font-sans text-[14px] sm:text-[16px] leading-[1.6] max-w-[600px] line-clamp-3">
+                      {post.body.slice(0, 200)}...
+                    </p>
 
-                {/* Carousel nav arrows + dots */}
-                <div className="flex items-center justify-between pt-[8px]">
-                  <div className="flex items-center gap-[8px]">
-                    <button
-                      type="button"
-                      className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
-                      aria-label="Previous"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                      type="button"
-                      className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
-                      aria-label="Next"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
+                    {/* Carousel nav arrows + dots */}
+                    <div className="flex items-center justify-between pt-[8px]">
+                      <div className="flex items-center gap-[8px]">
+                        <button
+                          type="button"
+                          className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
+                          aria-label="Previous"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
+                          aria-label="Next"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                      </div>
+                      {/* Carousel dots */}
+                      <div className="flex items-center gap-[6px]">
+                        <span className="w-[24px] h-[4px] rounded-full bg-white" />
+                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
+                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
+                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
+                      </div>
+                    </div>
                   </div>
-                  {/* Carousel dots */}
-                  <div className="flex items-center gap-[6px]">
-                    <span className="w-[24px] h-[4px] rounded-full bg-white" />
-                    <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                    <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                    <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                  </div>
-                </div>
-              </div>
+                </>
+              )}
             </div>
 
             {/* Article Body Text */}

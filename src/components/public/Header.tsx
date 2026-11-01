@@ -152,12 +152,8 @@ export function Header() {
 
             {/* 3. Contact Us */}
             <Link
-              href="/contact"
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
-                isLinkActive("/contact")
-                  ? "text-[#70A03C] font-bold"
-                  : "text-[#A1A1A1] hover:text-gray-900"
-              }`}
+              href="/#contact"
+              className="px-3 py-2 text-sm font-medium transition-colors rounded-lg text-[#A1A1A1] hover:text-gray-900"
             >
               Contact Us
             </Link>
@@ -188,7 +184,7 @@ export function Header() {
                 <div
                   role="menu"
                   aria-orientation="vertical"
-                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-[0px_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 py-2 px-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                  className="absolute top-full left-0 mt-2 w-48 bg-white rounded-2xl shadow-[0px_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 py-2 px-1 z-50 menu-panel-in"
                 >
                   {DROPDOWN_GROUPS.projects.items.map((sub) => {
                     const active = isLinkActive(sub.href);
@@ -238,7 +234,7 @@ export function Header() {
                 <div
                   role="menu"
                   aria-orientation="vertical"
-                  className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-[0px_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 py-2 px-1 z-50 animate-in fade-in slide-in-from-top-1 duration-150"
+                  className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-[0px_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 py-2 px-1 z-50 menu-panel-in"
                 >
                   {DROPDOWN_GROUPS["buy-small"].items.map((sub) => {
                     const active = isLinkActive(sub.href);
@@ -325,7 +321,7 @@ export function Header() {
 
       {/* ── Mobile & Tablet Drawer ── */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white px-5 pt-3 pb-6 rounded-b-[24px] shadow-xl space-y-4">
+        <div className="menu-panel-in lg:hidden border-t border-gray-100 bg-white px-5 pt-3 pb-6 rounded-b-[24px] shadow-xl space-y-4">
           <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
             {/* Home */}
             <Link
@@ -355,13 +351,9 @@ export function Header() {
 
             {/* Contact Us */}
             <Link
-              href="/contact"
+              href="/#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-xl text-base font-medium transition ${
-                isLinkActive("/contact")
-                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
-                  : "text-gray-700 hover:bg-gray-50"
-              }`}
+              className="px-3 py-2.5 rounded-xl text-base font-medium transition text-gray-700 hover:bg-gray-50"
             >
               Contact Us
             </Link>

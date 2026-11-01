@@ -46,28 +46,18 @@ export default async function BlogPage() {
               Posted: 27/09/2025
             </span>
 
-            {/* Featured Image with Overlay Title */}
-            <div className="relative w-full h-[320px] sm:h-[460px] rounded-[24px] overflow-hidden shadow-md bg-gray-900 group">
+            {/* Featured Image matching Figma exact design */}
+            <Link
+              href="/blog/petfeb-expands-to-port-harcourt"
+              className="relative block w-full rounded-[24px] overflow-hidden shadow-md bg-gray-900 group"
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/figma-assets/about-hero-clean.jpg"
-                alt="Pet-Feb Team celebrating Port Harcourt Launch"
-                className="w-full h-full object-cover"
+                src="/figma-assets/blog-ph-expansion.png"
+                alt="Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria"
+                className="w-full h-auto object-cover group-hover:scale-[1.01] transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-
-              <div className="absolute bottom-6 left-6 right-6 space-y-2 text-white">
-                <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#7BB042] text-white">
-                  Renewable Energy
-                </span>
-                <h2 className="font-heading font-bold text-xl sm:text-2xl lg:text-3xl text-white leading-tight">
-                  Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-200 line-clamp-2 max-w-xl font-normal">
-                  Discover how Pet-Feb is training Nigeria&apos;s next generation of solar engineers through hands-on workshops and international knowledge exchange.
-                </p>
-              </div>
-            </div>
+            </Link>
 
             {/* Article Content Paragraphs matching design */}
             <div className="space-y-4 text-sm sm:text-base text-gray-700 leading-relaxed font-normal pt-2">

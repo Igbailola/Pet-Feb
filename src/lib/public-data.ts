@@ -150,10 +150,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 export const DEFAULT_BLOG_POSTS: BlogPost[] = [
   {
     id: "blog-ph-expansion",
-    title: "Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
+    title: "Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
     slug: "petfeb-expands-to-port-harcourt",
-    cover_image: "/figma-assets/blog-1.png",
-    category: "Expansion & Milestones",
+    cover_image: "/figma-assets/blog-ph-expansion.png",
+    category: "Renewable Energy",
     status: "published",
     published_at: "2025-09-27T10:00:00.000Z",
     created_at: "2025-09-27T10:00:00.000Z",

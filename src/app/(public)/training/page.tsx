@@ -267,7 +267,7 @@ export default function TrainingPage() {
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
-                  href="/contact?type=training"
+                  href="/#contact"
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm min-h-[48px]"
                 >
                   <span>Apply for Training</span>
@@ -423,7 +423,7 @@ export default function TrainingPage() {
                   </span>
 
                   <Link
-                    href={`/contact?type=training&program=${prog.slug}`}
+                    href="/#contact"
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shrink-0"
                   >
                     <span>View Program</span>
@@ -676,7 +676,7 @@ export default function TrainingPage() {
 
           <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
             <Link
-              href="/contact?type=training"
+              href="/#contact"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-bold bg-black text-white hover:bg-gray-900 transition shadow-md"
             >
               <span>Apply Now</span>

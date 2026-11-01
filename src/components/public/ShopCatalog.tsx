@@ -273,7 +273,7 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
                   key={product.id}
                   className={`${
                     isWhiteCard ? "bg-white" : "bg-[#F2F7EC]"
-                  } text-gray-900 rounded-[24px] p-5 sm:p-[18px] pb-6 pt-4 flex flex-col justify-between space-y-4 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] hover:shadow-xl transition-all duration-300 group`}
+                  } text-gray-900 rounded-[24px] p-5 sm:p-[18px] pb-6 pt-4 flex flex-col justify-between space-y-4 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] hover:shadow-xl hover-lift group`}
                 >
                   {/* Image Container with light grey well matching Figma node 6140:4859 */}
                   <div className="h-[280px] sm:h-[340px] lg:h-[400px] rounded-[24px] bg-[#EBEBEB] p-6 flex items-center justify-center overflow-hidden relative">

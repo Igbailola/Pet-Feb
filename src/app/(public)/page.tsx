@@ -94,31 +94,31 @@ export default async function HomePage() {
       </section>
 
       {/* ── Scene 2. Solar Partners ──────────────────────────────────────── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <AnimatedPartners />
       </div>
 
       {/* ── Scene 3. Impact Metrics — Black rounded card ─────────────────── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <AnimatedMetrics />
       </div>
 
       {/* ── Scene 4. Buy Small Scheme Banner — Yellow background matching Figma ──── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <HomeBuySmallBanner />
         </section>
       </div>
 
       {/* ── Scene 5. Product Showcase — Black container ──────────────────── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <HomeProductSection products={products} />
         </section>
       </div>
 
       {/* ── Scene 6. Training CTA — Split Photo Left, Yellow Right matching Figma 6139:3029 ── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <div className="rounded-[32px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[426px]">
             {/* Left Column: Technician Photography */}
@@ -166,7 +166,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── Scene 7. Project Gallery — Black Container matching Figma 6139:3045 ── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
@@ -201,7 +201,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── Scene 8. Client Testimonials — Yellow Container with 3 Black Cards matching Figma 6139:3104 ── */}
-      <div className="pt-8 sm:pt-12">
+      <div data-reveal className="pt-8 sm:pt-12">
         <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <div className="bg-[#F5B82E] rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
             <div className="max-w-2xl space-y-3">
@@ -307,7 +307,7 @@ export default async function HomePage() {
       </div>
 
       {/* ── Scene 9. Contact Information — Black Container matching Figma 6139:3176 ── */}
-      <div className="pt-8 sm:pt-12">
+      <div id="contact" className="pt-8 sm:pt-12 scroll-mt-28 sm:scroll-mt-32">
         <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
           <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
             <div className="max-w-3xl space-y-3">

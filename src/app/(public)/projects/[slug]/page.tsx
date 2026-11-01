@@ -382,7 +382,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             Schedule On-Site Survey
           </Link>
           <Link
-            href="/contact"
+            href="/#contact"
             className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition border border-white/20"
           >
             Speak With an Engineer

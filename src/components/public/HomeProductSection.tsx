@@ -5,8 +5,6 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { StaggerChildren } from "@/components/motion/StaggerChildren";
 
 interface HomeProductSectionProps {
   products: Product[];
@@ -43,49 +41,51 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
   return (
     <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
       {/* Header and Filter Row matching Figma frame 6139:2959 */}
-      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-        <div className="max-w-2xl space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" aria-hidden="true" />
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white tracking-tight">
-              Products
-            </h2>
+      <div className="space-y-6">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+          <div className="max-w-2xl space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" aria-hidden="true" />
+              <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white tracking-tight">
+                Products
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
+              Discover a wide range of high-quality solar panels, inverters, and batteries designed to power homes, businesses, and communities across Nigeria. Every product is tested for performance, durability, and efficiency giving you reliable clean energy you can trust.
+            </p>
           </div>
-          <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
-            Discover a wide range of high-quality solar panels, inverters, and batteries designed to power homes, businesses, and communities across Nigeria. Every product is tested for performance, durability, and efficiency giving you reliable clean energy you can trust.
-          </p>
 
-          {/* Search or Category Filter Tabs */}
-          <div className="pt-2 flex flex-wrap gap-2 items-center">
-            {CATEGORIES.map((cat) => {
-              const active = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-                    active
-                      ? "bg-[#7BB042] text-white font-bold"
-                      : "bg-white text-gray-800 hover:bg-gray-100"
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+          {/* Link to Shop right side */}
+          <div className="shrink-0 lg:pt-2">
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-1.5 text-sm sm:text-base font-medium text-white hover:text-[#7BB042] transition"
+            >
+              <span>Go to Pet-Feb Product - Shop</span>
+              <ChevronRight className="w-4 h-4 text-[#F5B82E]" />
+            </Link>
           </div>
         </div>
 
-        {/* Link to Shop right side */}
-        <div className="shrink-0 lg:pt-2">
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-1.5 text-sm sm:text-base font-medium text-white hover:text-[#7BB042] transition"
-          >
-            <span>Go to Pet-Feb Product - Shop</span>
-            <ChevronRight className="w-4 h-4 text-[#F5B82E]" />
-          </Link>
+        {/* Category Filter Tabs on a single row */}
+        <div className="flex flex-nowrap items-center gap-2 sm:gap-2.5 overflow-x-auto pb-1">
+          {CATEGORIES.map((cat) => {
+            const active = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                  active
+                    ? "bg-[#7BB042] text-white font-bold"
+                    : "bg-white text-gray-800 hover:bg-gray-100"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -101,7 +101,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
             return (
               <div
                 key={product.id}
-                className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition group"
+                className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover-lift group"
               >
                 {/* Image Container with light green-tinted well */}
                 <div className="h-56 sm:h-64 rounded-[16px] bg-[#F2F7EC] p-6 flex items-center justify-center overflow-hidden">

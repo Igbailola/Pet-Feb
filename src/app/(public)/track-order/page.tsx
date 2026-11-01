@@ -430,7 +430,7 @@ function TrackOrderContent() {
               <p className="text-gray-700 leading-relaxed">
                 You can adjust your dispatch time slot without penalty up to 3 hours prior to truck departure.
               </p>
-              <Link href="/contact" className="font-bold text-[#3F6B1A] hover:underline block pt-1">
+              <Link href="/#contact" className="font-bold text-[#3F6B1A] hover:underline block pt-1">
                 Contact Fleet Logistics →
               </Link>
             </div>

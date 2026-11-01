@@ -168,3 +168,113 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+
+/* ── Global motion system (shared easing + timing) ─────────────────────── */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 180ms;
+  --motion-base: 320ms;
+  --motion-slow: 650ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll-triggered section entrance (see <Reveal />) */
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity var(--motion-slow) var(--ease-out-soft),
+                transform var(--motion-slow) var(--ease-out-soft);
+    will-change: opacity, transform;
+  }
+  .reveal.reveal-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+/* Mobile drawer + dropdown panels */
+@keyframes menuPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-panel-in {
+  animation: menuPanelIn var(--motion-base) var(--ease-out-soft) both;
+  transform-origin: top;
+}
+
+/* Subtle interactive feedback for buttons and links styled as buttons */
+a[class*="rounded"][class*="bg-"],
+button[class*="rounded"][class*="bg-"] {
+  transition-property: background-color, border-color, color, box-shadow, transform, opacity;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-out-soft);
+}
+
+button:not(:disabled):active,
+a[class*="rounded"][class*="bg-"]:active {
+  transform: scale(0.98);
+}
+
+/* Cards and imagery */
+.hover-lift {
+  transition: transform var(--motion-base) var(--ease-out-soft),
+              box-shadow var(--motion-base) var(--ease-out-soft);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.image-zoom img {
+  transition: transform 700ms var(--ease-out-soft);
+}
+.image-zoom:hover img {
+  transform: scale(1.03);
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-reveal {
+  animation: imageReveal 900ms var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal.reveal-visible,
+  .menu-panel-in,
+  .image-reveal,
+  .hover-lift,
+  .image-zoom img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  button:not(:disabled):active,
+  a[class*="rounded"][class*="bg-"]:active {
+    transform: none;
+  }
+}
