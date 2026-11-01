@@ -28,7 +28,7 @@ const DROPDOWN_GROUPS: Record<string, DropdownGroup> = {
   },
   "buy-small": {
     id: "buy-small",
-    label: "Buy Small",
+    label: "Pet-Feb buy small small",
     items: [
       { href: "/buy-small", label: "Buy Small" },
       { href: "/installation", label: "Request Installer" },
@@ -106,7 +106,7 @@ export function Header() {
     <header className="sticky top-0 z-40 bg-white rounded-bl-[24px] rounded-br-[24px] shadow-[0px_2px_22px_0px_rgba(45,45,45,0.10)] border-b border-gray-100">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px]">
         <div className="flex items-center justify-between min-h-[82px] sm:min-h-[102px] py-3 sm:py-[17px]">
-          {/* ── Brand Logo: Standalone 68px × 68px square card (Figma node 4144:1456) ── */}
+          {/* ── Brand Logo ── */}
           <Link
             href="/"
             className="w-[52px] h-[52px] sm:w-[68px] sm:h-[68px] rounded-[13px] border border-[#D6E7C4] p-2 flex items-center justify-center bg-white shrink-0 hover:border-[#7BB042] transition-colors shadow-2xs outline-none focus:ring-2 focus:ring-[#7BB042]"
@@ -120,7 +120,7 @@ export function Header() {
             />
           </Link>
 
-          {/* ── Desktop Navigation Links (Figma node 4144:1457 + Dropdowns) ── */}
+          {/* ── Desktop Navigation Links (matching design order) ── */}
           <nav
             ref={navRef}
             className="hidden lg:flex items-center gap-1 xl:gap-2 px-2"
@@ -150,7 +150,19 @@ export function Header() {
               About Us
             </Link>
 
-            {/* 3. Our Project Dropdown */}
+            {/* 3. Contact Us */}
+            <Link
+              href="/contact"
+              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
+                isLinkActive("/contact")
+                  ? "text-[#70A03C] font-bold"
+                  : "text-[#A1A1A1] hover:text-gray-900"
+              }`}
+            >
+              Contact Us
+            </Link>
+
+            {/* 4. Our Project Dropdown */}
             <div className="relative">
               <button
                 type="button"
@@ -200,21 +212,21 @@ export function Header() {
               )}
             </div>
 
-            {/* 4. Buy Small Dropdown */}
+            {/* 5. Pet-Feb buy small small Dropdown */}
             <div className="relative">
               <button
                 type="button"
                 onClick={() => toggleDropdown("buy-small")}
                 aria-expanded={openDropdown === "buy-small"}
                 aria-haspopup="true"
-                aria-label="Buy Small Menu"
+                aria-label="Pet-Feb buy small small Menu"
                 className={`inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium transition-colors rounded-lg cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7BB042] ${
                   isBuySmallGroupActive || openDropdown === "buy-small"
                     ? "text-[#70A03C] font-bold"
                     : "text-[#A1A1A1] hover:text-gray-900"
                 }`}
               >
-                <span>Buy Small</span>
+                <span>Pet-Feb buy small small</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-200 ${
                     openDropdown === "buy-small" ? "rotate-180 text-[#70A03C]" : "text-[#A1A1A1]"
@@ -250,19 +262,7 @@ export function Header() {
               )}
             </div>
 
-            {/* 5. Contact Us */}
-            <Link
-              href="/contact"
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
-                isLinkActive("/contact")
-                  ? "text-[#70A03C] font-bold"
-                  : "text-[#A1A1A1] hover:text-gray-900"
-              }`}
-            >
-              Contact Us
-            </Link>
-
-            {/* 6. Pet-Feb Product - Shop with Inline Gold Cart Icon */}
+            {/* 6. Shop with Cart Icon */}
             <Link
               href="/shop"
               className={`inline-flex items-center gap-2 px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
@@ -271,7 +271,7 @@ export function Header() {
                   : "text-[#A1A1A1] hover:text-gray-900"
               }`}
             >
-              <span>Pet-Feb Product - Shop</span>
+              <span>Shop</span>
               <span className="relative inline-flex items-center ml-0.5">
                 <ShoppingCart className="w-[17px] h-[16px] text-[#F5B82E] shrink-0" />
                 {isHydrated && itemCount > 0 && (
@@ -283,7 +283,7 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* ── Right Action CTA: Market Place (Figma node 4144:1471) ── */}
+          {/* ── Right Action CTA: Market Place ── */}
           <div className="hidden lg:flex items-center">
             <Link
               href="/buy-small"
@@ -353,6 +353,19 @@ export function Header() {
               About Us
             </Link>
 
+            {/* Contact Us */}
+            <Link
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-3 py-2.5 rounded-xl text-base font-medium transition ${
+                isLinkActive("/contact")
+                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
+                  : "text-gray-700 hover:bg-gray-50"
+              }`}
+            >
+              Contact Us
+            </Link>
+
             {/* Our Project Mobile Dropdown Accordion */}
             <div className="border border-gray-100 rounded-xl overflow-hidden">
               <button
@@ -394,7 +407,7 @@ export function Header() {
               )}
             </div>
 
-            {/* Buy Small Mobile Dropdown Accordion */}
+            {/* Pet-Feb buy small small Mobile Dropdown Accordion */}
             <div className="border border-gray-100 rounded-xl overflow-hidden">
               <button
                 type="button"
@@ -403,7 +416,7 @@ export function Header() {
                 aria-expanded={mobileExpanded["buy-small"]}
               >
                 <span className={isBuySmallGroupActive ? "text-[#70A03C] font-bold" : ""}>
-                  Buy Small
+                  Pet-Feb buy small small
                 </span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-200 ${
@@ -435,20 +448,7 @@ export function Header() {
               )}
             </div>
 
-            {/* Contact Us */}
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-xl text-base font-medium transition ${
-                isLinkActive("/contact")
-                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
-                  : "text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              Contact Us
-            </Link>
-
-            {/* Pet-Feb Product - Shop */}
+            {/* Shop */}
             <Link
               href="/shop"
               onClick={() => setMobileMenuOpen(false)}
@@ -458,7 +458,7 @@ export function Header() {
                   : "text-gray-700 hover:bg-gray-50"
               }`}
             >
-              <span>Pet-Feb Product - Shop</span>
+              <span>Shop</span>
               <span className="inline-flex items-center gap-1 text-xs text-[#F5B82E]">
                 <ShoppingCart className="w-4 h-4" />
                 {isHydrated && itemCount > 0 && (

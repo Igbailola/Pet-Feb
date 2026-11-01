@@ -320,85 +320,74 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="py-6 sm:py-10 max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-6 font-sans">
-      {/* ── Top Header Bar (Matching delivery and checkout.jpg) ─ */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
-        <div className="flex items-center gap-3">
+    <div className="bg-white pb-16 overflow-x-clip font-sans">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-6 sm:pt-8 space-y-6">
+        {/* ── Checkout Telemetry & Stepper Bar matching Original Delivery and Checkout Page.jpg ─ */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-2 text-xs border-b border-gray-100 pb-4">
+          <div className="flex items-center gap-3 sm:gap-6 text-gray-700 font-medium">
+            <div className="flex items-center gap-1.5 text-[#3F6B1A] font-bold">
+              <CheckCircle2 className="w-4 h-4 text-[#7BB042]" />
+              <span>1. Your Details</span>
+            </div>
+            <span className="text-gray-300">/</span>
+            <div className="flex items-center gap-1.5 text-gray-950 font-bold">
+              <span className="w-4 h-4 rounded-full bg-[#7BB042] text-white flex items-center justify-center text-[10px] font-bold">
+                2
+              </span>
+              <span>2. Delivery &amp; Installation</span>
+            </div>
+            <span className="text-gray-300">/</span>
+            <div className="flex items-center gap-1.5 text-gray-400">
+              <span className="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center text-[10px]">
+                3
+              </span>
+              <span>3. Review &amp; Pay</span>
+            </div>
+          </div>
+
+          {/* Telemetry Indicator */}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-gray-500 font-medium">
+              Checkout Telemetry: 60%
+            </span>
+            <div className="flex gap-1 h-1.5 w-24">
+              {[...Array(10)].map((_, i) => (
+                <div
+                  key={i}
+                  className={`flex-1 rounded-sm ${i < 6 ? "bg-[#7BB042]" : "bg-gray-200"}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Page Heading matching Original Delivery and Checkout Page.jpg ─ */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
+          <div className="flex items-center gap-3">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" aria-hidden="true" />
+            <h1 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-950 uppercase tracking-tight">
+              CHECKOUT/DELIVERY
+            </h1>
+          </div>
+
           <Link
             href="/cart"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-gray-950 transition"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-700 hover:text-gray-950 transition"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Back to cart
+            <ArrowLeft className="w-4 h-4" />
+            Continue shopping
           </Link>
-          <span className="text-gray-300">|</span>
-          <div className="flex items-center gap-2">
-            <span className="font-heading font-extrabold text-lg text-gray-950">
-              Petfeb Solar
-            </span>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#3F6B1A] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              ENGINEERED SYSTEMS
-            </span>
-          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 text-xs">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-950 border border-amber-200/80 font-semibold text-[11px]">
-            <Lock className="w-3 h-3 text-amber-700" />
-            256-Bit SSL Encrypted Escrow • Paystack Verified
-          </span>
-
-          <div className="hidden md:flex items-center gap-1.5 text-gray-600">
-            <Phone className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>Procurement Support:</span>
-            <a
-              href="tel:+234800738332"
-              className="font-bold text-gray-900 hover:text-[#3F6B1A]"
-            >
-              +234 800 PETFEB SOLAR
-            </a>
-          </div>
+        {/* ── Hero Banner Image matching Original Delivery and Checkout Page.jpg ─ */}
+        <div className="relative rounded-[31px] overflow-hidden h-[300px] sm:h-[420px] lg:h-[500px] w-full shadow-sm mb-6">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/figma-assets/about-hero-clean.jpg"
+            alt="Residential Solar Power Installation - Petfeb Solar"
+            className="w-full h-full object-cover"
+          />
         </div>
-      </div>
-
-      {/* ── Checkout Telemetry & Stepper Bar ──────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-2 text-xs">
-        <div className="flex items-center gap-3 sm:gap-6 text-gray-700 font-medium">
-          <div className="flex items-center gap-1.5 text-[#3F6B1A] font-bold">
-            <CheckCircle2 className="w-4 h-4 text-[#7BB042]" />
-            <span>1. Your Details</span>
-          </div>
-          <span className="text-gray-300">/</span>
-          <div className="flex items-center gap-1.5 text-gray-950 font-bold">
-            <span className="w-4 h-4 rounded-full bg-[#7BB042] text-white flex items-center justify-center text-[10px] font-bold">
-              2
-            </span>
-            <span>2. Delivery &amp; Installation</span>
-          </div>
-          <span className="text-gray-300">/</span>
-          <div className="flex items-center gap-1.5 text-gray-400">
-            <span className="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center text-[10px]">
-              3
-            </span>
-            <span>3. Review &amp; Pay</span>
-          </div>
-        </div>
-
-        {/* Telemetry Indicator */}
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] text-gray-500 font-medium">
-            Checkout Telemetry: 60%
-          </span>
-          <div className="flex gap-1 h-1.5 w-24">
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                className={`flex-1 rounded-sm ${i < 6 ? "bg-[#7BB042]" : "bg-gray-200"}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* ── Main Form Grid ────────────────────────────────────── */}
       <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start pt-2">
@@ -931,6 +920,7 @@ export default function CheckoutPage() {
           </div>
         </aside>
       </form>
+      </div>
     </div>
   );
 }

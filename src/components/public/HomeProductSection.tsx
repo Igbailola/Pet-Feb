@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, ShoppingBag } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerChildren } from "@/components/motion/StaggerChildren";
-import { ProductCardButton } from "@/components/public/ProductCardButton";
 
 interface HomeProductSectionProps {
   products: Product[];
@@ -15,7 +14,6 @@ interface HomeProductSectionProps {
 
 const CATEGORIES = [
   "All Product",
-  "Solar kits",
   "Solar Panels",
   "Inverters",
   "Charge Controllers",
@@ -31,7 +29,6 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
     if (selectedCategory === "All Product") return true;
     const cat = (p.category || "").toLowerCase();
     const target = selectedCategory.toLowerCase();
-    if (target.includes("kit")) return cat.includes("kit");
     if (target.includes("panel")) return cat.includes("panel");
     if (target.includes("inverter")) return cat.includes("inverter");
     if (target.includes("charge") || target.includes("controller")) return cat.includes("controller") || cat.includes("charge");
@@ -40,23 +37,26 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
     return cat.includes(target);
   });
 
-  // Display top 3 products as depicted in Figma frame 4144:1639
+  // Display top 3 products as depicted in Figma frame 6139:2983
   const displayProducts = filteredProducts.slice(0, 3);
 
   return (
-    <div className="space-y-10">
-      {/* Header and Filter Row matching Figma frame 4144:1617 */}
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-        <ScrollReveal className="max-w-2xl space-y-4">
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-gray-950">
-            Product
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+    <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
+      {/* Header and Filter Row matching Figma frame 6139:2959 */}
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+        <div className="max-w-2xl space-y-4">
+          <div className="flex items-center gap-3">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" aria-hidden="true" />
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-white tracking-tight">
+              Products
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
             Discover a wide range of high-quality solar panels, inverters, and batteries designed to power homes, businesses, and communities across Nigeria. Every product is tested for performance, durability, and efficiency giving you reliable clean energy you can trust.
           </p>
 
-          {/* Category Filter Pills */}
-          <div className="pt-2 flex flex-wrap gap-1.5 p-1.5 bg-[#EBEBEB] rounded-xl w-fit">
+          {/* Search or Category Filter Tabs */}
+          <div className="pt-2 flex flex-wrap gap-2 items-center">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory === cat;
               return (
@@ -64,10 +64,10 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-lg text-xs font-medium transition-all ${
+                  className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all cursor-pointer ${
                     active
-                      ? "bg-white text-gray-950 shadow-xs font-bold"
-                      : "text-gray-700 hover:text-gray-950 hover:bg-white/50"
+                      ? "bg-[#7BB042] text-white font-bold"
+                      : "bg-white text-gray-800 hover:bg-gray-100"
                   }`}
                 >
                   {cat}
@@ -75,23 +75,23 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
               );
             })}
           </div>
-        </ScrollReveal>
+        </div>
 
         {/* Link to Shop right side */}
-        <div className="shrink-0">
+        <div className="shrink-0 lg:pt-2">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-[#7BB042] hover:text-[#6EA138] transition"
+            className="inline-flex items-center gap-1.5 text-sm sm:text-base font-medium text-white hover:text-[#7BB042] transition"
           >
             <span>Go to Pet-Feb Product - Shop</span>
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 text-[#F5B82E]" />
           </Link>
         </div>
       </div>
 
-      {/* 3 Product Cards Grid matching Figma frame 4144:1639 */}
+      {/* 3 Product Cards Grid matching Figma frame 6139:2983 */}
       {displayProducts.length > 0 ? (
-        <StaggerChildren key={selectedCategory} staggerDelay={0.09} distance={80} scale={0.94} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {displayProducts.map((product) => {
             const mainImg =
               product.product_images?.find((img) => img.is_main) ||
@@ -101,10 +101,10 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
             return (
               <div
                 key={product.id}
-                className="bg-white rounded-[24px] border border-[#EBEBEB] p-5 sm:p-6 flex flex-col justify-between space-y-5 shadow-[0px_2px_18px_0px_rgba(45,45,45,0.06)] hover:shadow-md transition group"
+                className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md transition group"
               >
-                {/* Image Container with light gray well */}
-                <div className="h-56 sm:h-64 rounded-[16px] bg-[#F5F5F5] p-6 flex items-center justify-center overflow-hidden">
+                {/* Image Container with light green-tinted well */}
+                <div className="h-56 sm:h-64 rounded-[16px] bg-[#F2F7EC] p-6 flex items-center justify-center overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imgUrl}
@@ -114,50 +114,42 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2">
-                    <h3 className="font-heading font-bold text-lg text-gray-950 group-hover:text-[#3F6B1A] transition-colors">
+                <div className="flex-1 flex flex-col justify-between space-y-3">
+                  <div>
+                    <h3 className="font-heading font-bold text-lg sm:text-xl text-gray-950 group-hover:text-[#3F6B1A] transition-colors">
                       <Link href={`/shop/${product.slug}`}>
                         {product.name}
                       </Link>
                     </h3>
-                    {product.description && (
-                      <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
-                        {product.description}
-                      </p>
-                    )}
                   </div>
 
                   {/* Price & Minimum Order */}
-                  <div className="pt-2 space-y-1">
-                    <div className="font-heading font-extrabold text-xl text-gray-950">
+                  <div className="space-y-0.5">
+                    <div className="font-heading font-bold text-xl text-gray-950">
                       {formatNaira(product.price)}
                     </div>
-                    <div className="text-[11px] text-gray-500 font-medium">
+                    <div className="text-xs text-gray-500 font-medium">
                       Min, Order : 1unit
                     </div>
                   </div>
 
-                  {/* Buy Button matching Figma with Green-to-White Sliding Hover Animation */}
+                  {/* Buy Button matching Figma node 6139:2997 */}
                   <div className="pt-2">
-                    <ProductCardButton
+                    <Link
                       href={`/shop/${product.slug}`}
-                      className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold shadow-xs min-h-[48px]"
-                      ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
+                      className="w-full py-3.5 px-4 rounded-[12px] text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition-colors flex items-center justify-center text-center shadow-xs"
                     >
-                      <ShoppingBag className="w-4 h-4 shrink-0" />
-                      <span>Buy For {formatNaira(product.price)}</span>
-                      <ArrowRight className="w-4 h-4 shrink-0" />
-                    </ProductCardButton>
+                      Buy For {formatNaira(product.price)}
+                    </Link>
                   </div>
                 </div>
               </div>
             );
           })}
-        </StaggerChildren>
+        </div>
       ) : (
-        <div className="bg-white rounded-[24px] border border-[#EBEBEB] p-12 text-center space-y-3">
-          <p className="text-sm font-semibold text-gray-800">
+        <div className="bg-white/5 rounded-[24px] border border-white/10 p-12 text-center space-y-3">
+          <p className="text-sm font-medium text-gray-300">
             No published products found in this category.
           </p>
           <Link
@@ -165,7 +157,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
             className="inline-flex items-center gap-1 text-xs font-bold text-[#7BB042] hover:underline"
           >
             <span>Browse Full Solar Shop</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       )}

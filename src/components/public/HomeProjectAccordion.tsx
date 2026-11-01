@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
-import { ParallaxLayer } from "@/components/motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface ProjectItem {
   id: string;
@@ -17,31 +16,31 @@ interface ProjectItem {
 
 const DEFAULT_PROJECTS: ProjectItem[] = [
   {
-    id: "umueri",
-    title: "Light Up Umueri",
+    id: "street-lighting",
+    title: "How Pet-Feb Is Transforming Communities Through Solar Street Lighting",
     location: "Nigeria",
     slug: "light-up-umueri",
-    image: "/api/websitepic/community",
-    tags: ["Community Power", "Solar Street Lighting"],
+    image: "/figma-assets/project-china.png",
+    tags: ["Community", "Solar Street Lighting"],
     description:
-      "Comprehensive municipal solar street lighting and community energy project delivering 24/7 illumination, enhanced safety, and clean public infrastructure across Umueri community.",
+      "Comprehensive municipal solar street lighting and community energy project delivering 24/7 illumination, enhanced safety, and clean public infrastructure across Nigeria.",
   },
   {
     id: "china",
     title: "Building Global Capacity",
     location: "China",
     slug: "building-global-capacity",
-    image: "/figma-assets/project-china.png",
+    image: "/figma-assets/about-event-china.png",
     tags: ["Completed", "Training"],
     description:
-      "At Pet-Feb, we understand that the future of energy cannot be built in isolation. In March, our team embarked on a landmark visit to China a journey that opened new doors for innovation, learning, and global collaboration.",
+      "At Pet-Feb, we understand that the future of energy cannot be built in isolation. In March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and global collaboration.",
   },
   {
-    id: "commercial",
-    title: "Commercial & Industrial Hubs",
-    location: "Lagos & Abuja",
-    slug: "nigeria-clean-energy-landscape",
-    image: "/api/websitepic/commercial",
+    id: "project-title",
+    title: "Project Title",
+    location: "Project Location",
+    slug: "commercial-industrial-hubs",
+    image: "/figma-assets/vision-img-3.png",
     tags: ["Commercial", "Industrial"],
     description:
       "High-capacity hybrid solar systems powering manufacturing facilities, corporate headquarters, and commercial operations across major Nigerian economic centers.",
@@ -49,7 +48,7 @@ const DEFAULT_PROJECTS: ProjectItem[] = [
 ];
 
 export function HomeProjectAccordion() {
-  // Default to China expanded as depicted in Figma frame 4144:1451
+  // Default to China expanded as depicted in Figma frame 6139:3076
   const [expandedId, setExpandedId] = useState<string>("china");
 
   const toggle = (id: string) => {
@@ -63,76 +62,70 @@ export function HomeProjectAccordion() {
         return (
           <div
             key={proj.id}
-            className="bg-white rounded-[20px] sm:rounded-[24px] border border-[#EBEBEB] overflow-hidden shadow-[0px_2px_18px_0px_rgba(45,45,45,0.06)] transition-all duration-300"
+            className="bg-[#D6E7C4] text-gray-900 rounded-[20px] overflow-hidden transition-all duration-300"
           >
             {/* Header row */}
             <button
               type="button"
               onClick={() => toggle(proj.id)}
-              className="w-full px-6 sm:px-8 py-5 sm:py-6 flex items-center justify-between gap-4 text-left hover:bg-gray-50/60 transition"
+              className="w-full px-6 sm:px-8 py-5 flex items-center justify-between gap-4 text-left cursor-pointer hover:bg-[#cde0ba] transition"
               aria-expanded={isExpanded}
             >
-              <span className="font-heading font-bold text-lg sm:text-xl text-gray-950">
+              <span className="font-heading font-bold text-base sm:text-lg text-gray-950">
                 {proj.title}
               </span>
               <div className="flex items-center gap-3 shrink-0">
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-xs sm:text-sm font-medium text-gray-700">
                   {proj.location}
                 </span>
-                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                <div className="w-6 h-6 flex items-center justify-center text-gray-700">
                   {isExpanded ? (
-                    <ChevronUp className="w-4 h-4 text-[#7BB042]" />
+                    <ChevronUp className="w-5 h-5 text-gray-800" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-gray-500" />
+                    <ChevronDown className="w-5 h-5 text-gray-800" />
                   )}
                 </div>
               </div>
             </button>
 
-            {/* Expanded Content matching Figma frame 4144:1722 */}
+            {/* Expanded Content matching Figma frame 6139:3083 */}
             {isExpanded && (
-              <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-2">
-                <div className="relative rounded-[16px] sm:rounded-[20px] overflow-hidden min-h-[260px] sm:min-h-[340px] flex flex-col justify-end p-6 sm:p-8 text-white border border-gray-200">
-                  {/* Background Image with Subtle Parallax Depth */}
-                  <ParallaxLayer travel={16} className="absolute -inset-x-0 -top-4 -bottom-4 z-0">
+              <div className="px-6 sm:px-8 pb-6 pt-1">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  {/* Photo with tags overlay */}
+                  <div className="md:col-span-5 relative rounded-[16px] overflow-hidden h-[240px] sm:h-[280px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={proj.image || "/figma-assets/project-china.png"}
+                      src={proj.image || "/figma-assets/about-event-china.png"}
                       alt={proj.title}
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover"
                     />
-                  </ParallaxLayer>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30 z-0" />
-
-                  {/* Overlay Content */}
-                  <div className="relative z-10 max-w-2xl space-y-4">
-                    {/* Tags */}
+                    {/* Overlay tags */}
                     {proj.tags && (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="absolute top-4 left-4 flex gap-2">
                         {proj.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-xs font-semibold px-3 py-1 rounded-full bg-white/90 text-gray-900 backdrop-blur-xs"
+                            className="text-xs font-semibold px-3 py-1 rounded-full bg-white/90 text-gray-900"
                           >
                             {tag}
                           </span>
                         ))}
                       </div>
                     )}
+                  </div>
 
-                    {/* Description */}
-                    <p className="text-xs sm:text-sm text-gray-200 leading-relaxed font-normal">
+                  {/* Description & Action */}
+                  <div className="md:col-span-7 space-y-4">
+                    <p className="text-xs sm:text-sm text-gray-800 leading-relaxed font-normal">
                       {proj.description}
                     </p>
-
-                    {/* Action Button */}
-                    <div className="pt-1">
+                    <div>
                       <Link
-                        href={`/projects/${proj.slug}`}
-                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition shadow-xs"
+                        href={`/projects`}
+                        className="inline-flex items-center justify-center px-6 py-3 rounded-[12px] text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition"
                       >
-                        <span>More Details</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        More Details
                       </Link>
                     </div>
                   </div>

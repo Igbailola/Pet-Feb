@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Send, ChevronDown } from "lucide-react";
+import { CheckCircle2, ChevronDown } from "lucide-react";
 
 export function HomeContactForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -22,7 +22,7 @@ export function HomeContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-[24px] border border-[#EBEBEB] p-6 sm:p-10 lg:p-12 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.06)]">
+    <div className="bg-white rounded-[24px] p-6 sm:p-10 lg:p-12 shadow-sm text-gray-900">
       {submitted ? (
         <div className="text-center py-12 space-y-4">
           <div className="w-16 h-16 rounded-full bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center mx-auto">
@@ -49,7 +49,7 @@ export function HomeContactForm() {
                 message: "",
               });
             }}
-            className="mt-4 px-6 py-2.5 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition"
+            className="mt-4 px-6 py-2.5 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition cursor-pointer"
           >
             Send Another Message
           </button>
@@ -142,7 +142,7 @@ export function HomeContactForm() {
           {/* Row 3: Option Dropdown */}
           <div className="space-y-2">
             <label className="block text-xs font-medium text-gray-700">
-              Service of Interest:
+              We&apos;ll come up with a text for this label:
             </label>
             <div className="relative">
               <select
@@ -171,7 +171,7 @@ export function HomeContactForm() {
               required
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              placeholder="Type your message..."
+              placeholder="Type your message"
               className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:bg-white transition resize-none"
             />
           </div>
@@ -180,10 +180,9 @@ export function HomeContactForm() {
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full py-4 rounded-xl text-base font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition shadow-xs flex items-center justify-center gap-2 min-h-[52px]"
+              className="w-full py-4 rounded-xl text-base font-bold bg-[#7BB042] text-[#F2F7EC] hover:bg-[#6EA138] transition shadow-xs flex items-center justify-center cursor-pointer min-h-[52px]"
             >
-              <span>Submit Consultation Request</span>
-              <Send className="w-4 h-4" />
+              Market Place
             </button>
           </div>
         </form>

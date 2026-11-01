@@ -147,51 +147,100 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return defaultMatch || null;
 }
 
+export const DEFAULT_BLOG_POSTS: BlogPost[] = [
+  {
+    id: "blog-ph-expansion",
+    title: "Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
+    slug: "petfeb-expands-to-port-harcourt",
+    cover_image: "/figma-assets/blog-1.png",
+    category: "Expansion & Milestones",
+    status: "published",
+    published_at: "2025-09-27T10:00:00.000Z",
+    created_at: "2025-09-27T10:00:00.000Z",
+    updated_at: "2025-09-27T10:00:00.000Z",
+    body: `Pet-Feb International Company Limited has officially opened its new regional operational hub in Port Harcourt, Rivers State — a major milestone toward expanding clean, reliable energy access across Southern Nigeria.
+
+The launch ceremony brought together team members, partners, and key community stakeholders who celebrated this exciting new chapter. The Port Harcourt facility is not just a workspace — it serves as a regional center for solar technical engineering, installer training, and rapid customer support.
+
+This strategic expansion reflects our dedication to being closer to the communities and businesses we power. With the South-South region's increasing demand for sustainable commercial energy, our local hub will provide instant hardware dispatch, certified NEMSA installations, and specialized after-sales engineering care.
+
+Pet-Feb's Port Harcourt hub will also host recurring solar PV workforce training programs, product showcases, and community clean power initiatives. By expanding our operational footprint, we take another bold step toward our vision of a sustainable Nigeria powered by clean energy.`,
+  },
+  {
+    id: "blog-lighting-communities",
+    title: "Lighting Up Communities Pet-Feb's Renewable Energy Projects Transforming Lives",
+    slug: "lighting-up-communities-transforming-lives",
+    cover_image: "/figma-assets/blog-2.png",
+    category: "Project Case Studies",
+    status: "published",
+    published_at: "2025-09-23T09:00:00.000Z",
+    created_at: "2025-09-23T09:00:00.000Z",
+    updated_at: "2025-09-23T09:00:00.000Z",
+    body: `See how Pet-Feb's solar street lighting and community minigrids are transforming rural and urban neighborhoods across Nigeria. From improving nighttime safety to powering essential cold storage and small enterprises, clean solar energy is revitalizing local economies.`,
+  },
+  {
+    id: "blog-empowering-engineers",
+    title: "Empowering Tomorrow's Engineers How Pet-Feb is Building Nigeria's Solar Workforce",
+    slug: "empowering-tomorrows-engineers",
+    cover_image: "/figma-assets/mission-img-2.png",
+    category: "Training & Capacity",
+    status: "published",
+    published_at: "2025-09-18T12:00:00.000Z",
+    created_at: "2025-09-18T12:00:00.000Z",
+    updated_at: "2025-09-18T12:00:00.000Z",
+    body: `Pet-Feb is shaping the future of Nigeria's renewable energy industry through comprehensive hands-on solar installation and battery sizing training. Over 18,000 individuals have been trained to date, equipping them with professional skills in high-voltage DC wiring, inverter programming, and solar PV system design.`,
+  },
+];
+
 /**
  * Retrieves all published blog posts, sorted newest first.
+ * Falls back to DEFAULT_BLOG_POSTS if database is offline or empty.
  */
 export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
-  if (!isSupabaseConfigured()) return [];
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient();
+      const { data: posts, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .eq("status", "published")
+        .order("published_at", { ascending: false, nullsFirst: false });
 
-  try {
-    const supabase = await createClient();
-    const { data: posts, error } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("status", "published")
-      .order("published_at", { ascending: false, nullsFirst: false });
-
-    if (error || !posts) {
-      return [];
+      if (!error && posts && posts.length > 0) {
+        return posts as BlogPost[];
+      }
+    } catch {
+      // Supabase unavailable, fall through
     }
-    return posts as BlogPost[];
-  } catch {
-    return [];
   }
+
+  return DEFAULT_BLOG_POSTS;
 }
 
 /**
  * Retrieves a single published blog post by slug.
  */
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  if (!isSupabaseConfigured()) return null;
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createClient();
+      const { data: post, error } = await supabase
+        .from("blog_posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("status", "published")
+        .maybeSingle();
 
-  try {
-    const supabase = await createClient();
-    const { data: post, error } = await supabase
-      .from("blog_posts")
-      .select("*")
-      .eq("slug", slug)
-      .eq("status", "published")
-      .maybeSingle();
-
-    if (error || !post) {
-      return null;
+      if (!error && post) {
+        return post as BlogPost;
+      }
+    } catch {
+      // Supabase unavailable, fall through
     }
-    return post as BlogPost;
-  } catch {
-    return null;
   }
+
+  const defaultMatch = DEFAULT_BLOG_POSTS.find((p) => p.slug === slug);
+  return defaultMatch || null;
 }
 
 /**

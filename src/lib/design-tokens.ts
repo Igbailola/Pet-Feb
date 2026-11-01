@@ -1,7 +1,42 @@
 /**
  * Shared Design System Tokens for Petfeb Solar
  * Centralized scale for spacing, layout margins, button variants, inputs, cards, and modals.
+ *
+ * Brand colours extracted from the official Figma design files:
+ *   Primary Green : #7BB042
+ *   Yellow/Gold   : #F6B82F
+ *   Black         : #282828 / #000000
  */
+
+export const colors = {
+  brand: {
+    green: "#7BB042",
+    greenHover: "#6AA035",
+    greenActive: "#5C8C2E",
+    darkGreen: "#3F6B1A",
+    yellow: "#F6B82F",
+    yellowLight: "#FFC432",
+    black: "#282828",
+    pureBlack: "#000000",
+  },
+  bg: {
+    light: "#F8F9FA",
+    greenTint: "#F2F7EC",
+    greenLight: "#F4F9EC",
+    greenLighter: "#E8F3DA",
+    yellowTint: "#FFF8E6",
+  },
+  text: {
+    primary: "#333333",
+    secondary: "#4A4A4A",
+    muted: "#5C5C5C",
+    light: "#A1A1A1",
+  },
+  border: {
+    gray: "#D9D9D9",
+    greenLight: "#D6E7C4",
+  },
+} as const;
 
 export const tokens = {
   // Page container layout: generous left and right margins with consistent responsiveness

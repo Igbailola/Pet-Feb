@@ -4,17 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   ShoppingCart,
-  CreditCard,
-  Wrench,
   Check,
   Plus,
   Minus,
-  ArrowRight,
-  AlertCircle,
-  PackagePlus,
-  ShieldCheck,
+  ChevronUp,
+  ChevronDown,
+  Wrench,
   Truck,
+  ShieldCheck,
   Lock,
+  PackagePlus,
+  AlertCircle,
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
@@ -35,6 +35,7 @@ interface AddToCartSectionProps {
     in_stock: boolean;
     category: string;
     imageUrl?: string | null;
+    specs?: Record<string, string>;
   };
   accessories?: CompatibleAccessoryItem[];
 }
@@ -47,6 +48,11 @@ export function AddToCartSection({
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
+  const [specOpen, setSpecOpen] = useState(true);
+
+  // Buy Small interactive states
+  const [depositPct, setDepositPct] = useState<30 | 40 | 50>(30);
+  const [frequency, setFrequency] = useState<"Weekly" | "Bi-weekly" | "Monthly">("Weekly");
 
   const handleAddToCart = () => {
     if (!product.in_stock) return;
@@ -89,43 +95,158 @@ export function AddToCartSection({
     }, 4000);
   };
 
-  if (!product.in_stock) {
-    return (
-      <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1">
-        <p className="font-semibold flex items-center gap-1.5">
-          <AlertCircle className="w-4 h-4 text-amber-600" />
-          This system is currently out of stock.
-        </p>
-        <p>
-          Purchase and Buy Small financing actions are paused for this SKU until restocked. Inquire with our engineers directly for lead times.
-        </p>
-        <div className="pt-2">
-          <Link
-            href="/contact"
-            className="font-semibold text-[#3F6B1A] hover:underline inline-flex items-center gap-1"
-          >
-            Inquire With Support Desk <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // Calculate approximate installments for Buy Small preview (30% deposit baseline)
-  const depositPct = 30;
-  const depositAmount = (product.price * depositPct) / 100;
+  // Buy Small dynamic calculations
+  const depositAmount = Math.round((product.price * depositPct) / 100);
   const remaining = product.price - depositAmount;
-  const weeklyRate = Math.round(remaining / 40); // ~10 months weekly
+  // 52 weeks in a year
+  const weeklyRate = Math.round(remaining / 52);
+  const biweeklyRate = weeklyRate * 2;
+  const monthlyRate = Math.round(remaining / 12);
+
+  const displayInstallmentRate =
+    frequency === "Weekly"
+      ? `${formatNaira(weeklyRate)} / week`
+      : frequency === "Bi-weekly"
+      ? `${formatNaira(biweeklyRate)} / bi-week`
+      : `${formatNaira(monthlyRate)} / month`;
+
+  // Specification default fallbacks matching Figma
+  const ratedOutput =
+    product.specs?.["Rated Output"] ||
+    product.specs?.["Capacity"] ||
+    product.specs?.["Output"] ||
+    "5.0 kVA";
+
+  const nominalBus =
+    product.specs?.["Nominal Bus"] ||
+    product.specs?.["Voltage"] ||
+    product.specs?.["Battery Voltage"] ||
+    "48V DC";
+
+  const efficiency =
+    product.specs?.["Efficiency"] ||
+    product.specs?.["Max Efficiency"] ||
+    "98%";
+
+  const warranty =
+    product.specs?.["Warranty"] ||
+    product.specs?.["Warranty Period"] ||
+    "5-Year*";
+
+  const originalPrice = Math.round(product.price * 1.135);
 
   return (
-    <div className="space-y-6">
-      {/* ── 1. Quantity & Add to Cart Action ──────────────────────── */}
-      <div className="space-y-4">
+    <div className="flex flex-col gap-[24px] items-start w-full">
+      {/* ── Product Name matching Figma node 6147:8177 ─────────────────────────────────── */}
+      <div className="w-full">
+        <h1 className="font-heading font-medium text-[24px] sm:text-[28px] text-black">
+          {product.name}
+        </h1>
+      </div>
+
+      {/* Horizontal Divider Line */}
+      <div className="w-full border-t border-[#D9D9D9]" />
+
+      {/* ── Product Specification Accordion matching Figma node 6147:8180 ────────────────── */}
+      <div className="bg-white rounded-[24px] p-[24px] shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] w-full border border-[#EBEBEB]/80">
+        <div className="flex flex-col w-full">
+          {/* Accordion Toggle Header */}
+          <button
+            type="button"
+            onClick={() => setSpecOpen((prev) => !prev)}
+            className="flex items-center justify-between w-full cursor-pointer text-left focus:outline-hidden"
+          >
+            <span className="font-heading font-medium text-[16px] text-[#5C5C5C]">
+              Product specification
+            </span>
+            <div className="w-[24px] h-[24px] flex items-center justify-center text-gray-500">
+              {specOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </div>
+          </button>
+
+          {/* Accordion Expandable Spec Strip */}
+          {specOpen && (
+            <div className="bg-[#EBEBEB] rounded-[24px] px-[16px] sm:px-[22px] py-[20px] sm:py-[24px] mt-4 w-full animate-in fade-in-50 duration-200">
+              <div className="bg-[#FBF9F8] border border-[#D9D9D9] rounded-[12px] p-[11px] grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#D9D9D9] w-full">
+                {/* 1. Rated Output */}
+                <div className="flex flex-col items-center justify-center p-2 text-center">
+                  <span className="font-heading font-medium text-[11px] text-[#5C5C5C] uppercase tracking-wide">
+                    RATED OUTPUT
+                  </span>
+                  <span className="font-heading font-bold text-[18px] sm:text-[20px] text-[#1B1C1C] mt-1">
+                    {ratedOutput}
+                  </span>
+                </div>
+
+                {/* 2. Nominal Bus */}
+                <div className="flex flex-col items-center justify-center p-2 text-center">
+                  <span className="font-heading font-medium text-[11px] text-[#5C5C5C] uppercase tracking-wide">
+                    NOMINAL BUS
+                  </span>
+                  <span className="font-heading font-bold text-[18px] sm:text-[20px] text-[#1B1C1C] mt-1">
+                    {nominalBus}
+                  </span>
+                </div>
+
+                {/* 3. Efficiency */}
+                <div className="flex flex-col items-center justify-center p-2 text-center">
+                  <span className="font-heading font-medium text-[11px] text-[#5C5C5C] uppercase tracking-wide">
+                    EFFICIENCY
+                  </span>
+                  <span className="font-heading font-bold text-[18px] sm:text-[20px] text-[#3F6B1A] mt-1">
+                    {efficiency}
+                  </span>
+                </div>
+
+                {/* 4. Warranty */}
+                <div className="flex flex-col items-center justify-center p-2 text-center">
+                  <span className="font-heading font-medium text-[11px] text-[#5C5C5C] uppercase tracking-wide">
+                    WARRANTY
+                  </span>
+                  <span className="font-heading font-bold text-[18px] sm:text-[20px] text-[#1B1C1C] mt-1">
+                    {warranty}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Horizontal Divider Line */}
+      <div className="w-full border-t border-[#D9D9D9]" />
+
+      {/* ── Price & Stock Row matching Figma node 6147:8209 ─────────────────────────────── */}
+      <div className="flex flex-col gap-[12px] w-full">
+        <div className="flex flex-wrap items-center justify-between gap-3 w-full">
+          <div className="flex items-center gap-[9px] flex-wrap">
+            <span className="font-heading font-bold text-[28px] sm:text-[32px] text-[#1B1C1C] tracking-[-0.8px]">
+              {formatNaira(product.price)}
+            </span>
+            <span className="font-sans font-normal text-[14px] text-[#5C5C5C] line-through">
+              {formatNaira(originalPrice)}
+            </span>
+            <div className="bg-[#E8F3DA] border border-[rgba(123,176,66,0.3)] px-[9px] py-[3px] rounded-full">
+              <span className="font-heading font-bold text-[12px] text-[#3F6B1A] leading-[16px]">
+                -12%
+              </span>
+            </div>
+          </div>
+
+          {/* In Stock Badge */}
+          <div className="bg-[#E8F3DA] border border-[rgba(123,176,66,0.3)] flex items-center gap-[6px] px-[11px] py-[5px] rounded-full shrink-0">
+            <Check className="w-3.5 h-3.5 text-[#3F6B1A]" />
+            <span className="font-sans font-semibold text-[12px] text-[#3F6B1A]">
+              {product.in_stock ? "In stock (12 units)" : "Out of stock"}
+            </span>
+          </div>
+        </div>
+
         {/* Optional Compatible Accessories Bundle Selection */}
         {accessories.length > 0 && (
-          <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 space-y-2.5">
+          <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 space-y-2 w-full my-1">
             <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-gray-900 flex items-center gap-1.5">
+              <span className="font-bold text-gray-900 flex items-center gap-1.5 font-heading">
                 <PackagePlus className="w-4 h-4 text-[#7BB042]" />
                 Bundle Compatible Accessories
               </span>
@@ -165,7 +286,7 @@ export function AddToCartSection({
                       />
                       <span className="font-semibold truncate">{acc.name}</span>
                     </div>
-                    <span className="font-bold text-[#3F6B1A] shrink-0">
+                    <span className="font-bold text-[#3F6B1A] shrink-0 font-heading">
                       +{formatNaira(acc.price)}
                     </span>
                   </label>
@@ -175,60 +296,79 @@ export function AddToCartSection({
           </div>
         )}
 
-        <div className="flex items-center gap-3">
-          {/* Quantity Stepper */}
-          <div className="inline-flex items-center rounded-lg border border-[#D9D9D9] bg-white">
+        {/* ── Quantity Stepper & Add to Cart Button matching Figma node 6147:8222 ──────────── */}
+        {product.in_stock ? (
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-[39px] items-stretch sm:items-center w-full pt-1">
+            {/* Stepper matching Figma node 6147:8223 */}
+            <div className="flex items-center justify-between w-full sm:w-[120px] bg-white border border-[#D9D9D9] sm:border-0 rounded-[10px] p-1 sm:p-0">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="bg-white flex flex-col items-start justify-center overflow-hidden p-[4px] rounded-[7px] shadow-[0px_0.58px_6.4px_0px_rgba(45,45,45,0.1)] w-[36px] h-[36px] cursor-pointer hover:bg-gray-50 active:scale-95 transition"
+                aria-label="Decrease quantity"
+              >
+                <div className="bg-[#EBEBEB] flex items-center justify-center rounded-[7px] w-full h-full text-black">
+                  <Minus className="w-4 h-4" />
+                </div>
+              </button>
+
+              <span className="font-sans font-bold text-[14px] text-[#333333] px-2 text-center min-w-[24px]">
+                {quantity}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => q + 1)}
+                className="bg-white flex flex-col items-start justify-center overflow-hidden p-[4px] rounded-[7px] shadow-[0px_0.58px_6.4px_0px_rgba(45,45,45,0.1)] w-[36px] h-[36px] cursor-pointer hover:bg-gray-50 active:scale-95 transition"
+                aria-label="Increase quantity"
+              >
+                <div className="bg-[#EBEBEB] flex items-center justify-center rounded-[7px] w-full h-full text-black">
+                  <Plus className="w-4 h-4" />
+                </div>
+              </button>
+            </div>
+
+            {/* Primary CTA Button matching Figma node 6147:8236 */}
             <button
               type="button"
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-l-lg transition cursor-pointer"
-              aria-label="Decrease quantity"
+              onClick={handleAddToCart}
+              className={`flex-1 h-[48px] rounded-[10px] flex items-center justify-center gap-2 drop-shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition font-heading font-semibold text-[14px] tracking-[0.28px] cursor-pointer active:scale-98 ${
+                justAdded
+                  ? "bg-[#3F6B1A] text-white"
+                  : "bg-[#F5B82E] hover:bg-[#E5AA26] text-black"
+              }`}
             >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="px-3 text-xs font-bold text-gray-900 min-w-[32px] text-center">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              onClick={() => setQuantity((q) => q + 1)}
-              className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-r-lg transition cursor-pointer"
-              aria-label="Increase quantity"
-            >
-              <Plus className="w-4 h-4" />
+              {justAdded ? (
+                <>
+                  <Check className="w-5 h-5 text-white" />
+                  <span>Added to Cart ({quantity + selectedAccessories.length})</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-5 h-5 text-black" />
+                  <span>Add to cart</span>
+                </>
+              )}
             </button>
           </div>
+        ) : (
+          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1 w-full">
+            <p className="font-semibold flex items-center gap-1.5">
+              <AlertCircle className="w-4 h-4 text-amber-600" />
+              This system is currently out of stock.
+            </p>
+            <p>
+              Inquire with our engineers directly for restock dates.
+            </p>
+          </div>
+        )}
 
-          {/* Add to Cart Button with Black text on #7BB042 */}
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={`flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[46px] rounded-xl text-sm font-bold transition shadow-sm cursor-pointer active:scale-98 ${
-              justAdded
-                ? "bg-[#3F6B1A] text-white"
-                : "bg-[#7BB042] text-white hover:bg-[#6aa035]"
-            }`}
-          >
-            {justAdded ? (
-              <>
-                <Check className="w-4 h-4" />
-                Added to Cart ({quantity + selectedAccessories.length})
-              </>
-            ) : (
-              <>
-                <ShoppingCart className="w-4 h-4" />
-                Add to Cart
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Inline Post-Add Banner */}
+        {/* Post-add Banner Toast */}
         {justAdded && (
-          <div className="p-3.5 rounded-xl bg-[#E8F3DA] border border-[#7BB042] text-xs text-[#3F6B1A] flex flex-col sm:flex-row items-center justify-between gap-2.5 animate-in fade-in-50">
+          <div className="p-3.5 rounded-xl bg-[#E8F3DA] border border-[#7BB042] text-xs text-[#3F6B1A] flex flex-col sm:flex-row items-center justify-between gap-2.5 animate-in fade-in-50 w-full mt-2">
             <span className="font-medium flex items-center gap-1.5">
               <Check className="w-4 h-4 text-[#7BB042]" />
-              Items successfully added to your shopping cart!
+              Item added to your shopping cart!
             </span>
             <div className="flex items-center gap-2">
               <Link
@@ -248,61 +388,162 @@ export function AddToCartSection({
         )}
       </div>
 
-      {/* ── Buy Small Financing Callout ────────────────────────────── */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#F4F9EC] border border-[#D2E8B5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#3F6B1A] text-white">
-              Buy Small
-            </span>
-            <span className="font-heading font-bold text-sm text-gray-950">
-              Pay from {formatNaira(weeklyRate)} / week
+      {/* ── Installation & Delivery Informational Rows matching Figma node 6147:8244 ─────── */}
+      <div className="border-t border-[#D9D9D9] pt-[9px] flex flex-col gap-[12px] w-full">
+        {/* Row 1: Installation Available */}
+        <div className="flex items-start gap-[12px] w-full">
+          <div className="bg-[#E8F3DA] p-[6px] rounded-[8px] shrink-0 mt-0.5">
+            <Wrench className="w-4 h-4 text-[#3F6B1A]" />
+          </div>
+          <div className="font-sans text-[12px] leading-[19.5px]">
+            <span className="font-semibold text-[#1B1C1C]">Installation available:</span>{" "}
+            <span className="font-normal text-[#5C5C5C]">
+              Choose certified deployment at checkout. Certified Petfeb engineers available nationwide.
             </span>
           </div>
-          <p className="text-xs text-gray-600">
-            Spread payments in weekly or monthly installments with 30% initial deposit.
-          </p>
         </div>
 
+        {/* Row 2: Express Distribution */}
+        <div className="flex items-start gap-[12px] w-full">
+          <div className="bg-[#E8F3DA] p-[6px] rounded-[8px] shrink-0 mt-0.5">
+            <Truck className="w-4 h-4 text-[#3F6B1A]" />
+          </div>
+          <div className="font-sans text-[12px] leading-[19.5px]">
+            <span className="font-semibold text-[#1B1C1C]">Express Distribution:</span>{" "}
+            <span className="font-normal text-[#5C5C5C]">
+              24–48 hours transit to Lagos &amp; Abuja hub regions; 3–5 days to all other states.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Trust Rail matching Figma node 6147:8264 ─────────────────────────────────────── */}
+      <div className="border-t border-[#D9D9D9] pt-2 flex items-center justify-center gap-12 w-full text-center">
+        <div className="flex flex-col items-center">
+          <ShieldCheck className="w-5 h-5 text-[#3F6B1A] mb-1" />
+          <span className="font-heading font-medium text-[11px] text-[#1B1C1C]">
+            5-Year Warranty
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <Lock className="w-5 h-5 text-[#3F6B1A] mb-1" />
+          <span className="font-heading font-medium text-[11px] text-[#1B1C1C]">
+            Paystack Secured
+          </span>
+        </div>
+      </div>
+
+      {/* ── Buy Small Financing Panel matching Figma node 6147:8280 ──────────────────────── */}
+      <div className="bg-[#F5B82E] border border-[rgba(123,176,66,0.3)] rounded-[16px] p-[21px] flex flex-col gap-[20px] w-full shadow-xs">
+        {/* Top title and Zero Collateral Badge */}
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-[8px]">
+            <div className="bg-black rounded-[8px] size-[28px] flex items-center justify-center shrink-0">
+              <span className="font-bold text-white text-[12px]">BS</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-heading font-bold text-[14px] text-[#1B1C1C] leading-[20px]">
+                Pay from {displayInstallmentRate}
+              </span>
+              <span className="font-medium text-[11px] text-[#333333] leading-[16.5px]">
+                Buy Small Flexible Scheme
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-black border border-[#D9D9D9] rounded-full px-[9px] py-[3px] shrink-0">
+            <span className="font-heading font-bold text-[10px] text-white tracking-[0.5px] uppercase">
+              ZERO COLLATERAL
+            </span>
+          </div>
+        </div>
+
+        {/* Deposit Selector Chips */}
+        <div className="flex flex-col gap-[6px] w-full">
+          <span className="font-heading font-medium text-[12px] text-[#5C5C5C]">
+            Select Downpayment Deposit:
+          </span>
+          <div className="grid grid-cols-3 gap-[8px] w-full">
+            {([30, 40, 50] as const).map((pct) => {
+              const chipDeposit = Math.round((product.price * pct) / 100);
+              const isSelected = depositPct === pct;
+              return (
+                <button
+                  key={pct}
+                  type="button"
+                  onClick={() => setDepositPct(pct)}
+                  className={`py-[7px] px-2 rounded-[8px] text-[12px] transition text-center cursor-pointer font-heading ${
+                    isSelected
+                      ? "bg-black text-[#F2F7EC] font-bold shadow-xs"
+                      : "bg-white border border-[#D9D9D9] text-[#1B1C1C] font-medium hover:bg-gray-50"
+                  }`}
+                >
+                  {pct}% ({formatNaira(chipDeposit).replace("₦", "₦").slice(0, 7)}k)
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Payment Frequency Chips */}
+        <div className="flex items-center gap-[8px] w-full">
+          <span className="font-heading font-medium text-[12px] text-[#5C5C5C] shrink-0">
+            Frequency:
+          </span>
+          <div className="flex items-center gap-[8px]">
+            {(["Weekly", "Bi-weekly", "Monthly"] as const).map((freq) => {
+              const isSelected = frequency === freq;
+              return (
+                <button
+                  key={freq}
+                  type="button"
+                  onClick={() => setFrequency(freq)}
+                  className={`text-[12px] transition rounded-full cursor-pointer font-heading ${
+                    isSelected
+                      ? "bg-black text-white font-medium px-[10px] py-[2px]"
+                      : "bg-white border border-[#D9D9D9] text-[#5C5C5C] font-normal px-[11px] py-[3px] hover:bg-gray-50"
+                  }`}
+                >
+                  {freq}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Segmented 10-Step Power Meter Visual matching Figma node 6147:8309 */}
+        <div className="flex flex-col gap-[4px] w-full">
+          <div className="flex items-center justify-between text-[11px] w-full">
+            <span className="font-heading font-medium text-[#5C5C5C]">
+              Deposit Ratio Meter
+            </span>
+            <span className="font-heading font-bold text-[#3F6B1A]">
+              {depositPct}% Locked ({depositPct / 10}/10 blocks)
+            </span>
+          </div>
+
+          <div className="flex gap-[4px] items-center w-full">
+            {Array.from({ length: 10 }).map((_, i) => {
+              const isFilled = i < depositPct / 10;
+              return (
+                <div
+                  key={i}
+                  className={`flex-1 h-[8px] rounded-xs transition-colors duration-200 ${
+                    isFilled ? "bg-[#333333]" : "bg-[#D9D9D9]"
+                  }`}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* CTA Button matching Figma node 6147:8326 */}
         <Link
           href={`/buy-small?product=${encodeURIComponent(product.slug)}`}
-          className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6EA138] transition whitespace-nowrap shadow-2xs self-start sm:self-auto shrink-0"
+          className="bg-black border-2 border-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[18px] rounded-[12px] h-[64px] flex items-center justify-center hover:bg-gray-900 transition text-center w-full shadow-sm"
         >
-          <span>Apply with Buy Small</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          See how Buy Small works
         </Link>
-      </div>
-
-      {/* ── Installation & Delivery Summary ────────────────────────── */}
-      <div className="space-y-2.5 text-xs text-gray-600 pt-2 border-t border-gray-100">
-        <div className="flex items-start gap-2.5">
-          <Wrench className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-          <span>
-            <strong className="text-gray-900">Installation:</strong> Professional installation by certified Petfeb engineers available nationwide.
-          </span>
-        </div>
-        <div className="flex items-start gap-2.5">
-          <Truck className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-          <span>
-            <strong className="text-gray-900">Delivery:</strong> 24–48 hours transit in Lagos & Abuja; 3–5 days to all other states.
-          </span>
-        </div>
-      </div>
-
-      {/* ── Trust Strip ────────────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-2 pt-3 border-t border-gray-100 text-[11px] text-center text-gray-500">
-        <div className="flex items-center justify-center gap-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#7BB042]" />
-          <span>OEM Warranty</span>
-        </div>
-        <div className="flex items-center justify-center gap-1.5">
-          <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-          <span>Certified Quality</span>
-        </div>
-        <div className="flex items-center justify-center gap-1.5">
-          <Lock className="w-3.5 h-3.5 text-[#7BB042]" />
-          <span>Paystack Secured</span>
-        </div>
       </div>
     </div>
   );

@@ -1,97 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
-import { MilestoneCardDeck } from "@/components/public/MilestoneCardDeck";
 import { TeamShowcase } from "@/components/public/TeamShowcase";
-import { FloatingBounce, ParallaxLayer } from "@/components/motion";
-import { AboutImpactSection } from "@/components/public/AboutImpactSection";
-import { AboutHowWeWork } from "@/components/public/AboutHowWeWork";
-import { AboutFeaturedStory } from "@/components/public/AboutFeaturedStory";
-import { AboutClosingCta } from "@/components/public/AboutClosingCta";
 
 export const metadata: Metadata = {
   title: "About Us | Pet-Feb Solar Energy",
   description:
     "Learn about Pet-Feb International Company Limited, our history, engineering leadership, and mission to empower Nigeria with reliable, sustainable clean energy.",
 };
-
-interface StoryMilestone {
-  period: string;
-  title: string;
-  paragraphs: string[];
-}
-
-const STORY_INTRO = [
-  "Since its founding, Pet-Feb International Company Limited has been at the forefront of Nigeria’s renewable energy transformation. What began as a small, passionate vision to reduce the country’s dependence on fossil fuels has grown into one of Nigeria’s leading names in solar innovation and sustainable power solutions.",
-  "From powering homes and businesses to empowering people through training, every year of our journey tells a story of growth, resilience, and impact.",
-];
-
-const STORY_MILESTONES: StoryMilestone[] = [
-  {
-    period: "2019",
-    title: "The Beginning",
-    paragraphs: [
-      "Pet-Feb was officially founded with a mission to make solar energy accessible and affordable to all Nigerians. What started as a small team with a big dream quickly became a movement for cleaner, greener energy.",
-    ],
-  },
-  {
-    period: "2020–2021",
-    title: "Building Foundations",
-    paragraphs: [
-      "These early years were about laying the groundwork: building partnerships, gaining trust, and delivering our first major solar installations. Pet-Feb completed its first large-scale project and began training local technicians who would later become leaders in the field.",
-    ],
-  },
-  {
-    period: "2022",
-    title: "The Learning Curve",
-    paragraphs: [
-      "Every great journey has its turning point. For Pet-Feb, 2022 was a year of learning and refinement.",
-      "While we continued to execute smaller projects, our focus shifted toward improving operations, training, and quality assurance, preparing the foundation for the expansion to come.",
-    ],
-  },
-  {
-    period: "2023",
-    title: "Expansion Across Nigeria",
-    paragraphs: [
-      "Our next milestone came in 2023, when Pet-Feb expanded operations across Lagos, Abuja, and Port Harcourt.",
-      "With new offices, larger teams, and increased project capacity, we took bold steps toward becoming a truly national renewable energy provider.",
-    ],
-  },
-  {
-    period: "2024",
-    title: "Scaling Impact",
-    paragraphs: [
-      "The year 2024 marked one of our most impactful seasons yet. Pet-Feb executed multiple community-based projects, from rural solar outreaches and solar streetlight installations to household inverter systems across Nigeria.",
-      "Each project brought light, empowerment, and opportunity to people who needed it most.",
-    ],
-  },
-  {
-    period: "2025",
-    title: "New Horizons",
-    paragraphs: [
-      "In 2025, we took another leap forward by moving into a larger operational space in Port Harcourt and Abuja, expanding our capacity to serve customers and train more professionals.",
-      "We also strengthened international partnerships with top renewable energy manufacturers, positioning Pet-Feb as a key player in bringing advanced solar technologies to the Nigerian market.",
-    ],
-  },
-];
-
-const STORY_CLOSING =
-  "As we continue to grow, one thing remains constant: our commitment to innovation, sustainability, and empowering Nigeria with clean energy that lasts.";
-
-const VISION_POINTS = [
-  "Become Nigeria's most trusted provider of solar energy solutions.",
-  "Drive widespread adoption of renewable energy across Africa.",
-  "Build sustainable communities powered by clean energy.",
-  "Inspire innovation in eco-friendly technologies.",
-];
-
-const MISSION_POINTS = [
-  "Deliver world-class solar products and installations across Nigeria",
-  "Train and empower individuals with solar energy knowledge and skills.",
-  "Promote recycling and eco-friendly practices in the solar industry.",
-  "Provide customer-focused services with integrity and professionalism.",
-];
 
 const TEAM_MEMBERS = [
   {
@@ -110,283 +25,218 @@ const TEAM_MEMBERS = [
     name: "Mr. Dennis Onakposegha",
     role: "Logistics Manager",
     image: "/figma-assets/dennis-onakposegha.jpg.jpeg",
-    bio: "Directing supply chain logistics, solar equipment transport, inventory verification, and secure on-site material delivery.",
   },
-];
-
-const CUSTOMER_BENEFITS = [
-  "Access to reliable, world-class solar panels, inverters, and batteries.",
-  "Continuous product innovation backed by international expertise.",
-  "Expert installation, maintenance, and training services built on global standards.",
-  "A trusted partner committed to delivering affordable and sustainable solar energy in Nigeria.",
 ];
 
 export default function AboutPage() {
   return (
-    <main className="bg-white min-h-screen text-[#333333] selection:bg-[#7BB042]/20">
-      {/* 1. Hero Section ("About Pet-Feb") */}
-      <section className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px] pt-12 pb-14 lg:pt-[72px] lg:pb-[64px]">
-        <div className="max-w-[840px]">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F9EC] text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-4 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-            <span>Leading Nigeria&apos;s Clean Energy Revolution</span>
+    <main className="bg-white min-h-screen text-[#333333] pb-16 overflow-x-clip">
+      {/* ── 1. Hero Section ("● ABOUT PET-FEB") matching Original About us.jpg ── */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-8 sm:pt-12 pb-10">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 pb-8">
+          <div className="flex items-center gap-3">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" aria-hidden="true" />
+            <h1 className="font-heading font-bold text-[32px] sm:text-[44px] lg:text-[54px] text-gray-950 uppercase tracking-tight leading-tight">
+              ABOUT PET-FEB
+            </h1>
           </div>
-          <h1 className="font-heading font-extrabold text-[36px] sm:text-[48px] lg:text-[58px] text-gray-950 leading-[1.12] tracking-tight">
-            Powering Nigerian Lives &amp; Enterprises with Reliable Solar Energy
-          </h1>
-          <p className="mt-5 lg:mt-6 text-[#4A4A4A] text-[16px] sm:text-[18px] lg:text-[19px] leading-[1.65]">
-            Pet-Feb International Company Limited is a trusted renewable energy company in Nigeria dedicated to providing reliable, Tier-1 clean power solutions. From residential homes to large-scale community microgrids and commercial arrays, we engineer, install, and maintain systems that eliminate generator dependency, lower operating costs, and protect the environment.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-heading font-bold text-[15px] sm:text-[16px] bg-[#7BB042] text-white hover:bg-[#6CA035] shadow-[0px_4px_14px_rgba(123,176,66,0.35)] active:scale-[0.98] transition-all duration-200"
-            >
-              <span>Get a Solar Consultation</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/projects"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full font-heading font-bold text-[15px] sm:text-[16px] bg-white text-gray-900 border-2 border-gray-200 hover:border-[#7BB042] hover:text-[#3F6B1A] shadow-xs active:scale-[0.98] transition-all duration-200"
-            >
-              Explore Our Projects
-            </Link>
+          <div className="max-w-xl">
+            <p className="text-[#4A4A4A] text-sm sm:text-base leading-relaxed font-normal">
+              Pet-Feb is a trusted solar energy company in Nigeria, dedicated to providing reliable and sustainable power solutions. From residential homes to large-scale projects, we design, install, and maintain systems that reduce costs, protect the environment, and empower communities with clean energy.
+            </p>
           </div>
         </div>
 
         {/* Hero installation banner */}
-        <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[442px] mt-10 lg:mt-[44px] rounded-[24px] overflow-hidden border-4 border-white shadow-[0px_4px_24px_rgba(0,0,0,0.08)] bg-neutral-100">
+        <div className="relative w-full h-[320px] sm:h-[460px] lg:h-[580px] rounded-[31px] overflow-hidden shadow-sm">
           <Image
-            src="/figma-assets/about-hero.png"
+            src="/bannerimages/about-page-banner.jpg"
             alt="Pet-Feb solar installations nationwide"
             fill
             priority
             className="object-cover"
-            sizes="(max-width: 1350px) 100vw, 1350px"
+            sizes="(max-width: 1440px) 100vw, 1440px"
           />
         </div>
       </section>
 
-      {/* 2. Verified Impact Section */}
-      <AboutImpactSection />
-
-      {/* Subtle divider */}
-      <div className="border-b border-gray-100 w-full" aria-hidden="true" />
-
-      {/* 2. Our Story & Leadership (Dark Section with Desktop Sticky CEO Card) */}
-      <section className="bg-black text-white py-16 lg:py-[100px]">
-        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[40px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-[80px]">
-            {/* Left: Sticky CEO Leadership Card on desktop */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-start">
-              <div className="w-full max-w-[420px] lg:sticky lg:top-[124px] self-start">
-                <div className="group w-full bg-black rounded-[24px] overflow-hidden shadow-[0px_4px_12px_rgba(245,184,46,0.18)] pb-4 flex flex-col motion-safe:hover:-translate-y-1.5 hover:shadow-[0px_10px_32px_rgba(0,0,0,0.65),0px_6px_24px_rgba(245,184,46,0.24)] transition-all duration-300 ease-out">
-                  <ParallaxLayer travel={16}>
-                    <FloatingBounce distance={8} duration={2.8}>
-                      <div className="relative w-full h-[300px] sm:h-[340px] lg:h-[360px] overflow-hidden rounded-t-[24px] bg-neutral-900">
-                        <Image
-                          src="/figma-assets/about-ceo-petra.webp"
-                          alt="Mrs. Petra Solomon - CEO/Managing Director PET-FEB International Company"
-                          fill
-                          priority
-                          className="object-cover object-[center_16%] scale-[1.20] sm:scale-[1.14] lg:scale-[1.24] origin-[center_16%] motion-safe:group-hover:scale-[1.26] motion-safe:sm:group-hover:scale-[1.20] motion-safe:lg:group-hover:scale-[1.30] transition-transform duration-500 ease-out"
-                          sizes="(max-width: 1024px) 100vw, 420px"
-                        />
-                      </div>
-                    </FloatingBounce>
-                  </ParallaxLayer>
-                  <div className="px-5 sm:px-6 pt-3.5 sm:pt-4">
-                    <h3 className="font-heading font-bold text-[22px] sm:text-[24px] text-[#e6e6e6]">
-                      Mrs. Petra Solomon
-                    </h3>
-                    <p className="text-[15px] sm:text-[16px] text-[#ebebeb] leading-[1.5] mt-1 sm:mt-1.5">
-                      CEO/Managing Director PET-FEB International Company
-                    </p>
-                  </div>
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
+        {/* ── 2. Our Story (Light Green Container) matching Original About us.jpg ── */}
+        <section className="bg-[#D6E7C4] text-gray-950 rounded-[32px] p-6 sm:p-10 lg:p-14">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            {/* Left: CEO Leadership Card */}
+            <div className="lg:col-span-5">
+              <div className="w-full bg-black rounded-[24px] overflow-hidden shadow-md text-white p-4 space-y-4">
+                <div className="relative w-full h-[320px] sm:h-[380px] rounded-xl overflow-hidden bg-neutral-900">
+                  <Image
+                    src="/figma-assets/about-ceo-petra.webp"
+                    alt="Mrs. Petra Solomon - CEO/Managing Director PET-FEB International Company"
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 420px"
+                  />
+                </div>
+                <div className="px-2 pt-1 pb-2">
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-white">
+                    Mrs. Petra Solomon
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-300 mt-1">
+                    CEO/Managing Director PET-FEB International Company
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* Right: Scrolling Story narrative, 6 milestones, and closing */}
-            <div className="lg:col-span-7 flex flex-col space-y-10 lg:space-y-12">
-              {/* Section label & Main heading */}
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-3">
-                  <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
-                  <span className="font-heading font-medium text-[20px] sm:text-[24px] text-[#F5B82E] tracking-wide">
+            {/* Right: Story narrative */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-3 h-3 rounded-full bg-black shrink-0" />
+                  <span className="font-heading font-bold text-lg text-black tracking-wide">
                     Our Story
                   </span>
                 </div>
-                <h2 className="font-heading font-bold text-[32px] sm:text-[44px] lg:text-[52px] text-white tracking-tight leading-[1.15]">
-                  Building Nigeria’s Clean Energy Future One Milestone at a Time
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-black tracking-tight leading-snug">
+                  Building Nigeria&apos;s Clean Energy Future One Milestone at a Time
                 </h2>
               </div>
 
-              {/* Introduction paragraphs */}
-              <div className="space-y-4 text-[#ebebeb] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.7]">
-                {STORY_INTRO.map((para, idx) => (
-                  <p key={idx}>{para}</p>
-                ))}
+              <div className="space-y-4 text-gray-800 text-sm sm:text-base leading-relaxed font-normal">
+                <p>
+                  Since its founding, Pet-Feb International Company Limited has been at the forefront of Nigeria&apos;s renewable energy transformation. What began as a small, passionate vision to reduce the country&apos;s dependence on fossil fuels has grown into one of Nigeria&apos;s leading names in solar innovation and sustainable power solutions.
+                </p>
+                <p>
+                  From powering homes and businesses to empowering people through training, every year of our journey tells a story of growth, resilience, and impact.
+                </p>
               </div>
 
-              {/* Scroll-Driven Stacking Milestone Card Deck */}
-              <MilestoneCardDeck
-                milestones={STORY_MILESTONES}
-                closing={STORY_CLOSING}
-              />
+              {/* 2019 The Beginning Black Card matching Figma */}
+              <div className="bg-black text-white rounded-[20px] p-6 sm:p-7 space-y-2.5 shadow-md">
+                <div className="flex items-center gap-2">
+                  <span className="w-3.5 h-3.5 rounded-full bg-[#7BB042]" />
+                  <h4 className="font-heading font-bold text-base sm:text-lg text-white">
+                    2019 — The Beginning
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
+                  Pet-Feb was officially founded with a mission to make solar energy accessible and affordable to all Nigerians. What started as a small team with a big dream quickly became a movement for cleaner, greener energy.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 3. Our Vision & Our Mission (Side-by-side Light Section) */}
-      <section className="bg-white py-16 lg:py-[80px]">
-        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-[60px] items-start">
-            {/* Our Vision */}
-            <div className="flex flex-col">
-              <div className="inline-flex items-center gap-3">
-                <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
-                <h2 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black tracking-tight leading-tight">
-                  Our Vision
-                </h2>
-              </div>
-              <p className="mt-5 lg:mt-6 text-[#333333] text-[16px] lg:text-[18px] leading-[1.6]">
-                At Pet-Feb, our vision is to lead Nigeria’s transition into clean, renewable energy by delivering reliable and innovative solar solutions. We aim to create a sustainable future where homes, businesses, and communities thrive through affordable power.
-              </p>
-              <div className="mt-7 space-y-3">
-                {VISION_POINTS.map((point, idx) => (
-                  <div key={idx} className="flex items-start gap-4 py-1">
-                    <div className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-[#7BB042]" strokeWidth={2.5} />
-                    </div>
-                    <p className="text-[#5c5c5c] text-[15px] sm:text-[16px] leading-[1.6]">
-                      {point}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Our Mission */}
-            <div className="flex flex-col">
-              <div className="inline-flex items-center gap-3">
-                <span className="w-3 h-3 rounded-full bg-[#7BB042] shrink-0" aria-hidden="true" />
-                <h2 className="font-heading font-bold text-[36px] sm:text-[48px] lg:text-[64px] text-black tracking-tight leading-tight">
+        {/* ── 3. Our Mission (Black Container with Yellow Box) matching Figma ── */}
+        <section className="bg-black text-white rounded-[32px] p-8 sm:p-12 lg:p-14">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-between">
+            <div className="lg:col-span-5">
+              <div className="flex items-center gap-3">
+                <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" />
+                <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
                   Our Mission
                 </h2>
               </div>
-              <p className="mt-5 lg:mt-6 text-[#5c5c5c] text-[16px] lg:text-[18px] leading-[1.6]">
-                Our mission is to provide affordable, efficient, and sustainable solar power solutions that meet the energy needs of Nigerians today while safeguarding the environment for tomorrow.
-              </p>
-              <div className="mt-7 space-y-3">
-                {MISSION_POINTS.map((point, idx) => (
-                  <div key={idx} className="flex items-start gap-4 py-1">
-                    <div className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="w-4 h-4 text-[#7BB042]" strokeWidth={2.5} />
-                    </div>
-                    <p className="text-[#5c5c5c] text-[15px] sm:text-[16px] leading-[1.6]">
-                      {point}
-                    </p>
-                  </div>
-                ))}
+            </div>
+            <div className="lg:col-span-7">
+              <div className="bg-[#F5B82E] text-black rounded-[24px] p-6 sm:p-8 lg:p-10 shadow-lg">
+                <p className="text-base sm:text-lg lg:text-xl font-medium leading-relaxed">
+                  Our mission is to provide affordable, efficient, and sustainable solar power solutions that meet the energy needs of Nigerians today while safeguarding the environment for tomorrow.
+                </p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 4. How We Work Process */}
-      <AboutHowWeWork />
-
-      {/* 5. Leadership & Team Section */}
-      <TeamShowcase members={TEAM_MEMBERS} title="Rest Of The Team" />
-
-      {/* 6. Featured Project or Impact Story (Light Up Umueri Flagship) */}
-      <AboutFeaturedStory />
-
-      {/* 7. Global Partnerships & Technology Standards (Team's Event) */}
-      <section className="bg-white pb-14 lg:pb-20 border-t border-gray-100">
-        <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
-          {/* Event Header */}
-          <div className="space-y-2 mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F9EC] text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-              <span>Global Technology Transfer</span>
+        {/* ── 4. Our Vision (Yellow Container with Black Box) matching Figma ── */}
+        <section className="bg-[#F5B82E] text-black rounded-[32px] p-8 sm:p-12 lg:p-14">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-between">
+            <div className="lg:col-span-7 order-2 lg:order-1">
+              <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 lg:p-10 shadow-lg">
+                <p className="text-base sm:text-lg lg:text-xl font-normal leading-relaxed text-gray-200">
+                  At Pet-Feb, our vision is to lead Nigeria&apos;s transition into clean, renewable energy by delivering reliable and innovative solar solutions. We aim to create a sustainable future where homes, businesses, and communities thrive through affordable power.
+                </p>
+              </div>
             </div>
-            <h2 className="font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl text-gray-950 tracking-tight leading-tight">
-              Team’s Event: Global Partnerships, Local Impact
-            </h2>
-            <p className="text-[#5c5c5c] text-sm sm:text-base max-w-2xl">
-              Bringing international engineering benchmarks and direct manufacturer trade partnerships to Nigeria.
-            </p>
-          </div>
-
-          {/* Event Card with authentic photograph */}
-          <div className="bg-white rounded-[24px] shadow-[0px_4px_24px_rgba(45,45,45,0.06)] border border-gray-200/90 p-4 sm:p-6 lg:p-8">
-            <div className="relative w-full h-[320px] sm:h-[480px] lg:h-[600px] xl:h-[680px] rounded-[20px] overflow-hidden bg-neutral-900">
-              <Image
-                src="/figma-assets/about-event-china.png"
-                alt="Pet-Feb Team landmark visit to China renewable energy manufacturers"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1350px) 100vw, 1350px"
-              />
-            </div>
-
-            {/* Pagination indicator dots matching Figma */}
-            <div className="flex justify-center mt-6">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
-                <span className="w-2 h-2 rounded-full bg-gray-300" />
-                <span className="w-2 h-2 rounded-full bg-gray-300" />
+            <div className="lg:col-span-5 order-1 lg:order-2 flex lg:justify-end">
+              <div className="flex items-center gap-3">
+                <span className="w-3.5 h-3.5 rounded-full bg-black shrink-0" />
+                <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-black tracking-tight">
+                  Our Vision
+                </h2>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Event Narrative Story */}
-          <div className="mt-10 lg:mt-12 text-[#5c5c5c] text-[16px] sm:text-[17px] lg:text-[18px] leading-[1.7] space-y-5 max-w-[1200px]">
-            <p>
-              At Pet-Feb, we know that the future of energy cannot be built in isolation. That’s why our team embarked on a landmark international technology initiative — a journey that opened new doors for innovation, engineering rigor, and manufacturing collaboration.
-            </p>
-            <p>
-              During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world’s leading renewable energy manufacturers. This milestone positions us to deliver climate-hardened solar products tailored specifically for the Nigerian climate.
-            </p>
-            <p>
-              Our engineers engaged in hands-on factory training sessions, testing protocols, and knowledge-sharing workshops with leading equipment designers. These experiences ensure our technical team adheres to global solar installation best practices.
-            </p>
-
-            <div className="pt-2">
-              <p className="font-heading font-semibold text-[18px] sm:text-[20px] text-gray-900 mb-3">
-                What this means for our customers:
-              </p>
-              <ul className="space-y-2.5 pl-6 list-disc">
-                {CUSTOMER_BENEFITS.map((benefit, idx) => (
-                  <li key={idx} className="text-[#5c5c5c]">
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
+        {/* ── 5. Rest Of The Team Section matching Original About us.jpg ── */}
+        <section className="space-y-6 pt-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" />
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950 tracking-tight">
+                Rest Of The Team
+              </h2>
             </div>
-
-            <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100">
-              <p className="text-sm text-[#777777]">
-                Learn more about our international manufacturing standards transfer initiative.
-              </p>
-              <Link
-                href="/projects/building-global-capacity"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-gray-900 border border-gray-300 hover:border-[#7BB042] hover:text-[#3F6B1A] font-heading font-semibold text-xs sm:text-sm transition-all duration-200"
-              >
-                <span>View Global Capacity Project Details</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-2xl font-normal">
+              Experienced renewable energy leaders directing operations, technical engineering surveys, and nationwide logistics.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* 8. Strong Closing CTA */}
-      <AboutClosingCta />
+          <TeamShowcase members={TEAM_MEMBERS} />
+        </section>
+
+        {/* ── 6. Team's Event (Black Container) matching Original About us.jpg ── */}
+        <section className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2.5">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0" />
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl text-white tracking-tight">
+                Team&apos;s Event
+              </h2>
+            </div>
+            <p className="text-sm text-gray-300 font-normal">
+              Global Partnerships, Local Impact
+            </p>
+          </div>
+
+          {/* China Event Photo */}
+          <div className="relative rounded-[24px] overflow-hidden h-[300px] sm:h-[420px] lg:h-[500px] w-full bg-neutral-900">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/figma-assets/about-event-china.png"
+              alt="Petfeb leadership delegation at international manufacturing partner facility"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center gap-2 pt-1">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
+          </div>
+
+          {/* Event Narrative */}
+          <div className="space-y-4 text-xs sm:text-sm text-gray-300 leading-relaxed font-normal pt-2 border-t border-white/10">
+            <p>
+              At Pet-Feb, we know that the future of energy cannot be built in isolation. That&apos;s why in March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and collaboration. During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world&apos;s leading renewable energy manufacturers. This milestone does more than strengthen our global footprint — it positions us to launch our own line of branded solar products tailored for the Nigerian market.
+            </p>
+            <p>
+              What this means for our customers:
+            </p>
+            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+              <li>Access to reliable, world-class solar panels, inverters, and batteries.</li>
+              <li>Continuous product innovation backed by international expertise.</li>
+              <li>Expert installation, maintenance, and training services built on global standards.</li>
+              <li>A trusted partner committed to delivering affordable and sustainable solar energy in Nigeria.</li>
+            </ul>
+            <p>
+              At Pet-Feb, our mission is bigger than energy. We are committed to reducing carbon emissions, empowering communities, and helping businesses transition to clean, sustainable power solutions. With every partnership we forge, we take one more step towards creating a greener, healthier future for Nigeria and beyond.
+            </p>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
