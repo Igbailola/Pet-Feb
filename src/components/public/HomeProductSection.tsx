@@ -5,6 +5,9 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
+import { ProductCardButton } from "@/components/public/ProductCardButton";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { StaggerChildren } from "@/components/motion/StaggerChildren";
 
 interface HomeProductSectionProps {
   products: Product[];
@@ -41,7 +44,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
   return (
     <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
       {/* Header and Filter Row matching Figma frame 6139:2959 */}
-      <div className="space-y-6">
+      <ScrollReveal className="space-y-6">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
           <div className="max-w-2xl space-y-4">
             <div className="flex items-center gap-3">
@@ -78,7 +81,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                   active
-                    ? "bg-[#7BB042] text-white font-bold"
+                    ? "bg-[#7BB042] text-white font-bold shadow-xs"
                     : "bg-white text-gray-800 hover:bg-gray-100"
                 }`}
               >
@@ -87,11 +90,17 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
             );
           })}
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* 3 Product Cards Grid matching Figma frame 6139:2983 */}
       {displayProducts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <StaggerChildren
+          key={selectedCategory}
+          staggerDelay={0.09}
+          distance={56}
+          scale={0.95}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+        >
           {displayProducts.map((product) => {
             const mainImg =
               product.product_images?.find((img) => img.is_main) ||
@@ -101,7 +110,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
             return (
               <div
                 key={product.id}
-                className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover-lift group"
+                className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover-lift group h-full"
               >
                 {/* Image Container with light green-tinted well */}
                 <div className="h-56 sm:h-64 rounded-[16px] bg-[#F2F7EC] p-6 flex items-center justify-center overflow-hidden">
@@ -135,18 +144,19 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
 
                   {/* Buy Button matching Figma node 6139:2997 */}
                   <div className="pt-2">
-                    <Link
+                    <ProductCardButton
                       href={`/shop/${product.slug}`}
-                      className="w-full py-3.5 px-4 rounded-[12px] text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition-colors flex items-center justify-center text-center shadow-xs"
+                      className="w-full py-3.5 px-4 rounded-[12px] text-sm font-bold shadow-xs"
+                      ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
                     >
                       Buy For {formatNaira(product.price)}
-                    </Link>
+                    </ProductCardButton>
                   </div>
                 </div>
               </div>
             );
           })}
-        </div>
+        </StaggerChildren>
       ) : (
         <div className="bg-white/5 rounded-[24px] border border-white/10 p-12 text-center space-y-3">
           <p className="text-sm font-medium text-gray-300">

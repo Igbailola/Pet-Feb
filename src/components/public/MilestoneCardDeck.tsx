@@ -22,8 +22,8 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
   const [reducedMotion, setReducedMotion] = useState(false);
 
   // Total cards: 6 milestone cards + 1 closing commitment card = 7 cards
-  // 6 card-to-card transitions + 0.4 settle phase for cleanly dissolving prior roof tiers
-  const totalTransitions = 6.4;
+  const totalCards = milestones.length + 1;
+  const totalTransitions = milestones.length + 0.4;
 
   // Detect mobile viewport (< 768px) and reduced-motion preference
   useEffect(() => {
@@ -61,21 +61,13 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
           }
 
           const rect = trackRef.current.getBoundingClientRect();
-          // Header on desktop has min-h-[102px]; deck pins at top-[124px] alongside CEO card
           const pinTop = 124;
           const trackHeight = trackRef.current.offsetHeight;
           const stickyHeight = stickyRef.current ? stickyRef.current.offsetHeight : 380;
 
-          // In CSS, sticky unpins when rect.bottom <= pinTop + stickyHeight.
-          // Since rect.bottom = rect.top + trackHeight:
-          // Pinned scroll travel is exactly: trackHeight - stickyHeight.
           const maxScroll = Math.max(1, trackHeight - stickyHeight);
-
-          // Distance scrolled past pinTop
           const scrolledPast = pinTop - rect.top;
 
-          // Normalized progress 0 -> totalTransitions (0.0 to 6.4)
-          // Progress 6.4 (Card 7 settled and roof tiers dissolved) arrives exactly at the unpin point
           const ratio = Math.max(0, Math.min(1, scrolledPast / maxScroll));
           const currentProgress = ratio * totalTransitions;
 
@@ -88,7 +80,7 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll, { passive: true });
-    handleScroll(); // run once on mount
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -96,12 +88,30 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
     };
   }, [isMobile, reducedMotion, totalTransitions]);
 
+  const scrollToCard = (targetIdx: number) => {
+    if (!trackRef.current) return;
+    const rect = trackRef.current.getBoundingClientRect();
+    const absoluteTrackTop = window.scrollY + rect.top;
+    const pinTop = 124;
+    const trackHeight = trackRef.current.offsetHeight;
+    const stickyHeight = stickyRef.current ? stickyRef.current.offsetHeight : 380;
+    const maxScroll = Math.max(1, trackHeight - stickyHeight);
+
+    const targetRatio = Math.min(1, Math.max(0, targetIdx / totalTransitions));
+    const targetScrollY = absoluteTrackTop - pinTop + targetRatio * maxScroll;
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: "smooth",
+    });
+  };
+
   // Compute transform & style for each card at the given progress
   const getCardStyle = (idx: number) => {
     // 1. Card has not entered yet (waiting below viewport)
     if (progress <= idx - 1) {
       return {
-        transform: "translateY(100%)",
+        transform: "translateY(105%) scale(0.98)",
         opacity: 0,
         pointerEvents: "none" as const,
         zIndex: 10 + idx,
@@ -126,40 +136,28 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
       };
     }
 
-    // 3. Final Card (idx = 6) after settling (progress > 6.0)
-    // Retains full size, full typography, and active prominence (scale 1)
-    if (idx === 6) {
+    // 3. Final Card (idx = milestones.length) after settling
+    if (idx === milestones.length) {
       return {
-        transform: "translateY(0.0%) scale(1)",
+        transform: "translateY(0%) scale(1)",
         opacity: 1,
-        zIndex: 16,
+        zIndex: 10 + idx,
       };
     }
 
-    // 4. Milestone card is beneath newer foreground cards (Shop-roof visual stacking)
-    const depth = progress - idx; // depth > 0
+    // 4. Milestone card is beneath newer foreground cards (Stepped roof visual stacking)
+    const depth = progress - idx;
+    const tier = Math.min(depth, 2.5);
+    const offset = -tier * 14;
+    const scale = 1 - tier * 0.02;
 
-    // Shallow stepped roof overhang: tier 1 = -12px (scale 0.985), tier 2 = -24px (scale 0.970)
-    // Capped at 2 shallow tiers so older cards never consume active card space
-    const tier = Math.min(depth, 2);
-    const offset = -tier * 12;
-    const scale = 1 - tier * 0.015;
-
-    // Visibility:
-    // a. Cards deeper than 2 tiers tuck under tier 2 and fade out cleanly
     let opacity = 1;
-    if (depth > 2) {
-      opacity = Math.max(0, 1 - (depth - 2) * 1.5);
+    if (depth > 2.2) {
+      opacity = Math.max(0, 1 - (depth - 2.2) * 1.4);
     }
 
-    // b. Stable Roof During Final Card Entrance:
-    // While final card (idx = 6) is visibly entering (progress from 5.0 to 6.0),
-    // Cards 4 and 5 stay 100% visible and stable in their roof positions.
-    // ONLY after final card has completely reached rest (progress > 6.0),
-    // older roof layers smoothly transition out (progress 6.0 to 6.4) so Card 6 stands alone.
-    // Reverses naturally and smoothly when scrolling backward.
-    if (progress > 6.0) {
-      const settleProgress = (progress - 6.0) / 0.4;
+    if (progress > milestones.length) {
+      const settleProgress = (progress - milestones.length) / 0.4;
       const finalFade = Math.max(0, 1 - settleProgress);
       opacity = Math.min(opacity, finalFade);
     }
@@ -172,24 +170,30 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
     };
   };
 
+  const activeCardIndex = Math.min(
+    totalCards - 1,
+    Math.max(0, Math.round(progress))
+  );
+
   // ── Fallback for Mobile (< 768px) and Reduced-Motion: Standard readable vertical list ──
   if (isMobile || reducedMotion) {
     return (
-      <div className="space-y-6 pt-2">
+      <div className="space-y-5 pt-2">
         {milestones.map((milestone, idx) => (
           <div
             key={idx}
-            className="bg-[#141414] rounded-[24px] p-6 sm:p-7 border border-white/[0.08] shadow-[0px_4px_20px_rgba(0,0,0,0.35)]"
+            className="bg-black text-white rounded-[24px] p-6 sm:p-7 border border-white/10 shadow-md"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-6 h-6 rounded-full bg-[#7BB042]/15 flex items-center justify-center shrink-0">
+              <div className="w-6 h-6 rounded-full bg-[#7BB042]/20 flex items-center justify-center shrink-0">
                 <Check className="w-3.5 h-3.5 text-[#7BB042]" strokeWidth={2.5} />
               </div>
-              <h3 className="font-heading font-semibold text-[20px] sm:text-[22px] text-white">
-                <span className="text-[#7BB042]">{milestone.period}</span> — {milestone.title}
+              <h3 className="font-heading font-bold text-lg sm:text-xl text-white">
+                <span className="text-[#7BB042]">{milestone.period}</span> —{" "}
+                {milestone.title}
               </h3>
             </div>
-            <div className="space-y-3 text-[#cccccc] text-[15px] sm:text-[16px] leading-[1.7] pl-9">
+            <div className="space-y-2.5 text-gray-300 text-xs sm:text-sm leading-relaxed pl-9">
               {milestone.paragraphs.map((p, pIdx) => (
                 <p key={pIdx}>{p}</p>
               ))}
@@ -198,9 +202,12 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
         ))}
 
         {/* Closing statement card */}
-        <div className="bg-[#141414] rounded-[24px] p-6 sm:p-7 border border-white/[0.08] shadow-[0px_4px_20px_rgba(0,0,0,0.35)] text-white font-heading font-medium text-[17px] sm:text-[19px] leading-[1.6]">
+        <div className="bg-black text-white rounded-[24px] p-6 sm:p-7 border border-[#7BB042]/40 shadow-md font-heading font-medium text-sm sm:text-base leading-relaxed">
           <div className="flex items-start gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042] shrink-0 mt-2" aria-hidden="true" />
+            <span
+              className="w-3 h-3 rounded-full bg-[#F5B82E] shrink-0 mt-1.5"
+              aria-hidden="true"
+            />
             <p>{closing}</p>
           </div>
         </div>
@@ -208,83 +215,131 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
     );
   }
 
-  // ── Desktop Scroll-Driven Stacking Card Deck (>= 768px) ──
+  // ── Desktop Scroll-Driven Stacking Card Deck (>= 768px) matching scroll-card-and-our-mission-petfeb.mp4 ──
   return (
-    // Outer scroll track: 75vh per transition (6 * 75vh = 450vh) + 30vh settle phase + 100vh base = 580vh
-    // Provides a slower, controlled reading cadence for each milestone
     <div
       ref={trackRef}
       className="relative w-full"
       style={{
-        height: "calc(100vh + 480vh)",
+        height: "calc(100vh + 340vh)",
       }}
     >
       {/* Pinned visual display area: aligns with sticky CEO card at top-[124px] */}
-      <div ref={stickyRef} className="sticky top-[124px] w-full pt-[32px] pb-6">
-        {/*
-          Fixed-height shared card deck frame:
-          Guarantees every milestone card and the closing card have identical height (320px).
-          Prevents content size variations from breaking dimensions or allowing previous cards to peek out.
-        */}
-        <div className="relative w-full h-[330px] lg:h-[320px]">
-          {/* Milestone Cards (2019 through 2025) */}
+      <div ref={stickyRef} className="sticky top-[124px] w-full pt-8 pb-4 space-y-5">
+        {/* Top Interactive Timeline Bar */}
+        <div className="flex items-center justify-between gap-3 bg-black/90 text-white px-4 py-2.5 rounded-full border border-black/10 shadow-sm">
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            {milestones.map((m, idx) => {
+              const isCurrent = activeCardIndex === idx;
+              const isPassed = activeCardIndex > idx;
+              return (
+                <button
+                  key={m.period}
+                  type="button"
+                  onClick={() => scrollToCard(idx)}
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${
+                    isCurrent
+                      ? "bg-[#7BB042] text-white shadow-2xs"
+                      : isPassed
+                      ? "bg-white/15 text-[#D6E7C4] hover:bg-white/25"
+                      : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {m.period}
+                </button>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => scrollToCard(milestones.length)}
+              className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${
+                activeCardIndex === milestones.length
+                  ? "bg-[#F5B82E] text-black shadow-2xs"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Our Pledge
+            </button>
+          </div>
+
+          <span className="text-[11px] font-heading font-semibold text-gray-300 shrink-0 pl-2">
+            {String(activeCardIndex + 1).padStart(2, "0")} /{" "}
+            {String(totalCards).padStart(2, "0")}
+          </span>
+        </div>
+
+        {/* Fixed-height shared card deck frame */}
+        <div className="relative w-full h-[300px] lg:h-[290px] mt-4">
           {milestones.map((milestone, idx) => {
             const style = getCardStyle(idx);
 
             return (
               <div
                 key={idx}
-                /*
-                  Equal height: absolute inset-0 w-full h-full guarantees 100% identical dimensions across all cards.
-                  Solid #141414 background and clean border-white/[0.08] without gradient strokes.
-                  Subtle, consistent upward and downward shadows create authentic layer depth between stepped cards.
-                */
-                className="absolute inset-0 w-full h-full bg-[#141414] rounded-[24px] p-6 sm:p-7 border border-white/[0.08] shadow-[0_-4px_16px_rgba(0,0,0,0.35),0_10px_25px_rgba(0,0,0,0.45)] flex flex-col justify-start overflow-hidden"
+                className="absolute inset-0 w-full h-full bg-black rounded-[24px] p-6 sm:p-8 border border-white/12 shadow-[0_-6px_20px_rgba(0,0,0,0.28),0_12px_28px_rgba(0,0,0,0.35)] flex flex-col justify-between overflow-hidden"
                 style={{
                   ...style,
                   transformOrigin: "top center",
                   willChange: "transform, opacity",
                 }}
               >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-6 h-6 rounded-full bg-[#7BB042]/15 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5 text-[#7BB042]" strokeWidth={2.5} />
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-3.5 h-3.5 rounded-full bg-[#7BB042] shrink-0" />
+                      <h3 className="font-heading font-bold text-lg sm:text-xl text-white">
+                        <span className="text-[#7BB042]">{milestone.period}</span>{" "}
+                        — {milestone.title}
+                      </h3>
+                    </div>
+                    <span className="text-[11px] font-heading font-semibold text-gray-400 bg-white/10 px-2.5 py-0.5 rounded-full">
+                      Milestone {idx + 1} of {milestones.length}
+                    </span>
                   </div>
-                  <h3 className="font-heading font-semibold text-[20px] sm:text-[22px] text-white">
-                    <span className="text-[#7BB042]">{milestone.period}</span> — {milestone.title}
-                  </h3>
+
+                  <div className="space-y-2.5 text-gray-300 text-xs sm:text-sm lg:text-[15px] leading-relaxed pl-6">
+                    {milestone.paragraphs.map((p, pIdx) => (
+                      <p key={pIdx}>{p}</p>
+                    ))}
+                  </div>
                 </div>
-                <div className="space-y-2.5 sm:space-y-3 text-[#cccccc] text-[14px] sm:text-[15px] xl:text-[16px] leading-[1.65] pl-9">
-                  {milestone.paragraphs.map((p, pIdx) => (
-                    <p key={pIdx}>{p}</p>
-                  ))}
+
+                {/* Subtle bottom progress bar inside each card */}
+                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-3">
+                  <div
+                    className="h-full bg-[#7BB042] transition-all duration-200"
+                    style={{
+                      width: `${Math.min(
+                        100,
+                        Math.max(15, ((idx + 1) / totalCards) * 100)
+                      )}%`,
+                    }}
+                  />
                 </div>
               </div>
             );
           })}
 
-          {/* Final 7th Card: Commitment & Closing Statement (idx = 6) */}
+          {/* Final 7th Card: Commitment & Closing Statement */}
           {(() => {
             const closingIdx = milestones.length;
             const style = getCardStyle(closingIdx);
 
             return (
               <div
-                /*
-                  Identical height & dimensions: absolute inset-0 w-full h-full matches previous cards exactly.
-                  Solid #141414 background (gradient removed) with consistent border-white/[0.08] and identical subtle shadows.
-                  Closing pledge vertically centered with generous padding and no size difference when entering.
-                */
-                className="absolute inset-0 w-full h-full bg-[#141414] rounded-[24px] p-6 sm:p-7 border border-white/[0.08] shadow-[0_-4px_16px_rgba(0,0,0,0.35),0_10px_25px_rgba(0,0,0,0.45)] flex flex-col justify-center overflow-hidden"
+                className="absolute inset-0 w-full h-full bg-black rounded-[24px] p-6 sm:p-8 border-2 border-[#7BB042] shadow-[0_-6px_20px_rgba(0,0,0,0.28),0_12px_28px_rgba(0,0,0,0.4)] flex flex-col justify-center overflow-hidden"
                 style={{
                   ...style,
                   transformOrigin: "top center",
                   willChange: "transform, opacity",
                 }}
               >
-                <div className="flex items-start gap-3.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042] shrink-0 mt-2.5" aria-hidden="true" />
-                  <p className="text-white font-heading font-medium text-[17px] sm:text-[19px] leading-[1.6]">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#7BB042]/20 border border-[#7BB042]/40 text-[#7BB042] text-xs font-heading font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-[#F5B82E]" />
+                    <span>Our Continuing Commitment</span>
+                  </div>
+                  <p className="text-white font-heading font-semibold text-base sm:text-lg lg:text-xl leading-relaxed">
                     {closing}
                   </p>
                 </div>

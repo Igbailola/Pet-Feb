@@ -460,7 +460,7 @@ export default function CartPage() {
                             <button
                               type="button"
                               onClick={() => removeItem(item.id)}
-                              className="inline-flex items-center gap-[4px] text-[14px] text-[#5C5C5C] hover:text-red-600 transition cursor-pointer font-sans"
+                              className="inline-flex items-center gap-[4px] px-2.5 py-1 rounded-md text-[14px] text-[#5C5C5C] hover:text-red-600 transition cursor-pointer font-sans"
                               aria-label={`Remove ${item.name}`}
                             >
                               <Trash2 className="w-3.5 h-3.5" />

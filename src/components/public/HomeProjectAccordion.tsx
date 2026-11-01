@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ParallaxLayer } from "@/components/motion";
 
 interface ProjectItem {
   id: string;
@@ -50,6 +52,7 @@ const DEFAULT_PROJECTS: ProjectItem[] = [
 export function HomeProjectAccordion() {
   // Default to China expanded as depicted in Figma frame 6139:3076
   const [expandedId, setExpandedId] = useState<string>("china");
+  const prefersReducedMotion = useReducedMotion();
 
   const toggle = (id: string) => {
     setExpandedId((prev) => (prev === id ? "" : id));
@@ -89,49 +92,72 @@ export function HomeProjectAccordion() {
             </button>
 
             {/* Expanded Content matching Figma frame 6139:3083 */}
-            {isExpanded && (
-              <div className="px-6 sm:px-8 pb-6 pt-1">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                  {/* Photo with tags overlay */}
-                  <div className="md:col-span-5 relative rounded-[16px] overflow-hidden h-[240px] sm:h-[280px]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={proj.image || "/figma-assets/about-event-china.png"}
-                      alt={proj.title}
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Overlay tags */}
-                    {proj.tags && (
-                      <div className="absolute top-4 left-4 flex gap-2">
-                        {proj.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs font-semibold px-3 py-1 rounded-full bg-white/90 text-gray-900"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+            <AnimatePresence initial={false}>
+              {isExpanded && (
+                <motion.div
+                  initial={
+                    prefersReducedMotion
+                      ? { opacity: 1 }
+                      : { height: 0, opacity: 0 }
+                  }
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={
+                    prefersReducedMotion
+                      ? { opacity: 0 }
+                      : { height: 0, opacity: 0 }
+                  }
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 sm:px-8 pb-6 pt-1">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                      {/* Photo with tags overlay */}
+                      <div className="md:col-span-5 relative rounded-[16px] overflow-hidden h-[240px] sm:h-[280px]">
+                        <ParallaxLayer
+                          travel={14}
+                          className="absolute -inset-x-0 -top-4 -bottom-4"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={proj.image || "/figma-assets/about-event-china.png"}
+                            alt={proj.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </ParallaxLayer>
+                        {/* Overlay tags */}
+                        {proj.tags && (
+                          <div className="absolute top-4 left-4 flex gap-2 z-10">
+                            {proj.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="text-xs font-semibold px-3 py-1 rounded-full bg-white/90 text-gray-900"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* Description & Action */}
-                  <div className="md:col-span-7 space-y-4">
-                    <p className="text-xs sm:text-sm text-gray-800 leading-relaxed font-normal">
-                      {proj.description}
-                    </p>
-                    <div>
-                      <Link
-                        href={`/projects`}
-                        className="inline-flex items-center justify-center px-6 py-3 rounded-[12px] text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition"
-                      >
-                        More Details
-                      </Link>
+                      {/* Description & Action */}
+                      <div className="md:col-span-7 space-y-4">
+                        <p className="text-xs sm:text-sm text-gray-800 leading-relaxed font-normal">
+                          {proj.description}
+                        </p>
+                        <div>
+                          <Link
+                            href={`/projects`}
+                            className="inline-flex items-center justify-center px-6 py-3 rounded-[12px] text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition"
+                          >
+                            More Details
+                          </Link>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

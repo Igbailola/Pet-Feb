@@ -737,7 +737,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   <button
                     type="button"
                     onClick={() => setShowApplyModal(true)}
-                    className="w-full bg-[#7BB042] text-black font-heading font-bold text-[16px] py-[16px] px-6 rounded-[12px] hover:bg-[#6aa035] transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-[#7BB042] text-white font-heading font-bold text-[16px] py-[16px] px-6 rounded-[12px] hover:bg-[#6aa035] transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Apply with this Plan</span>
                     <ArrowRight className="w-5 h-5" />
@@ -956,10 +956,10 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
               <button
                 type="button"
                 onClick={() => setShowApplyModal(true)}
-                className="bg-[#7BB042] text-black font-heading font-bold text-[14px] sm:text-[15px] px-[32px] py-[16px] rounded-[10px] hover:bg-[#6aa035] transition shadow-md inline-flex items-center gap-[8px] cursor-pointer"
+                className="bg-[#7BB042] text-white font-heading font-bold text-[14px] sm:text-[15px] px-[32px] py-[16px] rounded-[10px] hover:bg-[#6aa035] transition shadow-md inline-flex items-center gap-[8px] cursor-pointer"
               >
                 <span>Start Buy Small Application</span>
-                <ArrowRight className="w-4 h-4 text-black" />
+                <ArrowRight className="w-4 h-4 text-white" />
               </button>
 
               <Link
@@ -1171,7 +1171,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-2.5 rounded-xl bg-[#7BB042] text-black text-xs font-bold font-heading hover:bg-[#6aa035] transition disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+                    className="px-6 py-2.5 rounded-xl bg-[#7BB042] text-white text-xs font-bold font-heading hover:bg-[#6aa035] transition disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                   >
                     {isSubmitting ? "Submitting..." : "Submit Verification Application"}
                     <ArrowRight className="w-3.5 h-3.5" />

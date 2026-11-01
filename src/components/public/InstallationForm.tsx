@@ -39,7 +39,12 @@ export function InstallationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [countdown, setCountdown] = useState(10);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  });
 
   const handleReset = useCallback(() => {
     setFullName("");
@@ -52,12 +57,10 @@ export function InstallationForm() {
     setCountdown(10);
   }, []);
 
-  // Check reduced-motion preferences on mount
+  // Listen to reduced-motion preference changes
   useEffect(() => {
     if (typeof window !== "undefined") {
       const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setReducedMotion(mediaQuery.matches);
-
       const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
       mediaQuery.addEventListener("change", listener);
       return () => mediaQuery.removeEventListener("change", listener);
@@ -66,14 +69,8 @@ export function InstallationForm() {
 
   // 10-second auto-return timer when submitted, respecting reduced-motion
   useEffect(() => {
-    if (!isSubmitted) return;
+    if (!isSubmitted || reducedMotion) return;
 
-    if (reducedMotion) {
-      // If user prefers reduced motion, do not auto-return with a countdown
-      return;
-    }
-
-    setCountdown(10);
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -95,6 +92,7 @@ export function InstallationForm() {
     // Client-side simulation only — no database writes or external dispatches
     setTimeout(() => {
       setIsSubmitting(false);
+      setCountdown(10);
       setIsSubmitted(true);
     }, 600);
   };
@@ -104,7 +102,7 @@ export function InstallationForm() {
       <div
         role="alert"
         aria-live="polite"
-        className="bg-white rounded-3xl border border-[#D9D9D9] p-8 sm:p-12 text-center space-y-5 shadow-md transition-all"
+        className="bg-white text-gray-900 rounded-[24px] border border-[#D9D9D9] p-8 sm:p-12 text-center space-y-5 shadow-md transition-all"
       >
         <div className="w-16 h-16 rounded-full bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center mx-auto">
           <CheckCircle2 className="w-8 h-8 text-[#7BB042]" />
@@ -138,7 +136,7 @@ export function InstallationForm() {
           <button
             type="button"
             onClick={handleReset}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-xs cursor-pointer inline-flex items-center justify-center gap-2 min-h-[46px]"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-[12px] text-xs sm:text-sm font-heading font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-xs cursor-pointer inline-flex items-center justify-center gap-2 min-h-[46px]"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Request Again</span>
@@ -155,60 +153,67 @@ export function InstallationForm() {
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-[#D9D9D9] p-6 sm:p-10 shadow-sm space-y-6">
-      <div className="space-y-2 text-center sm:text-left pb-4 border-b border-gray-100">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-bold bg-[#E8F3DA] text-[#3F6B1A]">
-          <Clock className="w-3.5 h-3.5 text-[#7BB042]" />
-          24-Hour Dispatch SLA
-        </span>
-        <h2 className="font-heading font-bold text-2xl text-gray-900">
-          Request an installation or site survey
-        </h2>
-        <p className="text-xs text-gray-500">
+    <div className="bg-[#FBF9F8] text-[#1B1C1C] rounded-[24px] border border-[#D9D9D9] p-6 sm:p-8 lg:p-10 shadow-md space-y-6">
+      <div className="space-y-2 pb-4 border-b border-[#D9D9D9]">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-heading font-bold bg-[#E8F3DA] text-[#3F6B1A]">
+            <Clock className="w-3.5 h-3.5 text-[#7BB042]" />
+            24-Hour Dispatch SLA
+          </span>
+          <span className="text-[11px] font-heading font-semibold text-[#737968]">
+            NEMSA Certified Level-3 Desk
+          </span>
+        </div>
+        <h3 className="font-heading font-bold text-xl sm:text-2xl text-gray-950 pt-1">
+          Request an Installation or Site Survey
+        </h3>
+        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
           Connect with Petfeb&apos;s certified regional engineering team for an on-site solar assessment within 24 business hours.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-        {/* Field 1: Full Name */}
-        <div className="space-y-1.5">
-          <label htmlFor="fullName" className="font-semibold text-gray-800 flex items-center gap-1.5">
-            <User className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>Full name *</span>
-          </label>
-          <input
-            id="fullName"
-            type="text"
-            required
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="e.g. Engr. Chukwuma Adeleke"
-            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
-          />
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Field 1: Full Name */}
+          <div className="space-y-1.5">
+            <label htmlFor="fullName" className="font-heading font-semibold text-[13px] text-gray-800 flex items-center gap-1.5">
+              <User className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>Full Name *</span>
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              required
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="e.g. Engr. Chukwuma Adeleke"
+              className="w-full h-[48px] px-3.5 rounded-[10px] border border-[#8A8A8A] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+            />
+          </div>
 
-        {/* Field 2: WhatsApp Phone Number */}
-        <div className="space-y-1.5">
-          <label htmlFor="phone" className="font-semibold text-gray-800 flex items-center gap-1.5">
-            <Phone className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>WhatsApp phone number *</span>
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="e.g. +234 813 585 4054"
-            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
-          />
+          {/* Field 2: WhatsApp Phone Number */}
+          <div className="space-y-1.5">
+            <label htmlFor="phone" className="font-heading font-semibold text-[13px] text-gray-800 flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5 text-[#7BB042]" />
+              <span>WhatsApp Phone Number *</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              required
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="e.g. +234 813 585 4054"
+              className="w-full h-[48px] px-3.5 rounded-[10px] border border-[#8A8A8A] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+            />
+          </div>
         </div>
 
         {/* Field 3: Installation Location */}
         <div className="space-y-1.5">
-          <label htmlFor="location" className="font-semibold text-gray-800 flex items-center gap-1.5">
+          <label htmlFor="location" className="font-heading font-semibold text-[13px] text-gray-800 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>Installation location (State / City) *</span>
+            <span>Installation Location (State / City / Area) *</span>
           </label>
           <input
             id="location"
@@ -216,46 +221,49 @@ export function InstallationForm() {
             required
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            placeholder="e.g. Port Harcourt, Rivers State / Lekki, Lagos"
-            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
+            placeholder="e.g. Port Harcourt, Rivers State / Lekki Phase 1, Lagos"
+            className="w-full h-[48px] px-3.5 rounded-[10px] border border-[#8A8A8A] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 placeholder:text-gray-400"
           />
         </div>
 
         {/* Field 4: Property Type */}
-        <div className="space-y-1.5">
-          <label className="font-semibold text-gray-800 flex items-center gap-1.5">
+        <div className="space-y-2">
+          <label className="font-heading font-semibold text-[13px] text-gray-800 flex items-center gap-1.5">
             <Home className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>Property type *</span>
+            <span>Property Type *</span>
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {PROPERTY_TYPES.map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => setPropertyType(type)}
-                className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition cursor-pointer text-center ${
-                  propertyType === type
-                    ? "bg-[#E8F3DA] text-[#3F6B1A] border-[#7BB042] ring-1 ring-[#7BB042]"
-                    : "bg-[#F8F9FA] text-gray-700 border-[#D9D9D9] hover:bg-gray-100"
-                }`}
-              >
-                {type}
-              </button>
-            ))}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {PROPERTY_TYPES.map((type) => {
+              const active = propertyType === type;
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setPropertyType(type)}
+                  className={`py-3 px-3 rounded-[10px] text-xs font-heading font-bold border transition cursor-pointer text-center ${
+                    active
+                      ? "bg-[#7BB042] text-white border-[#7BB042] shadow-xs"
+                      : "bg-white text-gray-700 border-[#D9D9D9] hover:border-black"
+                  }`}
+                >
+                  {type}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Field 5: Estimated Daily Load or Preferred System Size (Optional) */}
         <div className="space-y-1.5">
-          <label htmlFor="systemSize" className="font-semibold text-gray-800 flex items-center gap-1.5">
+          <label htmlFor="systemSize" className="font-heading font-semibold text-[13px] text-gray-800 flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-[#7BB042]" />
-            <span>Estimated daily load or preferred system size (Optional)</span>
+            <span>Estimated Daily Load or Preferred System Size (Optional)</span>
           </label>
           <select
             id="systemSize"
             value={systemSize}
             onChange={(e) => setSystemSize(e.target.value)}
-            className="w-full px-3.5 py-3 rounded-xl border border-[#D9D9D9] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 cursor-pointer"
+            className="w-full h-[48px] px-3.5 rounded-[10px] border border-[#8A8A8A] focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-transparent bg-white text-sm text-gray-900 cursor-pointer"
           >
             <option value="">Select estimated capacity or load requirement...</option>
             {SYSTEM_SIZES.map((size) => (
@@ -267,19 +275,21 @@ export function InstallationForm() {
         </div>
 
         {/* Submit Button & Preview Disclaimer */}
-        <div className="space-y-3 pt-3">
+        <div className="space-y-3 pt-2">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-xs cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 min-h-[50px]"
+            className="w-full h-[52px] rounded-[12px] text-sm sm:text-base font-heading font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition shadow-md cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
           >
             <span>{isSubmitting ? "Validating Request..." : "Request Installers Now"}</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-white" />
           </button>
 
           <p className="text-[11px] text-gray-500 text-center flex items-center justify-center gap-1.5">
-            <Lock className="w-3 h-3 text-[#7BB042]" />
-            <span>Demonstration Preview: Client-side validation active. Live server persistence enabled on production rollout.</span>
+            <Lock className="w-3 h-3 text-[#7BB042] shrink-0" />
+            <span>
+              Demonstration Preview: Client-side validation active. Live server persistence enabled on production rollout.
+            </span>
           </p>
         </div>
       </form>

@@ -99,7 +99,7 @@ export function HomeBuySmallBanner() {
               onClick={() => setSelectedPackage("residential")}
               className={`py-[6px] px-3 rounded-[8px] text-xs font-bold transition text-center font-heading ${
                 selectedPackage === "residential"
-                  ? "bg-[#7BB042] text-[#333] shadow-xs"
+                  ? "bg-[#7BB042] text-white shadow-xs"
                   : "text-[#5C5C5C] hover:text-black font-medium"
               }`}
             >
@@ -110,7 +110,7 @@ export function HomeBuySmallBanner() {
               onClick={() => setSelectedPackage("commercial")}
               className={`py-[6px] px-3 rounded-[8px] text-xs font-bold transition text-center font-heading ${
                 selectedPackage === "commercial"
-                  ? "bg-[#7BB042] text-[#333] shadow-xs"
+                  ? "bg-[#7BB042] text-white shadow-xs"
                   : "text-[#5C5C5C] hover:text-black font-medium"
               }`}
             >

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
+import { ProductCardButton } from "@/components/public/ProductCardButton";
 
 interface ShopCatalogProps {
   products: Product[];
@@ -307,12 +308,13 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
 
                     {/* Buy Button matching Figma node 6140:4870 */}
                     <div className="pt-2">
-                      <Link
+                      <ProductCardButton
                         href={`/shop/${product.slug}`}
-                        className="w-full py-4 px-4 rounded-[12px] text-[16px] font-heading font-bold bg-[#7BB042] text-[#F2F7EC] hover:bg-[#6AA035] transition-all flex items-center justify-center text-center shadow-xs cursor-pointer"
+                        className="w-full py-4 px-4 rounded-[12px] text-[16px] font-heading font-bold shadow-xs"
+                        ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
                       >
                         Buy For {formatNaira(product.price)}
-                      </Link>
+                      </ProductCardButton>
                     </div>
                   </div>
                 </div>

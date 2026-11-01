@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ── Product Card Action Button: Green-to-White Sliding Hover ────────── */
+/* ── Product Card Action Button: Original Reference Slide Animation ──── */
 .product-card-btn-slide {
   position: relative;
   overflow: hidden;
@@ -149,8 +149,277 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
+/* ── Standardised Site-Wide Slide Button Colour-Change Animation ───────
+ * Extends the exact .product-card-btn-slide left-to-right colour wipe
+ * (200% width ::before, translateX(-50%) -> translateX(0%), 0.4s
+ * cubic-bezier(0.25, 1, 0.5, 1)) across all buttons on the website
+ * (excluding navigation links) while preserving each button's default
+ * background, text, border, and sizing.
+ * ─────────────────────────────────────────────────────────────────────── */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #e8f3da;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: transparent;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Ensure relative positioning without overriding absolute/fixed/sticky buttons */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):not(.absolute):not(.fixed):not(.sticky) {
+  position: relative;
+}
+
+/* 1. White / Off-White / Light Neutral / Soft Green Secondary Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  .bg-white,
+  [class*="bg-white/8"],
+  [class*="bg-white/9"],
+  [class*="bg-[#FBF9F8]"],
+  [class*="bg-[#F2F7EC]"],
+  [class*="bg-[#F8F9FA]"],
+  [class*="bg-[#F0EDED]"],
+  [class*="bg-[#F5F5F5]"],
+  [class*="bg-[#EBEBEB]"],
+  [class*="bg-[#F4F4F5]"],
+  [class*="bg-[#F3F4F6]"],
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-gray-200,
+  [class*="bg-[#E8F3DA]"],
+  [class*="bg-[#D6E7C4]"],
+  [class*="bg-emerald-50"],
+  [class*="bg-emerald-100"],
+  .bg-transparent
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 2. Petfeb Brand Green Buttons -> Slide to White (#ffffff) with Deep Forest Green (#1f3a0b) Text (matches .product-card-btn-slide) */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#7BB042]"],
+  [class*="bg-[#7bb042]"],
+  [class*="bg-[#70A03C]"],
+  [class*="bg-[#70a03c]"],
+  [class*="bg-[#6AA035]"],
+  [class*="bg-[#6aa035]"],
+  [class*="bg-[#6EA138]"],
+  [class*="bg-[#6ea138]"]
+) {
+  --btn-slide-base-bg: #7bb042;
+  --btn-slide-hover-bg: #ffffff;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 3. Deep Forest Green Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#1F3A0B]"],
+  [class*="bg-[#3F6B1A]"],
+  [class*="bg-[#3D6A00]"],
+  .bg-emerald-600,
+  .bg-emerald-700,
+  .bg-emerald-800
+) {
+  --btn-slide-base-bg: #1f3a0b;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 4. Black & Dark Charcoal Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  .bg-black,
+  [class*="bg-[#1B1C1C]"],
+  [class*="bg-[#141414]"],
+  [class*="bg-[#1A1A1A]"],
+  [class*="bg-[#333]"],
+  .bg-gray-900,
+  .bg-gray-950
+) {
+  --btn-slide-base-bg: #000000;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 5. Translucent Glass / Dark-Hero Outline Buttons -> Slide to White (#ffffff) with Deep Forest Green (#1f3a0b) Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-white/10"],
+  [class*="bg-white/15"],
+  [class*="bg-white/20"],
+  [class*="bg-black/40"],
+  [class*="bg-black/60"],
+  [class*="border-white"]
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #ffffff;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: #ffffff;
+}
+
+/* 6. Petfeb Yellow Buttons -> Slide to Black (#1b1c1c) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#F5B82E]"],
+  [class*="bg-amber-400"],
+  [class*="bg-amber-500"]
+) {
+  --btn-slide-base-bg: #f5b82e;
+  --btn-slide-hover-bg: #1b1c1c;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #1b1c1c;
+}
+
+/* 7. Destructive / Remove Buttons -> Slide to Red Tint with Crimson Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-red-"],
+  [class*="text-red-"],
+  [class*="hover:text-red-"],
+  [class*="hover:bg-red-"]
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #fee2e2;
+  --btn-slide-hover-text: #b91c1c;
+  --btn-slide-hover-border: #fca5a5;
+}
+
+/* Sliding ::before layer (exact same 200% width, translateX(-50%) -> 0%, 0.4s cubic-bezier(0.25, 1, 0.5, 1)) */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--btn-slide-hover-bg) 50%,
+    var(--btn-slide-base-bg, transparent) 50%
+  );
+  transform: translateX(-50%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible)::before {
+  transform: translateX(0%);
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible) {
+  color: var(--btn-slide-hover-text) !important;
+  border-color: var(--btn-slide-hover-border);
+  box-shadow: inset 0 0 0 1.5px var(--btn-slide-hover-border);
+}
+
+/* Keep child labels, inner stepper boxes, and icons readable during and after the slide transition */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+) :is(svg, span:not([class*="bg-"]):not([class*="rounded-full"])) {
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              stroke 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible) > :is(svg, span:not([class*="bg-"]):not([class*="rounded-full"])) {
+  color: inherit !important;
+  stroke: currentColor;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide)
+):is(:hover, :focus-visible) > div[class*="bg-"] {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide)
+):is(:hover, :focus-visible) > div[class*="bg-"] svg {
+  color: inherit !important;
+  stroke: currentColor;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .product-card-btn-slide::before {
+  .product-card-btn-slide::before,
+  :is(
+    .btn-slide,
+    button[class*="rounded"]:not(nav *):not([role="menuitem"]),
+    a[class*="rounded"][class*="bg-"]:not(nav *):not([role="menuitem"]),
+    a[class*="rounded"][class*="border"]:not(nav *):not([role="menuitem"])
+  )::before {
     transition: none !important;
     transform: none !important;
   }
@@ -159,15 +428,12 @@ h1, h2, h3, h4, h5, h6 {
     transform: none !important;
     background: #ffffff !important;
   }
-  .product-card-btn-slide {
-    transition: none !important;
-  }
+  .product-card-btn-slide,
   .product-card-btn-slide .product-card-btn-content,
   .product-card-btn-slide .product-card-btn-content svg {
     transition: none !important;
   }
 }
-
 
 /* ── Global motion system (shared easing + timing) ─────────────────────── */
 :root {
@@ -212,14 +478,6 @@ html {
 .menu-panel-in {
   animation: menuPanelIn var(--motion-base) var(--ease-out-soft) both;
   transform-origin: top;
-}
-
-/* Subtle interactive feedback for buttons and links styled as buttons */
-a[class*="rounded"][class*="bg-"],
-button[class*="rounded"][class*="bg-"] {
-  transition-property: background-color, border-color, color, box-shadow, transform, opacity;
-  transition-duration: var(--motion-fast);
-  transition-timing-function: var(--ease-out-soft);
 }
 
 button:not(:disabled):active,

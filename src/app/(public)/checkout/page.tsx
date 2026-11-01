@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -57,16 +57,47 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState("babatunde@lagosbiz.ng");
   const [phone, setPhone] = useState("0803 456 7890");
 
-  // Delivery & Site State
-  const [state, setState] = useState("Lagos State");
+  // Delivery & Site State (synced from Cart preferences if available)
+  const [state, setState] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const storedPrefs = localStorage.getItem("petfeb_cart_preferences");
+        if (storedPrefs) {
+          const parsed = JSON.parse(storedPrefs);
+          if (typeof parsed.deliveryLocation === "string") {
+            const matched = NIGERIAN_STATES.find((s) =>
+              s
+                .toLowerCase()
+                .includes(parsed.deliveryLocation.toLowerCase().split(" ")[0])
+            );
+            if (matched) return matched;
+          }
+        }
+      } catch {}
+    }
+    return "Lagos State";
+  });
   const [city, setCity] = useState("Victoria Island / Eti-Osa");
   const [address, setAddress] = useState("Plot 14, Commercial Avenue, Victoria Island");
   const [notes, setNotes] = useState(
     "Commercial building with loading dock, delivery between 9am – 4pm"
   );
 
-  // Installer Choice State (Default True per Figma design 6166:1936)
-  const [wantsInstaller, setWantsInstaller] = useState(true);
+  // Installer Choice State (Default True per Figma design 6166:1936, synced from Cart)
+  const [wantsInstaller, setWantsInstaller] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const storedPrefs = localStorage.getItem("petfeb_cart_preferences");
+        if (storedPrefs) {
+          const parsed = JSON.parse(storedPrefs);
+          if (typeof parsed.includeInstallation === "boolean") {
+            return parsed.includeInstallation;
+          }
+        }
+      } catch {}
+    }
+    return true;
+  });
   const [propertyType, setPropertyType] = useState<PropertyType>("Home / Residential");
   const [installWindow, setInstallWindow] = useState(
     "Within 48 hours of hardware delivery"
@@ -91,27 +122,6 @@ export default function CheckoutPage() {
   // Per Figma 6166:1936, Nigerian VAT (7.5%) is Included in hardware prices
   const grandTotal = subtotal + deliveryFee + installationFee;
   const weeklyInstallment = Math.max(15000, Math.round((subtotal * 0.7) / 52));
-
-  // Sync preferences set on the Cart page
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const storedPrefs = localStorage.getItem("petfeb_cart_preferences");
-        if (storedPrefs) {
-          const parsed = JSON.parse(storedPrefs);
-          if (typeof parsed.includeInstallation === "boolean") {
-            setWantsInstaller(parsed.includeInstallation);
-          }
-          if (typeof parsed.deliveryLocation === "string") {
-            const matched = NIGERIAN_STATES.find((s) =>
-              s.toLowerCase().includes(parsed.deliveryLocation.toLowerCase().split(" ")[0])
-            );
-            if (matched) setState(matched);
-          }
-        }
-      } catch {}
-    }
-  }, []);
 
   const [orderConfirmed, setOrderConfirmed] = useState<null | {
     orderId: string;

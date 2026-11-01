@@ -5,16 +5,11 @@ import {
   Zap,
   MapPin,
   Calendar,
-  Building2,
   CheckCircle2,
   ChevronLeft,
   ArrowRight,
   ShieldCheck,
   Cpu,
-  BatteryCharging,
-  Sun,
-  Activity,
-  PhoneCall,
   Clock,
 } from "lucide-react";
 import { getProjectBySlug, getRelatedProjects, getAllProjects } from "@/lib/projects-data";
@@ -48,7 +43,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const related = getRelatedProjects(project.slug, 2);
+  const rawRelated = getRelatedProjects(project.slug, 2);
+  const related =
+    rawRelated.length > 0
+      ? rawRelated
+      : getAllProjects()
+          .filter((p) => p.slug !== project.slug)
+          .slice(0, 2);
 
   return (
     <div className="py-8 sm:py-16 max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
@@ -290,23 +291,33 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </aside>
       </div>
 
-      {/* ── Related Case Studies ──────────────────────────────── */}
+      {/* ── Related Case Studies (Black Background Section) ─────────── */}
       {related.length > 0 && (
-        <section className="pt-12 border-t border-gray-200 space-y-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#3F6B1A]">
+        <section className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#7BB042] block">
                 Case Study Archives
               </span>
-              <h2 className="font-heading font-bold text-2xl text-gray-900 mt-1">
-                More Featured Installations
-              </h2>
+              <div className="flex items-center gap-3">
+                <span
+                  className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0"
+                  aria-hidden="true"
+                />
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight">
+                  More Featured Installations
+                </h2>
+              </div>
+              <p className="text-xs sm:text-sm text-gray-300 max-w-2xl">
+                Explore additional verified Petfeb solar deployments engineered for round-the-clock power security across Nigeria.
+              </p>
             </div>
             <Link
               href="/projects"
-              className="text-xs sm:text-sm font-semibold text-[#3F6B1A] hover:underline flex items-center gap-1"
+              className="self-start sm:self-auto px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-bold text-white transition inline-flex items-center gap-1.5 shrink-0"
             >
-              All Projects <ArrowRight className="w-3.5 h-3.5" />
+              <span>All Projects</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
@@ -314,49 +325,52 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {related.map((item) => (
               <article
                 key={item.id}
-                className="bg-white rounded-2xl border border-gray-200/90 shadow-sm overflow-hidden flex flex-col justify-between hover:border-emerald-300 transition-colors"
+                className="bg-white text-gray-900 rounded-[20px] border border-[#D9D9D9] p-4 shadow-sm overflow-hidden flex flex-col justify-between hover:border-[#7BB042] transition-all duration-300 hover-lift"
               >
-                <div className="h-44 bg-gray-900 relative overflow-hidden">
+                <Link
+                  href={`/projects/${item.slug}`}
+                  className="h-52 bg-gray-900 rounded-[14px] relative overflow-hidden block image-zoom"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.imageUrl}
                     alt={item.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-                  <span className="absolute top-4 left-4 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/20 text-white backdrop-blur-sm border border-white/20">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                  <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-black/70 text-white backdrop-blur-sm border border-white/20">
                     {item.category}
                   </span>
-                  <div className="absolute bottom-3 left-4 right-4">
-                    <span className="text-[11px] text-emerald-200 block font-medium">
-                      {item.capacity}
-                    </span>
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-white">
+                    <span className="font-semibold text-[#F5B82E]">{item.capacity}</span>
+                    <span className="text-[11px] text-gray-200">{item.commissionedYear}</span>
                   </div>
-                </div>
+                </Link>
 
-                <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                <div className="pt-4 px-1 pb-1 space-y-4 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center gap-1.5 text-xs text-gray-500">
                       <MapPin className="w-3.5 h-3.5 text-[#7BB042]" />
                       <span>{item.location}</span>
                     </div>
-                    <h3 className="font-heading font-bold text-base text-gray-900 leading-snug">
+                    <h3 className="font-heading font-bold text-lg text-gray-950 leading-snug">
                       <Link href={`/projects/${item.slug}`} className="hover:text-[#3F6B1A] transition">
                         {item.title}
                       </Link>
                     </h3>
-                    <p className="text-xs text-gray-600 line-clamp-2">
+                    <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed">
                       {item.summary}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
-                    <span className="text-gray-500">{item.panels}</span>
+                  <div className="pt-3 border-t border-gray-100 flex items-center justify-between gap-3 text-xs">
+                    <span className="text-gray-500 font-medium truncate">{item.panels}</span>
                     <Link
                       href={`/projects/${item.slug}`}
-                      className="font-semibold text-[#3F6B1A] hover:underline flex items-center gap-1"
+                      className="px-4 py-2 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition inline-flex items-center gap-1.5 shrink-0"
                     >
-                      Read Case Study <ArrowRight className="w-3.5 h-3.5" />
+                      <span>Read Case Study</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -366,26 +380,36 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      {/* ── Bottom Call To Action ─────────────────────────────── */}
-      <section className="bg-[#1F3A0B] text-white rounded-3xl p-8 sm:p-12 text-center space-y-6">
-        <h2 className="font-heading font-bold text-2xl sm:text-3xl text-white">
+      {/* ── Bottom Call To Action (Yellow Background Section) ────────── */}
+      <section className="bg-[#F5B82E] text-black rounded-[32px] p-8 sm:p-12 lg:p-14 text-center space-y-6 shadow-md">
+        <div className="inline-flex items-center justify-center gap-2.5">
+          <span className="w-3.5 h-3.5 rounded-full bg-black shrink-0" aria-hidden="true" />
+          <span className="text-xs font-heading font-bold uppercase tracking-wider text-black/80">
+            Turnkey Solar Engineering
+          </span>
+        </div>
+
+        <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-black tracking-tight max-w-2xl mx-auto">
           Ready to Engineer Clean Power for Your Facility?
         </h2>
-        <p className="text-sm sm:text-base text-emerald-100/80 max-w-xl mx-auto leading-relaxed">
+
+        <p className="text-sm sm:text-base text-black/85 max-w-xl mx-auto leading-relaxed font-normal">
           Our engineering team conducts precision load audits and designs turnkey hybrid solar solutions across Nigeria.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
           <Link
             href="/installation"
-            className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-[12px] text-sm sm:text-base font-heading font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm inline-flex items-center justify-center gap-2"
           >
-            Schedule On-Site Survey
+            <span>Schedule On-Site Survey</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             href="/#contact"
-            className="w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition border border-white/20"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-[12px] text-sm sm:text-base font-heading font-bold bg-black text-white hover:bg-gray-900 transition shadow-sm inline-flex items-center justify-center gap-2"
           >
-            Speak With an Engineer
+            <span>Speak With an Engineer</span>
           </Link>
         </div>
       </section>
