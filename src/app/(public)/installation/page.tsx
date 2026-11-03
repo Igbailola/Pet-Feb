@@ -178,19 +178,19 @@ export default function InstallationPage() {
           {/* Header Row: 30px Yellow Dot + Bold Space Grotesk Title + Right Copy */}
           <ScrollReveal direction="up" duration={0.7}>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-4 sm:pb-8">
-              <div className="flex items-center gap-[16px] max-w-[780px]">
+              <div className="flex items-start gap-[16px] max-w-[780px]">
                 <span
-                  className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0"
+                  className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-2 sm:mt-3"
                   aria-hidden="true"
                 />
-                <h1 className="font-heading font-bold text-[34px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] leading-[1.1]">
+                <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
                   <span className="text-black block">Installed right.</span>
                   <span className="text-[#70A03C] block">Built to last.</span>
                 </h1>
               </div>
 
-              <div className="max-w-[540px]">
-                <p className="font-sans font-normal text-[15px] sm:text-[17px] text-[#333] leading-[1.6] uppercase">
+              <div className="max-w-[532px] pl-[46px] lg:pl-0">
+                <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
                   Certified solar engineers ensuring optimal performance, warranty protection, and complete safety for your home or business across all 36 states in Nigeria.
                 </p>
               </div>

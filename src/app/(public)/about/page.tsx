@@ -122,18 +122,19 @@ export default function AboutPage() {
     <main className="bg-white min-h-screen text-[#333333] pb-16">
       {/* ── 1. Hero Section ("● ABOUT PET-FEB") ── */}
       <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-10">
-        <ScrollReveal className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 pb-8">
-          <div className="flex items-center gap-3">
+        <ScrollReveal direction="up" duration={0.7} className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 pb-8">
+          <div className="flex items-start gap-4">
             <span
-              className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0"
+              className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-2 sm:mt-3"
               aria-hidden="true"
             />
-            <h1 className="font-heading font-bold text-[32px] sm:text-[44px] lg:text-[54px] text-gray-950 uppercase tracking-tight leading-tight">
-              ABOUT PET-FEB
+            <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+              <span className="text-black block">ABOUT</span>
+              <span className="text-[#70A03C] block">PET-FEB</span>
             </h1>
           </div>
-          <div className="max-w-xl">
-            <p className="text-[#4A4A4A] text-sm sm:text-base leading-relaxed font-normal">
+          <div className="max-w-[532px] pl-[46px] lg:pl-0">
+            <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
               Pet-Feb is a trusted solar energy company in Nigeria, dedicated to providing reliable and sustainable power solutions. From residential homes to large-scale projects, we design, install, and maintain systems that reduce costs, protect the environment, and empower communities with clean energy.
             </p>
           </div>

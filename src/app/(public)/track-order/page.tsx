@@ -26,6 +26,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { formatNaira } from "@/lib/public-types";
+import { ScrollReveal, ScrollScale } from "@/components/motion";
 
 interface TrackedLineItem {
   name: string;
@@ -317,24 +318,28 @@ function TrackOrderContent() {
         </div>
 
         {/* ── Section 2: Page Header Row (Node 6146:5171) ───────────── */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-1">
-          <div className="flex items-center gap-[16px] max-w-[803px]">
+        <ScrollReveal direction="up" duration={0.7} className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-1">
+          <div className="flex items-start gap-[16px] max-w-[803px]">
             <span
-              className="size-[24px] sm:size-[30px] rounded-full bg-[#F5B82E] shrink-0"
+              className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-2 sm:mt-3"
               aria-hidden="true"
             />
-            <h1 className="font-heading font-bold text-2xl sm:text-4xl lg:text-[48px] text-[#333333] uppercase tracking-[2px] sm:tracking-[3px] leading-tight">
-              Track your order or financing plan
+            <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+              <span className="text-black block">Track your order</span>
+              <span className="text-[#70A03C] block">or financing plan</span>
             </h1>
           </div>
 
-          <p className="font-sans font-normal text-sm sm:text-[18px] text-[#333333] uppercase leading-[1.6] max-w-[532px]">
-            Check real-time hardware delivery status, certified NEMSA installation progress, or your Buy Small repayment schedule. No account or password needed.
-          </p>
-        </div>
+          <div className="max-w-[532px] pl-[46px] lg:pl-0">
+            <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
+              Check real-time hardware delivery status, certified NEMSA installation progress, or your Buy Small repayment schedule. No account or password needed.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* ── Section 3: Hero Banner Image (Node 6195:2072) ─────────── */}
-        <div className="relative rounded-[24px] sm:rounded-[32px] overflow-hidden h-[280px] sm:h-[460px] lg:h-[680px] w-full">
+        <ScrollScale from={0.95} rise={28}>
+          <div className="relative rounded-[24px] sm:rounded-[32px] overflow-hidden h-[280px] sm:h-[460px] lg:h-[680px] w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/bannerimages/track-order-page-banner.jpg"
@@ -350,6 +355,7 @@ function TrackOrderContent() {
             }}
           />
         </div>
+        </ScrollScale>
 
         {/* ── Section 4: Guest Lookup Card Section (Node 6195:2862) ──── */}
         <div className="bg-black border border-[#D9D9D9] rounded-[16px] p-5 sm:p-[33px] space-y-[24px] shadow-[0px_2px_8px_-2px_rgba(31,58,11,0.06),0px_1px_3px_-1px_rgba(31,58,11,0.04)]">

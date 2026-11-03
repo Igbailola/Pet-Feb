@@ -19,7 +19,7 @@ const CATEGORIES = [
   "Inverters",
   "Charge Controllers",
   "Batteries",
-  "FLOOD lights",
+  "Flood Lights",
 ];
 
 export function HomeProductSection({ products }: HomeProductSectionProps) {
@@ -71,7 +71,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
         </div>
 
         {/* Category Filter Tabs on a single row */}
-        <div className="flex flex-nowrap items-center gap-2 sm:gap-2.5 overflow-x-auto pb-1">
+        <div className="grid grid-cols-3 gap-2 md:gap-3 lg:flex lg:flex-nowrap lg:items-center lg:gap-2.5 lg:overflow-x-auto pb-1 w-full">
           {CATEGORIES.map((cat) => {
             const active = selectedCategory === cat;
             return (
@@ -79,7 +79,7 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                className={`w-full lg:w-auto h-full min-h-[46px] lg:min-h-0 flex items-center justify-center text-center leading-tight px-2 py-1.5 md:px-3 md:py-2 lg:px-4 lg:py-2 rounded-lg text-xs md:text-sm font-medium whitespace-normal lg:whitespace-nowrap lg:shrink-0 transition-all cursor-pointer ${
                   active
                     ? "bg-[#7BB042] text-white font-bold shadow-xs"
                     : "bg-white text-gray-800 hover:bg-gray-100"

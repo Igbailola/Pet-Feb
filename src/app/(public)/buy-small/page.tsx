@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { formatNaira } from "@/lib/public-types";
 import { submitBuySmallVerificationAction } from "@/app/actions/verifications";
+import { ScrollReveal, ScrollScale } from "@/components/motion";
 
 const PACKAGES = [
   {
@@ -178,29 +179,32 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
   return (
     <div className="bg-white pb-20 font-sans overflow-x-clip">
       {/* ── Outer Page Frame matching Figma max-w-[1440px] ────────────────── */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[32px] space-y-[24px]">
+      <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 space-y-[24px]">
 
         {/* ── 1. Hero Header Section matching Frame 1984079591 ──────────────── */}
         <section className="pt-[80px]">
           {/* Header Row: Dot + Big Space Grotesk Heading + Subtitle */}
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-[58px]">
-            <div className="flex items-center gap-[16px] max-w-[803px]">
-              <span className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0" />
-              <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
-                <span className="text-black block">Power your home now.</span>
-                <span className="text-[#70A03C] block">Pay in small amounts.</span>
-              </h1>
-            </div>
+          <ScrollReveal direction="up" duration={0.7}>
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-[58px]">
+              <div className="flex items-start gap-[16px] max-w-[803px]">
+                <span className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-0.5 sm:mt-1" aria-hidden="true" />
+                <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+                  <span className="text-black block">Power your home now.</span>
+                  <span className="text-[#70A03C] block">Pay in small amounts.</span>
+                </h1>
+              </div>
 
-            <div className="max-w-[532px]">
-              <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase">
-                Clean energy shouldn&apos;t drain your working capital. Spread the cost of Tier-1 solar inverters, lithium storage, and panels over predictable weekly or monthly installments. Zero collateral required.
-              </p>
+              <div className="max-w-[532px] pl-[46px] lg:pl-0">
+                <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
+                  Clean energy shouldn&apos;t drain your working capital. Spread the cost of Tier-1 solar inverters, lithium storage, and panels over predictable weekly or monthly installments. Zero collateral required.
+                </p>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Hero Image Card (w=1376, h=700 in Figma) */}
-          <div className="relative h-[480px] sm:h-[580px] lg:h-[700px] w-full rounded-[32px] overflow-hidden shadow-lg bg-black">
+          <ScrollScale from={0.95} rise={28}>
+            <div className="relative h-[480px] sm:h-[580px] lg:h-[700px] w-full rounded-[32px] overflow-hidden shadow-lg bg-black">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/bannerimages/buysmall-page-banner.jpg"
@@ -283,6 +287,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
               </div>
             </div>
           </div>
+          </ScrollScale>
         </section>
 
         {/* ── 2. Section 3: HOW IT WORKS (4 STEPS) matching node 6146:4635 ──── */}

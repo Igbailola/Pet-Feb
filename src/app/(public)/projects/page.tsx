@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ProjectsCatalog } from "@/components/public/ProjectsCatalog";
 import { getAllProjects } from "@/lib/projects-data";
 import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
+import { ScrollReveal } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "Our Solar Projects | Petfeb Engineering & Community Impact",
@@ -27,20 +28,17 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
   return (
     <div className="bg-white pb-16 overflow-x-clip">
       {/* ── Top Header Band ───────────────────────────────────────────── */}
-      <section
-        data-reveal
-        className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-6"
-      >
-        <div className="flex items-center gap-4 pb-6">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-6">
+        <ScrollReveal direction="up" duration={0.7} className="flex items-start gap-4 pb-6">
           <span
-            className="w-[28px] h-[28px] rounded-full bg-[#F5B82E] shrink-0"
+            className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-2 sm:mt-3"
             aria-hidden="true"
           />
-          <h1 className="font-heading font-bold text-[32px] sm:text-[44px] lg:text-[54px] text-gray-950 uppercase tracking-tight leading-tight">
-            WELCOME TO PETFEB <br />
-            <span className="text-[#3F6B1A]">PROJECTS.</span>
+          <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+            <span className="text-black block">WELCOME TO PETFEB</span>
+            <span className="text-[#70A03C] block">PROJECTS.</span>
           </h1>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* ── Featured Project & Top Projects Layout ───────────────────── */}

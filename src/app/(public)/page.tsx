@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ShoppingCart,
+  PackageSearch,
   Star,
   ChevronRight,
 } from "lucide-react";
@@ -36,7 +36,7 @@ export default async function HomePage() {
       <section className="w-full relative">
         <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-[80px]">
           {/* Hero Text Row: headline left, description right */}
-          <ScrollReveal className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 mb-[58px]">
+          <ScrollReveal direction="up" duration={0.7} className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 mb-[58px]">
             {/* Left: Yellow dot + Large Headline */}
             <div className="flex items-start gap-4">
               <span
@@ -45,20 +45,20 @@ export default async function HomePage() {
               />
               <h1
                 data-type="display"
-                className="font-heading font-bold text-[32px] sm:text-[40px] lg:text-[48px] text-[#333] tracking-[1.44px] uppercase leading-tight max-w-[670px]"
+                className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)] max-w-[670px]"
                 style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
               >
-                Building your visions, Creating reality.
+                <span className="text-black block">Building your visions,</span>
+                <span className="text-[#70A03C] block">Creating reality.</span>
               </h1>
             </div>
 
             {/* Right: Description */}
-            <p
-              className="font-heading font-normal text-[18px] sm:text-[20px] lg:text-[24px] text-[#333] text-left lg:text-right tracking-[0.72px] uppercase max-w-[498px] leading-normal"
-              style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
-            >
-              Powering homes, businesses, and communities across Nigeria with clean solar energy solutions.
-            </p>
+            <div className="max-w-[532px] pl-[46px] lg:pl-0">
+              <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
+                Powering homes, businesses, and communities across Nigeria with clean solar energy solutions.
+              </p>
+            </div>
           </ScrollReveal>
 
           {/* Hero Video with overlay buttons (matching Figma Frame 6139:2805 "Hero Img" container) */}
@@ -80,13 +80,13 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-black/35 pointer-events-none" />
 
               {/* CTA Buttons — positioned over the hero video */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-[60px] sm:top-[110px] flex gap-4 z-10 w-full justify-center px-4">
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-14 lg:bottom-20 flex gap-4 z-10 w-full justify-center px-4">
                 <Link
-                  href="/shop"
+                  href="/track-order"
                   className="group inline-flex items-center justify-center gap-2.5 px-6 py-[18px] rounded-[16px] text-base sm:text-lg font-bold font-heading bg-[#7BB042] text-[#F2F7EC] hover:bg-[#6AA035] transition-all shadow-md shrink-0"
                 >
-                  <span>Explore Products</span>
-                  <ShoppingCart className="w-[17px] h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  <span>Track Order</span>
+                  <PackageSearch className="w-[17px] h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/projects"

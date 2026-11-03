@@ -201,19 +201,7 @@ export function Header() {
               )}
             </div>
 
-            {/* 5. Marketplace */}
-            <Link
-              href="/shop"
-              className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors rounded-lg whitespace-nowrap ${
-                isLinkActive("/shop")
-                  ? "text-[#70A03C] font-bold"
-                  : "text-[#A1A1A1] hover:text-gray-900"
-              }`}
-            >
-              Marketplace
-            </Link>
-
-            {/* 6. Pet-Feb Buy Small Small */}
+            {/* 5. Pet-Feb Buy Small Small */}
             <Link
               href="/buy-small"
               className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors rounded-lg whitespace-nowrap ${
@@ -225,7 +213,7 @@ export function Header() {
               Pet-Feb Buy Small Small
             </Link>
 
-            {/* 7. Request Installer */}
+            {/* 6. Request Installer */}
             <Link
               href="/installation"
               className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium transition-colors rounded-lg whitespace-nowrap ${
@@ -243,26 +231,28 @@ export function Header() {
             {/* Standalone Circular Cart Control */}
             <Link
               href="/cart"
-              className="relative w-12 h-12 xl:w-[50px] xl:h-[50px] rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0 group"
+              className="w-12 h-12 xl:w-[50px] xl:h-[50px] rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0 group"
               aria-label={cartAccessibleLabel}
             >
-              <ShoppingCart className="w-5 h-5 text-black shrink-0 transition-transform duration-200 group-hover:scale-105" />
-              {isHydrated && itemCount > 0 && (
-                <span
-                  className="absolute -top-1 -right-1 bg-[#F5B82E] text-black text-[10px] font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center shadow-xs border border-white pointer-events-none z-10"
-                  aria-hidden="true"
-                >
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              )}
+              <span className="relative inline-flex items-center justify-center">
+                <ShoppingCart className="w-5 h-5 text-black shrink-0 transition-transform duration-200 group-hover:scale-105" />
+                {isHydrated && itemCount > 0 && (
+                  <span
+                    className="absolute -top-1.5 -right-2 bg-[#F5B82E] text-black text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center shadow-xs border border-white pointer-events-none z-10 leading-none"
+                    aria-hidden="true"
+                  >
+                    {itemCount > 99 ? "99+" : itemCount}
+                  </span>
+                )}
+              </span>
             </Link>
 
-            {/* Prominent Marketplace CTA Button */}
+            {/* Prominent Pet-Feb Shop CTA Button */}
             <Link
               href="/shop"
               className="w-[160px] xl:w-[184px] h-[48px] xl:h-[52px] inline-flex items-center justify-center rounded-[12px] bg-[#7BB042] text-[#F2F7EC] font-bold text-sm xl:text-base hover:bg-[#6EA138] transition-colors shadow-2xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:ring-offset-2"
             >
-              Marketplace
+              Pet-Feb Shop
             </Link>
           </div>
 
@@ -271,18 +261,20 @@ export function Header() {
             {/* Mobile Standalone Circular Cart Shortcut */}
             <Link
               href="/cart"
-              className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0"
               aria-label={cartAccessibleLabel}
             >
-              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-black shrink-0" />
-              {isHydrated && itemCount > 0 && (
-                <span
-                  className="absolute -top-1 -right-1 bg-[#F5B82E] text-black text-[9px] font-bold min-w-4 h-4 px-0.5 rounded-full flex items-center justify-center shadow-xs border border-white pointer-events-none z-10"
-                  aria-hidden="true"
-                >
-                  {itemCount > 99 ? "99+" : itemCount}
-                </span>
-              )}
+              <span className="relative inline-flex items-center justify-center">
+                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-black shrink-0" />
+                {isHydrated && itemCount > 0 && (
+                  <span
+                    className="absolute -top-1.5 -right-2 bg-[#F5B82E] text-black text-[9px] font-bold min-w-3.5 h-3.5 px-0.5 rounded-full flex items-center justify-center shadow-xs border border-white pointer-events-none z-10 leading-none"
+                    aria-hidden="true"
+                  >
+                    {itemCount > 99 ? "99+" : itemCount}
+                  </span>
+                )}
+              </span>
             </Link>
 
             {/* Mobile Menu Toggle */}
@@ -373,22 +365,6 @@ export function Header() {
                 )}
               </div>
 
-              {/* Standalone: Marketplace */}
-              <Link
-                href="/shop"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between min-h-[48px] px-4 rounded-[14px] text-base font-medium transition ${
-                  isLinkActive("/shop")
-                    ? "text-[#3F6B1A] font-bold bg-[#F2F7EC]"
-                    : "text-gray-800 hover:bg-gray-50"
-                }`}
-              >
-                <span>Marketplace</span>
-                {isLinkActive("/shop") && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#7BB042]" aria-hidden="true" />
-                )}
-              </Link>
-
               {/* Standalone: Pet-Feb Buy Small Small */}
               <Link
                 href="/buy-small"
@@ -448,13 +424,13 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Mobile CTA: Marketplace */}
+            {/* Mobile CTA: Pet-Feb Shop */}
             <Link
               href="/shop"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full inline-flex items-center justify-center min-h-[52px] rounded-[12px] bg-[#7BB042] text-white font-bold text-base hover:bg-[#6EA138] transition shadow-xs text-center"
             >
-              Marketplace
+              Pet-Feb Shop
             </Link>
           </div>
         </div>
