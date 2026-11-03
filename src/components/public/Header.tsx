@@ -70,11 +70,13 @@ export function Header() {
     };
   }, []);
 
-  // Close desktop dropdown on route change
-  useEffect(() => {
+  // Close desktop dropdown and mobile menu on route change
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setOpenDropdown(null);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   const toggleDropdown = (id: "projects" | "buy-small") => {
     setOpenDropdown((prev) => (prev === id ? null : id));
@@ -365,14 +367,12 @@ export function Header() {
                 return (
                   <div
                     key={group.key}
-                    className={`rounded-[14px] border transition-colors ${
-                      expanded ? "border-[#D6E7C4] bg-[#F7FAF2]" : "border-gray-100 bg-white"
-                    }`}
+                    className="rounded-[14px] transition-colors"
                   >
                     <button
                       type="button"
                       onClick={() => toggleMobileGroup(group.key)}
-                      className="w-full flex items-center justify-between gap-3 min-h-[48px] px-4 text-base font-medium text-gray-800 cursor-pointer"
+                      className="w-full flex items-center justify-between gap-3 min-h-[48px] px-4 text-base font-medium text-gray-800 hover:bg-gray-50 rounded-[14px] cursor-pointer"
                       aria-expanded={expanded}
                     >
                       <span className={group.active ? "text-[#3F6B1A] font-bold" : ""}>{group.label}</span>
@@ -384,7 +384,7 @@ export function Header() {
                     </button>
 
                     {expanded && (
-                      <div className="px-2 pb-2 flex flex-col gap-1">
+                      <div className="pl-4 pr-2 pb-2 flex flex-col gap-1">
                         {group.items.map((sub) => {
                           const active = isLinkActive(sub.href);
                           return (
@@ -394,8 +394,8 @@ export function Header() {
                               onClick={() => setMobileMenuOpen(false)}
                               className={`flex items-center min-h-[44px] px-4 rounded-[10px] text-sm transition ${
                                 active
-                                  ? "text-[#3F6B1A] font-bold bg-white shadow-xs"
-                                  : "text-gray-600 hover:text-gray-950 hover:bg-white font-medium"
+                                  ? "text-[#3F6B1A] font-bold bg-[#F2F7EC]"
+                                  : "text-gray-600 hover:text-gray-950 hover:bg-gray-50 font-medium"
                               }`}
                             >
                               {sub.label}

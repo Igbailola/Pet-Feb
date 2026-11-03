@@ -148,18 +148,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const displayMainImg = mainImgUrl || fallbackImg;
 
   return (
-    <div className="bg-white pb-20 overflow-x-clip font-sans">
+    <div className="bg-white pb-16 sm:pb-20 overflow-x-clip font-sans">
       {/* ── Page Header Band matching Figma Frame 6147:6743 ────────────────────────────── */}
-      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 sm:pb-8">
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-8">
           {/* Left: Yellow dot + Heading with green period matching node 6147:6747 */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <span
-              className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0"
+              className="w-5 h-5 sm:w-[30px] sm:h-[30px] rounded-full bg-[#F5B82E] shrink-0"
               aria-hidden="true"
             />
             <h1
-              className="font-heading font-bold text-[28px] sm:text-[38px] lg:text-[48px] text-[#333333] tracking-[1.44px] uppercase leading-tight"
+              className="font-heading font-bold text-[24px] sm:text-[38px] lg:text-[48px] text-[#333333] tracking-[0.8px] sm:tracking-[1.44px] uppercase leading-tight"
               style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
             >
               Welcome to petfeb solar shop
@@ -202,23 +202,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
 
         {/* Horizontal Divider Line matching node 6147:6759 */}
-        <div className="w-full border-t border-[#D9D9D9] mb-8" />
+        <div className="w-full border-t border-[#D9D9D9] mb-6 sm:mb-8" />
       </section>
 
       {/* ── Main Product Presentation Section (Black Card) matching Figma node 6147:6784 ─ */}
-      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 mb-14 sm:mb-16">
-        <div className="bg-black text-white rounded-[32px] pt-[45px] px-4 sm:px-[35px] lg:px-8 xl:px-10 pb-[60px] sm:pb-[80px]">
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+        <div className="bg-black text-white rounded-[24px] sm:rounded-[32px] pt-7 sm:pt-[45px] px-3.5 sm:px-[35px] lg:px-8 xl:px-10 pb-10 sm:pb-[80px]">
           {/* Header Row inside black card: "Back to Shop" + Description matching node 6147:6785 */}
-          <div className="flex flex-col gap-[12px] max-w-[742px] mb-8 sm:mb-12">
+          <div className="flex flex-col gap-3 max-w-[742px] mb-6 sm:mb-12">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 font-heading font-medium text-[18px] sm:text-[20px] text-[#F5B82E] hover:underline transition w-fit"
+              className="inline-flex items-center gap-2 min-h-[40px] font-heading font-semibold text-[16px] sm:text-[20px] text-[#F5B82E] hover:underline transition w-fit"
             >
-              <ChevronLeft className="w-6 h-6 text-[#F5B82E]" />
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-[#F5B82E]" />
               <span>Back to Shop</span>
             </Link>
 
-            <p className="font-sans font-normal text-[16px] sm:text-[20px] text-[#EBEBEB] leading-[1.6]">
+            <p className="font-sans font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#EBEBEB] leading-[1.6]">
               Discover a wide range of high-quality solar panels, inverters, and batteries
               designed to power homes, businesses, and communities across Nigeria. Every
               product is tested for performance, durability, and efficiency giving you
@@ -227,7 +227,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* White Inner Product Card matching Figma node 6147:7134 */}
-          <div className="bg-white text-black rounded-[32px] pt-[35px] sm:pt-[60px] lg:pt-[80px] px-4 sm:px-[28px] lg:px-[38px] pb-[35px] shadow-2xl">
+          <div className="bg-white text-black rounded-[22px] sm:rounded-[32px] pt-5 sm:pt-[50px] lg:pt-[70px] px-4 sm:px-[28px] lg:px-[38px] pb-7 sm:pb-[40px] shadow-2xl">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-[38px] items-start">
               {/* Left Column: Product Gallery matching Figma node 6147:8156 */}
               <div className="lg:col-span-6 w-full max-w-[572px] mx-auto">
@@ -260,22 +260,22 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {/* ── Recommended Products Section (Yellow Card) matching Figma node 6147:6902 ─── */}
-      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6">
-        <div className="bg-[#F5B82E] border border-[#D9D9D9] rounded-[24px] p-6 sm:p-10 lg:p-[49px] relative overflow-hidden">
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div className="bg-[#F5B82E] border border-[#D9D9D9] rounded-[24px] p-5 sm:p-10 lg:p-[49px] relative overflow-hidden">
           {/* Cropped Sun-Arc Graphic in top corner matching node 6147:6903 */}
           <div className="absolute right-0 top-0 w-[140px] h-[140px] opacity-80 pointer-events-none" />
 
           {/* Header Row with Checkmark Icon matching node 6147:8419 */}
-          <div className="flex flex-col gap-[12px] max-w-[742px] mb-8 sm:mb-10 relative">
-            <div className="flex items-center gap-[12px]">
-              <div className="w-[20px] h-[20px] rounded-full bg-black flex items-center justify-center shrink-0">
+          <div className="flex flex-col gap-3 max-w-[742px] mb-7 sm:mb-10 relative">
+            <div className="flex items-center gap-3">
+              <div className="w-[22px] h-[22px] rounded-full bg-black flex items-center justify-center shrink-0">
                 <Check className="w-3.5 h-3.5 text-[#F5B82E] stroke-[3]" />
               </div>
-              <h2 className="font-heading font-medium text-[26px] sm:text-[32px] text-black">
+              <h2 className="font-heading font-bold text-[24px] sm:text-[32px] text-black leading-tight">
                 Recommended Products
               </h2>
             </div>
-            <p className="font-sans font-normal text-[15px] sm:text-[20px] text-[#242424] leading-[1.6]">
+            <p className="font-sans font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#242424] leading-[1.6]">
               Discover a wide range of high-quality solar panels, inverters, and batteries
               designed to power homes, businesses, and communities across Nigeria. Every
               product is tested for performance, durability, and efficiency giving you
@@ -284,7 +284,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* 3 Product Cards matching Figma node 6147:8376 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-[10px] items-stretch relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch relative">
             {relatedProducts.map((rel) => {
               const relImg =
                 rel.product_images?.[0]?.url ||
@@ -300,11 +300,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
               return (
                 <div
                   key={rel.id}
-                  className="bg-white rounded-[24px] p-[16px] pb-[24px] shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1"
+                  className="bg-white rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 pb-5 sm:pb-6 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1"
                 >
-                  <div className="flex flex-col gap-[24px] sm:gap-[32px] w-full">
+                  <div className="flex flex-col gap-4 sm:gap-6 w-full">
                     {/* Image Area matching node 6147:8379 */}
-                    <div className="h-[280px] sm:h-[400px] rounded-[24px] bg-[#EBEBEB] overflow-hidden flex items-center justify-center p-6 relative">
+                    <div className="h-[240px] sm:h-[340px] lg:h-[380px] rounded-[18px] sm:rounded-[24px] bg-[#EBEBEB] overflow-hidden flex items-center justify-center p-5 sm:p-6 relative">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={resolveMediaUrl(relImg) || relImg}
@@ -314,7 +314,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </div>
 
                     {/* Name matching node 6147:8381 */}
-                    <h3 className="font-heading font-medium text-[22px] sm:text-[24px] text-black line-clamp-1">
+                    <h3 className="font-heading font-semibold text-[20px] sm:text-[24px] text-black line-clamp-1">
                       <Link
                         href={`/shop/${rel.slug}`}
                         className="hover:text-[#3F6B1A] transition"
@@ -324,21 +324,21 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </h3>
 
                     {/* Pricing & Min Order matching node 6147:8383 */}
-                    <div className="flex flex-col leading-[1.6]">
-                      <span className="font-sans font-bold text-[20px] text-[#333333]">
+                    <div className="flex flex-col gap-0.5 leading-[1.5]">
+                      <span className="font-heading font-bold text-[20px] sm:text-[22px] text-[#111827]">
                         {formatNaira(rel.price)}
                       </span>
-                      <span className="font-sans font-medium text-[18px] text-[#5C5C5C]">
+                      <span className="font-sans font-medium text-[14px] sm:text-[16px] text-[#5C5C5C]">
                         {specSummary}
                       </span>
                     </div>
                   </div>
 
                   {/* Buy Button matching node 6147:8388 */}
-                  <div className="pt-6 w-full">
+                  <div className="pt-5 sm:pt-6 w-full">
                     <Link
                       href={`/shop/${rel.slug}`}
-                      className="bg-black text-[#F2F7EC] font-heading font-bold text-[16px] rounded-[12px] p-[16px] flex items-center justify-center hover:bg-gray-900 transition text-center w-full"
+                      className="bg-black text-[#F2F7EC] font-heading font-bold text-[15px] sm:text-[16px] rounded-[12px] min-h-[50px] h-[50px] px-5 py-3 flex items-center justify-center hover:bg-gray-900 transition text-center w-full"
                     >
                       Buy For {formatNaira(rel.price)}
                     </Link>

@@ -486,10 +486,10 @@ export default function CheckoutPage() {
         </div>
 
         {/* ── Section 3: Hero Banner Image (Node 6166:1962) ─────────── */}
-        <div className="relative rounded-[24px] sm:rounded-[32px] overflow-hidden h-[280px] sm:h-[460px] lg:h-[680px] w-full">
+        <div className="relative rounded-[24px] sm:rounded-[32px] overflow-hidden h-[280px] sm:h-[460px] lg:h-[680px] w-full shadow-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/figma-assets/about-hero-clean.jpg"
+            src="/bannerimages/cart-page-banner.jpg"
             alt="Petfeb Solar Checkout and Delivery"
             className="w-full h-full object-cover"
           />
