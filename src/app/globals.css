@@ -82,9 +82,29 @@ h1, h2, h3, h4, h5, h6 {
   animation: heroScrollBounce 2.2s ease-in-out infinite;
 }
 
+@keyframes whatsappFabBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.whatsapp-fab-bounce {
+  animation: whatsappFabBounce 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.whatsapp-fab-bounce:hover,
+.whatsapp-fab-bounce:focus-within {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-fade-up,
-  .hero-scroll-cue-bounce {
+  .hero-scroll-cue-bounce,
+  .whatsapp-fab-bounce {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
