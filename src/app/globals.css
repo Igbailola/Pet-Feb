@@ -44,3 +44,665 @@ h1, h2, h3, h4, h5, h6 {
     overflow-x: auto;
   }
 }
+
+/* ── Hero Entrance Sequence & Scroll Cue ─────────────────────────────── */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-delay-1 { animation-delay: 100ms; }
+.hero-delay-2 { animation-delay: 220ms; }
+.hero-delay-3 { animation-delay: 340ms; }
+.hero-delay-4 { animation-delay: 480ms; }
+.hero-delay-5 { animation-delay: 600ms; }
+.hero-delay-6 { animation-delay: 680ms; }
+.hero-delay-7 { animation-delay: 820ms; }
+
+@keyframes heroScrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.hero-scroll-cue-bounce {
+  animation: heroScrollBounce 2.2s ease-in-out infinite;
+}
+
+@keyframes whatsappFabBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.whatsapp-fab-bounce {
+  animation: whatsappFabBounce 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.whatsapp-fab-bounce:hover,
+.whatsapp-fab-bounce:focus-within {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-up,
+  .hero-scroll-cue-bounce,
+  .whatsapp-fab-bounce {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ── Product Card Action Button: Original Reference Slide Animation ──── */
+.product-card-btn-slide {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #7bb042;
+  border: 1.5px solid #7bb042;
+  transition: box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(to right, #ffffff 50%, #7bb042 50%);
+  transform: translateX(-50%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.product-card-btn-slide:hover::before,
+.product-card-btn-slide:focus-visible::before {
+  transform: translateX(0%);
+}
+
+.product-card-btn-slide .product-card-btn-content {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  color: #ffffff;
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide:hover .product-card-btn-content,
+.product-card-btn-slide:focus-visible .product-card-btn-content {
+  color: #1f3a0b;
+}
+
+.product-card-btn-slide .product-card-btn-content svg {
+  stroke: currentColor;
+  transition: stroke 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-card-btn-slide:focus-visible {
+  outline: 2px solid #7bb042;
+  outline-offset: 2px;
+}
+
+/* ── Standardised Site-Wide Slide Button Colour-Change Animation ───────
+ * Extends the exact .product-card-btn-slide left-to-right colour wipe
+ * (200% width ::before, translateX(-50%) -> translateX(0%), 0.4s
+ * cubic-bezier(0.25, 1, 0.5, 1)) across all buttons on the website
+ * (excluding navigation links) while preserving each button's default
+ * background, text, border, and sizing.
+ * ─────────────────────────────────────────────────────────────────────── */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #e8f3da;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: transparent;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Ensure relative positioning without overriding absolute/fixed/sticky buttons */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):not(.absolute):not(.fixed):not(.sticky) {
+  position: relative;
+}
+
+/* 1. White / Off-White / Light Neutral / Soft Green Secondary Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  .bg-white,
+  [class*="bg-white/8"],
+  [class*="bg-white/9"],
+  [class*="bg-[#FBF9F8]"],
+  [class*="bg-[#F2F7EC]"],
+  [class*="bg-[#F8F9FA]"],
+  [class*="bg-[#F0EDED]"],
+  [class*="bg-[#F5F5F5]"],
+  [class*="bg-[#EBEBEB]"],
+  [class*="bg-[#F4F4F5]"],
+  [class*="bg-[#F3F4F6]"],
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-gray-200,
+  [class*="bg-[#E8F3DA]"],
+  [class*="bg-[#D6E7C4]"],
+  [class*="bg-emerald-50"],
+  [class*="bg-emerald-100"],
+  .bg-transparent
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 2. Petfeb Brand Green Buttons -> Slide to White (#ffffff) with Deep Forest Green (#1f3a0b) Text (matches .product-card-btn-slide) */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#7BB042]"],
+  [class*="bg-[#7bb042]"],
+  [class*="bg-[#70A03C]"],
+  [class*="bg-[#70a03c]"],
+  [class*="bg-[#6AA035]"],
+  [class*="bg-[#6aa035]"],
+  [class*="bg-[#6EA138]"],
+  [class*="bg-[#6ea138]"]
+) {
+  --btn-slide-base-bg: #7bb042;
+  --btn-slide-hover-bg: #ffffff;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 3. Deep Forest Green Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#1F3A0B]"],
+  [class*="bg-[#3F6B1A]"],
+  [class*="bg-[#3D6A00]"],
+  .bg-emerald-600,
+  .bg-emerald-700,
+  .bg-emerald-800
+) {
+  --btn-slide-base-bg: #1f3a0b;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 4. Black & Dark Charcoal Buttons -> Slide to Petfeb Green (#7bb042) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  .bg-black,
+  [class*="bg-[#1B1C1C]"],
+  [class*="bg-[#141414]"],
+  [class*="bg-[#1A1A1A]"],
+  [class*="bg-[#333]"],
+  .bg-gray-900,
+  .bg-gray-950
+) {
+  --btn-slide-base-bg: #000000;
+  --btn-slide-hover-bg: #7bb042;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #7bb042;
+}
+
+/* 5. Translucent Glass / Dark-Hero Outline Buttons -> Slide to White (#ffffff) with Deep Forest Green (#1f3a0b) Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-white/10"],
+  [class*="bg-white/15"],
+  [class*="bg-white/20"],
+  [class*="bg-black/40"],
+  [class*="bg-black/60"],
+  [class*="border-white"]
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #ffffff;
+  --btn-slide-hover-text: #1f3a0b;
+  --btn-slide-hover-border: #ffffff;
+}
+
+/* 6. Petfeb Yellow Buttons -> Slide to Black (#1b1c1c) with White Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-[#F5B82E]"],
+  [class*="bg-amber-400"],
+  [class*="bg-amber-500"]
+) {
+  --btn-slide-base-bg: #f5b82e;
+  --btn-slide-hover-bg: #1b1c1c;
+  --btn-slide-hover-text: #ffffff;
+  --btn-slide-hover-border: #1b1c1c;
+}
+
+/* 7. Destructive / Remove Buttons -> Slide to Red Tint with Crimson Text */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(
+  [class*="bg-red-"],
+  [class*="text-red-"],
+  [class*="hover:text-red-"],
+  [class*="hover:bg-red-"]
+) {
+  --btn-slide-base-bg: transparent;
+  --btn-slide-hover-bg: #fee2e2;
+  --btn-slide-hover-text: #b91c1c;
+  --btn-slide-hover-border: #fca5a5;
+}
+
+/* Sliding ::before layer (exact same 200% width, translateX(-50%) -> 0%, 0.4s cubic-bezier(0.25, 1, 0.5, 1)) */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--btn-slide-hover-bg) 50%,
+    var(--btn-slide-base-bg, transparent) 50%
+  );
+  transform: translateX(-50%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible)::before {
+  transform: translateX(0%);
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible) {
+  color: var(--btn-slide-hover-text) !important;
+  border-color: var(--btn-slide-hover-border);
+  box-shadow: inset 0 0 0 1.5px var(--btn-slide-hover-border);
+}
+
+/* Keep child labels, inner stepper boxes, and icons readable during and after the slide transition */
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+) :is(svg, span:not([class*="bg-"]):not([class*="rounded-full"])) {
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              stroke 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide),
+  a[class*="rounded"][class*="bg-"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide),
+  a[class*="rounded"][class*="border"]:not(.product-card-btn-slide):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.no-btn-slide)
+):is(:hover, :focus-visible) > :is(svg, span:not([class*="bg-"]):not([class*="rounded-full"])) {
+  color: inherit !important;
+  stroke: currentColor;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide)
+):is(:hover, :focus-visible) > div[class*="bg-"] {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+:is(
+  .btn-slide,
+  button[class*="rounded"]:not(:disabled):not(.product-card-btn-slide):not([role="switch"]):not(nav *):not([role="menuitem"]):not(:has(img)):not(:has(video)):not(:has(h1, h2, h3, h4)):not(.h-\[120px\]):not(.no-btn-slide)
+):is(:hover, :focus-visible) > div[class*="bg-"] svg {
+  color: inherit !important;
+  stroke: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-btn-slide::before,
+  :is(
+    .btn-slide,
+    button[class*="rounded"]:not(nav *):not([role="menuitem"]),
+    a[class*="rounded"][class*="bg-"]:not(nav *):not([role="menuitem"]),
+    a[class*="rounded"][class*="border"]:not(nav *):not([role="menuitem"])
+  )::before {
+    transition: none !important;
+    transform: none !important;
+  }
+  .product-card-btn-slide:hover::before,
+  .product-card-btn-slide:focus-visible::before {
+    transform: none !important;
+    background: #ffffff !important;
+  }
+  .product-card-btn-slide,
+  .product-card-btn-slide .product-card-btn-content,
+  .product-card-btn-slide .product-card-btn-content svg {
+    transition: none !important;
+  }
+}
+
+/* ── Global motion system (shared easing + timing) ─────────────────────── */
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 180ms;
+  --motion-base: 320ms;
+  --motion-slow: 650ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll-triggered section entrance (see <Reveal />) */
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity var(--motion-slow) var(--ease-out-soft),
+                transform var(--motion-slow) var(--ease-out-soft);
+    will-change: opacity, transform;
+  }
+  .reveal.reveal-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+/* Mobile drawer + dropdown panels */
+@keyframes menuPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-panel-in {
+  animation: menuPanelIn var(--motion-base) var(--ease-out-soft) both;
+  transform-origin: top;
+}
+
+button:not(:disabled):active,
+a[class*="rounded"][class*="bg-"]:active {
+  transform: scale(0.98);
+}
+
+/* Cards and imagery */
+.hover-lift {
+  transition: transform var(--motion-base) var(--ease-out-soft),
+              box-shadow var(--motion-base) var(--ease-out-soft);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.image-zoom img {
+  transition: transform 700ms var(--ease-out-soft);
+}
+.image-zoom:hover img {
+  transform: scale(1.03);
+}
+
+@keyframes imageReveal {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-reveal {
+  animation: imageReveal 900ms var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal.reveal-visible,
+  .menu-panel-in,
+  .image-reveal,
+  .hover-lift,
+  .image-zoom img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  button:not(:disabled):active,
+  a[class*="rounded"][class*="bg-"]:active {
+    transform: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * PETFEB — MOBILE TYPOGRAPHY SYSTEM (public site, viewport ≤ 767px only)
+ * ──────────────────────────────────────────────────────────────────────────
+ * Fonts are unchanged: Space Grotesk (headings/display), Roboto (body/UI).
+ * Everything below lives inside a max-width: 767px media query and is scoped
+ * to `.public-site` (the public layout wrapper), so desktop, tablet and the
+ * admin/staff areas are untouched.
+ *
+ * Approach: instead of editing hundreds of arbitrary `text-[Npx]` classes,
+ * every size used by components is snapped to the mobile token scale below.
+ * Reusable utilities (.t-display … .t-input) exist for new components.
+ * ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --m-display: 36px;   --m-display-lh: 1.15;
+  --m-h1: 30px;        --m-h1-lh: 1.2;
+  --m-h2: 26px;        --m-h2-lh: 1.2;
+  --m-h3: 22px;        --m-h3-lh: 1.3;
+  --m-h4: 18px;        --m-h4-lh: 1.35;
+  --m-body-lg: 18px;   --m-body-lg-lh: 1.6;
+  --m-body: 16px;      --m-body-lh: 1.55;
+  --m-body-sm: 14px;   --m-body-sm-lh: 1.5;
+  --m-meta: 12px;      --m-meta-lh: 1.4;
+  --m-caption: 11px;   --m-caption-lh: 1.4;
+  --m-btn: 14px;       --m-btn-lh: 1.2;
+  --m-label: 14px;     --m-label-lh: 1.4;
+  --m-input: 16px;     --m-input-lh: 1.5;
+}
+
+@media (max-width: 767px) {
+  .public-site {
+    font-size: var(--m-body);
+    line-height: var(--m-body-lh);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* ── Size scale snapping (non-heading text) ───────────────────────── */
+  .public-site :is(.text-\[9px\], .text-\[10px\], .text-\[11px\]) {
+    font-size: var(--m-caption); line-height: var(--m-caption-lh);
+  }
+  .public-site :is(.text-xs, .text-\[12px\]) {
+    font-size: var(--m-meta); line-height: var(--m-meta-lh);
+  }
+  .public-site :is(.text-sm, .text-\[13px\], .text-\[14px\]) {
+    font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh);
+  }
+  .public-site :is(.text-base, .text-\[15px\], .text-\[16px\]) {
+    font-size: var(--m-body); line-height: var(--m-body-lh);
+  }
+  .public-site :is(.text-lg, .text-\[17px\], .text-\[18px\]) {
+    font-size: var(--m-body-lg); line-height: var(--m-body-lg-lh);
+  }
+  /* Emphasis figures (prices, stats) */
+  .public-site :is(.text-xl, .text-\[19px\], .text-\[20px\]) {
+    font-size: 20px; line-height: 1.3;
+  }
+  .public-site :is(.text-2xl, .text-\[22px\], .text-\[24px\], .text-\[26px\]) {
+    font-size: var(--m-h3); line-height: var(--m-h3-lh);
+  }
+  .public-site :is(.text-3xl, .text-4xl, .text-\[28px\], .text-\[30px\], .text-\[32px\], .text-\[34px\]) {
+    font-size: 28px; line-height: 1.2;
+  }
+  .public-site :is(.text-5xl, .text-6xl, .text-7xl, .text-\[36px\], .text-\[38px\], .text-\[40px\], .text-\[44px\], .text-\[46px\], .text-\[48px\], .text-\[54px\], .text-\[58px\], .text-\[64px\]) {
+    font-size: 32px; line-height: 1.15;
+  }
+
+  /* ── Headings (Space Grotesk via existing h1–h6 rule) ─────────────── */
+  .public-site :is(h1, h2, h3, h4, h5, h6) {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+  .public-site h1 {
+    font-size: var(--m-h1) !important; line-height: var(--m-h1-lh) !important;
+    font-weight: 700 !important; letter-spacing: 0.02em !important;
+  }
+  .public-site h1[data-type="display"] {
+    font-size: var(--m-display) !important; line-height: var(--m-display-lh) !important;
+  }
+  .public-site h2 {
+    font-size: var(--m-h2) !important; line-height: var(--m-h2-lh) !important;
+    font-weight: 600 !important; letter-spacing: -0.01em !important;
+  }
+  /* h3 in this codebase is the card/step/item title → card-heading size.
+     Use .t-h3 for a true subsection heading. */
+  .public-site h3 {
+    font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important;
+    font-weight: 600 !important; letter-spacing: normal !important;
+  }
+  .public-site :is(h4, h5, h6) {
+    font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important;
+    font-weight: 600 !important; letter-spacing: normal !important;
+  }
+  .public-site h3.t-h3 {
+    font-size: var(--m-h3) !important; line-height: var(--m-h3-lh) !important;
+  }
+
+  /* ── Body copy ────────────────────────────────────────────────────── */
+  .public-site p:not([class*="text-"]) {
+    font-size: var(--m-body); line-height: var(--m-body-lh);
+  }
+  .public-site p { text-wrap: pretty; }
+
+  /* ── Navigation (14–16px / 500 / 1.3) ─────────────────────────────── */
+  .public-site header :is(nav a, nav button, [role="menuitem"]):not(.font-bold) {
+    font-weight: 500; line-height: 1.3;
+  }
+  .public-site header :is(nav a, nav button, [role="menuitem"]) { line-height: 1.3; }
+
+  /* ── Buttons (14–16px / 600 / 1.2) ────────────────────────────────── */
+  .public-site :is(button, a[class*="rounded"][class*="bg-"])[class] {
+    line-height: var(--m-btn-lh); font-weight: 600;
+  }
+  .public-site :is(
+    button:is(.text-xs, .text-\[9px\], .text-\[10px\], .text-\[11px\], .text-\[12px\], .text-\[13px\]),
+    a[class*="rounded"][class*="bg-"]:is(.text-xs, .text-\[11px\], .text-\[12px\], .text-\[13px\])
+  ) {
+    font-size: var(--m-btn);
+  }
+  .public-site header a[href="/buy-small"][class*="bg-"] { font-weight: 600; }
+
+  /* ── Forms ────────────────────────────────────────────────────────── */
+  .public-site label[class], .public-site label:not([class]) {
+    font-size: var(--m-label); line-height: var(--m-label-lh); font-weight: 500;
+  }
+  .public-site :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+    select, textarea
+  ) {
+    font-size: var(--m-input); line-height: var(--m-input-lh); font-weight: 400;
+  }
+  .public-site :is(p, span, div)[role="alert"]:not(:has(*)) {
+    font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh);
+  }
+
+  /* ── Reusable utilities for new components ────────────────────────── */
+  .t-display  { font-size: var(--m-display) !important; line-height: var(--m-display-lh) !important; font-weight: 700; }
+  .t-h1       { font-size: var(--m-h1) !important; line-height: var(--m-h1-lh) !important; font-weight: 700; }
+  .t-h2       { font-size: var(--m-h2) !important; line-height: var(--m-h2-lh) !important; font-weight: 600; }
+  .t-h4       { font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important; font-weight: 600; }
+  .t-body-lg  { font-size: var(--m-body-lg); line-height: var(--m-body-lg-lh); font-weight: 400; }
+  .t-body     { font-size: var(--m-body); line-height: var(--m-body-lh); font-weight: 400; }
+  .t-body-sm  { font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh); font-weight: 400; }
+  .t-meta     { font-size: var(--m-meta); line-height: var(--m-meta-lh); font-weight: 500; }
+  .t-caption  { font-size: var(--m-caption); line-height: var(--m-caption-lh); font-weight: 400; }
+  .t-btn      { font-size: var(--m-btn); line-height: var(--m-btn-lh); font-weight: 600; }
+  .t-nav      { font-size: var(--m-body-sm); line-height: 1.3; font-weight: 500; }
+  .t-label    { font-size: var(--m-label); line-height: var(--m-label-lh); font-weight: 500; }
+  .t-input    { font-size: var(--m-input); line-height: var(--m-input-lh); font-weight: 400; }
+}

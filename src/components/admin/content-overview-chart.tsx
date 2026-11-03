@@ -92,7 +92,7 @@ export function ContentOverviewChart({
               onClick={() => setFilter("all")}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                 filter === "all"
-                  ? "bg-[#7BB042] text-black shadow-xs"
+                  ? "bg-[#7BB042] text-white shadow-xs"
                   : "text-[#6B7280] hover:text-black"
               }`}
             >
@@ -103,7 +103,7 @@ export function ContentOverviewChart({
                 onClick={() => setFilter("products")}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                   filter === "products"
-                    ? "bg-[#7BB042] text-black shadow-xs"
+                    ? "bg-[#7BB042] text-white shadow-xs"
                     : "text-[#6B7280] hover:text-black"
                 }`}
               >
@@ -115,7 +115,7 @@ export function ContentOverviewChart({
                 onClick={() => setFilter("blog")}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                   filter === "blog"
-                    ? "bg-[#7BB042] text-black shadow-xs"
+                    ? "bg-[#7BB042] text-white shadow-xs"
                     : "text-[#6B7280] hover:text-black"
                 }`}
               >
@@ -127,7 +127,7 @@ export function ContentOverviewChart({
                 onClick={() => setFilter("testimonials")}
                 className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
                   filter === "testimonials"
-                    ? "bg-[#7BB042] text-black shadow-xs"
+                    ? "bg-[#7BB042] text-white shadow-xs"
                     : "text-[#6B7280] hover:text-black"
                 }`}
               >

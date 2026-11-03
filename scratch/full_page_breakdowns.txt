@@ -1,0 +1,627 @@
+############################################################
+PAGE: Original_Home_Page (93 text elements)
+############################################################
+[0.008, 0.246] About Us Contact Us Our Prolect v Pet-Feb buu small small v Shop
+[0.035, 0.034] ° CREATING REALITY.
+[0.031, 0.075] BUILDING YOUR VISIONS,
+[0.036, 0.654] COMMUNITIES ACROSS NIGERIA WITH
+[0.042, 0.671] CLEAN SOLAR ENERGY SOLUTIONS.
+[0.073, 0.375] Explore Products
+[0.180, 0.363] Our Current Solar Partners
+[0.193, 0.646] Jump
+[0.218, 0.333] Some interesting Fact About Us
+[0.230, 0.121] • 7+
+[0.230, 0.286] • 3k +
+[0.230, 0.462] • 1156
+[0.230, 0.604] • 4573
+[0.229, 0.762] 18008-
+[0.236, 0.079] Years of Solar Experience Homes & Businesses Powered Panels Installed Nationwide
+[0.236, 0.588] Recycled Materials
+[0.237, 0.713] People Trained in Renev
+[0.273, 0.067] Start with 30 percent. Pay the
+[0.279, 0.067] rest weekly, biweekly or monthly.
+[0.280, 0.692] 40% 80%
+[0.296, 0.846] ₩32,000 / week
+[0.331, 0.067] • Products
+[0.337, 0.062] Discover a wide range of high-quality solar panels, inverters, and batteries designed to
+[0.346, 0.063] performance, durability, and efficiency giving you reliable clean energy you can trust.
+[0.346, 0.717] Go to ret-reD product - shop s
+[0.356, 0.317] Charge Controllers
+[0.430, 0.079] Micro Inverter
+[0.430, 0.367] Lithium Battery
+[0.430, 0.654] G12V 200AH Battery
+[0.443, 0.079] Min, Order : 1unit
+[0.438, 0.079] N567,900
+[0.438, 0.367] N567,900
+[0.438, 0.654] N567,900
+[0.444, 0.371] win order ram
+[0.443, 0.654] Min, Order : 1unit
+[0.453, 0.163] Buy For N567,900
+[0.453, 0.442] Buy For N567,900
+[0.453, 0.733] Buy For N567,900
+[0.487, 0.458] • Join Our Next Training Today
+[0.494, 0.458] Petfeb Solar Training is designed to equip individuals with hands-on knc
+[0.503, 0.471] epares you to work confidently in the fast-growing solar industr
+[0.542, 0.062] • Project
+[0.551, 0.813] See More Projects
+[0.560, 0.062] our latest projects and see how were building a cleaner, brighter future across Nigeria.
+[0.578, 0.083] How Pet-Feb Is Transforming Communities Through Solar Street Lighting
+[0.599, 0.083] Building Global Capacity
+[0.601, 0.854] china
+[0.637, 0.100] our team embarked on a landms
+[0.669, 0.087] Project Title
+[0.669, 0.796] Project Location
+[0.697, 0.063] • Client Says
+[0.710, 0.063] see how Pet-red's solar solutions are transtorming lives, cutting costs, and delivering
+[0.706, 0.063] our work speaks througn tne voices or our cilents. From nomeowners to pusinesses
+[0.714, 0.063] dependable energy every day.
+[0.743, 0.087] Mr Phillip (inverter project customer)
+[0.739, 0.379] Miss Diamond (solar generator customer)
+[0.749, 0.088] *****
+[0.744, 0.377] *****
+[0.739, 0.675] MD Avoshe (Estate security streetlights
+[0.750, 0.667] *****
+[0.766, 0.542] 23-09-2025
+[0.766, 0.829] 23-09 - 2025
+[0.791, 0.062] • Stay in touch with Us Contact Information
+[0.798, 0.062] Chat with us to get free consultation service, make enquiries stay up to
+[0.803, 0.062] date with our latest project and products
+[0.827, 0.087] enter Full Name
+[0.827, 0.387] enter emall
+[0.825, 0.683] Enter Phone Number:
+[0.841, 0.087] Enter Your Address:
+[0.841, 0.388] Enter Your City:
+[0.841, 0.679] Enter Your Zip Code:
+[0.851, 0.079] •Well come up with a text for this labe
+[0.856, 0.087] Choose an Option
+[0.873, 0.088] elype vour messace
+[0.895, 0.454] Market Place
+[0.922, 0.120] Pet-Feb
+[0.921, 0.458] • Social links
+[0.922, 0.671] • Informatior
+[0.928, 0.121] Building your visions, Creating reality
+[0.929, 0.458] HOmE
+[0.928, 0.675] © Plot 23 Binabi Street GRA 1
+[0.933, 0.458] About
+[0.932, 0.687] Rivers State, 840100, NG
+[0.939, 0.062] Subscribe to Stay Updated!
+[0.938, 0.458] Blog
+[0.938, 0.671] 08 + 234 813-585-4054
+[0.946, 0.075] Email Address:
+[0.947, 0.458] Product Listing Page
+[0.944, 0.458] Contact us
+[0.943, 0.671] Binfo@petfeb.com
+[0.948, 0.671] ® petfeb.com
+[0.958, 0.792] Social links: X @ +
+[0.966, 0.071] BUILDING YOUR VISIONS, CREATING REALITY
+
+
+############################################################
+PAGE: Original_About_us (73 text elements)
+############################################################
+[0.036, 0.021] • ABOUT PET-FEB
+[0.032, 0.525] Pet-Feb is a trusted solar energy company in Nigeria, dedicated to providing
+[0.035, 0.529] reliable and sustainable power solutions. From residential homes to large-
+[0.044, 0.525] protect the environment, and empower communities with clean energy.
+[0.042, 0.529] scale pro ects, we design, install, and maintain systems that reduce costs,
+[0.210, 0.504] • Our Story
+[0.219, 0.508] Building Nigeria's Clean
+[0.226, 0.508] Energy Future One
+[0.234, 0.508] Milestone at a Time
+[0.244, 0.504] Since its founding, Pet-Feb International Company Limited has been at the
+[0.250, 0.508] torefront of Nideria s renewable enerav transformation. What bedan as a sma
+[0.263, 0.504] power solutons.
+[0.259, 0.508] grown into one or Nigeria s leading names in solar innovation and sustainable
+[0.266, 0.504] From powering homes and businesses to empowering people through training,
+[0.286, 0.062] Mrs. Petra Solomon
+[0.286, 0.537] © 2019 - The Beginning
+[0.293, 0.533] Pet-Feb was officially founded with a mission to make solar energy
+[0.302, 0.537] with a bio dream quickly became a movement tor cleaner, greener ene
+[0.299, 0.537] accessible and arordable to all Nigerans. what started as a small team
+[0.375, 0.533] Our mission is to provide attordable,
+[0.385, 0.054] • Our Mission
+[0.380, 0.533] efficient, and sustainable solar power
+[0.385, 0.533] solutions that meet the energy needs
+[0.391, 0.533] of Nigerians today while safeguarding
+[0.397, 0.533] the environment for tomorrow.
+[0.452, 0.096] At Pet-Feb, our vision is to lead
+[0.463, 0.092] renewable energy by delivering reliable
+[0.459, 0.092] Nigeria's transition into clean.
+[0.469, 0.096] and innovative solar solutions.
+[0.475, 0.092] We aim to create a sustainable future
+[0.470, 0.750] • Our Vision
+[0.481, 0.092] where homes, businesses, and
+[0.486, 0.096] communities thrive through
+[0.531, 0.042] • Rest Of The Team
+[0.539, 0.046] Experienced renewable energy leaders directing operations, technical engineering
+[0.546, 0.046] survevs and nationwide lonistics
+[0.585, 0.079] Mr. Jude Egbri
+[0.590, 0.083] Branch / Regional Manager (Abuja)
+[0.606, 0.079] regional installations, technical surveys, and client relationship
+[0.602, 0.083] Overseeing Federal Capital Territory (FCT) and Northern
+[0.612, 0.083] management.
+[0.646, 0.075] SEI FOT TEAM MEMREE
+[0.646, 0.642] Click a profile, use arrow, or hover t
+[0.655, 0.146] Mr. Jude Egbri
+[0.655, 0.433] Mr. Steven F. Egwuatu
+[0.655, 0.750] Mr. Dennis Onakposegha
+[0.689, 0.050] • Team's Event
+[0.699, 0.050] Global Partnerships, Local Impact
+[0.833, 0.058] At Pet-Feb, we know that the future of energy cannot be built in isolation
+[0.836, 0.062] That'e why in March our team embarked on a landmark visit to China - a iourney that opened new doors for innovation, learning, and collaboration,
+[0.843, 0.058] manufacturers. This milestone does more than strengthen our global footprint - it positions us to launch our own line of branded solar products tailored for
+[0.842, 0.058] During this strategic trip, Pet-Feb International Company Limited secured an international trade partnership with some of the world's leading renewable energy
+[0.851, 0.058] the Nigerian marketi
+[0.859, 0.058] But the partnership goes bevond products. Our engineers and staff engaged in hands-on training sessions knowledge-sharing workshops, and a meet-and-
+[0.863, 0.058] greet with industry leaders. These experiences ensure our team stays ahead with the latest solar technology, manufacturing insights, and alobal best practices.
+[0.875, 0.063] • Continuous product innovation backed by international expertise.
+[0.880, 0.062] • Expert installation maintenance and training services built on clobal standards
+[0.884, 0.067] • A trusted partner committed to delivering affordable and sustainable solar energy in Nigeria.
+[0.894, 0.058] At Pot Feb our miccion ie bicaor than anarav We are committed to reducina carbon omiccione empowerina communitias and holnina bucinaccas transiti
+[0.921, 0.112] Pet-Feb
+[0.921, 0.463] in linte
+[0.920, 0.679] • Information
+[0.927, 0.112] Building your visions, Creating reality
+[0.928, 0.679] © Plot 23 Binabi Street GRA 1.
+[0.931, 0.700] Dovers State: 840100. NG
+[0.939, 0.050] Subscribe to Stay Updated!
+[0.947, 0.062] Email Address:
+[0.943, 0.463] Contact Us
+[0.938, 0.679] 09 + 234 813-585-4054
+[0.948, 0.462] Product Listing Page
+[0.950, 0.679] 4 notfsh com
+[0.959, 0.800] Social links: X • +
+[0.969, 0.062] BUILDING YOUR VISIONS, CREATING REALITY
+
+
+############################################################
+PAGE: Original_Shop_Page (51 text elements)
+############################################################
+[0.058, 0.033] • SOLAR SHOP.
+[0.053, 0.075] WELCOME TO PETFEB
+[0.309, 0.067] • Products
+[0.320, 0.067] Discover a wide range of high-quality solar panels, inverters, and batteries designed to
+[0.327, 0.067] power homes, businesses, and communities across Nigeria. Every product is tested for
+[0.337, 0.067] bertormance durabilitv and etticiencv divind vou reliable clean enerav vou can trust.
+[0.493, 0.082] Micro Inverter
+[0.494, 0.371] Lithium Battery
+[0.494, 0.658] G12V 200AH Battery
+[0.508, 0.079] N567,900
+[0.508, 0.367] N567,900
+[0.508, 0.654] N567,900
+[0.515, 0.079] Min, Order : 1unit
+[0.518, 0.371] Min, Order : Tunit
+[0.515, 0.658] Min, Order: 1unit
+[0.532, 0.162] Buy For N567,900
+[0.532, 0.446] Buy For N567,900
+[0.532, 0.737] Buy For N567,900
+[0.659, 0.079] Street Light Panel
+[0.659, 0.371] FLH48100UG2-5-Battery
+[0.659, 0.658] IVPS10048.356-Inverter
+[0.673, 0.079] N567,900
+[0.673, 0.367] N567,900
+[0.673, 0.654] N567,900
+[0.679, 0.078] Min, Order : 1unit
+[0.680, 0.371] Min, Order : 1unit
+[0.679, 0.657] Min, Order : 1unit
+[0.696, 0.450] Buy For N567,900
+[0.696, 0.737] Buy For N567,900
+[0.726, 0.667] ‹ Previous
+[0.724, 0.746] 1 2 3 ... 10 Next
+[0.781, 0.067] Start with 30 percent. Pay the
+[0.791, 0.062] rest weeklu, biweeklu or monthlu.
+[0.795, 0.692] 40% 50%
+[0.827, 0.079] See how Buy Small works
+[0.876, 0.121] Pet-Feb
+[0.875, 0.462] • Social links
+[0.875, 0.696] Information
+[0.884, 0.121] Building your visions, Creating reality
+[0.886, 0.462] Home
+[0.886, 0.675] ® Plot 23 Binabi Street GRA 1,
+[0.894, 0.462] About
+[0.893, 0.692] avers State, 840100, NG
+[0.904, 0.062] Subscribe to Stav Updated!
+[0.902, 0.675] Ce + 234 813-585-4054
+[0.915, 0.075] Email Address:
+[0.912, 0.462] Contact Us
+[0.918, 0.462] Product Listing Page
+[0.918, 0.671] @ petfeb.com
+[0.933, 0.883] XOO
+[0.948, 0.071] BUILDING YOUR VISIONS, CREATING REALITY
+
+
+############################################################
+PAGE: Original_Shop_Page-1 (65 text elements)
+############################################################
+[0.013, 0.847] Market Place
+[0.055, 0.070] WELCOME TO PETFEB BLOG
+[0.061, 0.034] ° POST.
+[0.097, 0.045] Posted: 27/09/2025
+[0.109, 0.636] Top Stories
+[0.148, 0.632] retired s nenewaple energy
+[0.154, 0.632] Projects Transtorming Lives
+[0.206, 0.632] Pet-Feb Expands to Port
+[0.215, 0.632] Harcourt - Bringing Sola
+[0.225, 0.632] Nigeria
+[0.221, 0.632] Innovation Closer to Southerr
+[0.230, 0.058] Feb Expands to Port Harcourt Bringing Solar
+[0.241, 0.058] Innovation Closer to Southern Nigeria
+[0.262, 0.062] Discover now Pet-re
+[0.270, 0.636] - Pet-Feb Admin
+[0.288, 0.649] 1 128
+[0.286, 0.781] D 80
+[0.304, 0.062] cond ace ront harcour, rivers state a major step toward expanding clean energy access in Southern
+[0.307, 0.632] 45 Comments
+[0.323, 0.058] The launch ceremony brought together team members, partners, and stakeholders who celebrated this
+[0.328, 0.058] exciting new chapter
+[0.334, 0.062] The Port Harcourt office is not just a workspace - it's a hub for innovation, training, and custon
+[0.358, 0.058] This expansion reflects our dedication to being closer to the people we serve. With the region's increas
+[0.383, 0.058] Pet-Feb's Port Harcourt hub will also host training programs, product showcases, and community mauve
+[0.395, 0.058] By expanding our reach, we're taking another bold step toward our vision of a sustainable Nigeria powered by
+[0.406, 0.649] Stay Up To Date on Our Latest
+[0.411, 0.649] projects and Posts
+[0.477, 0.062] • Our Recent Blog Post
+[0.490, 0.062] Discover a wide range of high-quality solar panels, inverters, and batteries designed
+[0.497, 0.062] to power homes, businesses, and communities across Nigeria. Every product is
+[0.504, 0.062] tested for performance, durability, and efficiency giving you reliable clean energy
+[0.515, 0.062] you can trust.
+[0.637, 0.074] Lighting Up Communities
+[0.637, 0.368] Pet-Feb Expands to Port
+[0.637, 0.661] Empowering Tomorrow's
+[0.645, 0.074] Pet-Feb's Renewable
+[0.645, 0.368] Harcourt Bringing Solar
+[0.645, 0.665] Engineers How Pet-Feb
+[0.654, 0.074] Energy Projects
+[0.654, 0.368] Innovation Closer to
+[0.654, 0.665] is Building Nigeria's
+[0.663, 0.074] Transforming Lives
+[0.663, 0.368] Southern Nigeria
+[0.663, 0.665] Solar Workforce
+[0.674, 0.665] Pet-Feb is shaping the future of Nigeria's renewable
+[0.719, 0.079] • Pet-Feb
+[0.719, 0.372] • Pet-Feb
+[0.719, 0.665] • Pet-Feb
+[0.776, 0.459] • Join Our Next Training Today
+[0.791, 0.459] Petfeb Solar Training is designed to equip individuals with hands-on knowledge in solar installatio
+[0.869, 0.120] Pet-Feb
+[0.868, 0.459] • Social links
+[0.869, 0.669] • Information
+[0.878, 0.124] Building your visions, Creating reality
+[0.882, 0.674] V Pot Lo DinaDi Street okA
+[0.898, 0.062] Subscribe to Stay Updated!
+[0.897, 0.669] C + 234 813-585-4054
+[0.904, 0.459] Contact Us
+[0.911, 0.066] Email Address:
+[0.907, 0.669] M Into@petteb.cor
+[0.913, 0.463] Product Listing Page
+[0.914, 0.669] @ petfeb.com
+[0.929, 0.789] Social links: X @ 1
+[0.945, 0.070] BUILDING YOUR VISIONS, CREATING REALITY
+[0.971, 0.393] Pet-Feb solar solution (c) 2025 pet-feb - All Rights Reserved
+
+
+############################################################
+PAGE: Original_Shop_Page-2 (58 text elements)
+############################################################
+[0.016, 0.391] Our Project v Pet-Feb buy small small V
+[0.016, 0.849] Market Place
+[0.065, 0.070] WELCOME TO PETFEB
+[0.081, 0.063] SOLAR SHOP.
+[0.121, 0.066] < Back to Shop
+[0.134, 0.063] Discover a wide range of high-quality solar panels, inverters, and batteries designed
+[0.141, 0.063] to power homes, businesses, and communities across Nigeria. Every product is
+[0.151, 0.063] tested for performance, durability, and efficiency giving you reliable clean energy
+[0.161, 0.063] you can trust.
+[0.199, 0.489] Felicity Solar Inverter
+[0.230, 0.507] Product specification
+[0.296, 0.546] 5.0 kVA
+[0.297, 0.799] 5-Year*
+[0.337, 0.493] # 1,850,000 N2,100,000- 12%
+[0.353, 0.704] Add to cart
+[0.410, 0.563] 5-Year Warranty
+[0.425, 0.506] BS Pay from N24,000 / weok
+[0.430, 0.820] ZERO COLLATERAL
+[0.436, 0.528] Buy small Flexible Schen
+[0.452, 0.616] 40% (N740k)
+[0.452, 0.708] 50% (N925k)
+[0.497, 0.623] See how Buy Small works
+[0.568, 0.067] • Recommended Products
+[0.583, 0.063] Discover a wide range of high-quality solar panels, inverters, and batteries designed
+[0.592, 0.067] to power homes, businesses, and communities across Nigeria. Every product is
+[0.602, 0.063] tested for performance, durability, and efficiency giving you reliable clean energy
+[0.609, 0.063] you can trust.
+[0.745, 0.084] Micro Inverter
+[0.745, 0.366] Lithium Battery
+[0.745, 0.654] G12V 200AH Battery
+[0.766, 0.081] NS0/.9UU
+[0.766, 0.366] ANS0/.900
+[0.772, 0.081] Min, Order: 1unit
+[0.775, 0.366] Min, Order . funn
+[0.772, 0.651] Min, Order: 1unit
+[0.792, 0.165] Buy For N567,900
+[0.792, 0.447] Buy For N567,900
+[0.792, 0.732] Buy For N567,900
+[0.847, 0.123] Pet-Feb
+[0.846, 0.461] • Social links
+[0.846, 0.697] Information
+[0.857, 0.123] Building your visions, Creating reality
+[0.862, 0.461] nome
+[0.859, 0.673] © Plot 23 Binabi Street GRA 1,
+[0.869, 0.461] About
+[0.869, 0.687] Rivers State, 840100, NG
+[0.865, 0.690] Port Harcourt
+[0.881, 0.063] Subscribe to Stay Updated!
+[0.879, 0.461] Blog
+[0.879, 0.673] C + 234 813-585-4054
+[0.888, 0.461] Contact Us
+[0.889, 0.673] • Info@petfeb.com
+[0.895, 0.074] Email Address:
+[0.898, 0.461] Product Listing Page
+[0.898, 0.673] @ petfeb.com
+[0.917, 0.789] Social links: X @ +
+[0.936, 0.074] BUILDING YOUR VISIONS, CREATING REALITY
+[0.964, 0.398] et Feb solar solution © 2025 pet feb - All Rights Reserved.
+
+
+############################################################
+PAGE: Original_BuySmall_Page (71 text elements)
+############################################################
+[0.047, 0.035] • PAY IN SMALL AMOUNTS.
+[0.042, 0.062] POWER YOUR HOME NOW.
+[0.043, 0.600] CLEAN ENERGY SHOULDN'T DRAIN YOUR WORKING CAPITAL
+[0.057, 0.600] MONTHLY INSTALLMENTS. ZERO COLLATERAL REQUIRED.
+[0.054, 0.600] STORAGE, AND PANELS OVER PREDICABLE WEEKLY OR
+[0.179, 0.050] 30%
+[0.178, 0.263] Zero
+[0.179, 0.475] 24h
+[0.179, 0.687] NEMSA
+[0.187, 0.262] Collateral Require
+[0.220, 0.392] How Buy Small Works
+[0.230, 0.229] Transparent tinancing backed bv certitied hardware. No hidden tees, no opadue contracts,
+[0.260, 0.067] Choose Hardware
+[0.260, 0.296] Select Deposit (30%-
+[0.260, 0.521] Choose Cadence
+[0.260, 0.750] Deploy & Power On
+[0.267, 0.067] Datele, or unity or system 04
+[0.266, 0.296] 50%
+[0.338, 0.050] • Buy Small Financing Calculator
+[0.347, 0.046] Model your hardware investment, calculate exact weekly commitment, and preview full
+[0.352, 0.050] amortisation.
+[0.370, 0.071] Select Hardware Package
+[0.375, 0.079] Petfeb 5kW Hybrid Inverter + 5.12kWh LiFePO4 System (N3.950,000)
+[0.384, 0.596] #54,788 / Week
+[0.420, 0.071] Repayment Cadence
+[0.422, 0.871] N2 950 000
+[0.427, 0.879] ₩120.000
+[0.434, 0.871] N1.221.00
+[0.445, 0.871] ₩2,849,000
+[0.455, 0.082] * Inelude Certifed Turnkey Instalation
+[0.502, 0.675] Continue to Apply for Buy Small →
+[0.565, 0.096] • Enor Rabatunde's Healthcare Diagnostic Clinic
+[0.572, 0.096] De-escalated volatile generator operating expenses with a N3.95M commercial hybrid setup deployed for
+[0.577, 0.096] N1.18M upfront. The clinic reported saving over N140,000 monthly against previous diesel bills, paying the
+[0.575, 0.758] ~₩ 140,000
+[0.584, 0.100] remaining balance comfortablv from operational surplus
+[0.590, 0.100] * Demonstration customer narrative: individual site savinas depend on arid availability and oeneration irradiance.
+[0.620, 0.050] • Three-Point Verification. Zero Asset Collateral.
+[0.629, 0.050] Traditional banks demand landed property and months of physical statements. Petfeb Buy Small uses modern
+[0.634, 0.050] automated telemetry and biometric verification.
+[0.664, 0.067] 1. Valid Nigerian Identificatior
+[0.663, 0.371] 2. Proof of Address & Utility Bill
+[0.664, 0.675] 2 RUN & Automated Direct nobit
+[0.727, 0.342] • Frequently Asked Questions
+[0.736, 0.258] Clear answers regarding operational custody, grid fluctuations, and buyout rules.
+[0.754, 0.179] What happens if the national grid drops or solar radiation is low during my repayment
+[0.758, 0.179] term?
+[0.773, 0.175] Can I pay off my remaining balance early without penalty?
+[0.788, 0.175] Who holds ownership of the hardware during the repayment period?
+[0.804, 0.179] What if I relocate my business or residence to a new site?
+[0.846, 0.221] Ready to power your facility on your own terms?
+[0.855, 0.287] Start your Buy Small application now with zero collateral and lock in
+[0.859, 0.350] predictable weekly or monthly repayments.
+[0.875, 0.308] Start Buy Small Application
+[0.875, 0.504] a Speak with an Engineer
+[0.909, 0.121] Pet-Feb
+[0.908, 0.462] • Social links
+[0.910, 0.683] • Information
+[0.915, 0.125] Building your visions, Creating reality
+[0.919, 0.462] Home
+[0.919, 0.675] • Plot 23 Binabi Street GRA 1
+[0.921, 0.696] were State: 840100, NG
+[0.931, 0.062] Subscribe to Stay Updated!
+[0.939, 0.071] Email Address:
+[0.935, 0.462] Contact Us
+[0.941, 0.462] Product Listing Page
+[0.941, 0.675] @ petfeb.com
+[0.937, 0.675] A Infannetfoh com
+[0.952, 0.795] Social inks: X @
+[0.965, 0.071] BUILDING YOUR VISIONS, CREATING REALITY
+[0.983, 0.396] Pet-Feb solar solution © 2025 pet-feb - Al Rights Reserved
+
+
+############################################################
+PAGE: Original_Cart_Page (57 text elements)
+############################################################
+[0.078, 0.029] • YOUR CART (3 ITEMS)
+[0.324, 0.173] Petfeb 5kW Hybrid Inverter Dual-MPPT
+[0.324, 0.467] ₩1,850,000
+[0.324, 0.599] Order Summary
+[0.376, 0.176] Petfeb 5.12kWh LiFeP04 Wallmount
+[0.376, 0.467] ₩2,100,000
+[0.387, 0.176] battere
+[0.384, 0.610] • Certified Petfeb Turnkey Installatio
+[0.400, 0.180] . Tier-1 LiFeP04 Buy Small Eligible A Only 2 units left in Lagos Hub
+[0.401, 0.629] razo, voo faemo placeno tae!
+[0.417, 0.419] ubtotal: N2,100,000 I Remove
+[0.419, 0.599] Total
+[0.420, 0.805] ₩4,835,000
+[0.437, 0.176] Jinko 585W N-Type Bifacial
+[0.437, 0.478] ₩740,000
+[0.445, 0.173] Monocrystalline Panel (Pack of 4)
+[0.453, 0.173] 2,340W Total Peak • 22.6% Eff. • Dual-Glass Tier
+[0.462, 0.180] O IEC 61215 Pass LO Buy Small Eligible In stock (Ready for
+[0.475, 0.434] total: N740,000 • Remo
+[0.474, 0.618] • Pay in installments with Buy Small (From N38,500/wk)
+[0.496, 0.599] 5-Year Petfeb Com
+[0.503, 0.081] % ASSET FINANCING SCHEME
+[0.504, 0.599] & NEMSA Certified
+[0.513, 0.077] This cart qualifies for Buy Small: from N38,500 / week (demo placoholder)
+[0.512, 0.596] • Paystack 256-Bit SSL Encrypted Es
+[0.523, 0.077] Pay 30% initial deposit (N1,407,000) and spread the balance over 12 months with zer
+[0.523, 0.805] + 234 813-585-4054
+[0.539, 0.081] 50% Deposit Her (Unlocked)
+[0.615, 0.827] Af Zero Dispatch
+[0.759, 0.085] Micro Inverter
+[0.759, 0.368] Lithium Battery
+[0.759, 0.654] G12V 200AH Battery
+[0.775, 0.085] N567,900
+[0.778, 0.368] N30 / 900
+[0.775, 0.651] N567,900
+[0.783, 0.085] Min, Order : 1unit
+[0.783, 0.368] Min, Order: 1unit
+[0.783, 0.651] Min, Order: 1unit
+[0.802, 0.165] Buy For N567,900
+[0.802, 0.449] Buy For N567,900
+[0.802, 0.735] Buy For N567,900
+[0.856, 0.121] Pet-Feb
+[0.855, 0.460] • Social links
+[0.853, 0.672] • Information
+[0.865, 0.121] Building your visions, Creating reality
+[0.866, 0.673] © Plot 23 Binabi Street GRA 1,
+[0.879, 0.699] vers state, 840 100 ,.
+[0.888, 0.063] Subscribe to Stay Updated!
+[0.888, 0.673] S + 234 813-585-4054
+[0.895, 0.460] Contact Us
+[0.895, 0.673] A Info@petfeb.com
+[0.901, 0.074] Email Address:
+[0.904, 0.460] Product Listing Page
+[0.904, 0.669] @ petfeb.com
+[0.923, 0.787] Social links: X @ f
+[0.940, 0.074] BUILDING YOUR VISIONS, CREATING REALITY
+[0.969, 0.393] Pet-Feb solar solution (c) 2025 pet-feb - All Rights Reserved
+
+
+############################################################
+PAGE: Original_Delivery_and_Checkout_Page (61 text elements)
+############################################################
+[0.067, 0.051] • 1. Your Details
+[0.087, 0.026] • CHECKOUT/DELIVERY
+[0.323, 0.070] 1 Your Details
+[0.323, 0.596] Order Summary
+[0.340, 0.066] Full Name (Contact / Project Lead)
+[0.336, 0.640] Petfeb 5kW Hybrid Inverter
+[0.347, 0.074] Engr. Babatunde Adeleke
+[0.360, 0.312] Phone Number (Dispatch Contact)
+[0.371, 0.074] babatunde@lagosbiz.ng
+[0.372, 0.360] 0803 456 / 890
+[0.374, 0.643] Jinko 585W N-Type Bifacial Panels
+[0.400, 0.603] Taroware Subtota
+[0.410, 0.070] 2 Delivery & Site Location
+[0.407, 0.599] Logistics (Lagos Central Hub
+[0.434, 0.074] Plot 14, Commercial Avenue, Victoria Island
+[0.437, 0.596] Total Payable
+[0.436, 0.779] ₩4,835,000
+[0.459, 0.070] Lagos State
+[0.459, 0.324] Victoria Island / Eti-Osa
+[0.465, 0.592] © 5-Year Replacement Warranty on inverter & batteries
+[0.474, 0.592] g Certified NEMSA Electrical Engineers on site
+[0.483, 0.217] Jing dock, delivery between yam -
+[0.483, 0.592] • Paystack Escrow Protection with 256-Bit SSL
+[0.491, 0.592] Dedicated Procurement Desk: + 234 813-585-4054
+[0.506, 0.077] • Dispatched from Lagos Central Hub via heavy-goods logistics
+[0.506, 0.500] N25,000
+[0.535, 0.085] • Do you want an installer? NEMSA VERIFIED
+[0.543, 0.085] All installations are performed by certified NEMSA-registered engineers with earthing and surge protection
+[0.581, 0.099] Yes, I want an installe
+[0.580, 0.327] No, I'll arrange my own
+[0.594, 0.096] contact you within 24 hours to schedule a
+[0.594, 0.327] handled by your own qualified electrical
+[0.590, 0.327] Hardware delivered to your door. installatic
+[0.641, 0.099] Select Site Property Type:
+[0.672, 0.103] Within 48 hours of hardware delivery
+[0.689, 0.110] 3 Turnkey Installation & NEMSA Safety Certification: +N120,000
+[0.693, 0.129] ncludes DC cable trunking, array mounting hardware, earth rod resistance testing, and
+[0.709, 0.125] Petep approval)
+[0.749, 0.070] 3 Review & Pay
+[0.766, 0.066] i agree to renes ers ora
+[0.778, 0.074] © Test mode: no real debit ch
+[0.795, 0.188] 8 Pay #4,835,000 with Paystack =
+[0.855, 0.121] Pet-Feb
+[0.853, 0.460] • Social links
+[0.852, 0.669] • Information
+[0.865, 0.125] Building your visions, Creating reality
+[0.866, 0.463] Home
+[0.866, 0.673] © Plot 23 Binabi Street GRA 1,
+[0.878, 0.460] About
+[0.874, 0.695] ivers State, 840100, Nc
+[0.887, 0.063] Subscribe to Stay Updated!
+[0.887, 0.460] Blog
+[0.888, 0.673] 8 + 234 813-585-4054
+[0.900, 0.074] Email Address:
+[0.897, 0.463] contact us
+[0.895, 0.673] • Info@petfeb.com
+[0.904, 0.460] Product Listing Page
+[0.904, 0.669] @ petfeb.com
+[0.922, 0.790] Social links: X @ f
+[0.940, 0.074] BUILDING YOUR VISIONS, CREATING REALITY
+[0.967, 0.393] Pet-Feb solar solution © 2025 pet-feb - All Rights Reserved.
+
+
+############################################################
+PAGE: Original_Order_Tracking_Page (53 text elements)
+############################################################
+[0.014, 0.201] Home About Us Contact Us Our Project V Pet-Feb buy small small v
+[0.016, 0.849] Market Place
+[0.090, 0.056] TRACK YOUR ORDER OR
+[0.096, 0.028] ° FINANCING PLAN
+[0.093, 0.599] CHECK REAL-TIME HARDWARE DELIVERY STATUS, CERTIFIED
+[0.100, 0.599] NEMSA INSTALLATION PROGRESS, OR YOUR BUY SMALL
+[0.109, 0.599] REPAYMENT SCHEDULE. NO ACCOUNT OR PASSWORD NEEDED.
+[0.346, 0.088] ® Order tracking
+[0.346, 0.236] f6 Buy Small plan
+[0.378, 0.081] PFB-ORD-2026-8921
+[0.397, 0.842] Q Track status
+[0.429, 0.053] • Order #PFB-ORD-2026-8921
+[0.430, 0.299] Cp Out for Delivery (Lagos Hub Fleet)
+[0.434, 0.761] & Waybill Roceipt
+[0.527, 0.070] © Hardware & Component Manifest
+[0.541, 0.673] Certified NEMSA Installation
+[0.549, 0.106] Petfeb 5kW Pure Sine Wave Hubrid Inverter Dual-MPPT
+[0.549, 0.570] N1.850.000
+[0.574, 0.106] S.12kWh LirePO4 Rack-Mounted Lithium Storage 48V TOUAnJ
+[0.573, 0.570] N2,100,000
+[0.586, 0.673] © Thursday, 15 May 2025
+[0.596, 0.577] N185,000
+[0.622, 0.577] N120.000
+[0.650, 0.511] Grand Total: N4,835,000
+[0.677, 0.067] V Live Logistics Dispatch
+[0.690, 0.669] & Need to
+[0.696, 0.067] Petfeb Dedicated Fleet • Heavy Transit Van #04
+[0.711, 0.535] moading team. .
+[0.777, 0.056] • Need assistance with your dispatch or financing
+[0.788, 0.070] agreement?
+[0.789, 0.535] O NEMSA Compliance Desk
+[0.789, 0.680] & + 234 813-585-4054
+[0.789, 0.813] • WhatsApp Direct Support
+[0.796, 0.053] Our certified engineering support engineers are on standby for inverter
+[0.804, 0.056] synchronization queries, dispatch reschedules, or direct debit changes.
+[0.843, 0.123] Pet-Feb
+[0.840, 0.458] • Social links
+[0.841, 0.672] • Information
+[0.853, 0.123] Building your visions, Creating reality
+[0.855, 0.461] Home
+[0.854, 0.676] © Plot 23 Binabi Street GRA 1,
+[0.866, 0.461] About
+[0.863, 0.690] Rivers State, 840100, NG
+[0.876, 0.063] Subscribe to Stay Updated!
+[0.875, 0.461] Blog
+[0.875, 0.673] C + 234 813-585-4054
+[0.884, 0.461] Contact Us
+[0.884, 0.673] • info@petfeb.com
+[0.891, 0.074] Email Address:
+[0.894, 0.461] Product Listing Page
+[0.894, 0.673] @ petfeb.com
+[0.913, 0.789] Social links: X @ +
+[0.929, 0.074] BUILDING YOUR VISIONS, CREATING REALITY
+
+

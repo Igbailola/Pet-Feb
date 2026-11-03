@@ -1,177 +1,202 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, PhoneCall, MapPin, Globe, ArrowRight, Check } from "lucide-react";
 import { getSiteContent } from "@/lib/public-data";
 
 export async function Footer() {
-  const contactEmail = await getSiteContent("footer.contact_email", "info@petfeb.com");
+  const [contactEmail, contactPhone] = await Promise.all([
+    getSiteContent("footer.contact_email", "Info@petfeb.com"),
+    getSiteContent("footer.contact_phone", "+ 234 813-585-4054"),
+  ]);
 
   return (
-    <footer className="bg-[#1F3A0B] text-white pt-16 pb-12 border-t border-emerald-950">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        {/* Top Brand Banner with Official Slogan */}
-        <div className="pb-10 mb-10 border-b border-emerald-800/60 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-3.5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/api/logo"
-              alt="Pet-Feb Logo"
-              className="h-12 w-auto object-contain rounded-md bg-white/10 p-1"
-            />
-            <div className="flex flex-col">
-              <span className="font-heading font-extrabold text-2xl tracking-tight text-white leading-none">
-                PET-FEB
-              </span>
-              <span className="text-[11px] tracking-widest text-[#7BB042] font-bold uppercase mt-1">
-                SOLAR SYSTEMS
-              </span>
+    <footer className="w-full bg-[#F8F9FA] pb-10 sm:pb-14 pt-4 sm:pt-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[32px]">
+        {/* Black Rounded Container matching Figma node 6139:3222 (Frame 1984079502) */}
+        <div className="bg-black text-white relative rounded-[32px] overflow-hidden p-8 sm:p-12 lg:p-14 shadow-2xl">
+          {/* Main 3-Column Footer Grid matching Figma node 6139:3224 */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 pb-10 relative z-10">
+            {/* Column 1: Brand Logo & Tagline + Newsletter (Figma node 6139:3225) */}
+            <div className="md:col-span-5 space-y-10">
+              {/* Logo & Tagline (Figma node 6139:3226) */}
+              <div className="flex items-center gap-5">
+                <div className="w-[68px] h-[68px] rounded-[13px] border-[0.5px] border-[#D6E7C4] bg-white p-2.5 flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/api/logo"
+                    alt="Pet-Feb Logo"
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <h2 className="font-heading font-bold text-[28px] text-white leading-tight tracking-tight">
+                    Pet-Feb
+                  </h2>
+                  <p className="font-sans text-[16px] sm:text-[18px] text-[#E8E8E8] leading-snug">
+                    Building your visions, Creating reality
+                  </p>
+                </div>
+              </div>
+
+              {/* Newsletter Subscription (Figma node 6139:3231) */}
+              <div className="space-y-2.5 max-w-[400px]">
+                <h3 className="font-sans font-medium text-[20px] text-[#E8E8E8] leading-tight">
+                  Subscribe to Stay Updated!
+                </h3>
+                <form onSubmit={undefined} className="bg-white rounded-[12px] h-[58px] w-full flex items-center justify-between pl-4 pr-2 shadow-sm">
+                  <input
+                    type="email"
+                    placeholder="Email Address:"
+                    className="w-full bg-transparent text-[#333333] placeholder-[#333333] text-[16px] font-sans focus:outline-none pr-3"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Subscribe"
+                    className="bg-[#7BB042] text-white rounded-[12px] px-4 py-2.5 hover:bg-[#6AA035] transition-all flex items-center justify-center shrink-0 shadow-sm cursor-pointer"
+                  >
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            {/* Column 2: Social Links / Navigation (Figma node 6139:3238) */}
+            <div className="md:col-span-3 space-y-6">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />
+                <h3 className="font-heading font-bold text-[20px] text-[#E8E8E8] whitespace-nowrap">
+                  Social links
+                </h3>
+              </div>
+              <ul className="space-y-4 font-sans text-[16px] text-[#E8E8E8]">
+                <li>
+                  <Link href="/" className="hover:text-[#7BB042] transition">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="hover:text-[#7BB042] transition">
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="hover:text-[#7BB042] transition">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/#contact" className="hover:text-[#7BB042] transition">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/shop" className="hover:text-[#7BB042] transition">
+                    Product Listing Page
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Information (Figma node 6139:3248) */}
+            <div className="md:col-span-4 space-y-6">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-white shrink-0 stroke-[2.5]" />
+                <h3 className="font-heading font-bold text-[20px] text-[#E8E8E8] whitespace-nowrap">
+                  Information
+                </h3>
+              </div>
+              <div className="space-y-4 font-sans text-[16px] text-[#E8E8E8]">
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-[18px] h-[18px] text-white shrink-0 mt-1" />
+                  <div className="leading-snug">
+                    <p>Plot 23 Binabi Street GRA 1,</p>
+                    <p>Port Harcourt</p>
+                    <p>Rivers State, 840100 , NG</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <PhoneCall className="w-[18px] h-[18px] text-white shrink-0" />
+                  <a href="tel:+2348135854054" className="hover:text-white transition">
+                    {contactPhone}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Mail className="w-[18px] h-[18px] text-white shrink-0" />
+                  <a href={`mailto:${contactEmail}`} className="hover:text-white transition">
+                    {contactEmail}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Globe className="w-[18px] h-[18px] text-white shrink-0" />
+                  <span className="hover:text-white transition">
+                    petfeb.com
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="text-left md:text-right">
-            <span className="text-xs uppercase tracking-widest text-[#7BB042] font-semibold block">
-              Corporate Motto
+
+          {/* Social links row matching Figma node 6139:3271 */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4 pb-6 pt-2 border-t border-white/10 relative z-10">
+            <span className="font-heading font-bold text-[18px] sm:text-[20px] text-[#E8E8E8]">
+              Social links:
             </span>
-            <p className="font-heading font-bold text-lg text-white tracking-wide mt-0.5">
-              BUILDING YOUR VISIONS, CREATING REALITY
+            <div className="flex items-center gap-3">
+              {/* Twitter / X (Figma node 6139:3274) */}
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X Twitter"
+                className="w-6 h-6 flex items-center justify-center hover:opacity-80 transition text-white"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              {/* Instagram (Figma node 6139:3281) */}
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-6 h-6 flex items-center justify-center hover:opacity-80 transition text-white"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              </a>
+              {/* Facebook (Figma node 6139:3286) */}
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-6 h-6 flex items-center justify-center hover:opacity-80 transition text-white"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Large Decorative Watermark Motto matching Figma node 6139:3223 */}
+          <div className="py-8 sm:py-10 text-center select-none pointer-events-none relative z-10">
+            <p
+              className="font-heading font-bold text-[28px] sm:text-[44px] lg:text-[58px] uppercase tracking-[1.74px] text-white opacity-25 leading-tight"
+              style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
+            >
+              Building your visions, Creating reality
             </p>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 pb-12 border-b border-emerald-800/60">
-          {/* Brand Info */}
-          <div className="space-y-4">
-            <h2 className="font-heading font-semibold text-sm uppercase tracking-wider text-[#7BB042]">
-              About Pet-Feb
-            </h2>
-            <p className="text-sm text-emerald-100/80 leading-relaxed">
-              Pet-Feb International Company Limited is a trusted solar energy engineering firm in Nigeria, dedicated to delivering dependable and sustainable power solutions for residential, commercial, and community installations.
-            </p>
-          </div>
-
-          {/* Core Operations & Services */}
-          <div>
-            <h2 className="font-heading font-semibold text-sm uppercase tracking-wider text-[#7BB042] mb-4">
-              Services & Plans
-            </h2>
-            <ul className="space-y-2.5 text-sm text-emerald-100/90">
-              <li>
-                <Link
-                  href="/buy-small"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Buy Small Financing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/installation"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Installation Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/track-order"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Track Order
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cart"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Cart
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Insights & Legal */}
-          <div>
-            <h2 className="font-heading font-semibold text-sm uppercase tracking-wider text-[#7BB042] mb-4">
-              Journal & Policies
-            </h2>
-            <ul className="space-y-2.5 text-sm text-emerald-100/90">
-              <li>
-                <Link
-                  href="/blog"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Journal & Insights
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="hover:text-white transition flex items-center gap-1.5 group"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 text-[#7BB042] group-hover:translate-x-0.5 transition-transform" />
-                  Terms of Service
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Details from Design Inspiration */}
-          <div>
-            <h2 className="font-heading font-semibold text-sm uppercase tracking-wider text-[#7BB042] mb-4">
-              Information & Offices
-            </h2>
-            <ul className="space-y-3 text-sm text-emerald-100/90">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                <span>
-                  Plot 23 Birabi Street, GRA 1, Port Harcourt, Rivers State, 840100, NG
-                  <span className="block text-xs text-emerald-300/80 mt-0.5">
-                    Operational hubs: Lagos & Abuja
-                  </span>
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#7BB042] shrink-0" />
-                <a href={`mailto:${contactEmail}`} className="hover:text-white transition">
-                  {contactEmail}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#7BB042] shrink-0" />
-                <a href="tel:+2348135854054" className="hover:text-white transition">
-                  +234 813-585-4054
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Credits & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-emerald-200/60 gap-4">
-          <p>© 2026 Pet-Feb International Company Limited. All Rights Reserved.</p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-emerald-100 transition">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-emerald-100 transition">
-              Terms
-            </Link>
-            <Link href="/staff/login" className="hover:text-emerald-100 transition text-emerald-300/80">
-              Staff Portal
-            </Link>
+          {/* Copyright Bar matching Figma node 6139:3265 */}
+          <div className="border-t border-[#EBEBEB]/40 pt-5 text-center text-xs sm:text-sm text-[#E8E8E8] flex flex-wrap items-center justify-center gap-1.5 relative z-10">
+            <span>Pet-Feb solar solution</span>
+            <span className="flex items-center gap-1">
+              <span>©</span>
+              <span>2025 pet-feb - All Rights Reserved.</span>
+            </span>
           </div>
         </div>
       </div>

@@ -104,12 +104,12 @@ export function AdminShell({
         onClick={() => setSidebarOpen(false)}
         className={`group flex items-center justify-between px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition ${
           active
-            ? "bg-[#7BB042] text-black font-bold shadow-sm"
+            ? "bg-[#7BB042] text-white font-bold shadow-sm"
             : "text-[#A3B0A3] hover:bg-[#1E261E] hover:text-white"
         }`}
       >
         <div className="flex items-center gap-3 min-w-0">
-          <span className={active ? "text-black" : "text-[#879687] group-hover:text-white"}>
+          <span className={active ? "text-white" : "text-[#879687] group-hover:text-white"}>
             {icon}
           </span>
           <span className="truncate">{label}</span>
@@ -117,7 +117,7 @@ export function AdminShell({
         {badge ? (
           badge
         ) : active ? (
-          <ChevronRight size={14} className="text-black" />
+          <ChevronRight size={14} className="text-white" />
         ) : null}
       </Link>
     );

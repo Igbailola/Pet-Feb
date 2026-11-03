@@ -1,0 +1,21 @@
+[33mf7b3bcc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcolleague-redesign[m[33m)[m refactor: enhance about page with interactive milestones, team details, and animations
+ src/app/(public)/about/page.tsx                 |  428 [32m+++++++++++++[m[31m-------[m
+ src/app/(public)/buy-small/page.tsx             |    8 [32m+[m[31m-[m
+ src/app/(public)/cart/page.tsx                  |    2 [32m+[m[31m-[m
+ src/app/(public)/checkout/page.tsx              |   62 [32m+[m[31m--[m
+ src/app/(public)/installation/page.tsx          |  749 [32m++++++++++++++++++++++[m[31m-------------[m
+ src/app/(public)/page.tsx                       |  451 [32m+++++++++++[m[31m----------[m
+ src/app/(public)/projects/[slug]/page.tsx       |  106 [32m+++[m[31m--[m
+ src/app/(public)/track-order/page.tsx           | 1099 [32m+++++++++++++++++++++++++++++++++++++[m[31m---------------[m
+ src/app/globals.css                             |  286 [32m+++++++++++++[m[31m-[m
+ src/components/admin/admin-shell.tsx            |    6 [32m+[m[31m-[m
+ src/components/admin/content-overview-chart.tsx |    8 [32m+[m[31m-[m
+ src/components/admin/notifications-list.tsx     |    2 [32m+[m[31m-[m
+ src/components/public/HomeBuySmallBanner.tsx    |    4 [32m+[m[31m-[m
+ src/components/public/HomeProductSection.tsx    |   28 [32m+[m[31m-[m
+ src/components/public/HomeProjectAccordion.tsx  |  104 [32m+++[m[31m--[m
+ src/components/public/InstallationForm.tsx      |  178 [32m+++++[m[31m----[m
+ src/components/public/MilestoneCardDeck.tsx     |  221 [32m+++++++[m[31m----[m
+ src/components/public/ShopCatalog.tsx           |    8 [32m+[m[31m-[m
+ src/components/public/TeamShowcase.tsx          |  481 [32m++++++++++++[m[31m-----------[m
+ 19 files changed, 2752 insertions(+), 1479 deletions(-)

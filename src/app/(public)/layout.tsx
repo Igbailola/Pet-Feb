@@ -1,6 +1,8 @@
 import { Header } from "@/components/public/Header";
 import { Footer } from "@/components/public/Footer";
-import { RouteBackButton } from "@/components/public/RouteBackButton";
+import { HashScroller } from "@/components/public/HashScroller";
+import { RevealOnScroll } from "@/components/public/RevealOnScroll";
+import { WhatsAppAiWidget } from "@/components/public/WhatsAppAiWidget";
 import { CartProvider } from "@/lib/cart-context";
 
 export const dynamic = "force-dynamic";
@@ -13,11 +15,13 @@ export default function PublicLayout({
 }) {
   return (
     <CartProvider>
-      <div className="flex flex-col min-h-screen bg-[#F8F9FA] text-[#333333]">
+      <div className="public-site flex flex-col min-h-screen bg-[#F8F9FA] text-[#333333]">
         <Header />
-        <RouteBackButton />
+        <HashScroller />
+        <RevealOnScroll />
         <main className="flex-1">{children}</main>
         <Footer />
+        <WhatsAppAiWidget />
       </div>
     </CartProvider>
   );

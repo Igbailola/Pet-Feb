@@ -17,12 +17,13 @@ interface ProjectAddToCartButtonProps {
 }
 
 const PROJECT_PRICE_ESTIMATES: Record<string, number> = {
+  "solar-street-lighting": 1850000,
+  "clean-energy-landscape": 14500000,
   "light-up-umueri": 12500000,
   "building-global-capacity": 4500000,
-  "commercial-hybrid-lagos": 6500000,
-  "agro-coldchain-ph": 9800000,
-  "smart-whole-home-abuja": 2850000,
-  "compact-starter-ibadan": 480000,
+  "greenglo-initiative-fggc-ibuza": 4000000,
+  "naca-headquarters-system-overhaul": 38500000,
+  "empowering-next-generation-renewable-energy-leaders": 3500000,
 };
 
 export function ProjectAddToCartButton({ project }: ProjectAddToCartButtonProps) {
