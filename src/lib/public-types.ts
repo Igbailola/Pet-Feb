@@ -37,6 +37,7 @@ export interface BlogPost {
   title: string;
   slug: string;
   cover_image: string | null;
+  hero_images?: string[];
   body: string;
   category: string | null;
   status: "draft" | "published";

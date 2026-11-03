@@ -1,27 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Wrench,
   ShieldCheck,
   CheckCircle2,
   PhoneCall,
   MessageSquare,
   ArrowRight,
-  ClipboardList,
-  Zap,
-  Clock,
-  Compass,
   Check,
   X,
   MapPin,
-  Calendar,
-  Lock,
   ChevronDown,
+  Cpu,
+  Award,
 } from "lucide-react";
 import { InstallationForm } from "@/components/public/InstallationForm";
+import {
+  ParallaxLayer,
+  ScrollReveal,
+  ScrollScale,
+  StaggerChildren,
+} from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Installation Services | Petfeb Solar Engineering",
+  title: "Request an Installer | Petfeb Solar Engineering",
   description:
     "Installed right, built to last. Certified solar engineering ensuring optimal performance, warranty protection, and complete safety across Nigeria.",
 };
@@ -153,322 +154,520 @@ const FAQS = [
 
 export default function InstallationPage() {
   return (
-    <div className="space-y-16 sm:space-y-24 pb-20">
-      {/* ── 1. Hero Header Band (Deep Dark Green #1F3A0B per stitch frame) ── */}
-      <section className="bg-[#1F3A0B] text-white pt-8 sm:pt-14 pb-14 sm:pb-20 border-b border-emerald-950 relative overflow-hidden">
-        {/* Subtle sun-arc motif in top-right */}
-        <div
-          className="absolute -top-16 -right-16 w-80 h-80 rounded-full pointer-events-none opacity-10 border-[32px] border-[#7BB042]"
-          aria-hidden="true"
-        />
-
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 relative z-10 space-y-8">
+    <div className="bg-[#FBF9F8] pb-20 overflow-x-clip font-sans">
+      <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-6 sm:pt-10 space-y-12 sm:space-y-16">
+        {/* ── 1. HERO SECTION (Matching Petfeb Page Header Rhythm) ────────── */}
+        <section className="space-y-6">
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="text-xs text-emerald-200/70">
-            <ol className="flex items-center gap-1.5">
+          <nav aria-label="Breadcrumb" className="text-xs text-[#5C5C5C]">
+            <ol className="flex items-center gap-2">
               <li>
-                <Link href="/" className="hover:text-white transition">
+                <Link href="/" className="hover:text-black transition">
                   Home
                 </Link>
               </li>
               <li>/</li>
               <li>
-                <span className="text-emerald-200/70">Services</span>
+                <span className="text-[#5C5C5C]">Services</span>
               </li>
               <li>/</li>
-              <li className="text-white font-semibold">Installation Services</li>
+              <li className="text-black font-semibold">Request Installer</li>
             </ol>
           </nav>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-emerald-300 border border-white/20">
-                <Wrench className="w-3.5 h-3.5 text-[#7BB042]" />
-                <span>Petfeb Installation Services · NEMSA Certified Level-3 Engineers</span>
+          {/* Header Row: 30px Yellow Dot + Bold Space Grotesk Title + Right Copy */}
+          <ScrollReveal direction="up" duration={0.7}>
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-4 sm:pb-8">
+              <div className="flex items-start gap-[16px] max-w-[780px]">
+                <span
+                  className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-2 sm:mt-3"
+                  aria-hidden="true"
+                />
+                <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
+                  <span className="text-black block">Installed right.</span>
+                  <span className="text-[#70A03C] block">Built to last.</span>
+                </h1>
               </div>
 
-              <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-                Installed right. <br />
-                Built to last.
-              </h1>
-
-              <p className="text-base sm:text-lg text-emerald-100/90 leading-relaxed max-w-2xl">
-                Certified solar engineers ensuring optimal performance, warranty protection, and complete safety for your home or business (all claims demo placeholders, pending Petfeb approval).
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <a
-                  href="#inspection-form"
-                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm min-h-[48px]"
-                >
-                  <span>Book Site Inspection</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-
-                <a
-                  href="#deployment-process"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-semibold bg-white/10 text-white hover:bg-white/20 transition border border-white/20"
-                >
-                  <span>View 5-Step Process</span>
-                  <ChevronDown className="w-4 h-4" />
-                </a>
-              </div>
-
-              <div className="pt-4 flex flex-wrap items-center gap-3 text-xs text-emerald-200/80 border-t border-emerald-900/80">
-                <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-                  <span>100% NEMSA Code Compliant Wiring</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-                  <span>Zero Fire Risk Deep Copper Grounding</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-                  <span>25-Yr Workmanship Escrow Guaranteed (demo)</span>
-                </span>
+              <div className="max-w-[532px] pl-[46px] lg:pl-0">
+                <p className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.6] uppercase text-left">
+                  Certified solar engineers ensuring optimal performance, warranty protection, and complete safety for your home or business across all 36 states in Nigeria.
+                </p>
               </div>
             </div>
+          </ScrollReveal>
 
-            {/* Right Photo Panel */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden border border-emerald-800/80 shadow-2xl bg-gray-900 h-72 sm:h-84">
+          {/* Hero Showcase Banner (rounded-[32px]) */}
+          <ScrollScale from={0.95} rise={28}>
+            <div className="relative h-[480px] sm:h-[560px] lg:h-[660px] w-full rounded-[32px] overflow-hidden shadow-lg bg-black">
+              <ParallaxLayer
+                travel={18}
+                scaleFrom={1.05}
+                className="absolute -inset-x-0 -top-5 -bottom-5"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/api/websitepic/installer"
-                  alt="Full Fall-Arrest & High-Voltage DC Rig"
+                  alt="Petfeb Certified Level-3 Solar Installation Engineer"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
+              </ParallaxLayer>
 
-                <div className="absolute top-4 left-4">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#7BB042] text-black">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Certified Level-3 Wireman
-                  </span>
+              {/* Dark Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/15" />
+
+              {/* Top Floating Badge Row */}
+              <div className="absolute top-6 left-6 right-6 flex flex-wrap items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-heading font-bold bg-[#7BB042] text-white shadow-sm">
+                  <ShieldCheck className="w-4 h-4 text-white" />
+                  <span>NEMSA Certified Level-3 Engineers</span>
+                </span>
+
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-black/65 text-white backdrop-blur-md border border-white/20">
+                  <MapPin className="w-3.5 h-3.5 text-[#F5B82E]" />
+                  <span>Lekki Phase 1 Commercial Installation · 60kVA Turnkey</span>
+                </span>
+              </div>
+
+              {/* Bottom Floating Content Container */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 lg:p-14 flex flex-col gap-8 max-w-[1280px]">
+                {/* CTA Buttons */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="#inspection-form"
+                    className="bg-[#7BB042] text-white font-heading font-bold text-[15px] sm:text-[17px] px-6 sm:px-7 py-4 rounded-[16px] hover:bg-[#6aa035] transition shadow-md inline-flex items-center gap-2.5"
+                  >
+                    <span>Book Site Inspection</span>
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </a>
+
+                  <a
+                    href="#deployment-process"
+                    className="border border-white/60 text-white font-heading font-semibold text-[15px] sm:text-[17px] px-6 py-4 rounded-[16px] hover:bg-white/10 transition backdrop-blur-sm inline-flex items-center gap-2"
+                  >
+                    <span>View 5-Step Process</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </a>
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4">
-                  <span className="text-xs font-bold text-white block">
-                    Full Fall-Arrest &amp; High-Voltage DC Rig
-                  </span>
-                  <span className="text-[11px] text-emerald-300">
-                    📍 Lekki Phase 1 Commercial Installation, Lagos · 2024 · 60kVA Turnkey
-                  </span>
+                {/* 4 Stat Items Row with Divider */}
+                <div className="border-t border-white/15 pt-6 sm:pt-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div>
+                    <div className="font-heading font-bold text-[28px] sm:text-[36px] text-[#BAF47C] leading-tight tracking-[-1px]">
+                      100%
+                    </div>
+                    <div className="font-heading font-semibold text-[13px] sm:text-[14px] text-white">
+                      NEMSA Code Compliant
+                    </div>
+                    <div className="font-sans text-[12px] text-white/60">
+                      IEC &amp; Nigerian safety standards
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="font-heading font-bold text-[28px] sm:text-[36px] text-white leading-tight tracking-[-1px]">
+                      24h
+                    </div>
+                    <div className="font-heading font-semibold text-[13px] sm:text-[14px] text-white">
+                      Site Survey Dispatch
+                    </div>
+                    <div className="font-sans text-[12px] text-white/60">
+                      Lagos, Abuja &amp; PH engineering hubs
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="font-heading font-bold text-[28px] sm:text-[36px] text-[#BAF47C] leading-tight tracking-[-1px]">
+                      &lt;5Ω
+                    </div>
+                    <div className="font-heading font-semibold text-[13px] sm:text-[14px] text-white">
+                      Deep Copper Grounding
+                    </div>
+                    <div className="font-sans text-[12px] text-white/60">
+                      Zero fire &amp; lightning surge protection
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="font-heading font-bold text-[28px] sm:text-[36px] text-white leading-tight tracking-[-1px]">
+                      36 States
+                    </div>
+                    <div className="font-heading font-semibold text-[13px] sm:text-[14px] text-white">
+                      Nationwide Coverage
+                    </div>
+                    <div className="font-sans text-[12px] text-white/60">
+                      Mobile field deployment units
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </ScrollScale>
+        </section>
 
-      {/* ── 2. Why Certified Engineering Matters (4 Cards) ───────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="space-y-2 max-w-2xl">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-            ENGINEERING STANDARD
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-            Why Certified Engineering Matters
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600">
-            In Nigeria&apos;s high-temperature, surge-prone environment, amateur solar wiring causes inverter blowouts, battery degradation, and fire hazards. Petfeb installations protect your capital.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PILLARS.map((p, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between hover:border-black transition-colors"
-            >
-              <div className="space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center">
-                  <ShieldCheck className="w-4 h-4" />
+        {/* ── 2. WHY CERTIFIED ENGINEERING MATTERS (Black Container) ──────── */}
+        <ScrollScale from={0.95} rise={32}>
+          <section className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-md space-y-10">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+              <div className="space-y-3 max-w-2xl">
+                <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#7BB042] block">
+                  ENGINEERING STANDARD
+                </span>
+                <div className="flex items-center gap-3">
+                  <span
+                    className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0"
+                    aria-hidden="true"
+                  />
+                  <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight">
+                    Why Certified Engineering Matters
+                  </h2>
                 </div>
-                <h3 className="font-heading font-bold text-base text-gray-900">
-                  {p.title}
-                </h3>
-                <p className="text-xs text-gray-600 leading-relaxed">
-                  {p.desc}
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                  In Nigeria&apos;s high-temperature, surge-prone environment, amateur solar wiring causes inverter blowouts, battery degradation, and fire hazards. Petfeb installations protect your capital.
                 </p>
               </div>
-              <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-[#3F6B1A] font-medium">
-                <span>{p.tag}</span>
-                <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── 3. 5-Step Engineering Deployment Process (Green-50 Band) ─── */}
-      <section id="deployment-process" className="bg-[#F4F9EC] py-14 border-y border-[#D9D9D9] scroll-mt-24">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-              Engineering Discipline
-            </span>
-            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-              5-Step Engineering Deployment Process
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-600">
-              Every Petfeb deployment follows strict international IEC standards from initial roof survey to cloud telemetry commissioning.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {STEPS.map((s) => (
-              <div
-                key={s.num}
-                className="bg-white rounded-2xl border border-[#D9D9D9] p-5 flex flex-col justify-between space-y-3 shadow-2xs"
+              <a
+                href="#inspection-form"
+                className="self-start lg:self-auto px-5 py-3 rounded-[12px] bg-[#7BB042] text-white hover:bg-[#6aa035] font-heading font-bold text-xs sm:text-sm inline-flex items-center gap-2 transition shrink-0"
               >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading font-extrabold text-sm text-[#3F6B1A] bg-[#E8F3DA] px-2 py-0.5 rounded">
-                      {s.num}
-                    </span>
-                    <CheckCircle2 className="w-4 h-4 text-[#7BB042]" />
+                <span>Schedule Load Audit</span>
+                <ArrowRight className="w-4 h-4 text-white" />
+              </a>
+            </div>
+
+            <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {PILLARS.map((p, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white text-gray-900 rounded-[20px] border border-[#D9D9D9] p-6 space-y-4 shadow-sm flex flex-col justify-between min-h-[260px] hover:border-[#7BB042] transition-all duration-300 hover-lift"
+                >
+                  <div className="space-y-3">
+                    <div className="w-10 h-10 rounded-[12px] bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center">
+                      <ShieldCheck className="w-5 h-5 text-[#7BB042]" />
+                    </div>
+                    <h3 className="font-heading font-bold text-lg text-gray-950">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {p.desc}
+                    </p>
                   </div>
-                  <h3 className="font-heading font-bold text-sm text-gray-900">
-                    {s.title}
-                  </h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    {s.desc}
-                  </p>
+                  <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-[#3F6B1A] font-heading font-bold">
+                    <span>{p.tag}</span>
+                    <Check className="w-4 h-4 text-[#7BB042]" />
+                  </div>
                 </div>
-                <div className="pt-2 border-t border-gray-100 text-[11px] font-semibold text-gray-500">
-                  {s.timeline}
+              ))}
+            </StaggerChildren>
+          </section>
+        </ScrollScale>
+
+        {/* ── 3. 5-STEP ENGINEERING DEPLOYMENT PROCESS (Yellow Container) ─── */}
+        <ScrollScale from={0.95} rise={32}>
+          <section
+            id="deployment-process"
+            className="bg-[#F5B82E] text-black rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-sm scroll-mt-24 space-y-10"
+          >
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#344A1C] block">
+                ENGINEERING DISCIPLINE
+              </span>
+              <div className="inline-flex items-center justify-center gap-3">
+                <span
+                  className="w-3.5 h-3.5 rounded-full bg-black shrink-0"
+                  aria-hidden="true"
+                />
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-black tracking-tight">
+                  5-Step Engineering Deployment Process
+                </h2>
+              </div>
+              <p className="text-sm sm:text-base text-black/85 leading-relaxed">
+                Every Petfeb deployment follows strict international IEC standards from initial roof survey to cloud telemetry commissioning.
+              </p>
+            </div>
+
+            <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+              {STEPS.map((s) => (
+                <div
+                  key={s.num}
+                  className="bg-black text-white rounded-[20px] border border-black/10 p-6 flex flex-col justify-between min-h-[295px] shadow-sm hover-lift"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-[44px] h-[44px] rounded-[12px] bg-[#FEF8EA] border border-[#EBEBEB] flex items-center justify-center font-heading font-bold text-[15px] text-[#F5B82E]">
+                        {s.num}
+                      </div>
+                      <CheckCircle2 className="w-4 h-4 text-[#7BB042]" />
+                    </div>
+                    <h3 className="font-heading font-bold text-lg text-white pt-1">
+                      {s.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#E8E8E8] leading-relaxed">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <div className="pt-3 mt-4 border-t border-white/15 flex items-center gap-2 text-xs font-heading font-semibold text-[#D6E7C4]">
+                    <Cpu className="w-3.5 h-3.5 text-[#7BB042]" />
+                    <span>{s.timeline}</span>
+                  </div>
+                </div>
+              ))}
+            </StaggerChildren>
+          </section>
+        </ScrollScale>
+
+        {/* ── 4. STANDARD PACKAGE SCOPE (Soft Green Container) ───────────── */}
+        <ScrollScale from={0.95} rise={32}>
+          <section className="bg-[#D6E7C4] text-gray-950 rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-sm space-y-10">
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#3F6B1A] block">
+                TRANSPARENT BILL OF MATERIALS
+              </span>
+              <div className="inline-flex items-center justify-center gap-3">
+                <span
+                  className="w-3.5 h-3.5 rounded-full bg-black shrink-0"
+                  aria-hidden="true"
+                />
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-950 tracking-tight">
+                  Standard Package Scope
+                </h2>
+              </div>
+              <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
+                No surprise electrical surcharges or hidden add-ons. Full transparency before our engineering truck rolls to your site.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Included Box (White Card) */}
+              <div className="bg-white rounded-[24px] border border-[#D9D9D9] p-6 sm:p-8 lg:p-10 space-y-6 shadow-sm">
+                <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-[#7BB042] text-white flex items-center justify-center shrink-0">
+                      <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                    </div>
+                    <h3 className="font-heading font-bold text-lg sm:text-xl text-gray-950">
+                      Included in Turnkey Package
+                    </h3>
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-[11px] font-heading font-bold bg-[#E8F3DA] text-[#3F6B1A]">
+                    Standard
+                  </span>
+                </div>
+
+                <div className="space-y-4">
+                  {SCOPE_INCLUDED.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-1" />
+                      <div>
+                        <strong className="text-gray-950 block font-heading font-bold">
+                          {item.title}
+                        </strong>
+                        <span className="text-gray-600 leading-relaxed">{item.desc}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── 4. Standard Package Scope (Included vs Not Included) ─────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-            Standard Package Scope
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600">
-            No surprise electrical surcharges or hidden add-ons. Full transparency before our engineering truck rolls to your site.
-          </p>
-        </div>
+              {/* Not Included Box (Black Card) */}
+              <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 lg:p-10 space-y-6 shadow-sm flex flex-col justify-between">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between pb-4 border-b border-white/15">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-white/10 text-[#F5B82E] flex items-center justify-center shrink-0">
+                        <X className="w-4 h-4" />
+                      </div>
+                      <h3 className="font-heading font-bold text-lg sm:text-xl text-white">
+                        Not Included / Custom Scope
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 rounded-full text-[11px] font-heading font-bold bg-white/10 text-[#F5B82E]">
+                      Quoted Separately
+                    </span>
+                  </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Included Box */}
-          <div className="bg-white rounded-2xl border border-[#D9D9D9] p-6 sm:p-8 space-y-5 shadow-2xs">
-            <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
-              <CheckCircle2 className="w-5 h-5 text-[#7BB042]" />
-              <h3 className="font-heading font-bold text-base text-gray-900">
-                Included in Turnkey Package
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              {SCOPE_INCLUDED.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-xs">
-                  <Check className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-gray-900 block font-semibold">{item.title}</strong>
-                    <span className="text-gray-600 leading-relaxed">{item.desc}</span>
+                  <div className="space-y-4">
+                    {SCOPE_EXCLUDED.map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm">
+                        <X className="w-4 h-4 text-[#F5B82E] shrink-0 mt-1" />
+                        <div>
+                          <strong className="text-white block font-heading font-bold">
+                            {item.title}
+                          </strong>
+                          <span className="text-gray-300 leading-relaxed">{item.desc}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Not Included Box */}
-          <div className="bg-[#F8F9FA] rounded-2xl border border-[#D9D9D9] p-6 sm:p-8 space-y-5 shadow-2xs">
-            <div className="flex items-center gap-2 pb-3 border-b border-gray-200">
-              <X className="w-5 h-5 text-gray-400" />
-              <h3 className="font-heading font-bold text-base text-gray-900">
-                Not Included / Custom Scope
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              {SCOPE_EXCLUDED.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3 text-xs">
-                  <X className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
-                  <div>
-                    <strong className="text-gray-900 block font-semibold">{item.title}</strong>
-                    <span className="text-gray-600 leading-relaxed">{item.desc}</span>
-                  </div>
+                <div className="p-4 rounded-[16px] bg-[#F5B82E] text-black text-xs sm:text-sm font-medium leading-relaxed">
+                  <strong className="font-heading font-bold block mb-0.5">
+                    Need Civil or Structural Carpentry Support?
+                  </strong>
+                  Our engineers inspect your roof rafters during the initial site survey and quote any custom civil works upfront before deployment.
                 </div>
-              ))}
+              </div>
             </div>
+          </section>
+        </ScrollScale>
 
-            <div className="p-3 rounded-xl bg-white border border-gray-200 text-xs text-gray-500">
-              💡 Need civil or structural carpentry support? Our team inspects your roof during the initial survey and quotes custom scopes upfront.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. Site Survey Request Form (Centered Card per stitch frame) ─ */}
-      <section id="inspection-form" className="max-w-[800px] mx-auto px-4 sm:px-8 scroll-mt-24">
-        <InstallationForm />
-      </section>
-
-      {/* ── 6. NEMSA Guarantee Strip (Deep Green #1F3A0B) ─────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
-        <div className="bg-[#1F3A0B] text-white rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="w-6 h-6 text-[#7BB042] shrink-0" />
-            <div>
-              <span className="font-heading font-bold text-sm sm:text-base text-white block">
-                NEMSA Code &amp; Workmanship Guarantee
-              </span>
-              <span className="text-xs text-emerald-200/80">
-                All installations comply with Nigerian electrical safety standards and include guaranteed workmanship (demo placeholder).
-              </span>
-            </div>
-          </div>
-
-          <a
-            href="tel:+234800738332"
-            className="text-xs font-semibold text-[#7BB042] hover:underline shrink-0"
+        {/* ── 5. SITE SURVEY REQUEST FORM + GUARANTEE SIDEBAR (Black Container) ── */}
+        <ScrollScale from={0.95} rise={32}>
+          <section
+            id="inspection-form"
+            className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-md scroll-mt-24 space-y-10"
           >
-            Urgent questions? 📞 +234 800 PETFEB SOLAR
-          </a>
-        </div>
-      </section>
-
-      {/* ── 7. Frequently Asked Questions ────────────────────────────── */}
-      <section className="max-w-[900px] mx-auto px-4 sm:px-8 space-y-8">
-        <div className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-            Frequently Asked Questions
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-            Installation FAQs
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600">
-            Clear guidelines on costs, timeframes, and state coverage across Nigeria.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {FAQS.map((faq, idx) => (
-            <details
-              key={idx}
-              className="group bg-white rounded-xl border border-[#D9D9D9] p-5 [&_summary::-webkit-details-marker]:none cursor-pointer"
-            >
-              <summary className="flex items-center justify-between font-heading font-bold text-sm sm:text-base text-gray-900">
-                <span>{faq.q}</span>
-                <ChevronDown className="w-4 h-4 text-gray-500 transition-transform group-open:rotate-180 shrink-0 ml-2" />
-              </summary>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed pt-3 border-t border-gray-100 mt-3">
-                {faq.a}
+            <div className="space-y-3 max-w-3xl">
+              <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#7BB042] block">
+                ON-SITE ENGINEERING ASSESSMENT
+              </span>
+              <div className="flex items-center gap-3">
+                <span
+                  className="w-3.5 h-3.5 rounded-full bg-[#F5B82E] shrink-0"
+                  aria-hidden="true"
+                />
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight">
+                  Book Your Certified Site Survey
+                </h2>
+              </div>
+              <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                Complete the dispatch request below. A COREN/NEMSA-verified field engineer from our nearest regional hub will contact you to schedule your load audit.
               </p>
-            </details>
-          ))}
-        </div>
-      </section>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left 7 Columns: Interactive Request Form */}
+              <div className="lg:col-span-7">
+                <InstallationForm />
+              </div>
+
+              {/* Right 5 Columns: NEMSA Guarantee Card + Direct Dispatch Desk */}
+              <div className="lg:col-span-5 space-y-6">
+                {/* Yellow Guarantee Card */}
+                <div className="bg-[#F5B82E] text-black rounded-[24px] p-6 sm:p-8 space-y-5 shadow-md">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-[12px] bg-black text-[#F5B82E] flex items-center justify-center shrink-0">
+                      <Award className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-heading font-bold uppercase tracking-wider text-black/75 block">
+                        Certified Protection
+                      </span>
+                      <h3 className="font-heading font-bold text-lg sm:text-xl text-black">
+                        NEMSA Code &amp; Workmanship Guarantee
+                      </h3>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-black/85 leading-relaxed">
+                    All Petfeb installations comply with Nigerian electrical safety standards and include full workmanship protection alongside manufacturer hardware warranties.
+                  </p>
+
+                  <ul className="space-y-2.5 text-xs sm:text-sm font-medium text-black pt-1">
+                    <li className="flex items-center gap-2.5">
+                      <div className="w-5 h-5 rounded-full bg-black text-[#7BB042] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3" strokeWidth={3} />
+                      </div>
+                      <span>Zero-Crossfeed Automatic Transfer Switch (ATS)</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <div className="w-5 h-5 rounded-full bg-black text-[#7BB042] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3" strokeWidth={3} />
+                      </div>
+                      <span>Infrared Thermal Load Scan at Handover</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <div className="w-5 h-5 rounded-full bg-black text-[#7BB042] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3" strokeWidth={3} />
+                      </div>
+                      <span>Stamped Electrical Engineering As-Built Pack</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <div className="w-5 h-5 rounded-full bg-black text-[#7BB042] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3" strokeWidth={3} />
+                      </div>
+                      <span>Buy Small Installment Bundling Available</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Dark Direct Dispatch Desk Card */}
+                <div className="bg-[#141414] border border-white/15 text-white rounded-[24px] p-6 sm:p-8 space-y-5">
+                  <div className="space-y-1">
+                    <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#7BB042]">
+                      Direct Engineering Dispatch
+                    </span>
+                    <h3 className="font-heading font-bold text-lg text-white">
+                      Need Urgent Commercial Sizing?
+                    </h3>
+                    <p className="text-xs text-gray-300 leading-relaxed">
+                      Speak directly with our senior electrical engineers in Lagos, Abuja, or Port Harcourt.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 pt-1">
+                    <a
+                      href="tel:+2348135854054"
+                      className="w-full py-3.5 px-5 rounded-[12px] bg-white text-black hover:bg-gray-100 font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition"
+                    >
+                      <PhoneCall className="w-4 h-4 text-[#7BB042]" />
+                      <span>Call +234 813-585-4054</span>
+                    </a>
+
+                    <a
+                      href="https://wa.me/2348135854054"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3.5 px-5 rounded-[12px] bg-[#7BB042] text-white hover:bg-[#6aa035] font-heading font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-sm"
+                    >
+                      <MessageSquare className="w-4 h-4 text-white" />
+                      <span>Chat with Engineering on WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </ScrollScale>
+
+        {/* ── 6. INSTALLATION FAQS (Yellow Container matching Buy Small FAQs) ─ */}
+        <ScrollScale from={0.95} rise={32}>
+          <section className="bg-[#F5B82E] text-black rounded-[32px] py-12 sm:py-16 px-6 sm:px-12 lg:px-[140px] shadow-sm space-y-8">
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center gap-3">
+                <div className="w-[20px] h-[20px] rounded-full bg-black flex items-center justify-center shrink-0">
+                  <Check className="w-3 h-3 text-[#7BB042]" strokeWidth={3} />
+                </div>
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-black tracking-tight">
+                  Installation FAQs
+                </h2>
+              </div>
+              <p className="font-sans text-sm sm:text-base text-[#1C1C1C] max-w-2xl mx-auto leading-relaxed">
+                Clear guidelines on turnkey installation costs, timeframes, and state coverage across Nigeria.
+              </p>
+            </div>
+
+            <div className="space-y-4 pt-2">
+              {FAQS.map((faq, idx) => (
+                <details
+                  key={idx}
+                  className="group bg-[#FBF9F8] open:bg-black open:text-white text-[#1B1C1C] rounded-[16px] border border-[#D9D9D9] open:border-[#7BB042] p-5 sm:p-6 [&_summary::-webkit-details-marker]:hidden cursor-pointer transition-all shadow-2xs"
+                >
+                  <summary className="flex items-center justify-between font-heading font-bold text-sm sm:text-lg list-none">
+                    <span>{faq.q}</span>
+                    <ChevronDown className="w-5 h-5 text-gray-500 group-open:text-[#7BB042] transition-transform group-open:rotate-180 shrink-0 ml-4" />
+                  </summary>
+                  <p className="text-xs sm:text-sm text-gray-600 group-open:text-[#E8E8E8] leading-relaxed pt-3 border-t border-gray-200 group-open:border-white/20 mt-3">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </ScrollScale>
+      </div>
     </div>
   );
 }

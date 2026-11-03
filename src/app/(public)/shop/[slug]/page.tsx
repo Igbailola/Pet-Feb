@@ -1,34 +1,92 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  CheckCircle2,
-  AlertCircle,
-  Zap,
-  ShieldCheck,
-  CreditCard,
-  ShoppingCart,
-  Wrench,
-  Package,
-  Phone,
-  Tv,
-  Check,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronLeft, Check } from "lucide-react";
 import {
   getProductBySlug,
   getPublishedProducts,
   formatNaira,
   resolveMediaUrl,
 } from "@/lib/public-data";
+import type { Product } from "@/lib/public-types";
 import { AddToCartSection } from "@/components/public/AddToCartSection";
 import { ProductMediaGallery } from "@/components/public/ProductMediaGallery";
-import { AccessoryAddToCartButton } from "@/components/public/AccessoryAddToCartButton";
-import { ProductDetailsTabs } from "@/components/public/ProductDetailsTabs";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+const FALLBACK_RECOMMENDED_PRODUCTS: Product[] = [
+  {
+    id: "sample-micro-inverter",
+    name: "Micro Inverter",
+    slug: "micro-inverter",
+    category: "Inverters",
+    description: "Tier-1 micro inverter for rooftop solar configurations.",
+    price: 567900,
+    status: "published",
+    in_stock: true,
+    specs: { "Min, Order": "1unit" },
+    created_at: "2026-01-01",
+    updated_at: "2026-01-01",
+    product_images: [
+      {
+        id: "1",
+        url: "/api/websitepic/commercial",
+        is_main: true,
+        product_id: "sample-1",
+        sort_order: 1,
+        alt_text: "Micro Inverter",
+      },
+    ],
+  },
+  {
+    id: "sample-lithium-battery",
+    name: "Lithium Battery",
+    slug: "lithium-battery",
+    category: "Batteries",
+    description: "High-density LiFePO4 rack battery with smart BMS.",
+    price: 567900,
+    status: "published",
+    in_stock: true,
+    specs: { "Min, Order": "1unit" },
+    created_at: "2026-01-01",
+    updated_at: "2026-01-01",
+    product_images: [
+      {
+        id: "2",
+        url: "/api/websitepic/battery",
+        is_main: true,
+        product_id: "sample-2",
+        sort_order: 1,
+        alt_text: "Lithium Battery",
+      },
+    ],
+  },
+  {
+    id: "sample-g12v-battery",
+    name: "G12V 200AH Battery",
+    slug: "g12v-200ah-battery",
+    category: "Batteries",
+    description: "Long-cycle deep discharge gel battery storage.",
+    price: 567900,
+    status: "published",
+    in_stock: true,
+    specs: { "Min, Order": "1unit" },
+    created_at: "2026-01-01",
+    updated_at: "2026-01-01",
+    product_images: [
+      {
+        id: "3",
+        url: "/api/websitepic/panels",
+        is_main: true,
+        product_id: "sample-3",
+        sort_order: 1,
+        alt_text: "G12V 200AH Battery",
+      },
+    ],
+  },
+];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -45,10 +103,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const ogImage = resolveMediaUrl(mainImg?.url);
 
   return {
-    title: `${product.name} | Petfeb Solar Engineering`,
+    title: `${product.name} | Petfeb Solar`,
     description:
       product.description ||
-      `Buy ${product.name} from Petfeb Solar. Genuine equipment, certified warranties, and installation in Nigeria.`,
+      `Buy ${product.name} from Petfeb Solar. Genuine equipment, certified warranties, and installation across Nigeria.`,
     openGraph: ogImage
       ? {
           title: product.name,
@@ -59,63 +117,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-const APPLIANCES = [
-  {
-    name: "1.5HP Inverter AC",
-    duration: "6–8 Hours Daytime",
-    desc: "Direct solar daylight offset running with zero generator noise.",
-  },
-  {
-    name: "Double-Door Refrigerator",
-    duration: "24 Hours Continuous",
-    desc: "Uninterrupted food and perishables preservation day and night.",
-  },
-  {
-    name: "65\" Smart TV + Decoders",
-    duration: "10–12 Hours Daily",
-    desc: "Home entertainment and audio consoles with pure sine-wave stability.",
-  },
-  {
-    name: "Standing Inverter Fans (4x)",
-    duration: "18 Hours Continuous",
-    desc: "Multi-room natural ventilation with silent pure wave motor drive.",
-  },
-  {
-    name: "Laptops & Workstations",
-    duration: "16 Hours Sustained",
-    desc: "Zero-interruption remote work with routers and peripheral monitors.",
-  },
-  {
-    name: "Full LED Lighting (15 Pts)",
-    duration: "24 Hours Full Coverage",
-    desc: "Complete perimeter security floodlights and interior compound illumination.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "Can this run my 1.5HP inverter AC?",
-    a: "Yes. With an appropriately sized battery bank (recommended 10kWh LiFePO4 storage) and daytime solar array, it effortlessly sustains a 1.5HP inverter air conditioner alongside standard refrigeration and lighting loads.",
-  },
-  {
-    q: "How does the Buy Small financing approval work?",
-    a: "After selecting your deposit tier (30%–50%), you submit basic identification. Our automated risk underwriting engine verifies your bank statement in under 24 hours without requiring collateral.",
-  },
-  {
-    q: "Do I receive a NEMSA signoff certificate?",
-    a: "Yes. Every installation conducted by Petfeb Certified Engineers concludes with an official commissioning test and NEMSA compliance documentation for insurance and building compliance records.",
-  },
-];
-
-const SPECS = [
-  { label: "AC Input Voltage Range", value: "170V – 280V (Harmonized with DisCos & Gensets)" },
-  { label: "Solar PV Max Input", value: "6,000W (Dual Independent MPPTs, 120V–450V DC)" },
-  { label: "Battery Compatibility", value: "48V LiFePO4 Lithium, Sealed Gel, Tubular deep cycle" },
-  { label: "Transfer Switching Time", value: "< 10ms (Zero-Flicker UPS bypass for medical/IT loads)" },
-  { label: "Operating Thermal Ceiling", value: "Up to 55°C Ambient Tropical Rated (Active heatsink airflow)" },
-  { label: "Remote Telemetry", value: "Standard Wi-Fi + Optional GPRS Cloud Hub" },
-];
-
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
@@ -125,9 +126,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   const allProducts = await getPublishedProducts();
-  const relatedProducts = allProducts
-    .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+  const dbRelated = allProducts.filter((p) => p.id !== product.id).slice(0, 3);
+  const relatedProducts =
+    dbRelated.length >= 3
+      ? dbRelated
+      : [
+          ...dbRelated,
+          ...FALLBACK_RECOMMENDED_PRODUCTS.filter(
+            (fb) => fb.slug !== product.slug && !dbRelated.some((r) => r.slug === fb.slug)
+          ),
+        ].slice(0, 3);
 
   const mainImg =
     product.product_images?.find((img) => img.is_main) || product.product_images?.[0];
@@ -140,215 +148,163 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const displayMainImg = mainImgUrl || fallbackImg;
 
   return (
-    <div className="py-8 sm:py-14 max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-14">
-      {/* ── Top Two-Column Section (Gallery Left, Purchase Card Right) ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-        {/* Left: Gallery with NEMSA Badge & Trust Specs */}
-        <div className="lg:col-span-6 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#E8F3DA] text-[#3F6B1A] border border-[#7BB042]/30 mb-2">
-            <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-            <span>NEMSA CERTIFIED TIER-1 (demo placeholder)</span>
+    <div className="bg-white pb-16 sm:pb-20 overflow-x-clip font-sans">
+      {/* ── Page Header Band matching Figma Frame 6147:6743 ────────────────────────────── */}
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-8">
+          {/* Left: Yellow dot + Heading with green period matching node 6147:6747 */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span
+              className="w-5 h-5 sm:w-[30px] sm:h-[30px] rounded-full bg-[#F5B82E] shrink-0"
+              aria-hidden="true"
+            />
+            <h1
+              className="font-heading font-bold text-[24px] sm:text-[38px] lg:text-[48px] text-[#333333] tracking-[0.8px] sm:tracking-[1.44px] uppercase leading-tight"
+              style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
+            >
+              Welcome to petfeb solar shop
+              <span className="text-[#7BB042]">.</span>
+            </h1>
           </div>
 
-          <ProductMediaGallery
-            productName={product.name}
-            defaultMainUrl={displayMainImg}
-            images={product.product_images}
-          />
-
-          {/* Under-Gallery Trust Strips */}
-          <div className="grid grid-cols-3 gap-2 pt-4 border-t border-[#D9D9D9] text-xs text-gray-600 text-center">
-            <div className="flex items-center justify-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-              <span>NEMSA Verified Testing</span>
-            </div>
-            <div className="flex items-center justify-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-              <span>Class II Surge Protection</span>
-            </div>
-            <div className="flex items-center justify-center gap-1.5">
-              <Check className="w-3.5 h-3.5 text-[#7BB042]" />
-              <span>IP65 Weather Enclosure</span>
+          {/* Right: Stylized Shopping Cart Icon Graphic matching Figma node 6147:6750 */}
+          <div className="hidden md:flex items-center pl-6 shrink-0" aria-hidden="true">
+            <div className="relative w-[150px] h-[105px]">
+              {/* Cart wireframe basket */}
+              <svg
+                viewBox="0 0 151 78"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute inset-0 w-full h-auto text-black"
+              >
+                <path
+                  d="M1 1h22l20 54h88l16-44H38"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {/* Petfeb Logo nested in the cart */}
+              <div className="absolute left-[65px] top-[27px] w-[32px] h-[32px] rounded-[6px] border-[0.5px] border-[#D6E7C4] bg-white p-1 shadow-xs flex items-center justify-center overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/api/logo"
+                  alt="Petfeb Logo"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              {/* Cart wheels */}
+              <div className="absolute left-[33px] bottom-[2px] w-[14px] h-[14px] rounded-full bg-black border-2 border-white" />
+              <div className="absolute left-[109px] bottom-[2px] w-[14px] h-[14px] rounded-full bg-black border-2 border-white" />
             </div>
           </div>
         </div>
 
-        {/* Right: Purchase Card */}
-        <div className="lg:col-span-6 bg-white rounded-3xl border border-[#D9D9D9] p-6 sm:p-8 space-y-6 shadow-sm">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-                HYBRID SYSTEM CORE · TIER-1 OEM
-              </span>
+        {/* Horizontal Divider Line matching node 6147:6759 */}
+        <div className="w-full border-t border-[#D9D9D9] mb-6 sm:mb-8" />
+      </section>
 
-              {product.in_stock ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#E8F3DA] text-[#3F6B1A] border border-[#7BB042]/40">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#7BB042]" />
-                  In stock (12 units)
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-300">
-                  <AlertCircle className="w-3.5 h-3.5 text-gray-500" />
-                  Out of Stock
-                </span>
-              )}
-            </div>
+      {/* ── Main Product Presentation Section (Black Card) matching Figma node 6147:6784 ─ */}
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+        <div className="bg-black text-white rounded-[24px] sm:rounded-[32px] pt-7 sm:pt-[45px] px-3.5 sm:px-[35px] lg:px-8 xl:px-10 pb-10 sm:pb-[80px]">
+          {/* Header Row inside black card: "Back to Shop" + Description matching node 6147:6785 */}
+          <div className="flex flex-col gap-3 max-w-[742px] mb-6 sm:mb-12">
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 min-h-[40px] font-heading font-semibold text-[16px] sm:text-[20px] text-[#F5B82E] hover:underline transition w-fit"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-[#F5B82E]" />
+              <span>Back to Shop</span>
+            </Link>
 
-            <h1 className="font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl text-gray-950 tracking-tight leading-tight">
-              {product.name}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-              {product.description ||
-                "Engineered specifically for Nigerian grid instability, voltage fluctuations, and rapid generator sync. Features high-temperature heat sinks and dual-MPPT trackers."}
+            <p className="font-sans font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#EBEBEB] leading-[1.6]">
+              Discover a wide range of high-quality solar panels, inverters, and batteries
+              designed to power homes, businesses, and communities across Nigeria. Every
+              product is tested for performance, durability, and efficiency giving you
+              reliable clean energy you can trust.
             </p>
           </div>
 
-          {/* Energy Spec Strip Box (4 Columns per stitch frame) */}
-          <div className="bg-[#F8F9FA] rounded-2xl border border-[#D9D9D9] p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div className="space-y-0.5">
-              <span className="text-[10px] font-bold uppercase text-gray-500 block">
-                Rated Output
-              </span>
-              <span className="font-heading font-bold text-base text-gray-900">
-                5.0 kVA
-              </span>
-            </div>
-            <div className="space-y-0.5 border-l border-gray-200">
-              <span className="text-[10px] font-bold uppercase text-gray-500 block">
-                Nominal Bus
-              </span>
-              <span className="font-heading font-bold text-base text-gray-900">
-                48V DC
-              </span>
-            </div>
-            <div className="space-y-0.5 border-l border-gray-200">
-              <span className="text-[10px] font-bold uppercase text-gray-500 block">
-                Efficiency
-              </span>
-              <span className="font-heading font-bold text-base text-[#3F6B1A]">
-                98%
-              </span>
-            </div>
-            <div className="space-y-0.5 border-l border-gray-200">
-              <span className="text-[10px] font-bold uppercase text-gray-500 block">
-                Warranty
-              </span>
-              <span className="font-heading font-bold text-base text-gray-900">
-                5-Year*
-              </span>
-            </div>
-          </div>
-          <p className="text-[10px] text-gray-400 -mt-3">
-            *All specs and warranties are demo placeholders, pending Petfeb approval.
-          </p>
-
-          {/* Price Row */}
-          <div className="flex items-baseline gap-3 pt-2">
-            <span className="font-heading font-extrabold text-3xl sm:text-4xl text-gray-950">
-              {formatNaira(product.price)}
-            </span>
-            <span className="text-xs text-gray-400 line-through">
-              {formatNaira(Math.round(product.price * 1.14))}
-            </span>
-            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-[#E8F3DA] text-[#3F6B1A]">
-              -12%
-            </span>
-          </div>
-
-          {/* Interactive Commerce Actions (Add to Cart + Buy Small Mini Panel) */}
-          <AddToCartSection
-            product={{
-              id: product.id,
-              name: product.name,
-              slug: product.slug,
-              price: product.price,
-              in_stock: product.in_stock,
-              category: product.category,
-              imageUrl: displayMainImg,
-            }}
-            accessories={product.accessories ?? []}
-          />
-        </div>
-      </div>
-
-      {/* ── Interactive Specifications & Warranty Policy Tabs ────────── */}
-      <ProductDetailsTabs
-        specs={SPECS}
-        faqs={FAQS}
-        productName={product.name}
-        category={product.category}
-      />
-
-      {/* ── 4. "What can a 5 kVA system power?" (Green-50 Band) ───────── */}
-      <section className="bg-[#F4F9EC] rounded-3xl border border-[#D9D9D9] p-6 sm:p-10 space-y-6">
-        <div className="space-y-1">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-            OPERATIONAL ESTIMATION MATRIX
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
-            What can a 5 kVA system power?
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-600">
-            Typical daily load profile on a 5kW Inverter + 10kWh Storage (demo placeholders, pending Petfeb approval).
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {APPLIANCES.map((app, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl border border-[#D9D9D9] p-5 space-y-2 shadow-2xs"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-heading font-bold text-sm text-gray-900">
-                  {app.name}
-                </span>
-                <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#E8F3DA] text-[#3F6B1A]">
-                  {app.duration}
-                </span>
+          {/* White Inner Product Card matching Figma node 6147:7134 */}
+          <div className="bg-white text-black rounded-[22px] sm:rounded-[32px] pt-5 sm:pt-[50px] lg:pt-[70px] px-4 sm:px-[28px] lg:px-[38px] pb-7 sm:pb-[40px] shadow-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-[38px] items-start">
+              {/* Left Column: Product Gallery matching Figma node 6147:8156 */}
+              <div className="lg:col-span-6 w-full max-w-[572px] mx-auto">
+                <ProductMediaGallery
+                  productName={product.name}
+                  defaultMainUrl={displayMainImg}
+                  images={product.product_images}
+                />
               </div>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                {app.desc}
-              </p>
+
+              {/* Right Column: Details, Specifications, Add to Cart & Buy Small matching Figma node 6147:8174 */}
+              <div className="lg:col-span-6 w-full max-w-[613px] mx-auto">
+                <AddToCartSection
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    slug: product.slug,
+                    price: product.price,
+                    in_stock: product.in_stock,
+                    category: product.category,
+                    imageUrl: displayMainImg,
+                    specs: product.specs,
+                  }}
+                  accessories={product.accessories ?? []}
+                />
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* ── 5. Frequently Bundled Components (Compatible Hardware Stack) ── */}
-      {relatedProducts.length > 0 && (
-        <section className="space-y-6">
-          <div className="flex items-end justify-between">
-            <div className="space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
-                COMPATIBLE HARDWARE STACK
-              </span>
-              <h2 className="font-heading font-bold text-2xl text-gray-900">
-                Frequently Bundled Components
+      {/* ── Recommended Products Section (Yellow Card) matching Figma node 6147:6902 ─── */}
+      <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8">
+        <div className="bg-[#F5B82E] border border-[#D9D9D9] rounded-[24px] p-5 sm:p-10 lg:p-[49px] relative overflow-hidden">
+          {/* Cropped Sun-Arc Graphic in top corner matching node 6147:6903 */}
+          <div className="absolute right-0 top-0 w-[140px] h-[140px] opacity-80 pointer-events-none" />
+
+          {/* Header Row with Checkmark Icon matching node 6147:8419 */}
+          <div className="flex flex-col gap-3 max-w-[742px] mb-7 sm:mb-10 relative">
+            <div className="flex items-center gap-3">
+              <div className="w-[22px] h-[22px] rounded-full bg-black flex items-center justify-center shrink-0">
+                <Check className="w-3.5 h-3.5 text-[#F5B82E] stroke-[3]" />
+              </div>
+              <h2 className="font-heading font-bold text-[24px] sm:text-[32px] text-black leading-tight">
+                Recommended Products
               </h2>
             </div>
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#3F6B1A] hover:underline"
-            >
-              <span>View all hardware</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <p className="font-sans font-normal text-[15px] sm:text-[18px] lg:text-[20px] text-[#242424] leading-[1.6]">
+              Discover a wide range of high-quality solar panels, inverters, and batteries
+              designed to power homes, businesses, and communities across Nigeria. Every
+              product is tested for performance, durability, and efficiency giving you
+              reliable clean energy you can trust.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 3 Product Cards matching Figma node 6147:8376 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch relative">
             {relatedProducts.map((rel) => {
               const relImg =
-                rel.product_images?.[0]?.url || "/api/websitepic/battery";
+                rel.product_images?.[0]?.url ||
+                (rel.category.toLowerCase().includes("battery")
+                  ? "/api/websitepic/battery"
+                  : "/api/websitepic/commercial");
+
+              const specSummary =
+                rel.specs?.["Min, Order"] ||
+                rel.specs?.["Min Order"] ||
+                "Min, Order : 1unit";
 
               return (
                 <div
                   key={rel.id}
-                  className="bg-white rounded-2xl border border-[#D9D9D9] p-4 flex flex-col justify-between space-y-4 hover:border-black transition-colors shadow-2xs"
+                  className="bg-white rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 pb-5 sm:pb-6 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1"
                 >
-                  <div className="space-y-3">
-                    <div className="h-40 rounded-xl bg-[#F8F9FA] flex items-center justify-center p-3 overflow-hidden">
+                  <div className="flex flex-col gap-4 sm:gap-6 w-full">
+                    {/* Image Area matching node 6147:8379 */}
+                    <div className="h-[240px] sm:h-[340px] lg:h-[380px] rounded-[18px] sm:rounded-[24px] bg-[#EBEBEB] overflow-hidden flex items-center justify-center p-5 sm:p-6 relative">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={resolveMediaUrl(relImg) || relImg}
@@ -357,11 +313,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
                       />
                     </div>
 
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
-                      {rel.category}
-                    </span>
-
-                    <h3 className="font-heading font-bold text-sm text-gray-900 line-clamp-2">
+                    {/* Name matching node 6147:8381 */}
+                    <h3 className="font-heading font-semibold text-[20px] sm:text-[24px] text-black line-clamp-1">
                       <Link
                         href={`/shop/${rel.slug}`}
                         className="hover:text-[#3F6B1A] transition"
@@ -369,47 +322,32 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         {rel.name}
                       </Link>
                     </h3>
+
+                    {/* Pricing & Min Order matching node 6147:8383 */}
+                    <div className="flex flex-col gap-0.5 leading-[1.5]">
+                      <span className="font-heading font-bold text-[20px] sm:text-[22px] text-[#111827]">
+                        {formatNaira(rel.price)}
+                      </span>
+                      <span className="font-sans font-medium text-[14px] sm:text-[16px] text-[#5C5C5C]">
+                        {specSummary}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="pt-2 border-t border-gray-100 flex items-center justify-between">
-                    <span className="font-heading font-bold text-base text-gray-900">
-                      {formatNaira(rel.price)}
-                    </span>
+                  {/* Buy Button matching node 6147:8388 */}
+                  <div className="pt-5 sm:pt-6 w-full">
                     <Link
                       href={`/shop/${rel.slug}`}
-                      className="px-4 py-2 rounded-xl text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-2xs"
+                      className="bg-black text-[#F2F7EC] font-heading font-bold text-[15px] sm:text-[16px] rounded-[12px] min-h-[50px] h-[50px] px-5 py-3 flex items-center justify-center hover:bg-gray-900 transition text-center w-full"
                     >
-                      View Details
+                      Buy For {formatNaira(rel.price)}
                     </Link>
                   </div>
                 </div>
               );
             })}
           </div>
-        </section>
-      )}
-
-      {/* ── 6. Bottom Help Band (Dark Green #1F3A0B per stitch frame) ─── */}
-      <section className="bg-[#1F3A0B] text-white rounded-3xl p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
-        <div className="space-y-2 text-center sm:text-left">
-          <span className="text-xs font-semibold uppercase tracking-wider text-[#7BB042]">
-            ENGINEERING CONSULTANCY DESK
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-white">
-            Need help sizing your inverter capacity?
-          </h2>
-          <p className="text-xs sm:text-sm text-emerald-100/80 max-w-xl">
-            Talk to a Petfeb certified systems engineer to calculate your real-world surge requirements and generator synchronization parameters.
-          </p>
         </div>
-
-        <a
-          href="tel:+234800738332"
-          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm shrink-0 min-h-[48px]"
-        >
-          <Phone className="w-4 h-4" />
-          <span>+234 800 PETFEB SOLAR</span>
-        </a>
       </section>
     </div>
   );

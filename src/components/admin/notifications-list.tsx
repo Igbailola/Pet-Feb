@@ -245,7 +245,7 @@ export function NotificationsList({ user, tasks }: NotificationsListProps) {
                 <span
                   className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                     active
-                      ? "bg-[#7BB042] text-black"
+                      ? "bg-[#7BB042] text-white"
                       : count > 0
                       ? "bg-[#F3F4F6] text-[#374151]"
                       : "bg-[#F3F4F6] text-[#9CA3AF]"

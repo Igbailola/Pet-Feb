@@ -234,7 +234,7 @@ export default function TrainingPage() {
           aria-hidden="true"
         />
 
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 relative z-10 space-y-8">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 relative z-10 space-y-8">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="text-xs text-emerald-200/70">
             <ol className="flex items-center gap-1.5">
@@ -267,7 +267,7 @@ export default function TrainingPage() {
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
-                  href="/contact?type=training"
+                  href="/#contact"
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shadow-sm min-h-[48px]"
                 >
                   <span>Apply for Training</span>
@@ -326,7 +326,7 @@ export default function TrainingPage() {
       </section>
 
       {/* ── 2. Certified Technical Programs (4 Programs in 2x2 Grid) ── */}
-      <section id="programs" className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8 scroll-mt-24">
+      <section id="programs" className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-8 scroll-mt-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-2 max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
@@ -423,7 +423,7 @@ export default function TrainingPage() {
                   </span>
 
                   <Link
-                    href={`/contact?type=training&program=${prog.slug}`}
+                    href="/#contact"
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6aa035] transition shrink-0"
                   >
                     <span>View Program</span>
@@ -437,7 +437,7 @@ export default function TrainingPage() {
       </section>
 
       {/* ── 3. Practical Competencies for Field Deployment ───────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-8">
         <div className="space-y-2 max-w-2xl">
           <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
             Engineering Rigor
@@ -475,7 +475,7 @@ export default function TrainingPage() {
 
       {/* ── 4. Academy Pathway to Certification (6 Steps) ─────────────── */}
       <section className="bg-white py-14 border-y border-[#D9D9D9]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-10">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-10">
           <div className="text-center max-w-xl mx-auto space-y-2">
             <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-900">
               Academy Pathway to Certification
@@ -514,7 +514,7 @@ export default function TrainingPage() {
 
       {/* ── 5. Stats & Voices from the Field (Deep Green Band #1F3A0B) ── */}
       <section className="bg-[#1F3A0B] text-white py-16">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-12">
           {/* Top 3 Big Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10 border-b border-emerald-900/80">
             <div className="space-y-1">
@@ -596,7 +596,7 @@ export default function TrainingPage() {
       </section>
 
       {/* ── 6. Inside Our Technical Workshops (Photos Grid) ──────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-8">
         <div className="space-y-2">
           <span className="text-xs font-bold uppercase tracking-wider text-[#3F6B1A]">
             Field Verification
@@ -660,7 +660,7 @@ export default function TrainingPage() {
       </section>
 
       {/* ── 8. Bottom CTA Band (Amber Band per stitch frame) ─────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
         <div className="bg-[#F5B82E] rounded-3xl p-8 sm:p-12 text-black flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-lg">
           <div className="space-y-2 text-center md:text-left max-w-2xl">
             <span className="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-black/10 text-black uppercase tracking-wider">
@@ -676,7 +676,7 @@ export default function TrainingPage() {
 
           <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
             <Link
-              href="/contact?type=training"
+              href="/#contact"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg text-sm font-bold bg-black text-white hover:bg-gray-900 transition shadow-md"
             >
               <span>Apply Now</span>
