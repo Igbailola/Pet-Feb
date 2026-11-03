@@ -155,7 +155,7 @@ const FAQS = [
 export default function InstallationPage() {
   return (
     <div className="bg-[#FBF9F8] pb-20 overflow-x-clip font-sans">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-6 sm:pt-10 space-y-12 sm:space-y-16">
+      <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-6 sm:pt-10 space-y-12 sm:space-y-16">
         {/* ── 1. HERO SECTION (Matching Petfeb Page Header Rhythm) ────────── */}
         <section className="space-y-6">
           {/* Breadcrumb */}
@@ -307,7 +307,7 @@ export default function InstallationPage() {
 
         {/* ── 2. WHY CERTIFIED ENGINEERING MATTERS (Black Container) ──────── */}
         <ScrollScale from={0.95} rise={32}>
-          <section className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-[45px] shadow-md space-y-10">
+          <section className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-md space-y-10">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div className="space-y-3 max-w-2xl">
                 <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#7BB042] block">
@@ -367,7 +367,7 @@ export default function InstallationPage() {
         <ScrollScale from={0.95} rise={32}>
           <section
             id="deployment-process"
-            className="bg-[#F5B82E] text-black rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-[45px] shadow-sm scroll-mt-24 space-y-10"
+            className="bg-[#F5B82E] text-black rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-sm scroll-mt-24 space-y-10"
           >
             <div className="text-center max-w-2xl mx-auto space-y-3">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#344A1C] block">
@@ -419,7 +419,7 @@ export default function InstallationPage() {
 
         {/* ── 4. STANDARD PACKAGE SCOPE (Soft Green Container) ───────────── */}
         <ScrollScale from={0.95} rise={32}>
-          <section className="bg-[#D6E7C4] text-gray-950 rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-[45px] shadow-sm space-y-10">
+          <section className="bg-[#D6E7C4] text-gray-950 rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-sm space-y-10">
             <div className="text-center max-w-2xl mx-auto space-y-3">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#3F6B1A] block">
                 TRANSPARENT BILL OF MATERIALS
@@ -517,7 +517,7 @@ export default function InstallationPage() {
         <ScrollScale from={0.95} rise={32}>
           <section
             id="inspection-form"
-            className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-[45px] shadow-md scroll-mt-24 space-y-10"
+            className="bg-black text-white rounded-[32px] py-12 sm:py-16 px-6 sm:px-10 lg:px-8 xl:px-10 shadow-md scroll-mt-24 space-y-10"
           >
             <div className="space-y-3 max-w-3xl">
               <span className="text-xs font-heading font-bold uppercase tracking-wider text-[#7BB042] block">

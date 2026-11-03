@@ -104,7 +104,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-white rounded-bl-[24px] rounded-br-[24px] shadow-[0px_2px_22px_0px_rgba(45,45,45,0.10)] border-b border-gray-100">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px]">
+      <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between min-h-[82px] sm:min-h-[102px] py-3 sm:py-[17px]">
           {/* ── Brand Logo ── */}
           <Link
@@ -321,179 +321,146 @@ export function Header() {
 
       {/* ── Mobile & Tablet Drawer ── */}
       {mobileMenuOpen && (
-        <div className="menu-panel-in lg:hidden border-t border-gray-100 bg-white px-5 pt-3 pb-6 rounded-b-[24px] shadow-xl space-y-4">
-          <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
-            {/* Home */}
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-xl text-base font-medium transition ${
-                isLinkActive("/")
-                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
-                  : "text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              Home
-            </Link>
-
-            {/* About Us */}
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-3 py-2.5 rounded-xl text-base font-medium transition ${
-                isLinkActive("/about")
-                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
-                  : "text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              About Us
-            </Link>
-
-            {/* Contact Us */}
-            <Link
-              href="/#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2.5 rounded-xl text-base font-medium transition text-gray-700 hover:bg-gray-50"
-            >
-              Contact Us
-            </Link>
-
-            {/* Our Project Mobile Dropdown Accordion */}
-            <div className="border border-gray-100 rounded-xl overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggleMobileGroup("projects")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-base font-medium text-gray-800 bg-gray-50/50 hover:bg-gray-100/50 transition cursor-pointer"
-                aria-expanded={mobileExpanded.projects}
-              >
-                <span className={isProjectsGroupActive ? "text-[#70A03C] font-bold" : ""}>
-                  Our Project
-                </span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    mobileExpanded.projects ? "rotate-180 text-[#70A03C]" : "text-gray-500"
+        <div className="menu-panel-in lg:hidden border-t border-gray-100 bg-white rounded-b-[24px] shadow-xl max-h-[calc(100dvh-90px)] overflow-y-auto overscroll-contain">
+          <div className="px-4 sm:px-6 pt-4 pb-6 space-y-5">
+            {/* Primary navigation */}
+            <nav className="flex flex-col gap-1.5" aria-label="Mobile Navigation">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/about", label: "About Us" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center justify-between min-h-[48px] px-4 rounded-[14px] text-base font-medium transition ${
+                    isLinkActive(item.href)
+                      ? "text-[#3F6B1A] font-bold bg-[#F2F7EC]"
+                      : "text-gray-800 hover:bg-gray-50"
                   }`}
-                />
-              </button>
+                >
+                  <span>{item.label}</span>
+                  {isLinkActive(item.href) && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#7BB042]" aria-hidden="true" />
+                  )}
+                </Link>
+              ))}
 
-              {mobileExpanded.projects && (
-                <div className="bg-white py-1.5 px-2 space-y-1 border-t border-gray-100">
-                  {DROPDOWN_GROUPS.projects.items.map((sub) => {
-                    const active = isLinkActive(sub.href);
-                    return (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-4 py-2 rounded-lg text-sm transition ${
-                          active
-                            ? "text-[#70A03C] font-bold bg-emerald-50"
-                            : "text-gray-600 hover:text-gray-950 hover:bg-gray-50 font-medium"
-                        }`}
-                      >
-                        {sub.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Pet-Feb buy small small Mobile Dropdown Accordion */}
-            <div className="border border-gray-100 rounded-xl overflow-hidden">
-              <button
-                type="button"
-                onClick={() => toggleMobileGroup("buy-small")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-base font-medium text-gray-800 bg-gray-50/50 hover:bg-gray-100/50 transition cursor-pointer"
-                aria-expanded={mobileExpanded["buy-small"]}
+              <Link
+                href="/#contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center min-h-[48px] px-4 rounded-[14px] text-base font-medium transition text-gray-800 hover:bg-gray-50"
               >
-                <span className={isBuySmallGroupActive ? "text-[#70A03C] font-bold" : ""}>
-                  Pet-Feb buy small small
-                </span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    mobileExpanded["buy-small"] ? "rotate-180 text-[#70A03C]" : "text-gray-500"
-                  }`}
-                />
-              </button>
+                Contact Us
+              </Link>
 
-              {mobileExpanded["buy-small"] && (
-                <div className="bg-white py-1.5 px-2 space-y-1 border-t border-gray-100">
-                  {DROPDOWN_GROUPS["buy-small"].items.map((sub) => {
-                    const active = isLinkActive(sub.href);
-                    return (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-4 py-2 rounded-lg text-sm transition ${
-                          active
-                            ? "text-[#70A03C] font-bold bg-emerald-50"
-                            : "text-gray-600 hover:text-gray-950 hover:bg-gray-50 font-medium"
+              {/* Accordion groups */}
+              {(
+                [
+                  { key: "projects", label: "Our Project", active: isProjectsGroupActive, items: DROPDOWN_GROUPS.projects.items },
+                  { key: "buy-small", label: "Pet-Feb buy small small", active: isBuySmallGroupActive, items: DROPDOWN_GROUPS["buy-small"].items },
+                ] as const
+              ).map((group) => {
+                const expanded = !!mobileExpanded[group.key];
+                return (
+                  <div
+                    key={group.key}
+                    className={`rounded-[14px] border transition-colors ${
+                      expanded ? "border-[#D6E7C4] bg-[#F7FAF2]" : "border-gray-100 bg-white"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleMobileGroup(group.key)}
+                      className="w-full flex items-center justify-between gap-3 min-h-[48px] px-4 text-base font-medium text-gray-800 cursor-pointer"
+                      aria-expanded={expanded}
+                    >
+                      <span className={group.active ? "text-[#3F6B1A] font-bold" : ""}>{group.label}</span>
+                      <ChevronDown
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                          expanded ? "rotate-180 text-[#70A03C]" : "text-gray-500"
                         }`}
-                      >
-                        {sub.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                      />
+                    </button>
 
-            {/* Shop */}
-            <Link
-              href="/shop"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-base font-medium transition ${
-                isLinkActive("/shop")
-                  ? "text-[#70A03C] font-bold bg-emerald-50/60"
-                  : "text-gray-700 hover:bg-gray-50"
-              }`}
-            >
-              <span>Shop</span>
-              <span className="inline-flex items-center gap-1 text-xs text-[#F5B82E]">
-                <ShoppingCart className="w-4 h-4" />
+                    {expanded && (
+                      <div className="px-2 pb-2 flex flex-col gap-1">
+                        {group.items.map((sub) => {
+                          const active = isLinkActive(sub.href);
+                          return (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={`flex items-center min-h-[44px] px-4 rounded-[10px] text-sm transition ${
+                                active
+                                  ? "text-[#3F6B1A] font-bold bg-white shadow-xs"
+                                  : "text-gray-600 hover:text-gray-950 hover:bg-white font-medium"
+                              }`}
+                            >
+                              {sub.label}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Shop */}
+              <Link
+                href="/shop"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center justify-between min-h-[48px] px-4 rounded-[14px] text-base font-medium transition ${
+                  isLinkActive("/shop")
+                    ? "text-[#3F6B1A] font-bold bg-[#F2F7EC]"
+                    : "text-gray-800 hover:bg-gray-50"
+                }`}
+              >
+                <span>Shop</span>
+                <span className="inline-flex items-center gap-1.5 text-[#F5B82E]">
+                  <ShoppingCart className="w-4 h-4" />
+                  {isHydrated && itemCount > 0 && (
+                    <span className="bg-black text-white text-[11px] font-bold min-w-5 h-5 px-1.5 rounded-full inline-flex items-center justify-center">
+                      {itemCount}
+                    </span>
+                  )}
+                </span>
+              </Link>
+            </nav>
+
+            {/* Secondary links */}
+            <div className="pt-4 border-t border-gray-100 flex flex-col gap-1">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-400 px-4 pb-1">
+                More Services
+              </span>
+              <Link
+                href="/training"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center min-h-[44px] px-4 rounded-[10px] text-sm text-gray-600 hover:text-gray-950 hover:bg-gray-50 transition"
+              >
+                Training Program
+              </Link>
+              <Link
+                href="/cart"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between min-h-[44px] px-4 rounded-[10px] text-sm text-gray-600 hover:text-gray-950 hover:bg-gray-50 transition"
+              >
+                <span>Shopping Cart</span>
                 {isHydrated && itemCount > 0 && (
-                  <span className="bg-black text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
-                    {itemCount}
+                  <span className="bg-[#7BB042] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                    {itemCount} items
                   </span>
                 )}
-              </span>
-            </Link>
-          </nav>
+              </Link>
+            </div>
 
-          {/* Secondary Mobile Links: Training & Cart */}
-          <div className="pt-3 border-t border-gray-100 flex flex-col space-y-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-3 pb-1">
-              More Services
-            </span>
-            <Link
-              href="/training"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-950 hover:bg-gray-50 transition"
-            >
-              <span>Training Program</span>
-            </Link>
-            <Link
-              href="/cart"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-950 hover:bg-gray-50 transition"
-            >
-              <span>Shopping Cart</span>
-              {isHydrated && itemCount > 0 && (
-                <span className="bg-[#7BB042] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                  {itemCount} items
-                </span>
-              )}
-            </Link>
-          </div>
-
-          {/* Mobile CTA: Market Place */}
-          <div className="pt-2">
+            {/* Mobile CTA: Market Place */}
             <Link
               href="/buy-small"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full inline-flex items-center justify-center py-3.5 rounded-[12px] bg-[#7BB042] text-[#F2F7EC] font-bold text-sm hover:bg-[#6EA138] transition shadow-xs text-center"
+              className="w-full inline-flex items-center justify-center min-h-[52px] rounded-[12px] bg-[#7BB042] text-white font-bold text-base hover:bg-[#6EA138] transition shadow-xs text-center"
             >
               Market Place
             </Link>

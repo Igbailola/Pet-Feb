@@ -27,7 +27,7 @@ export default async function ProjectBlogHubPage({ searchParams }: ProjectBlogPa
     <div className="space-y-0">
       {/* ── Page Header Band ─────────────────────────────────────── */}
       <section className="bg-[#F4F9EC] border-b border-[#D2E8B5] pt-8 sm:pt-12 pb-10 sm:pb-14">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-6">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-6">
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-[#5C5C5C]">
             <Link href="/" className="hover:text-gray-900 transition">
@@ -92,7 +92,7 @@ export default async function ProjectBlogHubPage({ searchParams }: ProjectBlogPa
       </section>
 
       {/* ── Main Content Sections ───────────────────────────────── */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 py-10 sm:py-14 space-y-16">
+      <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 py-10 sm:py-14 space-y-16">
         {/* Projects Stream */}
         {(activeView === "all" || activeView === "projects") && (
           <section className="space-y-6">

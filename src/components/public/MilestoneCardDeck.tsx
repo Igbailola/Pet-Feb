@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -237,13 +238,12 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
                   key={m.period}
                   type="button"
                   onClick={() => scrollToCard(idx)}
-                  className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${
-                    isCurrent
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${isCurrent
                       ? "bg-[#7BB042] text-white shadow-2xs"
                       : isPassed
-                      ? "bg-white/15 text-[#D6E7C4] hover:bg-white/25"
-                      : "text-gray-400 hover:text-white"
-                  }`}
+                        ? "bg-white/15 text-[#D6E7C4] hover:bg-white/25"
+                        : "text-gray-400 hover:text-white"
+                    }`}
                 >
                   {m.period}
                 </button>
@@ -252,11 +252,10 @@ export function MilestoneCardDeck({ milestones, closing }: MilestoneCardDeckProp
             <button
               type="button"
               onClick={() => scrollToCard(milestones.length)}
-              className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${
-                activeCardIndex === milestones.length
+              className={`px-2.5 py-1 rounded-full text-[11px] font-heading font-bold transition-all cursor-pointer whitespace-nowrap ${activeCardIndex === milestones.length
                   ? "bg-[#F5B82E] text-black shadow-2xs"
                   : "text-gray-400 hover:text-white"
-              }`}
+                }`}
             >
               Our Pledge
             </button>

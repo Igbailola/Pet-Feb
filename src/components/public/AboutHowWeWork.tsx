@@ -45,7 +45,7 @@ export function AboutHowWeWork() {
       aria-label="How We Work Process"
       className="bg-white py-14 lg:py-20 border-t border-gray-100"
     >
-      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
+      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         {/* Section Header */}
         <div className="max-w-2xl mb-10 lg:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F9EC] text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-3">

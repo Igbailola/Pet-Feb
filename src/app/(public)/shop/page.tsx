@@ -20,7 +20,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   return (
     <div className="bg-white pb-20 overflow-x-clip font-sans">
       {/* ── Page Header & Hero Band matching Figma Frame 6140:4670 ────────────────────── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-10 sm:pt-16 lg:pt-[80px]">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-10 sm:pt-16 lg:pt-[80px]">
         {/* Header Text Row: Yellow Dot + "Welcome to petfeb solar shop." + Cart Graphic */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-8 sm:pb-12">
           {/* Left: Yellow dot + Heading with green period matching node 6142:5569 */}
@@ -85,7 +85,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       </section>
 
       {/* ── Main Catalog Content (Black Container) matching Figma node 6140:4831 ──────── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] space-y-14 sm:space-y-16">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 space-y-14 sm:space-y-16">
         {/* Interactive Catalog with Search, Category Tabs, Products Grid & Pagination */}
         <ShopCatalog products={products} initialCategory={category} />
 

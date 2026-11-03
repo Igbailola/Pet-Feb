@@ -34,7 +34,7 @@ export default async function HomePage() {
     <div className="pb-16 overflow-x-clip bg-white">
       {/* ── Scene 1. Hero Section — Matching Figma node 6139:2797 ────── */}
       <section className="w-full relative">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-[80px]">
+        <div className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-[80px]">
           {/* Hero Text Row: headline left, description right */}
           <ScrollReveal className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 mb-[58px]">
             {/* Left: Yellow dot + Large Headline */}
@@ -44,6 +44,7 @@ export default async function HomePage() {
                 aria-hidden="true"
               />
               <h1
+                data-type="display"
                 className="font-heading font-bold text-[32px] sm:text-[40px] lg:text-[48px] text-[#333] tracking-[1.44px] uppercase leading-tight max-w-[670px]"
                 style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
               >
@@ -111,7 +112,7 @@ export default async function HomePage() {
 
       {/* ── Scene 4. Buy Small Scheme Banner — Yellow background matching Figma ──── */}
       <div className="pt-8 sm:pt-12">
-        <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.93} rise={40}>
             <HomeBuySmallBanner />
           </ScrollScale>
@@ -120,7 +121,7 @@ export default async function HomePage() {
 
       {/* ── Scene 5. Product Showcase — Black container ──────────────────── */}
       <div className="pt-8 sm:pt-12">
-        <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.94} rise={36}>
             <HomeProductSection products={products} />
           </ScrollScale>
@@ -129,7 +130,7 @@ export default async function HomePage() {
 
       {/* ── Scene 6. Training CTA — Split Photo Left, Yellow Right matching Figma 6139:3029 ── */}
       <div className="pt-8 sm:pt-12">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.93} rise={40}>
             <div className="rounded-[32px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[426px] shadow-sm">
               {/* Left Column: Technician Photography with Parallax */}
@@ -185,7 +186,7 @@ export default async function HomePage() {
 
       {/* ── Scene 7. Project Gallery — Black Container matching Figma 6139:3045 ── */}
       <div className="pt-8 sm:pt-12">
-        <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.94} rise={36}>
             <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
               <ScrollReveal className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
@@ -222,7 +223,7 @@ export default async function HomePage() {
 
       {/* ── Scene 8. Client Testimonials — Yellow Container with 3 Black Cards matching Figma 6139:3104 ── */}
       <div className="pt-8 sm:pt-12">
-        <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.93} rise={40}>
             <div className="bg-[#F5B82E] rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
               <ScrollReveal className="max-w-2xl space-y-3">
@@ -335,7 +336,7 @@ export default async function HomePage() {
 
       {/* ── Scene 9. Contact Information — Black Container matching Figma 6139:3176 ── */}
       <div id="contact" className="pt-8 sm:pt-12 scroll-mt-28 sm:scroll-mt-32">
-        <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10">
+        <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6">
           <ScrollScale from={0.94} rise={36}>
             <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
               <ScrollReveal className="max-w-3xl space-y-3">

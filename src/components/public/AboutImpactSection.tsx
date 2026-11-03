@@ -53,7 +53,7 @@ export function AboutImpactSection() {
       aria-label="Pet-Feb Verified Impact"
       className="w-full bg-[#F8FAF6] border-y border-[#E2ECD8] py-12 lg:py-16"
     >
-      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px]">
+      <div className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         {/* Section Header */}
         <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#3F6B1A] border border-[#D2E8B5] text-xs font-semibold uppercase tracking-wider mb-3 shadow-2xs">

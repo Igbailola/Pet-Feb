@@ -33,7 +33,7 @@ const PARTNERS = [
 
 export function AnimatedPartners() {
   return (
-    <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 py-4">
+    <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 py-4">
       <div className="space-y-6">
         <ScrollReveal>
           <h2 className="font-heading font-extrabold text-2xl sm:text-3xl lg:text-4xl text-gray-950 text-center tracking-tight">

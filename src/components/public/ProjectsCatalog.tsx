@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Zap, MapPin, Filter } from "lucide-react";
+import { Zap, Filter } from "lucide-react";
 import type { ProjectDetail } from "@/lib/projects-data";
 
 interface ProjectsCatalogProps {
@@ -28,7 +28,17 @@ export function ProjectsCatalog({
   );
 
   const categories = Array.from(new Set(projects.map((p) => p.category)));
-  const regions = ["All States", "Lagos", "Abuja", "Rivers State", "Anambra", "Oyo State"];
+  const regions = [
+    "All States",
+    "Abuja",
+    "Anambra",
+    "Delta State",
+    "Rivers State",
+    "Edo State",
+    "Lagos",
+    "Ogun State",
+    "China",
+  ];
 
   const filteredProjects = projects.filter((p) => {
     const matchesCat = selectedCategory
@@ -71,9 +81,9 @@ export function ProjectsCatalog({
           </h2>
         </div>
         <p className="text-sm sm:text-base text-gray-300 leading-relaxed max-w-3xl font-normal">
-          Explore how Petfeb is delivering clean, reliable energy across homes, businesses, and
-          communities in Nigeria. Every installation is engineered for high ambient heat, surge
-          tolerance, and round-the-clock power security.
+          From residential rooftops to large-scale commercial installations, Pet-Feb has delivered
+          solar solutions that light up communities and drive sustainable growth. Explore some of
+          our latest projects and see how we’re building a cleaner, brighter future across Nigeria.
         </p>
       </div>
 
@@ -169,45 +179,22 @@ export function ProjectsCatalog({
                   />
                 </div>
 
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="inline-block px-2.5 py-0.5 rounded text-[11px] font-semibold text-gray-700 bg-gray-100">
-                    {item.category}
-                  </span>
-                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-semibold text-[#3F6B1A] bg-[#E8F3DA]">
-                    <MapPin className="w-3 h-3" />
-                    {item.location}
-                  </span>
-                </div>
-
                 <h3 className="font-heading font-bold text-base sm:text-lg text-gray-950 group-hover:text-[#3F6B1A] transition leading-snug line-clamp-2">
                   {item.title}
                 </h3>
 
-                <p className="text-xs text-gray-600 line-clamp-3 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-600 line-clamp-3 leading-relaxed">
                   {item.summary}
                 </p>
               </div>
 
-              <div className="space-y-3 pt-2">
+              <div className="pt-2">
                 <Link
                   href={`/projects/${item.slug || item.id}`}
                   className="w-fit px-4 py-2 rounded-lg text-xs font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition inline-flex items-center gap-1.5"
                 >
                   <span>View Project</span>
                 </Link>
-
-                <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-100">
-                  <div className="flex items-center gap-1.5 font-semibold text-gray-800">
-                    <span className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[10px]">
-                      PF
-                    </span>
-                    <span>Pet-Feb</span>
-                  </div>
-                  <span className="inline-flex items-center gap-1">
-                    <Zap className="w-3 h-3 text-[#7BB042]" />
-                    {item.capacity}
-                  </span>
-                </div>
               </div>
             </div>
           ))}

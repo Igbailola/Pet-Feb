@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, MapPin, Zap, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ProjectsCatalog } from "@/components/public/ProjectsCatalog";
 import { getAllProjects } from "@/lib/projects-data";
+import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
 
 export const metadata: Metadata = {
   title: "Our Solar Projects | Petfeb Engineering & Community Impact",
@@ -28,7 +29,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       {/* ── Top Header Band ───────────────────────────────────────────── */}
       <section
         data-reveal
-        className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-8 sm:pt-12 pb-6"
+        className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-6"
       >
         <div className="flex items-center gap-4 pb-6">
           <span
@@ -46,71 +47,48 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       {featuredProject && (
         <section
           data-reveal
-          className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 pb-12 sm:pb-16"
+          className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 pb-12 sm:pb-16"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: Featured Project */}
             <div className="lg:col-span-8 space-y-6">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider block">
-                Commissioned: {featuredProject.commissionedYear}
-              </span>
-
-              <Link
-                href={`/projects/${featuredProject.slug}`}
-                className="relative block w-full rounded-[24px] overflow-hidden shadow-md bg-gray-900 group image-zoom"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={featuredProject.imageUrl || "/api/websitepic/community"}
-                  alt={featuredProject.title}
-                  className="w-full h-auto max-h-[560px] object-cover"
-                />
-              </Link>
+              <ProjectHeroSlider
+                images={featuredProject.heroImages && featuredProject.heroImages.length > 0 ? featuredProject.heroImages : [featuredProject.imageUrl]}
+                title={featuredProject.title}
+              />
 
               <div className="space-y-4 text-sm sm:text-base text-gray-700 leading-relaxed font-normal pt-2">
                 <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950 leading-snug">
                   {featuredProject.title}
                 </h2>
-                <p>{featuredProject.summary}</p>
-                <p>{featuredProject.impact}</p>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between py-4 border-y border-gray-200 gap-4 text-xs sm:text-sm text-gray-600">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs text-gray-700">
-                    PF
-                  </div>
-                  <span className="font-bold text-gray-900">Pet-Feb Engineering</span>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-5 text-gray-600">
-                  <span className="flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4 text-[#7BB042]" />
-                    <span className="font-semibold">{featuredProject.location}</span>
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-[#7BB042]" />
-                    <span className="font-semibold">{featuredProject.capacity}</span>
-                  </span>
-                </div>
+                {(featuredProject.sections?.[0]?.paragraphs ?? [featuredProject.summary]).map(
+                  (para, idx) => (
+                    <p key={idx}>{para}</p>
+                  )
+                )}
               </div>
 
               {featuredProject.highlights?.length > 0 && (
-                <ul className="space-y-2 text-sm text-gray-700">
-                  {featuredProject.highlights.slice(0, 4).map((h) => (
-                    <li key={h} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-0.5" />
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="space-y-2.5 pt-2">
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-gray-950">
+                    Key Highlights:
+                  </h3>
+                  <ul className="space-y-2 text-sm sm:text-base text-gray-700">
+                    {featuredProject.highlights.map((h) => (
+                      <li key={h} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#7BB042] shrink-0 mt-1" />
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
 
               <Link
                 href={`/projects/${featuredProject.slug}`}
                 className="inline-flex items-center gap-2 px-6 py-3 min-h-[46px] rounded-xl text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6A9E36] transition shadow-xs w-fit"
               >
-                Read Case Study
+                Read Full Project
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -128,9 +106,6 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                         className="flex gap-4 items-start p-3 rounded-2xl border border-gray-100 bg-[#F8F9FA] hover:border-[#7BB042] transition group"
                       >
                         <div className="space-y-1.5 flex-1">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#3F6B1A]">
-                            {item.category}
-                          </span>
                           <h4 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#3F6B1A] transition leading-snug line-clamp-2">
                             {item.title}
                           </h4>
@@ -168,7 +143,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
       )}
 
       {/* ── Our Recent Projects (Black Container) + Training CTA ──────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-12">
         <div data-reveal>
           <ProjectsCatalog projects={projects} initialCategory={category} initialRegion={region} />
         </div>

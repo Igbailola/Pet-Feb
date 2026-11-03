@@ -6,7 +6,7 @@ export function AboutClosingCta() {
   return (
     <section
       aria-label="Call to Action"
-      className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-[45px] py-14 lg:py-20"
+      className="max-w-[1350px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-14 lg:py-20"
     >
       <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#0B150A] via-[#0E1B0D] to-[#162714] text-white border border-[#7BB042]/30 shadow-[0px_12px_40px_rgba(0,0,0,0.25)] p-8 sm:p-12 lg:p-16">
         {/* Subtle Ambient Background Accents */}

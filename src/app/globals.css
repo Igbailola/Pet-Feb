@@ -536,3 +536,153 @@ a[class*="rounded"][class*="bg-"]:active {
     transform: none;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * PETFEB — MOBILE TYPOGRAPHY SYSTEM (public site, viewport ≤ 767px only)
+ * ──────────────────────────────────────────────────────────────────────────
+ * Fonts are unchanged: Space Grotesk (headings/display), Roboto (body/UI).
+ * Everything below lives inside a max-width: 767px media query and is scoped
+ * to `.public-site` (the public layout wrapper), so desktop, tablet and the
+ * admin/staff areas are untouched.
+ *
+ * Approach: instead of editing hundreds of arbitrary `text-[Npx]` classes,
+ * every size used by components is snapped to the mobile token scale below.
+ * Reusable utilities (.t-display … .t-input) exist for new components.
+ * ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --m-display: 36px;   --m-display-lh: 1.15;
+  --m-h1: 30px;        --m-h1-lh: 1.2;
+  --m-h2: 26px;        --m-h2-lh: 1.2;
+  --m-h3: 22px;        --m-h3-lh: 1.3;
+  --m-h4: 18px;        --m-h4-lh: 1.35;
+  --m-body-lg: 18px;   --m-body-lg-lh: 1.6;
+  --m-body: 16px;      --m-body-lh: 1.55;
+  --m-body-sm: 14px;   --m-body-sm-lh: 1.5;
+  --m-meta: 12px;      --m-meta-lh: 1.4;
+  --m-caption: 11px;   --m-caption-lh: 1.4;
+  --m-btn: 14px;       --m-btn-lh: 1.2;
+  --m-label: 14px;     --m-label-lh: 1.4;
+  --m-input: 16px;     --m-input-lh: 1.5;
+}
+
+@media (max-width: 767px) {
+  .public-site {
+    font-size: var(--m-body);
+    line-height: var(--m-body-lh);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* ── Size scale snapping (non-heading text) ───────────────────────── */
+  .public-site :is(.text-\[9px\], .text-\[10px\], .text-\[11px\]) {
+    font-size: var(--m-caption); line-height: var(--m-caption-lh);
+  }
+  .public-site :is(.text-xs, .text-\[12px\]) {
+    font-size: var(--m-meta); line-height: var(--m-meta-lh);
+  }
+  .public-site :is(.text-sm, .text-\[13px\], .text-\[14px\]) {
+    font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh);
+  }
+  .public-site :is(.text-base, .text-\[15px\], .text-\[16px\]) {
+    font-size: var(--m-body); line-height: var(--m-body-lh);
+  }
+  .public-site :is(.text-lg, .text-\[17px\], .text-\[18px\]) {
+    font-size: var(--m-body-lg); line-height: var(--m-body-lg-lh);
+  }
+  /* Emphasis figures (prices, stats) */
+  .public-site :is(.text-xl, .text-\[19px\], .text-\[20px\]) {
+    font-size: 20px; line-height: 1.3;
+  }
+  .public-site :is(.text-2xl, .text-\[22px\], .text-\[24px\], .text-\[26px\]) {
+    font-size: var(--m-h3); line-height: var(--m-h3-lh);
+  }
+  .public-site :is(.text-3xl, .text-4xl, .text-\[28px\], .text-\[30px\], .text-\[32px\], .text-\[34px\]) {
+    font-size: 28px; line-height: 1.2;
+  }
+  .public-site :is(.text-5xl, .text-6xl, .text-7xl, .text-\[36px\], .text-\[38px\], .text-\[40px\], .text-\[44px\], .text-\[46px\], .text-\[48px\], .text-\[54px\], .text-\[58px\], .text-\[64px\]) {
+    font-size: 32px; line-height: 1.15;
+  }
+
+  /* ── Headings (Space Grotesk via existing h1–h6 rule) ─────────────── */
+  .public-site :is(h1, h2, h3, h4, h5, h6) {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+  .public-site h1 {
+    font-size: var(--m-h1) !important; line-height: var(--m-h1-lh) !important;
+    font-weight: 700 !important; letter-spacing: 0.02em !important;
+  }
+  .public-site h1[data-type="display"] {
+    font-size: var(--m-display) !important; line-height: var(--m-display-lh) !important;
+  }
+  .public-site h2 {
+    font-size: var(--m-h2) !important; line-height: var(--m-h2-lh) !important;
+    font-weight: 600 !important; letter-spacing: -0.01em !important;
+  }
+  /* h3 in this codebase is the card/step/item title → card-heading size.
+     Use .t-h3 for a true subsection heading. */
+  .public-site h3 {
+    font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important;
+    font-weight: 600 !important; letter-spacing: normal !important;
+  }
+  .public-site :is(h4, h5, h6) {
+    font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important;
+    font-weight: 600 !important; letter-spacing: normal !important;
+  }
+  .public-site h3.t-h3 {
+    font-size: var(--m-h3) !important; line-height: var(--m-h3-lh) !important;
+  }
+
+  /* ── Body copy ────────────────────────────────────────────────────── */
+  .public-site p:not([class*="text-"]) {
+    font-size: var(--m-body); line-height: var(--m-body-lh);
+  }
+  .public-site p { text-wrap: pretty; }
+
+  /* ── Navigation (14–16px / 500 / 1.3) ─────────────────────────────── */
+  .public-site header :is(nav a, nav button, [role="menuitem"]):not(.font-bold) {
+    font-weight: 500; line-height: 1.3;
+  }
+  .public-site header :is(nav a, nav button, [role="menuitem"]) { line-height: 1.3; }
+
+  /* ── Buttons (14–16px / 600 / 1.2) ────────────────────────────────── */
+  .public-site :is(button, a[class*="rounded"][class*="bg-"])[class] {
+    line-height: var(--m-btn-lh); font-weight: 600;
+  }
+  .public-site :is(
+    button:is(.text-xs, .text-\[9px\], .text-\[10px\], .text-\[11px\], .text-\[12px\], .text-\[13px\]),
+    a[class*="rounded"][class*="bg-"]:is(.text-xs, .text-\[11px\], .text-\[12px\], .text-\[13px\])
+  ) {
+    font-size: var(--m-btn);
+  }
+  .public-site header a[href="/buy-small"][class*="bg-"] { font-weight: 600; }
+
+  /* ── Forms ────────────────────────────────────────────────────────── */
+  .public-site label[class], .public-site label:not([class]) {
+    font-size: var(--m-label); line-height: var(--m-label-lh); font-weight: 500;
+  }
+  .public-site :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+    select, textarea
+  ) {
+    font-size: var(--m-input); line-height: var(--m-input-lh); font-weight: 400;
+  }
+  .public-site :is(p, span, div)[role="alert"]:not(:has(*)) {
+    font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh);
+  }
+
+  /* ── Reusable utilities for new components ────────────────────────── */
+  .t-display  { font-size: var(--m-display) !important; line-height: var(--m-display-lh) !important; font-weight: 700; }
+  .t-h1       { font-size: var(--m-h1) !important; line-height: var(--m-h1-lh) !important; font-weight: 700; }
+  .t-h2       { font-size: var(--m-h2) !important; line-height: var(--m-h2-lh) !important; font-weight: 600; }
+  .t-h4       { font-size: var(--m-h4) !important; line-height: var(--m-h4-lh) !important; font-weight: 600; }
+  .t-body-lg  { font-size: var(--m-body-lg); line-height: var(--m-body-lg-lh); font-weight: 400; }
+  .t-body     { font-size: var(--m-body); line-height: var(--m-body-lh); font-weight: 400; }
+  .t-body-sm  { font-size: var(--m-body-sm); line-height: var(--m-body-sm-lh); font-weight: 400; }
+  .t-meta     { font-size: var(--m-meta); line-height: var(--m-meta-lh); font-weight: 500; }
+  .t-caption  { font-size: var(--m-caption); line-height: var(--m-caption-lh); font-weight: 400; }
+  .t-btn      { font-size: var(--m-btn); line-height: var(--m-btn-lh); font-weight: 600; }
+  .t-nav      { font-size: var(--m-body-sm); line-height: 1.3; font-weight: 500; }
+  .t-label    { font-size: var(--m-label); line-height: var(--m-label-lh); font-weight: 500; }
+  .t-input    { font-size: var(--m-input); line-height: var(--m-input-lh); font-weight: 400; }
+}

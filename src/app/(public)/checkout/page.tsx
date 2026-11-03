@@ -151,7 +151,7 @@ export default function CheckoutPage() {
   if (orderConfirmed) {
     return (
       <div className="bg-[#FBF9F8] py-12 sm:py-20 min-h-[70vh] font-sans">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 space-y-8">
+        <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-6 space-y-8">
           <div className="bg-white rounded-[24px] border border-[#D9D9D9] shadow-sm p-6 sm:p-10 space-y-8 text-left">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 border-b border-[#D9D9D9] pb-6">
               <div className="w-14 h-14 rounded-2xl bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center shrink-0 border border-[#7BB042]/40">
@@ -297,7 +297,7 @@ export default function CheckoutPage() {
   // Cart empty state
   if (items.length === 0) {
     return (
-      <div className="bg-[#FBF9F8] py-24 px-4 sm:px-8 lg:px-10 min-h-[65vh] font-sans">
+      <div className="bg-[#FBF9F8] py-24 px-2 sm:px-4 lg:px-6 min-h-[65vh] font-sans">
         <div className="max-w-xl mx-auto bg-white border border-[#D9D9D9] rounded-[24px] p-8 sm:p-12 text-center space-y-6 shadow-xs">
           <AlertCircle className="w-12 h-12 text-[#F5B82E] mx-auto" />
           <h1 className="font-heading font-bold text-2xl text-[#1B1C1C]">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   getBlogPostBySlug,
   getPublishedBlogPosts,
@@ -9,6 +9,7 @@ import {
 } from "@/lib/public-data";
 import { BlogPostInteraction } from "@/components/public/BlogPostInteraction";
 import { RecentBlogPostsSection } from "@/components/public/RecentBlogPostsSection";
+import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -79,86 +80,42 @@ export default async function BlogPostPage({ params }: PageProps) {
       </div>
 
       {/* ── 2. Main 2-Column Layout ────────────────────────────────── */}
-      <div className="max-w-[1440px] mx-auto px-[45px]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px]">
         <div className="flex flex-col lg:flex-row gap-[47px]">
           {/* ─── Left Column: Article (832px) ─────────────────────── */}
-          <div className="w-full lg:w-[832px] shrink-0">
+          <div className="w-full lg:w-[832px] shrink-0 space-y-6">
             {/* Posted Date Row */}
-            <div className="flex items-center gap-[6px] mb-0">
-              <span className="font-heading font-medium text-[20px] text-black">
+            <div className="flex items-center gap-[6px]">
+              <span className="font-heading font-medium text-lg sm:text-[20px] text-black">
                 Posted:
               </span>
-              <span className="font-heading font-normal text-[20px] text-[#767676]">
+              <span className="font-heading font-normal text-lg sm:text-[20px] text-[#767676]">
                 {formattedDate}
               </span>
             </div>
 
-            {/* Hero Cover Image Card (832×748) */}
-            <div className="relative w-full h-[500px] sm:h-[640px] lg:h-[748px] rounded-[24px] overflow-hidden bg-[#333] mt-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={coverUrl}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-              {/* Overlay elements for dynamic posts where text is not baked into the Figma asset */}
-              {!coverUrl.includes("blog-ph-expansion") && (
-                <>
-                  {/* Dark overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            {/* Hero Cover Image Carousel */}
+            <ProjectHeroSlider
+              images={
+                post.hero_images && post.hero_images.length > 0
+                  ? post.hero_images
+                  : [coverUrl]
+              }
+              title={post.title}
+              className="relative w-full h-[320px] sm:h-[500px] lg:h-[620px] rounded-[24px] overflow-hidden bg-gray-900 border border-gray-200 shadow-md group select-none"
+            />
 
-                  {/* Content on image */}
-                  <div className="absolute bottom-0 left-0 right-0 p-[32px] sm:p-[45px] flex flex-col gap-[16px]">
-                    {/* Category pill */}
-                    <span className="bg-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[14px] px-[16px] py-[6px] rounded-[8px] self-start">
-                      {post.category || "News"}
-                    </span>
-                    {/* Title */}
-                    <h2 className="font-heading font-bold text-[24px] sm:text-[32px] text-white leading-[1.2] max-w-[700px]">
-                      {post.title}
-                    </h2>
-                    {/* Excerpt */}
-                    <p className="text-white/80 font-sans text-[14px] sm:text-[16px] leading-[1.6] max-w-[600px] line-clamp-3">
-                      {post.body.slice(0, 200)}...
-                    </p>
-
-                    {/* Carousel nav arrows + dots */}
-                    <div className="flex items-center justify-between pt-[8px]">
-                      <div className="flex items-center gap-[8px]">
-                        <button
-                          type="button"
-                          className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
-                          aria-label="Previous"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          type="button"
-                          className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition"
-                          aria-label="Next"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-                      </div>
-                      {/* Carousel dots */}
-                      <div className="flex items-center gap-[6px]">
-                        <span className="w-[24px] h-[4px] rounded-full bg-white" />
-                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                        <span className="w-[8px] h-[4px] rounded-full bg-white/40" />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+            {/* Article Heading */}
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-950 pt-2 leading-snug">
+              {post.title}
+            </h2>
 
             {/* Article Body Text */}
-            <div className="mt-[45px] space-y-6">
+            <div className="space-y-5 pt-2">
               {paragraphs.map((p, idx) => (
                 <p
                   key={idx}
-                  className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.8] px-[26px]"
+                  className="font-sans font-normal text-[16px] sm:text-[18px] text-[#333] leading-[1.8]"
                 >
                   {p}
                 </p>

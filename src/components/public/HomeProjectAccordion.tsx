@@ -21,31 +21,33 @@ const DEFAULT_PROJECTS: ProjectItem[] = [
     id: "street-lighting",
     title: "How Pet-Feb Is Transforming Communities Through Solar Street Lighting",
     location: "Nigeria",
-    slug: "light-up-umueri",
-    image: "/figma-assets/project-china.png",
-    tags: ["Community", "Solar Street Lighting"],
+    slug: "solar-street-lighting",
+    image:
+      "https://framerusercontent.com/images/Pe6chdzlkxNa92G279oCEMkkpc.png?width=3906&height=1656",
+    tags: ["Ongoing", "Solar Street Lighting"],
     description:
-      "Comprehensive municipal solar street lighting and community energy project delivering 24/7 illumination, enhanced safety, and clean public infrastructure across Nigeria.",
+      "These projects form part of our broader rural electrification campaign — an effort designed to bring dependable illumination to communities long overlooked by traditional grid infrastructure. By replacing diesel-powered or poorly maintained electric street lights with clean, solar-powered alternatives, we help reduce carbon emissions while ensuring continuous lighting throughout the year.",
   },
   {
     id: "china",
-    title: "Building Global Capacity",
+    title: "Building Global Capacity: Pet-Feb’s China Partnership & Staff Training Program",
     location: "China",
     slug: "building-global-capacity",
     image: "/figma-assets/about-event-china.png",
-    tags: ["Completed", "Training"],
+    tags: ["Training", "Global Capacity"],
     description:
-      "At Pet-Feb, we understand that the future of energy cannot be built in isolation. In March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and global collaboration.",
+      "At Pet-Feb, we understand that the future of energy cannot be built in isolation. In March, our team embarked on a landmark visit to China — a journey that opened new doors for innovation, learning, and global collaboration with leading renewable-energy manufacturers.",
   },
   {
-    id: "project-title",
-    title: "Project Title",
-    location: "Project Location",
-    slug: "commercial-industrial-hubs",
-    image: "/figma-assets/vision-img-3.png",
-    tags: ["Commercial", "Industrial"],
+    id: "clean-energy-landscape",
+    title: "Pet-Feb’s Journey Across Nigeria’s Clean Energy Landscape",
+    location: "Nigeria",
+    slug: "clean-energy-landscape",
+    image:
+      "https://framerusercontent.com/images/T17xko4xI33fpTlQYYKXJeZJwk.png?width=3906&height=1656",
+    tags: ["Ongoing", "Industrial & Off-Grid"],
     description:
-      "High-capacity hybrid solar systems powering manufacturing facilities, corporate headquarters, and commercial operations across major Nigerian economic centers.",
+      "From the 15kVA / 50kWh backup inverter system at the Nigerian Gas Infrastructure Company (NGIC) gas plant in Onne, Rivers State and the NNPC Sub Flow Station solar hybrid system in Edo State to off-grid solutions for households and SMEs across Nigeria.",
   },
 ];
 
@@ -111,7 +113,7 @@ export function HomeProjectAccordion() {
                 >
                   <div className="px-6 sm:px-8 pb-6 pt-1">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                      {/* Photo with tags overlay */}
+                      {/* Photo */}
                       <div className="md:col-span-5 relative rounded-[16px] overflow-hidden h-[240px] sm:h-[280px]">
                         <ParallaxLayer
                           travel={14}
@@ -124,19 +126,6 @@ export function HomeProjectAccordion() {
                             className="w-full h-full object-cover"
                           />
                         </ParallaxLayer>
-                        {/* Overlay tags */}
-                        {proj.tags && (
-                          <div className="absolute top-4 left-4 flex gap-2 z-10">
-                            {proj.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="text-xs font-semibold px-3 py-1 rounded-full bg-white/90 text-gray-900"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
                       </div>
 
                       {/* Description & Action */}
@@ -146,7 +135,7 @@ export function HomeProjectAccordion() {
                         </p>
                         <div>
                           <Link
-                            href={`/projects`}
+                            href={`/projects/${proj.slug}`}
                             className="inline-flex items-center justify-center px-6 py-3 rounded-[12px] text-xs sm:text-sm font-bold bg-[#7BB042] text-white hover:bg-[#6AA035] transition"
                           >
                             More Details

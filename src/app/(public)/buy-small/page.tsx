@@ -16,6 +16,11 @@ import {
   Home,
   CheckCircle2,
   Sparkles,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  FileText,
 } from "lucide-react";
 import { formatNaira } from "@/lib/public-types";
 import { submitBuySmallVerificationAction } from "@/app/actions/verifications";
@@ -283,7 +288,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         {/* ── 2. Section 3: HOW IT WORKS (4 STEPS) matching node 6146:4635 ──── */}
         <section
           id="how-it-works"
-          className="bg-[#F5B82E] rounded-[32px] border-b border-[#D9D9D9] py-[80px] px-6 sm:px-10 lg:px-[45px] scroll-mt-24 shadow-sm"
+          className="bg-[#F5B82E] rounded-[32px] border-b border-[#D9D9D9] py-[80px] px-6 sm:px-10 lg:px-8 xl:px-10 scroll-mt-24 shadow-sm"
         >
           <div className="max-w-[1440px] mx-auto space-y-[32px]">
             {/* Header */}
@@ -380,7 +385,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         {/* ── 3. Section 4: INTERACTIVE CALCULATOR (7/5 Desktop Grid) ──────── */}
         <section
           id="calculator"
-          className="bg-black rounded-[32px] py-[80px] px-4 sm:px-8 lg:px-[45px] scroll-mt-24 shadow-md text-white"
+          className="bg-black rounded-[32px] py-[80px] px-2 sm:px-4 lg:px-6 scroll-mt-24 shadow-md text-white"
         >
           <div className="max-w-[1440px] mx-auto space-y-[32px]">
             {/* Heading area */}
@@ -807,7 +812,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
         </section>
 
         {/* ── 5. Section 6: ELIGIBILITY & KYC REQUIREMENTS CHECKLIST ────────── */}
-        <section className="bg-black rounded-[32px] py-[80px] px-6 sm:px-10 lg:px-[45px] text-white shadow-md">
+        <section className="bg-black rounded-[32px] py-[80px] px-6 sm:px-10 lg:px-8 xl:px-10 text-white shadow-md">
           <div className="max-w-[1440px] mx-auto space-y-[32px]">
             {/* Header */}
             <div className="space-y-[8px]">
@@ -977,205 +982,325 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
 
       {/* ── Application Modal Form ────────────────────────────────────────── */}
       {showApplyModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-[24px] max-w-xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative border border-[#D9D9D9] my-8 max-h-[90vh] overflow-y-auto">
-            {/* Close button */}
-            <button
-              type="button"
-              onClick={() => {
-                setShowApplyModal(false);
-                setSubmittedRef(null);
-              }}
-              className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition p-1"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 md:p-6 overflow-y-auto"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="buy-small-modal-title"
+        >
+          <div className="bg-white rounded-[24px] overflow-hidden max-w-2xl w-full shadow-2xl relative border border-[#D9D9D9] my-auto max-h-[92vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="px-5 py-4 sm:px-7 sm:py-5 border-b border-gray-100 flex items-center justify-between gap-4 bg-white shrink-0">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center shrink-0">
+                  <Sparkles className="w-5 h-5 text-[#7BB042]" />
+                </div>
+                <div className="min-w-0">
+                  <h3
+                    id="buy-small-modal-title"
+                    className="font-heading font-bold text-lg sm:text-xl text-gray-950 leading-snug truncate"
+                  >
+                    Apply for Pet-Feb Buy Small
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-500 font-sans truncate">
+                    Zero-collateral flexible solar asset financing
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowApplyModal(false);
+                  setSubmittedRef(null);
+                }}
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 transition flex items-center justify-center shrink-0 cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
             {submittedRef ? (
-              <div className="text-center py-8 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#E8F3DA] text-[#7BB042] mx-auto flex items-center justify-center">
-                  <CheckCircle2 className="w-10 h-10" />
+              <div className="p-6 sm:p-8 md:p-10 text-center space-y-6 overflow-y-auto min-h-0 flex-1">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#E8F3DA] text-[#7BB042] mx-auto flex items-center justify-center shadow-xs">
+                  <CheckCircle2 className="w-9 h-9 sm:w-11 sm:h-11" />
                 </div>
-                <h3 className="font-heading font-bold text-2xl text-gray-950">
-                  Application Initiated!
-                </h3>
-                <p className="text-sm text-gray-600 max-w-sm mx-auto leading-relaxed">
-                  Your Buy Small verification reference is{" "}
-                  <strong className="text-black block text-base font-mono mt-1">
+
+                <div className="space-y-2">
+                  <h4 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950">
+                    Application Initiated!
+                  </h4>
+                  <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto leading-relaxed">
+                    Your Buy Small application has been logged. Please keep your verification reference safe:
+                  </p>
+                </div>
+
+                <div className="bg-[#F8FAF4] border border-[#D6E7C4] rounded-2xl p-4 sm:p-5 max-w-md mx-auto space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#3F6B1A] block">
+                    Verification Reference
+                  </span>
+                  <strong className="text-gray-950 block text-lg sm:text-xl font-mono tracking-wide">
                     {submittedRef}
                   </strong>
-                </p>
-                <p className="text-xs text-gray-500">
+                </div>
+
+                <p className="text-xs sm:text-sm text-gray-500 max-w-md mx-auto leading-relaxed">
                   Our credit assessment desk and certified installer team will review your identity verification and contact you within 24 business hours.
                 </p>
-                <div className="pt-4">
+
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => {
                       setShowApplyModal(false);
                       setSubmittedRef(null);
                     }}
-                    className="px-6 py-3 rounded-xl bg-black text-white text-sm font-bold font-heading hover:bg-gray-800 transition"
+                    className="w-full sm:w-auto min-w-[160px] px-8 py-3.5 rounded-xl bg-black text-white text-sm font-bold font-heading hover:bg-gray-800 transition cursor-pointer"
                   >
                     Done
                   </button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleApplySubmit} className="space-y-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#7BB042]" />
-                    <h3 className="font-heading font-bold text-xl text-gray-950">
-                      Apply for Petfeb Buy Small
-                    </h3>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Selected: <strong>{selectedPkg.name}</strong> • Downpayment: <strong>{formatNaira(initialDeposit)} ({depositPct}%)</strong> • {cadence}: <strong>{formatNaira(currentCommitment)}</strong>
-                  </p>
-                </div>
-
-                <div className="space-y-3 pt-2">
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      Full Legal Name (as on NIN/Passport)
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Babatunde Adeleke"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">
-                        Phone Number (WhatsApp preferred)
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+234 800 000 0000"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">
-                        Installation State
-                      </label>
-                      <select
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
-                      >
-                        <option value="Lagos">Lagos State</option>
-                        <option value="Abuja">Abuja (FCT)</option>
-                        <option value="Rivers">Rivers State (Port Harcourt)</option>
-                        <option value="Ogun">Ogun State</option>
-                        <option value="Oyo">Oyo State</option>
-                        <option value="Delta">Delta State</option>
-                        <option value="Other">Other State</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">
-                        Identity Document Type
-                      </label>
-                      <select
-                        value={idType}
-                        onChange={(e) => setIdType(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042] bg-white"
-                      >
-                        <option value="National Identity Number (NIN)">National ID (NIN)</option>
-                        <option value="International Passport">International Passport</option>
-                        <option value="Drivers License">Driver&apos;s License</option>
-                        <option value="Voters Card">Voter&apos;s Card (PVC)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      Identity Number (11-digit NIN or Passport No)
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. 12345678901"
-                      value={idNumber}
-                      onChange={(e) => setIdNumber(e.target.value)}
-                      className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
-                      Installation Site Address
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Street address, building number, area"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7BB042]"
-                    />
-                  </div>
-
-                  <div className="pt-2">
-                    <label className="flex items-start gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={agreeTerms}
-                        onChange={(e) => setAgreeTerms(e.target.checked)}
-                        className="mt-0.5 rounded text-[#7BB042] focus:ring-[#7BB042]"
-                      />
-                      <span className="text-[11px] text-gray-600 leading-snug">
-                        I agree to the Petfeb Buy Small asset financing terms, BVN credit cross-check, and automated Paystack tokenisation mandate upon system signoff.
+              <form
+                onSubmit={handleApplySubmit}
+                className="flex flex-col flex-1 min-h-0"
+              >
+                {/* Scrollable Modal Body */}
+                <div className="p-5 sm:p-7 space-y-6 overflow-y-auto min-h-0 flex-1">
+                  {/* Selected Package & Payment Summary Card */}
+                  <div className="bg-[#F8FAF4] border border-[#D6E7C4] rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="space-y-1">
+                        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#3F6B1A]">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#7BB042]" />
+                          Selected Solar Package
+                        </span>
+                        <h4 className="font-heading font-bold text-sm sm:text-base text-gray-950 leading-snug">
+                          {selectedPkg.name}
+                        </h4>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-white border border-[#D6E7C4] text-[11px] font-semibold text-[#3F6B1A] shrink-0">
+                        {tenureMonths} Months Tenure
                       </span>
-                    </label>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-[#D6E7C4]/70">
+                      <div className="bg-white/90 rounded-xl p-3 border border-[#E4F0D6]">
+                        <span className="text-[11px] text-gray-500 block">
+                          Initial Deposit ({depositPct}%)
+                        </span>
+                        <span className="font-heading font-bold text-sm sm:text-base text-gray-950 mt-0.5 block">
+                          {formatNaira(initialDeposit)}
+                        </span>
+                      </div>
+
+                      <div className="bg-white/90 rounded-xl p-3 border border-[#E4F0D6]">
+                        <span className="text-[11px] text-gray-500 block">
+                          {cadence} Repayment
+                        </span>
+                        <span className="font-heading font-bold text-sm sm:text-base text-[#3F6B1A] mt-0.5 block">
+                          {formatNaira(currentCommitment)}
+                          <span className="text-xs font-normal text-gray-500">
+                            /{cadenceLabel}
+                          </span>
+                        </span>
+                      </div>
+
+                      <div className="bg-white/90 rounded-xl p-3 border border-[#E4F0D6]">
+                        <span className="text-[11px] text-gray-500 block">
+                          Financed Principal
+                        </span>
+                        <span className="font-heading font-bold text-sm sm:text-base text-gray-950 mt-0.5 block">
+                          {formatNaira(financedPrincipal)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Form Fields Section */}
+                  <div className="space-y-4 sm:space-y-5">
+                    {/* Full Legal Name */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                        Full Legal Name <span className="text-gray-400 font-normal">(as on NIN/Passport)</span>
+                      </label>
+                      <div className="relative flex items-center">
+                        <User className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Babatunde Adeleke"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email & Phone */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                          Email Address
+                        </label>
+                        <div className="relative flex items-center">
+                          <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                          <input
+                            type="email"
+                            required
+                            placeholder="name@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                          Phone Number <span className="text-gray-400 font-normal">(WhatsApp)</span>
+                        </label>
+                        <div className="relative flex items-center">
+                          <Phone className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                          <input
+                            type="tel"
+                            required
+                            placeholder="+234 800 000 0000"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Installation State & ID Type */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                          Installation State
+                        </label>
+                        <div className="relative flex items-center">
+                          <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                          <select
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
+                            className="w-full pl-10 pr-9 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition appearance-none cursor-pointer"
+                          >
+                            <option value="Lagos">Lagos State</option>
+                            <option value="Abuja">Abuja (FCT)</option>
+                            <option value="Rivers">Rivers State (Port Harcourt)</option>
+                            <option value="Ogun">Ogun State</option>
+                            <option value="Oyo">Oyo State</option>
+                            <option value="Delta">Delta State</option>
+                            <option value="Other">Other State</option>
+                          </select>
+                          <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3.5 pointer-events-none" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                          Identity Document Type
+                        </label>
+                        <div className="relative flex items-center">
+                          <FileText className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                          <select
+                            value={idType}
+                            onChange={(e) => setIdType(e.target.value)}
+                            className="w-full pl-10 pr-9 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition appearance-none cursor-pointer"
+                          >
+                            <option value="National Identity Number (NIN)">National ID (NIN)</option>
+                            <option value="International Passport">International Passport</option>
+                            <option value="Drivers License">Driver&apos;s License</option>
+                            <option value="Voters Card">Voter&apos;s Card (PVC)</option>
+                          </select>
+                          <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3.5 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Identity Number */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                        Identity Number <span className="text-gray-400 font-normal">(11-digit NIN or Document No)</span>
+                      </label>
+                      <div className="relative flex items-center">
+                        <CreditCard className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. 12345678901"
+                          value={idNumber}
+                          onChange={(e) => setIdNumber(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Installation Site Address */}
+                    <div className="space-y-1.5">
+                      <label className="block text-xs sm:text-sm font-semibold text-gray-800">
+                        Installation Site Address
+                      </label>
+                      <div className="relative flex items-center">
+                        <Home className="w-4 h-4 text-gray-400 absolute left-3.5 pointer-events-none" />
+                        <input
+                          type="text"
+                          required
+                          placeholder="Street address, building number, area"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 min-h-[46px] text-base sm:text-sm text-gray-900 bg-gray-50/70 border border-gray-300 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7BB042] focus:border-[#7BB042] transition"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Terms & Conditions Consent Box */}
+                    <div className="pt-1">
+                      <label className="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl bg-gray-50 border border-gray-200/80 cursor-pointer hover:border-gray-300 transition">
+                        <input
+                          type="checkbox"
+                          checked={agreeTerms}
+                          onChange={(e) => setAgreeTerms(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded text-[#7BB042] focus:ring-[#7BB042] shrink-0 cursor-pointer"
+                        />
+                        <span className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                          I agree to the Pet-Feb Buy Small asset financing terms, BVN credit cross-check, and automated Paystack tokenisation mandate upon system signoff.
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowApplyModal(false)}
-                    className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-black transition"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-6 py-2.5 rounded-xl bg-[#7BB042] text-white text-xs font-bold font-heading hover:bg-[#6aa035] transition disabled:opacity-50 flex items-center gap-2 cursor-pointer"
-                  >
-                    {isSubmitting ? "Submitting..." : "Submit Verification Application"}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                {/* Modal Footer */}
+                <div className="px-5 py-4 sm:px-7 sm:py-5 border-t border-gray-100 bg-gray-50/80 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+                  <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-gray-500">
+                    <Lock className="w-3.5 h-3.5 text-[#7BB042] shrink-0" />
+                    <span>Encrypted identity verification</span>
+                  </div>
+
+                  <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
+                    <button
+                      type="button"
+                      onClick={() => setShowApplyModal(false)}
+                      className="w-full sm:w-auto px-5 py-3 min-h-[46px] rounded-xl border border-gray-300 bg-white text-xs sm:text-sm font-semibold text-gray-700 hover:bg-gray-100 hover:text-black transition cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full sm:w-auto px-6 py-3 min-h-[46px] rounded-xl bg-[#7BB042] text-white text-xs sm:text-sm font-bold font-heading hover:bg-[#6aa035] transition disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    >
+                      <span>
+                        {isSubmitting ? "Submitting..." : "Submit Verification Application"}
+                      </span>
+                      <ArrowRight className="w-4 h-4 shrink-0" />
+                    </button>
+                  </div>
                 </div>
               </form>
             )}

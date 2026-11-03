@@ -9,6 +9,7 @@ import {
   Search,
 } from "lucide-react";
 import { getPublishedBlogPosts } from "@/lib/public-data";
+import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
 
 export const metadata: Metadata = {
   title: "Blog & Field Notes | Petfeb Solar",
@@ -24,7 +25,7 @@ export default async function BlogPage() {
   return (
     <div className="bg-white pb-16 overflow-x-clip">
       {/* ── Top Header Band matching Original Shop Page-1.jpg ────────────────────────── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-8 sm:pt-12 pb-6">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-6">
         <div className="flex items-center gap-4 pb-6">
           <span
             className="w-[28px] h-[28px] rounded-full bg-[#F5B82E] shrink-0"
@@ -38,29 +39,33 @@ export default async function BlogPage() {
       </section>
 
       {/* ── Featured Post & Top Stories Layout ────────────────────────── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 pb-12 sm:pb-16">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 pb-12 sm:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Featured Article */}
           <div className="lg:col-span-8 space-y-6">
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider block">
-              Posted: 27/09/2025
+              Posted: 23/08/2025
             </span>
 
-            {/* Featured Image matching Figma exact design */}
-            <Link
-              href="/blog/petfeb-expands-to-port-harcourt"
-              className="relative block w-full rounded-[24px] overflow-hidden shadow-md bg-gray-900 group"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/figma-assets/blog-ph-expansion.png"
-                alt="Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria"
-                className="w-full h-auto object-cover group-hover:scale-[1.01] transition-transform duration-300"
-              />
-            </Link>
+            {/* Featured Hero Carousel with Project Gallery Images */}
+            <ProjectHeroSlider
+              images={[
+                "/figma-assets/blog-ph-expansion.png",
+                "https://framerusercontent.com/images/ouN3rsXAKyw7PjwEu9a9id2jDhk.png?width=1524&height=764",
+                "https://framerusercontent.com/images/1QjfCy9Y4m1AwsOYggwt8cs8oY.png?width=1524&height=764",
+                "https://framerusercontent.com/images/BxR3rcFDKdHvorb8nsw4BrCQF0.png?width=1524&height=764",
+                "https://framerusercontent.com/images/xyrhLbRC9JyspLBq3TZdYJN7U.png?width=2444&height=2208",
+              ]}
+              title="Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria"
+              className="relative w-full h-72 sm:h-[440px] lg:h-[520px] rounded-[24px] overflow-hidden shadow-md bg-gray-900 group select-none"
+            />
+
+            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950 leading-snug pt-2">
+              Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
+            </h2>
 
             {/* Article Content Paragraphs matching design */}
-            <div className="space-y-4 text-sm sm:text-base text-gray-700 leading-relaxed font-normal pt-2">
+            <div className="space-y-4 text-sm sm:text-base text-gray-700 leading-relaxed font-normal">
               <p>
                 In August 2025, Pet-Feb International Company Limited marked a new milestone with the opening of our regional office in Port Harcourt, Rivers State — a major step toward expanding clean energy access in Southern Nigeria.
               </p>
@@ -150,7 +155,10 @@ export default async function BlogPage() {
 
               <div className="space-y-4">
                 {/* Story 1 */}
-                <div className="flex gap-4 items-start p-3 rounded-2xl border border-gray-100 bg-[#F8F9FA] hover:border-[#7BB042] transition group">
+                <Link
+                  href="/blog/lighting-up-communities-transforming-lives"
+                  className="flex gap-4 items-start p-3 rounded-2xl border border-gray-100 bg-[#F8F9FA] hover:border-[#7BB042] transition group"
+                >
                   <div className="space-y-1.5 flex-1">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#3F6B1A]">
                       Renewable Energy
@@ -159,41 +167,44 @@ export default async function BlogPage() {
                       Lighting Up Communities Pet-Feb&apos;s Renewable Energy Projects Transforming Lives
                     </h4>
                     <p className="text-[11px] text-gray-500 line-clamp-2">
-                      Discover how Pet-Feb&apos;s solar projects are delivering affordable, reliable clean energy to Nigerian homes.
+                      Discover how Pet-Feb&apos;s solar projects are delivering affordable, reliable clean energy to Nigerian homes and businesses.
                     </p>
                   </div>
                   <div className="w-20 h-16 rounded-xl overflow-hidden shrink-0 bg-gray-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="/figma-assets/blog-1.png"
-                      alt="Solar Panels"
+                      src="https://framerusercontent.com/images/CWkdJA2gAFDbAqRSfKsMSs3EJU.png?width=3906&height=1656"
+                      alt="Lighting Up Communities"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                </div>
+                </Link>
 
                 {/* Story 2 */}
-                <div className="flex gap-4 items-start p-3 rounded-2xl border border-gray-100 bg-[#F8F9FA] hover:border-[#7BB042] transition group">
+                <Link
+                  href="/blog/petfeb-expands-to-port-harcourt"
+                  className="flex gap-4 items-start p-3 rounded-2xl border border-gray-100 bg-[#F8F9FA] hover:border-[#7BB042] transition group"
+                >
                   <div className="space-y-1.5 flex-1">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#3F6B1A]">
                       Renewable Energy
                     </span>
                     <h4 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#3F6B1A] transition leading-snug line-clamp-2">
-                      Pet-Feb Expands to Port Harcourt — Bringing Solar Innovation Closer to Southern Nigeria
+                      Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
                     </h4>
                     <p className="text-[11px] text-gray-500 line-clamp-2">
-                      Pet-Feb opens a new regional office in Port Harcourt, reinforcing its commitment to clean energy access.
+                      Pet-Feb opens a new regional office in Port Harcourt, reinforcing its commitment to clean energy access, innovation, and customer support.
                     </p>
                   </div>
                   <div className="w-20 h-16 rounded-xl overflow-hidden shrink-0 bg-gray-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="/figma-assets/blog-2.png"
+                      src="/figma-assets/blog-ph-expansion.png"
                       alt="Port Harcourt Hub"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
 
@@ -222,7 +233,7 @@ export default async function BlogPage() {
       </section>
 
       {/* ── Section: Our Recent Blog Post (Black Container) matching Figma ─── */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
+      <section className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-12">
         <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-12 space-y-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">

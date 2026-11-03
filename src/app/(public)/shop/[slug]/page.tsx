@@ -150,7 +150,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   return (
     <div className="bg-white pb-20 overflow-x-clip font-sans">
       {/* ── Page Header Band matching Figma Frame 6147:6743 ────────────────────────────── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-8 sm:pt-12">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 sm:pb-8">
           {/* Left: Yellow dot + Heading with green period matching node 6147:6747 */}
           <div className="flex items-center gap-4">
@@ -206,8 +206,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {/* ── Main Product Presentation Section (Black Card) matching Figma node 6147:6784 ─ */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] mb-14 sm:mb-16">
-        <div className="bg-black text-white rounded-[32px] pt-[45px] px-4 sm:px-[35px] lg:px-[45px] pb-[60px] sm:pb-[80px]">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 mb-14 sm:mb-16">
+        <div className="bg-black text-white rounded-[32px] pt-[45px] px-4 sm:px-[35px] lg:px-8 xl:px-10 pb-[60px] sm:pb-[80px]">
           {/* Header Row inside black card: "Back to Shop" + Description matching node 6147:6785 */}
           <div className="flex flex-col gap-[12px] max-w-[742px] mb-8 sm:mb-12">
             <Link
@@ -260,7 +260,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {/* ── Recommended Products Section (Yellow Card) matching Figma node 6147:6902 ─── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px]">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6">
         <div className="bg-[#F5B82E] border border-[#D9D9D9] rounded-[24px] p-6 sm:p-10 lg:p-[49px] relative overflow-hidden">
           {/* Cropped Sun-Arc Graphic in top corner matching node 6147:6903 */}
           <div className="absolute right-0 top-0 w-[140px] h-[140px] opacity-80 pointer-events-none" />

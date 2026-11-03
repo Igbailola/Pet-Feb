@@ -149,52 +149,108 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 
 export const DEFAULT_BLOG_POSTS: BlogPost[] = [
   {
-    id: "blog-ph-expansion",
-    title: "Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
-    slug: "petfeb-expands-to-port-harcourt",
-    cover_image: "/figma-assets/blog-ph-expansion.png",
+    id: "blog-empowering-engineers",
+    title: "Empowering Tomorrow’s Engineers Inside Pet-Feb’s Solar Training Programs",
+    slug: "empowering-tomorrows-engineers",
+    cover_image:
+      "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656",
+    hero_images: [
+      "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656",
+      "https://framerusercontent.com/images/EqzEmErJ4EZPWDc6Z10DKBoSFTc.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/ajestYwk9gWiDVpDM4R0bASbU.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/h86onno5G4w20Bz4ZvuI3lx6wc.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/50LeTCmNyusbHkKeDFtzG7XcuI0.png?width=2444&height=2208",
+    ],
     category: "Renewable Energy",
     status: "published",
     published_at: "2025-09-27T10:00:00.000Z",
     created_at: "2025-09-27T10:00:00.000Z",
     updated_at: "2025-09-27T10:00:00.000Z",
-    body: `Pet-Feb International Company Limited has officially opened its new regional operational hub in Port Harcourt, Rivers State — a major milestone toward expanding clean, reliable energy access across Southern Nigeria.
+    body: `Discover how Pet-Feb is training Nigeria’s next generation of solar engineers through hands-on workshops and international knowledge exchange.
 
-The launch ceremony brought together team members, partners, and key community stakeholders who celebrated this exciting new chapter. The Port Harcourt facility is not just a workspace — it serves as a regional center for solar technical engineering, installer training, and rapid customer support.
+At Pet-Feb International Company Limited, we believe sustainable energy starts with people — the innovators, installers, and changemakers who make progress possible.
 
-This strategic expansion reflects our dedication to being closer to the communities and businesses we power. With the South-South region's increasing demand for sustainable commercial energy, our local hub will provide instant hardware dispatch, certified NEMSA installations, and specialized after-sales engineering care.
+Guided by this belief, we continuously invest in solar training and workforce development across Nigeria. In a nation where access to clean energy drives growth, Pet-Feb is closing the skills gap by empowering the next generation of solar engineers, installers, and technicians.
 
-Pet-Feb's Port Harcourt hub will also host recurring solar PV workforce training programs, product showcases, and community clean power initiatives. By expanding our operational footprint, we take another bold step toward our vision of a sustainable Nigeria powered by clean energy.`,
+Through our hands-on workshops and globally informed learning programs, participants gain both the technical expertise and confidence needed to champion renewable energy within their communities.
+
+Through hands-on demonstrations, students and professionals alike learn to assemble, configure, and maintain solar power systems — from inverters and batteries to full-scale installations.
+
+Our most recent collaboration with global solar manufacturers in China further strengthened this mission. The trip exposed our engineers and trainees to cutting-edge renewable energy technologies and manufacturing standards — a direct step toward raising Nigeria’s local capacity to global levels.
+
+Every Pet-Feb trainee leaves not just with knowledge, but with purpose — equipped to drive clean energy adoption and sustainability across Africa.`,
   },
   {
     id: "blog-lighting-communities",
-    title: "Lighting Up Communities Pet-Feb's Renewable Energy Projects Transforming Lives",
+    title: "Lighting Up Communities Pet-Feb’s Renewable Energy Projects Transforming Lives",
     slug: "lighting-up-communities-transforming-lives",
-    cover_image: "/figma-assets/blog-2.png",
-    category: "Project Case Studies",
+    cover_image:
+      "https://framerusercontent.com/images/CWkdJA2gAFDbAqRSfKsMSs3EJU.png?width=3906&height=1656",
+    hero_images: [
+      "https://framerusercontent.com/images/CWkdJA2gAFDbAqRSfKsMSs3EJU.png?width=3906&height=1656",
+      "https://framerusercontent.com/images/DW7rme2XjltZ0m6fTH61XKd9TY.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/puOOkBFuMuVaH9XbrTjG4dDsZE.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/wBaJ3u4FK1D1Cbjos0cCoLeLxU.png?width=2444&height=2208",
+      "https://framerusercontent.com/images/t9tRc4eUkv0WKXcaxW9yAYUscc.png?width=2444&height=2208",
+    ],
+    category: "Renewable Energy",
     status: "published",
-    published_at: "2025-09-23T09:00:00.000Z",
-    created_at: "2025-09-23T09:00:00.000Z",
-    updated_at: "2025-09-23T09:00:00.000Z",
-    body: `See how Pet-Feb's solar street lighting and community minigrids are transforming rural and urban neighborhoods across Nigeria. From improving nighttime safety to powering essential cold storage and small enterprises, clean solar energy is revitalizing local economies.`,
+    published_at: "2025-08-30T09:00:00.000Z",
+    created_at: "2025-08-30T09:00:00.000Z",
+    updated_at: "2025-08-30T09:00:00.000Z",
+    body: `Discover how Pet-Feb’s solar projects are delivering affordable, reliable clean energy to Nigerian homes and businesses.
+
+For Pet-Feb, every solar installation tells a story of empowerment, access, and transformation. Across Nigeria, thousands of families and businesses are embracing renewable energy thanks to our solar projects, which combine global expertise with local innovation.
+
+Our mission is simple: to deliver reliable, sustainable, and affordable power to the people who need it most. Whether it’s lighting up schools, powering homes, or supporting small businesses, each project reinforces our belief that energy is not a privilege — it’s a right.
+
+Recent highlights include our rural electrification projects in Eastern and Southern Nigeria, where off-grid communities now enjoy 24-hour solar-powered electricity for the first time.
+
+But our work doesn’t stop at installation. Pet-Feb ensures long-term sustainability by training local technicians, offering maintenance support, and building awareness around energy conservation.
+
+Through partnerships with top solar brands like Felicity Solar, Blue Carbon, and Jinko, we ensure that every Pet-Feb project meets international standards for safety, efficiency, and durability.
+
+Our vision is to see every community, big or small, powered by clean, renewable energy — because when we light up communities, we light up the future.`,
   },
   {
-    id: "blog-empowering-engineers",
-    title: "Empowering Tomorrow's Engineers How Pet-Feb is Building Nigeria's Solar Workforce",
-    slug: "empowering-tomorrows-engineers",
-    cover_image: "/figma-assets/mission-img-2.png",
-    category: "Training & Capacity",
+    id: "blog-ph-expansion",
+    title: "Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
+    slug: "petfeb-expands-to-port-harcourt",
+    cover_image: "/figma-assets/blog-ph-expansion.png",
+    hero_images: [
+      "/figma-assets/blog-ph-expansion.png",
+      "https://framerusercontent.com/images/ouN3rsXAKyw7PjwEu9a9id2jDhk.png?width=1524&height=764",
+      "https://framerusercontent.com/images/1QjfCy9Y4m1AwsOYggwt8cs8oY.png?width=1524&height=764",
+      "https://framerusercontent.com/images/BxR3rcFDKdHvorb8nsw4BrCQF0.png?width=1524&height=764",
+      "https://framerusercontent.com/images/xyrhLbRC9JyspLBq3TZdYJN7U.png?width=2444&height=2208",
+    ],
+    category: "Renewable Energy",
     status: "published",
-    published_at: "2025-09-18T12:00:00.000Z",
-    created_at: "2025-09-18T12:00:00.000Z",
-    updated_at: "2025-09-18T12:00:00.000Z",
-    body: `Pet-Feb is shaping the future of Nigeria's renewable energy industry through comprehensive hands-on solar installation and battery sizing training. Over 18,000 individuals have been trained to date, equipping them with professional skills in high-voltage DC wiring, inverter programming, and solar PV system design.`,
+    published_at: "2025-08-23T10:00:00.000Z",
+    created_at: "2025-08-23T10:00:00.000Z",
+    updated_at: "2025-08-23T10:00:00.000Z",
+    body: `Pet-Feb opens a new regional office in Port Harcourt, reinforcing its commitment to clean energy access, innovation, and customer support.
+
+In August 2025, Pet-Feb International Company Limited marked a new milestone with the opening of our regional office in Port Harcourt, Rivers State — a major step toward expanding clean energy access in Southern Nigeria.
+
+The launch ceremony brought together team members, partners, and stakeholders who celebrated this exciting new chapter. The Port Harcourt office is not just a workspace — it’s a hub for innovation, training, and customer engagement, designed to support Pet-Feb’s growing network of renewable energy clients.
+
+This expansion reflects our dedication to being closer to the people we serve. With the region’s increasing demand for clean, reliable energy, the new office enables faster response times for installations, maintenance, and technical support.
+
+Pet-Feb’s Port Harcourt hub will also host training programs, product showcases, and community initiatives, ensuring that residents and businesses alike can experience the full potential of solar energy.
+
+By expanding our reach, we’re taking another bold step toward our vision of a sustainable Nigeria powered by renewable energy.`,
   },
 ];
 
+const BLOG_SLUG_ALIASES: Record<string, string> = {
+  "lighting-up-communities": "lighting-up-communities-transforming-lives",
+  "feb-expands-to-port-harcourt": "petfeb-expands-to-port-harcourt",
+};
+
 /**
  * Retrieves all published blog posts, sorted newest first.
- * Falls back to DEFAULT_BLOG_POSTS if database is offline or empty.
+ * Ensures the 3 official Pet-Feb blog posts always use the complete word-for-word body.
  */
 export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
   if (isSupabaseConfigured()) {
@@ -207,7 +263,17 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
         .order("published_at", { ascending: false, nullsFirst: false });
 
       if (!error && posts && posts.length > 0) {
-        return posts as BlogPost[];
+        const defaultBySlug = new Map(DEFAULT_BLOG_POSTS.map((p) => [p.slug, p]));
+        const merged = (posts as BlogPost[]).map((p) => {
+          const canonicalSlug = BLOG_SLUG_ALIASES[p.slug] || p.slug;
+          const official = defaultBySlug.get(canonicalSlug);
+          if (official) {
+            defaultBySlug.delete(canonicalSlug);
+            return official;
+          }
+          return p;
+        });
+        return [...Array.from(defaultBySlug.values()), ...merged];
       }
     } catch {
       // Supabase unavailable, fall through
@@ -221,6 +287,12 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
  * Retrieves a single published blog post by slug.
  */
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const canonicalSlug = BLOG_SLUG_ALIASES[slug] || slug;
+  const defaultMatch = DEFAULT_BLOG_POSTS.find((p) => p.slug === canonicalSlug);
+  if (defaultMatch) {
+    return defaultMatch;
+  }
+
   if (isSupabaseConfigured()) {
     try {
       const supabase = await createClient();
@@ -239,8 +311,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     }
   }
 
-  const defaultMatch = DEFAULT_BLOG_POSTS.find((p) => p.slug === slug);
-  return defaultMatch || null;
+  return null;
 }
 
 /**

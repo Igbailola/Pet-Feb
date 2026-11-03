@@ -121,7 +121,7 @@ export default function AboutPage() {
   return (
     <main className="bg-white min-h-screen text-[#333333] pb-16">
       {/* ── 1. Hero Section ("● ABOUT PET-FEB") ── */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-[45px] pt-8 sm:pt-12 pb-10">
+      <section className="max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 pt-8 sm:pt-12 pb-10">
         <ScrollReveal className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-8 pb-8">
           <div className="flex items-center gap-3">
             <span
@@ -154,7 +154,7 @@ export default function AboutPage() {
         </ScrollScale>
       </section>
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-10 space-y-12">
+      <div className="max-w-[1400px] mx-auto px-2 sm:px-4 lg:px-6 space-y-12">
         {/* ── 2. Our Story (Light Green Container with Sticky CEO + Scroll-Driven Stacking Milestone Deck) ── */}
         <section className="bg-[#D6E7C4] text-gray-950 rounded-[32px] p-6 sm:p-10 lg:p-14">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
