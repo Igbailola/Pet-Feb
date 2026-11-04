@@ -139,9 +139,9 @@ export function AddToCartSection({
     <div className="flex flex-col gap-5 sm:gap-6 items-start w-full">
       {/* ── Product Name matching Figma node 6147:8177 ─────────────────────────────────── */}
       <div className="w-full">
-        <h2 className="font-heading font-bold text-[24px] sm:text-[28px] lg:text-[32px] text-[#111827] leading-[1.25] tracking-tight">
+        <h1 className="font-heading font-bold text-[24px] sm:text-[28px] lg:text-[32px] text-[#111827] leading-[1.25] tracking-tight">
           {product.name}
-        </h2>
+        </h1>
       </div>
 
       {/* Horizontal Divider Line */}

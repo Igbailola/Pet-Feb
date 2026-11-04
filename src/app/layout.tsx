@@ -47,6 +47,7 @@ const roboto = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://petfeb.com"),
   title: "Petfeb Platform",
   description: "Petfeb solar commerce, financing and internal operations",
 };

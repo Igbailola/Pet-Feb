@@ -142,7 +142,7 @@ export function HomeContactForm() {
           {/* Row 3: Option Dropdown */}
           <div className="space-y-2">
             <label className="block text-xs font-medium text-gray-700">
-              We&apos;ll come up with a text for this label:
+              Select Service of Interest:
             </label>
             <div className="relative">
               <select

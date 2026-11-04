@@ -158,13 +158,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
               className="w-5 h-5 sm:w-[30px] sm:h-[30px] rounded-full bg-[#F5B82E] shrink-0"
               aria-hidden="true"
             />
-            <h1
+            <p
               className="font-heading font-bold text-[24px] sm:text-[38px] lg:text-[48px] text-[#333333] tracking-[0.8px] sm:tracking-[1.44px] uppercase leading-tight"
               style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
             >
               Welcome to petfeb solar shop
               <span className="text-[#7BB042]">.</span>
-            </h1>
+            </p>
           </div>
 
           {/* Right: Stylized Shopping Cart Icon Graphic matching Figma node 6147:6750 */}
