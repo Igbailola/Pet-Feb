@@ -7,9 +7,9 @@ import { ProjectsCatalog } from "@/components/public/ProjectsCatalog";
 import { BlogCatalog } from "@/components/public/BlogCatalog";
 
 export const metadata: Metadata = {
-  title: "Projects & Engineering Journal | Petfeb Solar Systems",
+  title: "Projects & Engineering Journal | Pet-Feb Solar",
   description:
-    "Explore Petfeb solar installation case studies across Nigeria alongside our engineering field notes, maintenance guides, and solar electrification updates.",
+    "Explore Pet-Feb solar installation case studies across Nigeria alongside our engineering field notes, maintenance guides, and solar electrification updates.",
 };
 
 interface ProjectBlogPageProps {
@@ -46,7 +46,7 @@ export default async function ProjectBlogHubPage({ searchParams }: ProjectBlogPa
               Projects & Solar Field Journal
             </h1>
             <p className="text-sm sm:text-base text-[#5C5C5C] leading-relaxed max-w-2xl">
-              Inspect real-world turnkey solar installations delivered across Nigerian communities and facilities, alongside engineering field notes and technical advisory from Petfeb specialists.
+              Inspect real-world turnkey solar installations delivered across Nigerian communities and facilities, alongside engineering field notes and technical advisory from Pet-Feb specialists.
             </p>
           </div>
 
@@ -157,7 +157,7 @@ export default async function ProjectBlogHubPage({ searchParams }: ProjectBlogPa
               Have a residential or commercial facility to power?
             </h3>
             <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-              Petfeb engineers audit your peak electrical demand and install certified tier-1 solar kits backed by manufacturer warranties and Buy Small financing.
+              Pet-Feb engineers audit your peak electrical demand and install certified tier-1 solar kits backed by manufacturer warranties and Buy Small financing.
             </p>
           </div>
 

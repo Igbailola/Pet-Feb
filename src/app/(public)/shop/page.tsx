@@ -5,7 +5,7 @@ import { HomeBuySmallBanner } from "@/components/public/HomeBuySmallBanner";
 import { ScrollReveal, ScrollScale } from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Shop Solar Products | Petfeb Solar",
+  title: "Shop Solar Products | Pet-Feb Solar",
   description:
     "Explore certified solar kits, inverters, lithium batteries, and backup systems engineered for Nigerian conditions. Real pricing in Naira with genuine warranties.",
 };
@@ -35,7 +35,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               style={{ textShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}
             >
               <span className="text-black block">Welcome to</span>
-              <span className="text-[#70A03C] block">Petfeb solar shop.</span>
+              <span className="text-[#70A03C] block">Pet-Feb solar shop.</span>
             </h1>
           </div>
         </ScrollReveal>
@@ -46,7 +46,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/bannerimages/shop-page-banner.jpg"
-            alt="Petfeb Solar Installation - Clean Solar Energy Solutions"
+            alt="Pet-Feb Solar Installation - Clean Solar Energy Solutions"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/35 pointer-events-none" />

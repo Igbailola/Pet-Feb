@@ -29,28 +29,28 @@ import { ScrollReveal, ScrollScale } from "@/components/motion";
 const PACKAGES = [
   {
     id: "5kw-hybrid",
-    name: "Petfeb 5kW Hybrid Inverter + 5.12kWh LiFePO4 System",
+    name: "Pet-Feb 5kW Hybrid Inverter + 5.12kWh LiFePO4 System",
     price: 3950000,
     specs: "Tier-1 A-Grade Cells & Pure Sine Wave Inverter",
     description: "Ideal for 3-4 bedroom homes and medical diagnostic clinics.",
   },
   {
     id: "3kva-residential",
-    name: "Petfeb 3kVA Whole-Home Solar Kit",
+    name: "Pet-Feb 3kVA Whole-Home Solar Kit",
     price: 1850000,
     specs: "3kVA Inverter • 2 x 200Ah Batteries • 6 x 400W Arrays",
     description: "Powers essential lighting, TVs, refrigeration, and computers.",
   },
   {
     id: "10kw-commercial",
-    name: "Petfeb 10kW Three-Phase Commercial Solar Hub",
+    name: "Pet-Feb 10kW Three-Phase Commercial Solar Hub",
     price: 7850000,
     specs: "10kW Inverter • 15kWh High-Voltage Battery • 24 x 550W Arrays",
     description: "Designed for commercial facilities, schools, and cold chain storage.",
   },
   {
     id: "1kva-starter",
-    name: "Petfeb 1kVA Starter Solar Kit",
+    name: "Pet-Feb 1kVA Starter Solar Kit",
     price: 450000,
     specs: "1kVA Inverter • 1 x 100Ah Battery • 2 x 200W Panels",
     description: "Perfect for apartments, students, and home offices.",
@@ -72,7 +72,7 @@ const FAQS = [
   },
   {
     q: "What if I relocate my business or residence to a new site?",
-    a: "Simply inform our technical support desk at least 7 business days prior to your move. Certified Petfeb engineers will safely decommission, transport, and re-mount your system at your new location for a standardized re-installation fee without affecting your financing contract.",
+    a: "Simply inform our technical support desk at least 7 business days prior to your move. Certified Pet-Feb engineers will safely decommission, transport, and re-mount your system at your new location for a standardized re-installation fee without affecting your financing contract.",
   },
 ];
 
@@ -208,7 +208,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/bannerimages/buysmall-page-banner.jpg"
-              alt="Petfeb Buy Small family enjoying clean solar energy"
+              alt="Pet-Feb Buy Small family enjoying clean solar energy"
               className="absolute inset-0 w-full h-full object-cover"
             />
             {/* Subtle Gradient Overlay */}
@@ -318,7 +318,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                     Choose Hardware
                   </h3>
                   <p className="font-sans text-[14px] text-[#E8E8E8] leading-[20px]">
-                    Pick eligible hybrid inverters, LiFePO4 batteries, or turnkey solar systems directly from the Petfeb catalog.
+                    Pick eligible hybrid inverters, LiFePO4 batteries, or turnkey solar systems directly from the Pet-Feb catalog.
                   </p>
                 </div>
                 <div className="border-t border-[#333] pt-[17px] flex items-center gap-[8px] text-[12px] font-heading text-[#D6E7C4]">
@@ -437,7 +437,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   </div>
                   <div className="flex items-center justify-between text-[12px] pt-1">
                     <span className="font-sans text-[#737968]">{selectedPkg.specs}</span>
-                    <Link href="/#contact" className="font-heading text-[#3F6B1A] hover:underline">
+                    <Link href="/contact" className="font-heading text-[#3F6B1A] hover:underline">
                       Custom system spec?
                     </Link>
                   </div>
@@ -584,7 +584,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                       onChange={(e) => setTenureMonths(Number(e.target.value) as 12 | 6)}
                       className="w-full bg-[#FBF9F8] border border-[#8A8A8A] rounded-[10px] h-[48px] px-[15px] pr-10 text-[14px] font-sans text-[#1B1C1C] focus:outline-none focus:ring-2 focus:ring-[#7BB042] appearance-none cursor-pointer"
                     >
-                      <option value={12}>12 Months (52 weeks standard Petfeb plan)</option>
+                      <option value={12}>12 Months (52 weeks standard Pet-Feb plan)</option>
                       <option value={6}>6 Months (Accelerated 26 weeks payoff plan)</option>
                     </select>
                     <ChevronDown className="w-5 h-5 text-[#8A8A8A] absolute right-3 top-3.5 pointer-events-none" />
@@ -627,17 +627,17 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   {/* Top Bar */}
                   <div className="flex items-center justify-between border-b border-[#D9D9D9] pb-[12px]">
                     <span className="font-heading font-bold text-[13px] uppercase tracking-wider text-black">
-                      FINANCING BREAKDOWN
+                      ESTIMATED BREAKDOWN
                     </span>
                     <span className="bg-[#E8F3DA] border border-[#7BB042]/30 text-[#3F6B1A] font-heading font-medium text-[11px] px-[10px] py-[3px] rounded-full">
-                      BVN Instant Escrow
+                      Indicative Calculation
                     </span>
                   </div>
 
                   {/* Big Metric Display */}
                   <div className="space-y-[6px]">
                     <span className="font-heading font-bold text-[12px] uppercase text-[#737968] tracking-wider block">
-                      ONGOING COMMITMENT
+                      ESTIMATED ONGOING COMMITMENT
                     </span>
                     <div className="flex items-baseline gap-2">
                       <span className="font-heading font-bold text-[36px] sm:text-[44px] text-black tracking-tight leading-none">
@@ -647,16 +647,16 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                         / {cadenceLabel}
                       </span>
                     </div>
-                    <span className="text-[11px] text-gray-400 block">
-                      (demo placeholder, pending Petfeb approval)
+                    <span className="text-[11px] text-gray-500 block">
+                      * Indicative estimate based on simple amortisation. Final terms subject to credit assessment.
                     </span>
                   </div>
 
                   {/* Segmented 10-Step Power Meter */}
                   <div className="bg-white border border-[#EBEBEB] rounded-[10px] p-[14px] space-y-[8px]">
                     <div className="flex items-center justify-between text-[11px] font-heading font-medium text-[#737968]">
-                      <span>Solar Equity Score</span>
-                      <span className="text-[#3F6B1A] font-bold">Grade A Tier-1 Verified</span>
+                      <span>Solar Hardware Tier</span>
+                      <span className="text-[#3F6B1A] font-bold">Grade A Tier-1 Certified</span>
                     </div>
                     {/* 10 Block Segments */}
                     <div className="grid grid-cols-10 gap-1 h-[8px]">
@@ -664,14 +664,14 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                         <div
                           key={i}
                           className={`rounded-[2px] transition-colors ${
-                            i < 8 ? "bg-[#7BB042]" : "bg-gray-200"
+                            i < Math.round((depositPct / 100) * 10) ? "bg-[#7BB042]" : "bg-gray-200"
                           }`}
                         />
                       ))}
                     </div>
                     <div className="flex items-center justify-between text-[11px] text-[#737968]">
                       <span>Zero Asset Collateral</span>
-                      <span>Paystack Tokenised</span>
+                      <span>Verified Hardware</span>
                     </div>
                   </div>
 
@@ -696,11 +696,11 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                       <span className="font-medium text-black">{formatNaira(financedPrincipal)}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-[#737968]">Admin &amp; Verification Fee</span>
-                      <span className="font-medium text-[#3F6B1A]">₦0 (Zero Markup)</span>
+                      <span className="text-[#737968]">Administrative &amp; Verification Fee</span>
+                      <span className="font-medium text-gray-700">Subject to Credit Approval</span>
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t border-gray-300 font-heading font-bold text-[15px] text-black">
-                      <span>Total Amount Repayable</span>
+                      <span>Total Estimated Payable</span>
                       <span>{formatNaira(totalPrice)}</span>
                     </div>
                   </div>
@@ -830,7 +830,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                 </h2>
               </div>
               <p className="font-sans text-[18px] sm:text-[20px] text-[#E8E8E8] max-w-4xl leading-[1.6]">
-                Traditional banks demand landed property and months of physical statements. Petfeb Buy Small uses modern automated telemetry and biometric verification.
+                Traditional banks demand landed property and months of physical statements. Pet-Feb Buy Small uses modern automated telemetry and biometric verification.
               </p>
             </div>
 
@@ -973,7 +973,7 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
               </button>
 
               <Link
-                href="/#contact"
+                href="/contact"
                 className="bg-[#FBF9F8] border border-[#8A8A8A] text-[#1B1C1C] font-heading font-semibold text-[14px] sm:text-[15px] px-[25px] py-[16px] rounded-[10px] hover:bg-gray-100 transition inline-flex items-center gap-[8px]"
               >
                 <Building2 className="w-4 h-4 text-[#1B1C1C]" />
@@ -1050,8 +1050,8 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
                   </strong>
                 </div>
 
-                <p className="text-xs sm:text-sm text-gray-500 max-w-md mx-auto leading-relaxed">
-                  Our credit assessment desk and certified installer team will review your identity verification and contact you within 24 business hours.
+                <p className="text-xs sm:text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+                  Our credit assessment desk and certified engineering team will review your submission and contact you within 24 business hours to verify details and confirm formal repayment schedules. No charges or commitments are finalized until official documentation is approved by you.
                 </p>
 
                 <div className="pt-2">

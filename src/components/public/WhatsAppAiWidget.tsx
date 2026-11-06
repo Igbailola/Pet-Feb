@@ -31,7 +31,7 @@ function WhatsAppComingSoonBody() {
       {/* Subtle date/intro pill */}
       <div className="flex justify-center mb-4">
         <span className="inline-block px-3 py-1 rounded-full bg-white/90 text-[#495057] font-sans text-[11px] font-medium tracking-wide shadow-2xs border border-black/[0.04]">
-          PetFeb AI Assistant Preview
+          Pet-Feb AI Assistant Preview
         </span>
       </div>
 
@@ -40,7 +40,7 @@ function WhatsAppComingSoonBody() {
         <p className="font-medium text-[#111827] text-[15px]">Hello! 👋</p>
 
         <p className="font-medium text-[#1F3A0B] text-[14px] sm:text-[14.5px]">
-          Welcome to PetFeb.
+          Welcome to Pet-Feb.
         </p>
 
         <p className="text-[#333333] text-[14px] sm:text-[14.5px]">
@@ -179,7 +179,7 @@ export function WhatsAppAiWidget() {
                     id="petfeb-whatsapp-ai-title"
                     className="font-heading font-bold text-[15px] sm:text-[16px] text-white leading-tight truncate"
                   >
-                    PetFeb WhatsApp AI
+                    Pet-Feb WhatsApp AI
                   </p>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span
@@ -200,7 +200,7 @@ export function WhatsAppAiWidget() {
                 ref={closeBtnRef}
                 type="button"
                 onClick={() => closeModal(true)}
-                aria-label="Close PetFeb WhatsApp AI preview"
+                aria-label="Close Pet-Feb WhatsApp AI preview"
                 className="no-btn-slide w-8 h-8 rounded-full text-white/85 hover:text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
               >
                 <X className="w-4 h-4" />
@@ -213,7 +213,7 @@ export function WhatsAppAiWidget() {
             {/* Modal Footer */}
             <div className="px-4 py-2.5 bg-white border-t border-gray-100 text-center shrink-0">
               <p className="font-sans text-[12px] text-[#6C757D] tracking-wide">
-                Powered by <span className="font-medium text-[#333333]">PetFeb</span>
+                Powered by <span className="font-medium text-[#333333]">Pet-Feb</span>
               </p>
             </div>
           </motion.div>

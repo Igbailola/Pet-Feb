@@ -103,7 +103,7 @@ const DEFAULT_ORDER_DATA: TrackedOrderData = {
     },
   ],
   logistics: {
-    carrier: "Petfeb Dedicated Fleet · Heavy Transit Van #04",
+    carrier: "Pet-Feb Dedicated Fleet · Heavy Transit Van #04",
     leadName: "Ibrahim Lawal",
     leadPhone: "(+234 803 *** 4821)",
     destination: "14 Admiralty Way, Lekki Phase 1, Lagos State",
@@ -914,7 +914,7 @@ function TrackOrderContent() {
                 You can adjust your dispatch time slot without penalty up to 3 hours prior to truck departure.
               </p>
               <Link
-                href="/#contact"
+                href="/contact"
                 className="font-heading font-semibold text-[12px] text-[#3D6A00] leading-[16px] hover:underline inline-block pt-[4px]"
               >
                 Contact Fleet Logistics →

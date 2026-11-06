@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ShoppingCart,
   Check,
@@ -15,6 +16,8 @@ import {
   Lock,
   PackagePlus,
   AlertCircle,
+  MessageCircle,
+  Zap,
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
@@ -44,6 +47,7 @@ export function AddToCartSection({
   product,
   accessories = [],
 }: AddToCartSectionProps) {
+  const router = useRouter();
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
@@ -54,7 +58,7 @@ export function AddToCartSection({
   const [depositPct, setDepositPct] = useState<30 | 40 | 50>(30);
   const [frequency, setFrequency] = useState<"Weekly" | "Bi-weekly" | "Monthly">("Weekly");
 
-  const handleAddToCart = () => {
+  const executeAddToCart = () => {
     if (!product.in_stock) return;
 
     // 1. Add main solar product
@@ -95,6 +99,11 @@ export function AddToCartSection({
     }, 4000);
   };
 
+  const handleBuyNow = () => {
+    executeAddToCart();
+    router.push("/checkout");
+  };
+
   // Buy Small dynamic calculations
   const depositAmount = Math.round((product.price * depositPct) / 100);
   const remaining = product.price - depositAmount;
@@ -110,38 +119,75 @@ export function AddToCartSection({
       ? `${formatNaira(biweeklyRate)} / bi-week`
       : `${formatNaira(monthlyRate)} / month`;
 
-  // Specification default fallbacks matching Figma
-  const ratedOutput =
-    product.specs?.["Rated Output"] ||
-    product.specs?.["Capacity"] ||
-    product.specs?.["Output"] ||
-    "5.0 kVA";
+  // Capacity-aware specification helpers avoiding false "5.0 kVA" defaults
+  const determineRatedOutput = (): string => {
+    if (product.specs?.["Rated Output"]) return product.specs["Rated Output"];
+    if (product.specs?.["Output"]) return product.specs["Output"];
+    if (product.specs?.["inverter"]) {
+      const match = product.specs["inverter"].match(/(\d+(?:\.\d+)?\s*(?:kVA|kW))/i);
+      if (match) return match[1];
+    }
+    const nameMatch = product.name.match(/(\d+(?:\.\d+)?\s*(?:kVA|kW))/i);
+    if (nameMatch) return nameMatch[1];
+    if (product.name.toLowerCase().includes("1kva")) return "1.0 kVA";
+    if (product.name.toLowerCase().includes("3kva")) return "3.0 kVA";
+    if (product.name.toLowerCase().includes("5kva") || product.name.toLowerCase().includes("5kw")) return "5.0 kVA";
+    if (product.name.toLowerCase().includes("10kva") || product.name.toLowerCase().includes("10kw")) return "10.0 kVA";
+    return "See Technical Specs";
+  };
 
-  const nominalBus =
-    product.specs?.["Nominal Bus"] ||
-    product.specs?.["Voltage"] ||
-    product.specs?.["Battery Voltage"] ||
-    "48V DC";
+  const determineNominalBus = (): string => {
+    if (product.specs?.["Nominal Bus"]) return product.specs["Nominal Bus"];
+    if (product.specs?.["Battery Voltage"]) return product.specs["Battery Voltage"];
+    if (product.specs?.["Voltage"]) return product.specs["Voltage"];
+    if (product.name.toLowerCase().includes("1kva")) return "12V DC";
+    if (product.name.toLowerCase().includes("3kva")) return "24V DC";
+    if (product.name.toLowerCase().includes("5kva") || product.name.toLowerCase().includes("5kw")) return "48V DC";
+    if (product.name.toLowerCase().includes("10kva") || product.name.toLowerCase().includes("10kw")) return "48V DC";
+    return "System Dependent";
+  };
 
-  const efficiency =
-    product.specs?.["Efficiency"] ||
-    product.specs?.["Max Efficiency"] ||
-    "98%";
+  const determineEfficiency = (): string => {
+    if (product.specs?.["Efficiency"]) return product.specs["Efficiency"];
+    if (product.specs?.["Max Efficiency"]) return product.specs["Max Efficiency"];
+    return "≥ 95%";
+  };
 
-  const warranty =
-    product.specs?.["Warranty"] ||
-    product.specs?.["Warranty Period"] ||
-    "5-Year*";
+  const determineWarranty = (): string => {
+    if (product.specs?.["warranty"]) return product.specs["warranty"];
+    if (product.specs?.["Warranty"]) return product.specs["Warranty"];
+    if (product.name.toLowerCase().includes("1kva")) return "2 Years Standard";
+    if (product.name.toLowerCase().includes("3kva")) return "3 Years Standard";
+    if (product.name.toLowerCase().includes("5kva") || product.name.toLowerCase().includes("5kw")) return "5 Years Limited";
+    return "Manufacturer Warranty";
+  };
 
-  const originalPrice = Math.round(product.price * 1.135);
+  const ratedOutput = determineRatedOutput();
+  const nominalBus = determineNominalBus();
+  const efficiency = determineEfficiency();
+  const warranty = determineWarranty();
+
+  // WhatsApp enquiry link
+  const whatsappMessage = encodeURIComponent(
+    `Hello Pet-Feb Solar, I am interested in the ${product.name} (₦${product.price.toLocaleString("en-NG")}) and would like to make an enquiry regarding installation and delivery.`
+  );
+  const whatsappUrl = `https://wa.me/2348135854054?text=${whatsappMessage}`;
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 items-start w-full">
       {/* ── Product Name matching Figma node 6147:8177 ─────────────────────────────────── */}
-      <div className="w-full">
-        <h1 className="font-heading font-bold text-[24px] sm:text-[28px] lg:text-[32px] text-[#111827] leading-[1.25] tracking-tight">
+      <div className="w-full space-y-1">
+        <div className="flex items-center gap-2">
+          <span className="font-heading font-semibold text-xs uppercase tracking-wider text-[#7BB042] bg-[#E8F3DA] px-2.5 py-0.5 rounded-full">
+            {product.category}
+          </span>
+          <span className="font-heading font-semibold text-xs text-gray-500">
+            SKU: {product.slug}
+          </span>
+        </div>
+        <h2 className="font-heading font-bold text-[24px] sm:text-[28px] lg:text-[32px] text-[#111827] leading-[1.25] tracking-tight">
           {product.name}
-        </h1>
+        </h2>
       </div>
 
       {/* Horizontal Divider Line */}
@@ -158,7 +204,7 @@ export function AddToCartSection({
             className="no-btn-slide flex items-center justify-between w-full min-h-[40px] py-1 cursor-pointer text-left focus:outline-hidden"
           >
             <span className="font-heading font-semibold text-[15px] sm:text-[16px] text-[#333333]">
-              Product specification
+              Key Specifications Summary
             </span>
             <div className="w-8 h-8 rounded-full bg-[#F4F5F7] flex items-center justify-center text-[#495057] shrink-0">
               {specOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -174,7 +220,7 @@ export function AddToCartSection({
                   <span className="font-heading font-semibold text-[11px] text-[#5C5C5C] uppercase tracking-wider">
                     RATED OUTPUT
                   </span>
-                  <span className="font-heading font-bold text-[17px] sm:text-[20px] text-[#1B1C1C] mt-1 leading-tight">
+                  <span className="font-heading font-bold text-[16px] sm:text-[18px] text-[#1B1C1C] mt-1 leading-tight">
                     {ratedOutput}
                   </span>
                 </div>
@@ -184,7 +230,7 @@ export function AddToCartSection({
                   <span className="font-heading font-semibold text-[11px] text-[#5C5C5C] uppercase tracking-wider">
                     NOMINAL BUS
                   </span>
-                  <span className="font-heading font-bold text-[17px] sm:text-[20px] text-[#1B1C1C] mt-1 leading-tight">
+                  <span className="font-heading font-bold text-[16px] sm:text-[18px] text-[#1B1C1C] mt-1 leading-tight">
                     {nominalBus}
                   </span>
                 </div>
@@ -194,7 +240,7 @@ export function AddToCartSection({
                   <span className="font-heading font-semibold text-[11px] text-[#5C5C5C] uppercase tracking-wider">
                     EFFICIENCY
                   </span>
-                  <span className="font-heading font-bold text-[17px] sm:text-[20px] text-[#3F6B1A] mt-1 leading-tight">
+                  <span className="font-heading font-bold text-[16px] sm:text-[18px] text-[#3F6B1A] mt-1 leading-tight">
                     {efficiency}
                   </span>
                 </div>
@@ -204,7 +250,7 @@ export function AddToCartSection({
                   <span className="font-heading font-semibold text-[11px] text-[#5C5C5C] uppercase tracking-wider">
                     WARRANTY
                   </span>
-                  <span className="font-heading font-bold text-[17px] sm:text-[20px] text-[#1B1C1C] mt-1 leading-tight">
+                  <span className="font-heading font-bold text-[15px] sm:text-[16px] text-[#1B1C1C] mt-1 leading-tight">
                     {warranty}
                   </span>
                 </div>
@@ -217,19 +263,16 @@ export function AddToCartSection({
       {/* Horizontal Divider Line */}
       <div className="w-full border-t border-[#D9D9D9]" />
 
-      {/* ── Price & Stock Row matching Figma node 6147:8209 ─────────────────────────────── */}
+      {/* ── Price & Stock Row ─────────────────────────────── */}
       <div className="flex flex-col gap-4 w-full">
         <div className="flex flex-wrap items-center justify-between gap-3 w-full">
-          <div className="flex items-baseline gap-2.5 flex-wrap">
-            <span className="font-heading font-bold text-[28px] sm:text-[32px] text-[#1B1C1C] tracking-[-0.8px] leading-none">
-              {formatNaira(product.price)}
+          <div className="space-y-1">
+            <span className="font-sans text-xs text-gray-500 uppercase tracking-wider font-semibold block">
+              Unit Equipment Price (VAT Inclusive)
             </span>
-            <span className="font-sans font-normal text-[14px] sm:text-[15px] text-[#6C757D] line-through">
-              {formatNaira(originalPrice)}
-            </span>
-            <div className="bg-[#E8F3DA] border border-[rgba(123,176,66,0.35)] px-2.5 py-0.5 rounded-full self-center">
-              <span className="font-heading font-bold text-[12px] text-[#3F6B1A] leading-[16px]">
-                -12%
+            <div className="flex items-baseline gap-2.5 flex-wrap">
+              <span className="font-heading font-bold text-[30px] sm:text-[34px] text-[#1B1C1C] tracking-[-0.8px] leading-none">
+                {formatNaira(product.price)}
               </span>
             </div>
           </div>
@@ -238,7 +281,7 @@ export function AddToCartSection({
           <div className="bg-[#E8F3DA] border border-[rgba(123,176,66,0.35)] flex items-center gap-1.5 px-3 py-1.5 rounded-full shrink-0">
             <Check className="w-3.5 h-3.5 text-[#3F6B1A] stroke-[2.5]" />
             <span className="font-sans font-semibold text-[12px] sm:text-[13px] text-[#3F6B1A] leading-none">
-              {product.in_stock ? "In stock (12 units)" : "Out of stock"}
+              {product.in_stock ? "In stock — Ready to dispatch" : "Pre-order / Enquire"}
             </span>
           </div>
         </div>
@@ -283,7 +326,7 @@ export function AddToCartSection({
                             );
                           }
                         }}
-                        className="w-4 h-4 rounded text-[#7BB042] focus:ring-black shrink-0"
+                        className="w-4 h-4 rounded text-[#7BB042] focus:ring-black shrink-0 cursor-pointer"
                       />
                       <span className="font-semibold truncate">{acc.name}</span>
                     </div>
@@ -297,66 +340,98 @@ export function AddToCartSection({
           </div>
         )}
 
-        {/* ── Quantity Stepper & Add to Cart Button matching Figma node 6147:8222 ──────────── */}
+        {/* ── Quantity Stepper & Action Buttons ──────────── */}
         {product.in_stock ? (
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 items-stretch sm:items-center w-full pt-1">
-            {/* Stepper matching Figma node 6147:8223 */}
-            <div className="flex items-center justify-between w-full sm:w-[144px] h-[52px] min-h-[52px] shrink-0 bg-[#F8F9FA] border border-[#D9D9D9] rounded-[12px] px-1.5">
+          <div className="space-y-3 w-full pt-1">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center w-full">
+              {/* Stepper */}
+              <div className="flex items-center justify-between w-full sm:w-[130px] h-[52px] min-h-[52px] shrink-0 bg-[#F8F9FA] border border-[#D9D9D9] rounded-[12px] px-1.5">
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  className="no-btn-slide bg-white flex items-center justify-center rounded-[9px] shadow-[0px_1px_4px_rgba(0,0,0,0.08)] w-[38px] h-[38px] cursor-pointer hover:bg-gray-100 active:scale-95 transition text-[#111827] shrink-0"
+                  aria-label="Decrease quantity"
+                >
+                  <Minus className="w-4 h-4 stroke-[2.2]" />
+                </button>
+
+                <span className="font-heading font-bold text-[16px] text-[#111827] px-2 text-center min-w-[28px] select-none">
+                  {quantity}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => setQuantity((q) => q + 1)}
+                  className="no-btn-slide bg-white flex items-center justify-center rounded-[9px] shadow-[0px_1px_4px_rgba(0,0,0,0.08)] w-[38px] h-[38px] cursor-pointer hover:bg-gray-100 active:scale-95 transition text-[#111827] shrink-0"
+                  aria-label="Increase quantity"
+                >
+                  <Plus className="w-4 h-4 stroke-[2.2]" />
+                </button>
+              </div>
+
+              {/* Add to Cart CTA */}
               <button
                 type="button"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="no-btn-slide bg-white flex items-center justify-center rounded-[9px] shadow-[0px_1px_4px_rgba(0,0,0,0.08)] w-[40px] h-[40px] cursor-pointer hover:bg-gray-100 active:scale-95 transition text-[#111827] shrink-0"
-                aria-label="Decrease quantity"
+                onClick={executeAddToCart}
+                className={`w-full sm:flex-1 h-[52px] min-h-[52px] shrink-0 px-5 rounded-[12px] flex items-center justify-center gap-2 shadow-xs transition font-heading font-bold text-[15px] sm:text-[16px] cursor-pointer active:scale-98 ${
+                  justAdded
+                    ? "bg-[#3F6B1A] text-white"
+                    : "bg-[#F5B82E] hover:bg-[#E5AA26] text-[#111827]"
+                }`}
               >
-                <Minus className="w-4 h-4 stroke-[2.2]" />
+                {justAdded ? (
+                  <>
+                    <Check className="w-5 h-5 text-white shrink-0" />
+                    <span>Added ({quantity + selectedAccessories.length})</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart className="w-5 h-5 text-[#111827] shrink-0" />
+                    <span>Add to Cart</span>
+                  </>
+                )}
               </button>
 
-              <span className="font-heading font-bold text-[16px] text-[#111827] px-3 text-center min-w-[32px] select-none">
-                {quantity}
-              </span>
-
+              {/* Buy Now Direct CTA */}
               <button
                 type="button"
-                onClick={() => setQuantity((q) => q + 1)}
-                className="no-btn-slide bg-white flex items-center justify-center rounded-[9px] shadow-[0px_1px_4px_rgba(0,0,0,0.08)] w-[40px] h-[40px] cursor-pointer hover:bg-gray-100 active:scale-95 transition text-[#111827] shrink-0"
-                aria-label="Increase quantity"
+                onClick={handleBuyNow}
+                className="w-full sm:flex-1 h-[52px] min-h-[52px] shrink-0 px-5 rounded-[12px] bg-black text-white hover:bg-gray-900 transition font-heading font-bold text-[15px] sm:text-[16px] flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-98"
               >
-                <Plus className="w-4 h-4 stroke-[2.2]" />
+                <Zap className="w-4 h-4 text-[#F5B82E]" />
+                <span>Buy Now</span>
               </button>
             </div>
 
-            {/* Primary CTA Button matching Figma node 6147:8236 */}
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className={`w-full sm:flex-1 h-[52px] min-h-[52px] shrink-0 px-6 rounded-[12px] flex items-center justify-center gap-2.5 shadow-[0px_2px_8px_rgba(0,0,0,0.08)] transition font-heading font-bold text-[15px] sm:text-[16px] tracking-[0.2px] cursor-pointer active:scale-98 ${
-                justAdded
-                  ? "bg-[#3F6B1A] text-white"
-                  : "bg-[#F5B82E] hover:bg-[#E5AA26] text-[#111827]"
-              }`}
+            {/* Direct WhatsApp Product Enquiry Button */}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full min-h-[46px] py-2.5 px-4 rounded-[12px] border border-gray-300 hover:border-gray-400 bg-white hover:bg-gray-50 text-[#1B1C1C] flex items-center justify-center gap-2 font-heading font-semibold text-[14px] transition cursor-pointer"
             >
-              {justAdded ? (
-                <>
-                  <Check className="w-5 h-5 text-white shrink-0" />
-                  <span>Added to Cart ({quantity + selectedAccessories.length})</span>
-                </>
-              ) : (
-                <>
-                  <ShoppingCart className="w-5 h-5 text-[#111827] shrink-0" />
-                  <span>Add to cart</span>
-                </>
-              )}
-            </button>
+              <MessageCircle className="w-4 h-4 text-[#25D366]" />
+              <span>Ask About This Product on WhatsApp</span>
+            </a>
           </div>
         ) : (
-          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-[13px] sm:text-[14px] text-amber-900 space-y-1 w-full">
+          <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-[13px] sm:text-[14px] text-amber-900 space-y-2 w-full">
             <p className="font-semibold flex items-center gap-1.5">
               <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-              This system is currently out of stock.
+              This product is currently available on pre-order.
             </p>
             <p>
-              Inquire with our engineers directly for restock dates.
+              Contact our sales engineering team via WhatsApp or phone to request an allocation and delivery timeline.
             </p>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-lg text-xs font-heading font-bold hover:bg-[#20ba59] transition"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Enquire on WhatsApp</span>
+            </a>
           </div>
         )}
 
@@ -393,9 +468,9 @@ export function AddToCartSection({
             <Wrench className="w-4 h-4 text-[#3F6B1A]" />
           </div>
           <div className="font-sans text-[13px] sm:text-[14px] leading-[1.55]">
-            <span className="font-semibold text-[#1B1C1C]">Installation available:</span>{" "}
+            <span className="font-semibold text-[#1B1C1C]">Installation service:</span>{" "}
             <span className="font-normal text-[#4B5563]">
-              Choose certified deployment at checkout. Certified Petfeb engineers available nationwide.
+              Baseline price covers hardware. Certified Pet-Feb installation can be added during checkout or requested via a technical site assessment.
             </span>
           </div>
         </div>
@@ -406,20 +481,20 @@ export function AddToCartSection({
             <Truck className="w-4 h-4 text-[#3F6B1A]" />
           </div>
           <div className="font-sans text-[13px] sm:text-[14px] leading-[1.55]">
-            <span className="font-semibold text-[#1B1C1C]">Express Distribution:</span>{" "}
+            <span className="font-semibold text-[#1B1C1C]">Nationwide Delivery:</span>{" "}
             <span className="font-normal text-[#4B5563]">
-              24–48 hours transit to Lagos &amp; Abuja hub regions; 3–5 days to all other states.
+              Express distribution to Port Harcourt, Lagos, and Abuja; standard shipping across all 36 states within 3–5 business days.
             </span>
           </div>
         </div>
       </div>
 
       {/* ── Trust Rail matching Figma node 6147:8264 ─────────────────────────────────────── */}
-      <div className="border-t border-[#D9D9D9] pt-3.5 pb-1 flex items-center justify-center gap-10 sm:gap-16 w-full text-center">
+      <div className="border-t border-[#D9D9D9] pt-3.5 pb-1 flex items-center justify-center gap-8 sm:gap-14 w-full text-center">
         <div className="flex flex-col items-center gap-1">
           <ShieldCheck className="w-5 h-5 text-[#3F6B1A]" />
           <span className="font-heading font-semibold text-[12px] sm:text-[13px] text-[#1B1C1C]">
-            5-Year Warranty
+            Verified Warranty
           </span>
         </div>
         <div className="flex flex-col items-center gap-1">
@@ -428,10 +503,16 @@ export function AddToCartSection({
             Paystack Secured
           </span>
         </div>
+        <div className="flex flex-col items-center gap-1">
+          <Check className="w-5 h-5 text-[#3F6B1A]" />
+          <span className="font-heading font-semibold text-[12px] sm:text-[13px] text-[#1B1C1C]">
+            Genuine Equipment
+          </span>
+        </div>
       </div>
 
       {/* ── Buy Small Financing Panel matching Figma node 6147:8280 ──────────────────────── */}
-      <div className="bg-[#F5B82E] border border-[rgba(123,176,66,0.3)] rounded-[18px] p-4 sm:p-[22px] flex flex-col gap-5 w-full shadow-xs">
+      <div className="bg-[#F5B82E] border border-[rgba(123,176,66,0.3)] rounded-[18px] p-4 sm:p-[22px] flex flex-col gap-4 sm:gap-5 w-full shadow-xs">
         {/* Top title and Zero Collateral Badge */}
         <div className="flex flex-wrap items-center justify-between gap-2.5 w-full">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -443,14 +524,14 @@ export function AddToCartSection({
                 Pay from {displayInstallmentRate}
               </span>
               <span className="font-medium text-[12px] sm:text-[13px] text-[#242424] leading-snug">
-                Buy Small Flexible Scheme
+                Buy Small Flexible Scheme (Estimated)
               </span>
             </div>
           </div>
 
           <div className="bg-black border border-[#D9D9D9] rounded-full px-3 py-1 shrink-0">
             <span className="font-heading font-bold text-[10px] sm:text-[11px] text-white tracking-[0.5px] uppercase">
-              ZERO COLLATERAL
+              ZERO ASSET COLLATERAL
             </span>
           </div>
         </div>
@@ -541,7 +622,7 @@ export function AddToCartSection({
         {/* CTA Button matching Figma node 6147:8326 */}
         <Link
           href={`/buy-small?product=${encodeURIComponent(product.slug)}`}
-          className="bg-black border-2 border-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[16px] sm:text-[18px] rounded-[12px] min-h-[54px] sm:h-[60px] px-6 py-3.5 flex items-center justify-center hover:bg-gray-900 transition text-center w-full shadow-sm"
+          className="bg-black border-2 border-[#7BB042] text-[#F2F7EC] font-heading font-bold text-[15px] sm:text-[16px] rounded-[12px] min-h-[50px] px-6 py-3 flex items-center justify-center hover:bg-gray-900 transition text-center w-full shadow-sm"
         >
           See how Buy Small works
         </Link>

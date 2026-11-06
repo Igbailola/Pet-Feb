@@ -22,30 +22,19 @@ export function ProductMediaGallery({
     altText: img.alt_text || `${productName} photo ${idx + 1}`,
   }));
 
-  // Ensure at least 3 thumbnail items for full fidelity to Figma layout
-  const displayThumbnails =
-    rawImages.length >= 3
-      ? rawImages.slice(0, 3)
-      : rawImages.length > 0
-      ? [
-          ...rawImages,
-          ...Array.from({ length: 3 - rawImages.length }).map((_, i) => ({
-            id: `fallback-${i}`,
-            resolvedUrl: defaultMainUrl,
-            altText: `${productName} view ${rawImages.length + i + 1}`,
-          })),
-        ]
-      : [
-          { id: "thumb-1", resolvedUrl: defaultMainUrl, altText: productName },
-          { id: "thumb-2", resolvedUrl: defaultMainUrl, altText: productName },
-          { id: "thumb-3", resolvedUrl: defaultMainUrl, altText: productName },
-        ];
+  // Filter unique valid images
+  const uniqueImages = rawImages.filter(
+    (img, index, self) =>
+      index === self.findIndex((t) => t.resolvedUrl === img.resolvedUrl)
+  );
+
+  const hasMultipleImages = uniqueImages.length > 1;
 
   return (
-    <div className="flex flex-col gap-[26px] items-center justify-center w-full">
+    <div className="flex flex-col gap-4 sm:gap-6 items-center justify-center w-full">
       {/* ── Main Product Display Card matching Figma node 6147:8157 ─────────────────────────── */}
-      <div className="bg-white flex flex-col h-[380px] sm:h-[559px] items-start justify-center overflow-hidden pb-[20px] sm:pb-[30.5px] pt-[14px] sm:pt-[20.3px] px-[14px] sm:px-[20.3px] relative rounded-[20px] sm:rounded-[30.5px] shadow-[0px_2.54px_28px_0px_rgba(45,45,45,0.1)] w-full">
-        <div className="h-[340px] sm:h-[508px] overflow-hidden relative rounded-[18px] sm:rounded-[30.5px] w-full bg-[#EBEBEB] flex items-center justify-center p-6">
+      <div className="bg-white flex flex-col h-[340px] sm:h-[480px] lg:h-[520px] items-start justify-center overflow-hidden pb-4 sm:pb-[26px] pt-3 sm:pt-[18px] px-3 sm:px-[18px] relative rounded-[20px] sm:rounded-[30.5px] shadow-[0px_2.54px_28px_0px_rgba(45,45,45,0.08)] w-full border border-gray-100">
+        <div className="h-full w-full overflow-hidden relative rounded-[16px] sm:rounded-[24px] bg-[#EBEBEB] flex items-center justify-center p-6 sm:p-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={activeUrl}
@@ -55,35 +44,50 @@ export function ProductMediaGallery({
         </div>
       </div>
 
-      {/* ── 3 Supporting Thumbnails matching Figma node 6147:8161 ────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-[10px] w-full">
-        {displayThumbnails.map((thumb, idx) => {
-          const isSelected = activeUrl === thumb.resolvedUrl;
-          return (
-            <button
-              key={`${thumb.id}-${idx}`}
-              type="button"
-              onClick={() => setActiveUrl(thumb.resolvedUrl)}
-              className={`bg-white flex flex-col items-start justify-center overflow-hidden pb-[8px] sm:pb-[10px] pt-[5px] sm:pt-[6.7px] px-[5px] sm:px-[6.7px] rounded-[10px] shadow-[0px_0.84px_9.2px_0px_rgba(45,45,45,0.1)] transition-all cursor-pointer border-2 ${
-                isSelected
-                  ? "border-[#7BB042] ring-2 ring-[#7BB042]/30 scale-[1.02]"
-                  : "border-transparent hover:border-[#D9D9D9]"
-              }`}
-              title={`View ${thumb.altText}`}
-              aria-label={`Select product image ${idx + 1}`}
-            >
-              <div className="h-[100px] sm:h-[167px] overflow-hidden rounded-[8px] sm:rounded-[10px] w-full bg-[#EBEBEB] flex items-center justify-center p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={thumb.resolvedUrl}
-                  alt={thumb.altText}
-                  className="max-h-full max-w-full object-contain pointer-events-none"
-                />
-              </div>
-            </button>
-          );
-        })}
-      </div>
+      {/* ── Supporting Thumbnails (Only rendered if genuine multiple images exist) ── */}
+      {hasMultipleImages && (
+        <div
+          role="tablist"
+          aria-label={`${productName} image gallery navigation`}
+          className="flex items-center gap-3 w-full overflow-x-auto pb-1"
+        >
+          {uniqueImages.map((thumb, idx) => {
+            const isSelected = activeUrl === thumb.resolvedUrl;
+            return (
+              <button
+                key={`${thumb.id}-${idx}`}
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                tabIndex={0}
+                onClick={() => setActiveUrl(thumb.resolvedUrl)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActiveUrl(thumb.resolvedUrl);
+                  }
+                }}
+                className={`bg-white shrink-0 w-[84px] sm:w-[110px] h-[84px] sm:h-[110px] p-2 rounded-[12px] shadow-sm transition-all cursor-pointer border-2 focus:outline-none focus:ring-2 focus:ring-[#7BB042] ${
+                  isSelected
+                    ? "border-[#7BB042] ring-2 ring-[#7BB042]/30 scale-[1.02]"
+                    : "border-transparent hover:border-[#D9D9D9]"
+                }`}
+                title={`View ${thumb.altText}`}
+                aria-label={`Select product image ${idx + 1}`}
+              >
+                <div className="h-full w-full overflow-hidden rounded-[8px] bg-[#EBEBEB] flex items-center justify-center p-1.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={thumb.resolvedUrl}
+                    alt={thumb.altText}
+                    className="max-h-full max-w-full object-contain pointer-events-none"
+                  />
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

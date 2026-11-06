@@ -318,7 +318,7 @@ export default function CartPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/bannerimages/cart-page-banner.jpg"
-            alt="Petfeb Solar Installation Cart Banner"
+            alt="Pet-Feb Solar Installation Cart Banner"
             className="w-full h-full object-cover rounded-[32px]"
           />
           <div
@@ -497,7 +497,7 @@ export default function CartPage() {
                       This cart qualifies for Buy Small: from {formatNaira(weeklyInstallment)} / week
                     </h3>
                     <span className="font-heading font-medium text-[12px] text-[#5C5C5C]">
-                      (demo placeholder)
+                      (Estimated commitment)
                     </span>
                   </div>
 
@@ -597,7 +597,7 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                {/* Certified Petfeb Turnkey Installation Toggle Box */}
+                {/* Certified Pet-Feb Turnkey Installation Toggle Box */}
                 <div className="bg-[#F2F7EC] border border-[#D9D9D9] rounded-[10px] p-[15px]">
                   <label className="flex items-start gap-[12px] cursor-pointer select-none">
                     <div className="pt-0.5 shrink-0">
@@ -620,7 +620,7 @@ export default function CartPage() {
 
                     <div className="space-y-[3px] text-left">
                       <p className="font-heading font-bold text-[14px] text-[#1B1C1C] tracking-[0.28px]">
-                        Certified Petfeb Turnkey Installation
+                        Certified Pet-Feb Turnkey Installation
                       </p>
                       <p className="font-sans text-[12px] text-[#5C5C5C] leading-[19.5px]">
                         Includes certified earthing rods, DC isolator switches, surge suppression &amp; formal NEMSA safety certification signoff.
@@ -681,7 +681,7 @@ export default function CartPage() {
                 <div className="border-t border-[#D9D9D9] pt-[21px] flex flex-col gap-[14px] text-[12px] text-[#42493A] font-sans">
                   <div className="flex items-center gap-[8px]">
                     <ShieldCheck className="w-4 h-4 text-[#7BB042] shrink-0" />
-                    <span>5-Year Petfeb Complete Replacement Warranty</span>
+                    <span>5-Year Pet-Feb Complete Replacement Warranty</span>
                   </div>
                   <div className="flex items-center gap-[8px]">
                     <HardHat className="w-4 h-4 text-[#7BB042] shrink-0" />

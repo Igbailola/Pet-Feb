@@ -7,9 +7,9 @@ import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
 import { ScrollReveal } from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Our Solar Projects | Petfeb Engineering & Community Impact",
+  title: "Our Solar Projects | Pet-Feb Engineering & Community Impact",
   description:
-    "Explore Petfeb solar installation projects across Nigeria, from community electrification like Light Up Umueri to commercial and industrial solar arrays.",
+    "Explore Pet-Feb solar installation projects across Nigeria, from community electrification like Light Up Umueri to commercial and industrial solar arrays.",
 };
 
 interface ProjectsPageProps {
@@ -35,7 +35,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             aria-hidden="true"
           />
           <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
-            <span className="text-black block">WELCOME TO PETFEB</span>
+            <span className="text-black block">WELCOME TO PET-FEB</span>
             <span className="text-[#70A03C] block">PROJECTS.</span>
           </h1>
         </ScrollReveal>
@@ -152,7 +152,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/figma-assets/mission-img-2.png"
-                alt="Petfeb hands-on solar training lab"
+                alt="Pet-Feb hands-on solar training lab"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-2">
@@ -170,7 +170,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                   </h2>
                 </div>
                 <p className="text-sm sm:text-base text-black/90 leading-relaxed font-normal max-w-xl">
-                  Petfeb Solar Training is designed to equip individuals with hands-on knowledge in
+                  Pet-Feb Solar Training is designed to equip individuals with hands-on knowledge in
                   solar installation, maintenance, and system design. Whether you&apos;re starting
                   out or upgrading your skills, our training prepares you to work confidently in the
                   fast-growing solar industry.

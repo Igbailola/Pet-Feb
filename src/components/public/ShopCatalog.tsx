@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Check, ChevronLeft, ChevronRight, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
 import type { Product } from "@/lib/public-types";
 import { formatNaira, resolveMediaUrl } from "@/lib/public-types";
 import { ProductCardButton } from "@/components/public/ProductCardButton";
@@ -14,136 +14,82 @@ interface ShopCatalogProps {
 
 const CATEGORIES = [
   "All Product",
-  "Solar Panels",
+  "Solar kits",
   "Inverters",
-  "Charge Controllers",
   "Batteries",
-  "FLOOD lights",
+  "Solar Panels",
+  "Charge controllers",
+  "Flood lights",
 ];
 
-const SAMPLE_PRODUCTS: Product[] = [
-  {
-    id: "sample-micro-inverter",
-    name: "Micro Inverter",
-    slug: "micro-inverter",
-    category: "Inverters",
-    description: "Tier-1 micro inverter for rooftop solar configurations.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "1", url: "/api/websitepic/commercial", is_main: true, product_id: "sample-1", sort_order: 1, alt_text: "Micro Inverter" }],
-  },
-  {
-    id: "sample-lithium-battery",
-    name: "Lithium Battery",
-    slug: "lithium-battery",
-    category: "Batteries",
-    description: "High-density LiFePO4 rack battery with smart BMS.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "2", url: "/api/websitepic/battery", is_main: true, product_id: "sample-2", sort_order: 1, alt_text: "Lithium Battery" }],
-  },
-  {
-    id: "sample-g12v-battery",
-    name: "G12V 200AH Battery",
-    slug: "g12v-200ah-battery",
-    category: "Batteries",
-    description: "Long-cycle deep discharge gel battery storage.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "3", url: "/api/websitepic/panels", is_main: true, product_id: "sample-3", sort_order: 1, alt_text: "G12V 200AH Battery" }],
-  },
-  {
-    id: "sample-street-light-panel",
-    name: "Street Light Panel",
-    slug: "street-light-panel",
-    category: "Solar Panels",
-    description: "All-in-one solar lighting and monocrystalline PV module.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "4", url: "/api/websitepic/commercial", is_main: true, product_id: "sample-4", sort_order: 1, alt_text: "Street Light Panel" }],
-  },
-  {
-    id: "sample-flh-battery",
-    name: "FLH48100UG2-5-Battery",
-    slug: "flh48100ug2-5-battery",
-    category: "Batteries",
-    description: "48V 100Ah modular lithium energy storage system.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "5", url: "/api/websitepic/battery", is_main: true, product_id: "sample-5", sort_order: 1, alt_text: "FLH48100UG2-5-Battery" }],
-  },
-  {
-    id: "sample-ivps-inverter",
-    name: "IVPS10048.356-Inverter",
-    slug: "ivps10048-356-inverter",
-    category: "Inverters",
-    description: "High-frequency pure sine wave hybrid inverter.",
-    price: 567900,
-    status: "published",
-    in_stock: true,
-    specs: { "Min, Order": "1unit" },
-    created_at: "2026-01-01",
-    updated_at: "2026-01-01",
-    product_images: [{ id: "6", url: "/api/websitepic/panels", is_main: true, product_id: "sample-6", sort_order: 1, alt_text: "IVPS10048.356-Inverter" }],
-  },
-];
+type SortOption = "featured" | "price-asc" | "price-desc" | "name-asc";
+
+function getProductCapacity(p: Product): string | null {
+  if (p.specs?.["Capacity"]) return p.specs["Capacity"];
+  if (p.specs?.["capacity"]) return p.specs["capacity"];
+  if (p.specs?.["inverter"]) {
+    const match = p.specs["inverter"].match(/(\d+(?:\.\d+)?\s*(?:kVA|kW))/i);
+    if (match) return match[1];
+  }
+  const nameMatch = p.name.match(/(\d+(?:\.\d+)?\s*(?:kVA|kW|kWh|Ah|W))/i);
+  if (nameMatch) return nameMatch[1];
+  return null;
+}
 
 export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     initialCategory || "All Product"
   );
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<SortOption>("featured");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 6;
 
-  // Merge real products with Figma sample catalog if empty
-  const catalogList = products && products.length > 0 ? products : SAMPLE_PRODUCTS;
+  const catalogList = products && products.length > 0 ? products : [];
 
   // Filter products based on selected category and search query
   const filteredProducts = catalogList.filter((p) => {
-    const matchesCategory =
-      selectedCategory === "All Product"
-        ? true
-        : (p.category || "").toLowerCase().includes(selectedCategory.toLowerCase()) ||
-          (selectedCategory === "Solar Panels" && (p.category || "").toLowerCase().includes("panel")) ||
-          (selectedCategory === "Inverters" && (p.category || "").toLowerCase().includes("inverter")) ||
-          (selectedCategory === "Charge Controllers" &&
-            ((p.category || "").toLowerCase().includes("charge") ||
-              (p.category || "").toLowerCase().includes("controller"))) ||
-          (selectedCategory === "Batteries" && (p.category || "").toLowerCase().includes("batter")) ||
-          (selectedCategory === "FLOOD lights" && (p.category || "").toLowerCase().includes("light"));
+    const catLower = (p.category || "").toLowerCase();
+    const selLower = selectedCategory.toLowerCase();
 
-    const matchesSearch = searchQuery
-      ? p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+    let matchesCategory = false;
+    if (selectedCategory === "All Product") {
+      matchesCategory = true;
+    } else if (selLower.includes("kit")) {
+      matchesCategory = catLower.includes("kit");
+    } else if (selLower.includes("inverter")) {
+      matchesCategory = catLower.includes("inverter");
+    } else if (selLower.includes("batter")) {
+      matchesCategory = catLower.includes("batter");
+    } else if (selLower.includes("panel")) {
+      matchesCategory = catLower.includes("panel");
+    } else if (selLower.includes("controller") || selLower.includes("charge")) {
+      matchesCategory = catLower.includes("controller") || catLower.includes("charge");
+    } else if (selLower.includes("light") || selLower.includes("flood")) {
+      matchesCategory = catLower.includes("light") || catLower.includes("flood");
+    } else {
+      matchesCategory = catLower.includes(selLower);
+    }
+
+    const matchesSearch = searchQuery.trim()
+      ? p.name.toLowerCase().includes(searchQuery.toLowerCase().trim()) ||
+        (p.category || "").toLowerCase().includes(searchQuery.toLowerCase().trim()) ||
+        (p.description?.toLowerCase().includes(searchQuery.toLowerCase().trim()) ?? false)
       : true;
 
     return matchesCategory && matchesSearch;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / pageSize) || 1;
-  const paginatedProducts = filteredProducts.slice(
+  // Sort products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortBy === "price-asc") return a.price - b.price;
+    if (sortBy === "price-desc") return b.price - a.price;
+    if (sortBy === "name-asc") return a.name.localeCompare(b.name);
+    return 0; // featured maintains default order
+  });
+
+  const totalPages = Math.ceil(sortedProducts.length / pageSize) || 1;
+  const paginatedProducts = sortedProducts.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -162,6 +108,20 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
     }
   };
 
+  const handleResetFilters = () => {
+    setSelectedCategory("All Product");
+    setSearchQuery("");
+    setSortBy("featured");
+    setCurrentPage(1);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("category");
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
+
+  const isFiltering = selectedCategory !== "All Product" || searchQuery.trim().length > 0 || sortBy !== "featured";
+
   return (
     <div className="bg-black text-white rounded-[32px] p-6 sm:p-10 lg:p-[45px] space-y-8 shadow-2xl">
       {/* ── Section Title & Subtitle matching Figma node 6140:4834 ─ */}
@@ -171,29 +131,69 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
             <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
           </div>
           <h2 className="font-heading font-medium text-[28px] sm:text-[32px] text-white tracking-tight">
-            Products
+            Solar Products &amp; Kits
           </h2>
         </div>
         <p className="text-sm sm:text-base lg:text-[20px] text-[#EBEBEB] leading-relaxed font-normal">
-          Discover a wide range of high-quality solar panels, inverters, and batteries designed to power homes, businesses, and communities across Nigeria. Every product is tested for performance, durability, and efficiency giving you reliable clean energy you can trust.
+          Discover a wide range of verified solar kits, hybrid inverters, lithium batteries, and certified accessories designed to power homes, businesses, and clinics across Nigeria. Real pricing in Naira with warranty support you can trust.
         </p>
       </div>
 
-      {/* ── Search Bar matching Figma node 6142:5650 ─────────── */}
-      <div className="w-full max-w-[742px]">
-        <div className="bg-[#EBEBEB] p-3 rounded-[12px] w-full shadow-xs">
-          <div className="bg-white border border-[#C0C0C0] h-[48px] rounded-[8px] px-4 flex items-center justify-between w-full">
-            <input
-              type="text"
-              value={searchQuery}
+      {/* ── Search Bar & Sorting Controls ─────────── */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        {/* Search Input */}
+        <div className="w-full md:max-w-[480px]">
+          <div className="bg-[#EBEBEB] p-2.5 rounded-[12px] w-full shadow-xs">
+            <div className="bg-white border border-[#C0C0C0] h-[44px] rounded-[8px] px-3.5 flex items-center justify-between w-full">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+                }}
+                placeholder="Search by system name, capacity, or component..."
+                className="w-full bg-transparent text-sm text-[#333333] placeholder:text-[#A1A1A1] focus:outline-none pr-2 font-sans"
+              />
+              {searchQuery ? (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-700 cursor-pointer"
+                  aria-label="Clear search query"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              ) : (
+                <Search className="w-4 h-4 text-[#767676] shrink-0 pointer-events-none" />
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Sort & Quick Filter Stats */}
+        <div className="flex items-center justify-between md:justify-end gap-3 shrink-0">
+          <div className="flex items-center gap-2 bg-[#1A1A1A] border border-white/10 rounded-[10px] px-3 py-2 text-xs text-gray-300">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#7BB042]" />
+            <span>Showing <strong className="text-white">{sortedProducts.length}</strong> items</span>
+          </div>
+
+          <div className="flex items-center gap-2 bg-[#1A1A1A] border border-white/10 rounded-[10px] px-3 py-1.5 text-xs">
+            <ArrowUpDown className="w-3.5 h-3.5 text-gray-400" />
+            <select
+              value={sortBy}
               onChange={(e) => {
-                setSearchQuery(e.target.value);
+                setSortBy(e.target.value as SortOption);
                 setCurrentPage(1);
               }}
-              placeholder="Search Product"
-              className="w-full bg-transparent text-sm text-[#333333] placeholder:text-[#A1A1A1] placeholder:italic focus:outline-none pr-3"
-            />
-            <Search className="w-5 h-5 text-[#767676] shrink-0 pointer-events-none" />
+              aria-label="Sort products by"
+              className="bg-transparent text-gray-200 focus:outline-none cursor-pointer font-sans"
+            >
+              <option value="featured" className="bg-gray-900 text-white">Sort: Featured</option>
+              <option value="price-asc" className="bg-gray-900 text-white">Price: Low to High</option>
+              <option value="price-desc" className="bg-gray-900 text-white">Price: High to Low</option>
+              <option value="name-asc" className="bg-gray-900 text-white">Name: A to Z</option>
+            </select>
           </div>
         </div>
       </div>
@@ -232,39 +232,68 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
         </div>
       </div>
 
+      {/* Active filter summary tag if filtering */}
+      {isFiltering && (
+        <div className="flex items-center gap-2 text-xs text-gray-300 flex-wrap">
+          <span>Active filter:</span>
+          {selectedCategory !== "All Product" && (
+            <span className="bg-white/10 px-2.5 py-1 rounded-full text-white flex items-center gap-1.5">
+              Category: {selectedCategory}
+            </span>
+          )}
+          {searchQuery && (
+            <span className="bg-white/10 px-2.5 py-1 rounded-full text-white flex items-center gap-1.5">
+              Keyword: &ldquo;{searchQuery}&rdquo;
+            </span>
+          )}
+          {sortBy !== "featured" && (
+            <span className="bg-white/10 px-2.5 py-1 rounded-full text-white flex items-center gap-1.5">
+              Sorting: {sortBy}
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={handleResetFilters}
+            className="text-[#7BB042] hover:underline ml-2 cursor-pointer font-semibold"
+          >
+            Reset filters
+          </button>
+        </div>
+      )}
+
       {/* ── Products Grid matching Figma node 6140:4856 & 6142:5704 ──────── */}
       {paginatedProducts.length === 0 ? (
-        <div className="bg-white/5 p-12 rounded-[24px] border border-white/10 text-center space-y-3">
-          <h3 className="font-heading font-bold text-lg text-white">
-            No Published Products Found
+        <div className="bg-white/5 p-12 sm:p-16 rounded-[24px] border border-white/10 text-center space-y-4">
+          <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mx-auto text-gray-400">
+            <Search className="w-6 h-6" />
+          </div>
+          <h3 className="font-heading font-bold text-xl text-white">
+            No Solar Products Found
           </h3>
-          <p className="text-xs sm:text-sm text-gray-400 max-w-sm mx-auto">
+          <p className="text-sm text-gray-300 max-w-md mx-auto">
             {searchQuery
-              ? `No results matching "${searchQuery}". Try a different keyword.`
-              : "Our catalog is being updated with verified solar inventory. Please check back shortly."}
+              ? `No solar products matched "${searchQuery}" in category "${selectedCategory}".`
+              : `There are currently no products available in category "${selectedCategory}".`}
           </p>
-          {(selectedCategory !== "All Product" || searchQuery) && (
+          <div className="pt-2">
             <button
               type="button"
-              onClick={() => {
-                setSelectedCategory("All Product");
-                setSearchQuery("");
-                setCurrentPage(1);
-              }}
-              className="mt-2 text-xs font-bold text-[#7BB042] hover:underline cursor-pointer"
+              onClick={handleResetFilters}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[10px] bg-[#7BB042] text-white text-sm font-heading font-semibold hover:bg-[#689836] transition cursor-pointer"
             >
               Reset all filters
             </button>
-          )}
+          </div>
         </div>
       ) : (
         <div className="space-y-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-[30px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-[30px] items-stretch">
             {paginatedProducts.map((product, idx) => {
               const mainImg =
                 product.product_images?.find((img) => img.is_main) ||
                 product.product_images?.[0];
               const imgUrl = (mainImg ? resolveMediaUrl(mainImg.url) : null) || "/api/websitepic/panels";
+              const capacity = getProductCapacity(product);
 
               // Subtle alternation matching Figma: indices 2 and 5 on pure white, others on #F2F7EC
               const isWhiteCard = idx % 3 === 2;
@@ -274,48 +303,87 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
                   key={product.id}
                   className={`${
                     isWhiteCard ? "bg-white" : "bg-[#F2F7EC]"
-                  } text-gray-900 rounded-[24px] p-5 sm:p-[18px] pb-6 pt-4 flex flex-col justify-between space-y-4 shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] hover:shadow-xl hover-lift group`}
+                  } text-gray-900 rounded-[24px] p-5 sm:p-[18px] pb-6 pt-4 flex flex-col justify-between shadow-[0px_2px_22px_0px_rgba(45,45,45,0.1)] hover:shadow-xl hover-lift group h-full transition-all`}
                 >
-                  {/* Image Container with light grey well matching Figma node 6140:4859 */}
-                  <div className="h-[280px] sm:h-[340px] lg:h-[400px] rounded-[24px] bg-[#EBEBEB] p-6 flex items-center justify-center overflow-hidden relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={imgUrl}
-                      alt={product.name}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+                  <div className="flex flex-col space-y-4">
+                    {/* Top Row: Category / Capacity Pill + Verified Stock Badge */}
+                    <div className="flex items-center justify-between gap-2 text-xs pt-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-heading font-semibold uppercase tracking-wider text-[11px] px-2.5 py-0.5 rounded-full bg-black/5 text-gray-700">
+                          {product.category}
+                        </span>
+                        {capacity && (
+                          <span className="font-heading font-bold text-[11px] px-2.5 py-0.5 rounded-full bg-[#7BB042]/15 text-[#3F6B1A]">
+                            {capacity}
+                          </span>
+                        )}
+                      </div>
 
-                  {/* Content matching Figma Frame 15 & 23 */}
-                  <div className="flex-1 flex flex-col justify-between space-y-4 pt-1">
-                    <div>
-                      <h3 className="font-heading font-medium text-[20px] sm:text-[24px] text-black group-hover:text-[#3F6B1A] transition-colors line-clamp-2">
+                      {/* Stock badge */}
+                      <span
+                        className={`text-[11px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${
+                          product.in_stock
+                            ? "bg-[#E8F3DA] text-[#3F6B1A]"
+                            : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {product.in_stock ? "In Stock" : "Pre-order"}
+                      </span>
+                    </div>
+
+                    {/* Image Container */}
+                    <Link
+                      href={`/shop/${product.slug}`}
+                      className="h-[240px] sm:h-[280px] lg:h-[320px] rounded-[20px] bg-[#EBEBEB] overflow-hidden relative block"
+                      aria-label={`View ${product.name}`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imgUrl}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </Link>
+
+                    {/* Product Title & Description */}
+                    <div className="space-y-1.5 pt-1">
+                      <h3 className="font-heading font-bold text-[18px] sm:text-[20px] text-black group-hover:text-[#3F6B1A] transition-colors line-clamp-1">
                         <Link href={`/shop/${product.slug}`}>
                           {product.name}
                         </Link>
                       </h3>
+                      {product.description && (
+                        <p className="font-sans text-[13px] text-gray-600 line-clamp-2 leading-relaxed">
+                          {product.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Bottom: Verified Price & View Details Action */}
+                  <div className="space-y-3 pt-4 border-t border-black/5 mt-4">
+                    <div className="flex items-baseline justify-between">
+                      <div className="space-y-0.5">
+                        <span className="text-[11px] uppercase tracking-wider text-gray-500 font-medium block">
+                          Verified Price
+                        </span>
+                        <div className="font-heading font-bold text-[20px] sm:text-[22px] text-[#111827]">
+                          {formatNaira(product.price)}
+                        </div>
+                      </div>
+                      <span className="text-[12px] text-gray-500 font-medium">
+                        Min. Order: 1 unit
+                      </span>
                     </div>
 
-                    {/* Price & Minimum Order matching Figma Frame 26 */}
-                    <div className="space-y-0.5">
-                      <div className="font-bold text-[20px] text-[#333333]">
-                        {formatNaira(product.price)}
-                      </div>
-                      <div className="text-[16px] sm:text-[18px] text-[#5C5C5C] font-medium">
-                        Min, Order : 1unit
-                      </div>
-                    </div>
-
-                    {/* Buy Button matching Figma node 6140:4870 */}
-                    <div className="pt-2">
-                      <ProductCardButton
-                        href={`/shop/${product.slug}`}
-                        className="w-full py-4 px-4 rounded-[12px] text-[16px] font-heading font-bold shadow-xs"
-                        ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
-                      >
-                        Buy For {formatNaira(product.price)}
-                      </ProductCardButton>
-                    </div>
+                    {/* Informative "View Details" CTA matching Phase 2 specifications */}
+                    <ProductCardButton
+                      href={`/shop/${product.slug}`}
+                      className="w-full py-3.5 px-4 rounded-[12px] text-[15px] font-heading font-bold shadow-xs"
+                      ariaLabel={`View details for ${product.name}`}
+                    >
+                      View Details
+                    </ProductCardButton>
                   </div>
                 </div>
               );
@@ -323,54 +391,56 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
           </div>
 
           {/* ── Pagination Bar matching Figma node 6142:5797 ────────── */}
-          <div className="w-full">
-            <div className="bg-[#EBEBEB] p-3 rounded-[12px] w-full shadow-xs">
-              <div className="bg-white rounded-[8px] p-2 flex items-center justify-between sm:justify-end gap-1.5 w-full">
-                {/* Previous Button */}
-                <button
-                  type="button"
-                  disabled={currentPage <= 1}
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="h-[36px] px-3.5 rounded-[6px] text-[14px] font-medium text-[#1A1A1A] hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5 cursor-pointer"
-                >
-                  <ChevronLeft className="w-4 h-4 stroke-[2]" />
-                  <span>Previous</span>
-                </button>
+          {totalPages > 1 && (
+            <div className="w-full">
+              <div className="bg-[#EBEBEB] p-3 rounded-[12px] w-full shadow-xs">
+                <div className="bg-white rounded-[8px] p-2 flex items-center justify-between sm:justify-end gap-1.5 w-full">
+                  {/* Previous Button */}
+                  <button
+                    type="button"
+                    disabled={currentPage <= 1}
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    className="h-[36px] px-3.5 rounded-[6px] text-[14px] font-medium text-[#1A1A1A] hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                    <span>Previous</span>
+                  </button>
 
-                {/* Page Number Pills */}
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => {
-                    const isActive = currentPage === pg;
-                    return (
-                      <button
-                        key={pg}
-                        type="button"
-                        onClick={() => setCurrentPage(pg)}
-                        className={`w-9 h-9 rounded-[8px] flex items-center justify-center text-[14px] transition cursor-pointer ${
-                          isActive
-                            ? "bg-white border border-[#7BB042] text-[#7BB042] font-medium shadow-xs"
-                            : "bg-[#F5F5F5] text-[#7D827D] hover:bg-gray-200 font-normal"
-                        }`}
-                      >
-                        {pg}
-                      </button>
-                    );
-                  })}
+                  {/* Page Number Pills */}
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => {
+                      const isActive = currentPage === pg;
+                      return (
+                        <button
+                          key={pg}
+                          type="button"
+                          onClick={() => setCurrentPage(pg)}
+                          className={`w-9 h-9 rounded-[8px] flex items-center justify-center text-[14px] transition cursor-pointer ${
+                            isActive
+                              ? "bg-white border border-[#7BB042] text-[#7BB042] font-medium shadow-xs"
+                              : "bg-[#F5F5F5] text-[#7D827D] hover:bg-gray-200 font-normal"
+                          }`}
+                        >
+                          {pg}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    type="button"
+                    disabled={currentPage >= totalPages}
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    className="h-[36px] px-3.5 rounded-[6px] text-[14px] font-medium text-[#1A1A1A] hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-4 h-4 stroke-[2]" />
+                  </button>
                 </div>
-
-                {/* Next Button */}
-                <button
-                  type="button"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="h-[36px] px-3.5 rounded-[6px] text-[14px] font-medium text-[#1A1A1A] hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>Next</span>
-                  <ChevronRight className="w-4 h-4 stroke-[2]" />
-                </button>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

@@ -182,7 +182,7 @@ export function HomeContactForm() {
               type="submit"
               className="w-full py-4 rounded-xl text-base font-bold bg-[#7BB042] text-[#F2F7EC] hover:bg-[#6EA138] transition shadow-xs flex items-center justify-center cursor-pointer min-h-[52px]"
             >
-              Market Place
+              Send Message
             </button>
           </div>
         </form>

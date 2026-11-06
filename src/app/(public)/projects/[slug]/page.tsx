@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!project) {
     return {
-      title: "Project Not Found | Petfeb Solar",
+      title: "Project Not Found | Pet-Feb Solar",
     };
   }
 
   return {
-    title: `${project.title} | Petfeb Solar Installations`,
+    title: `${project.title} | Pet-Feb Solar Installations`,
     description: project.summary,
   };
 }
@@ -265,7 +265,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
-            href="/#contact"
+            href="/contact"
             className="w-full sm:w-auto px-7 py-3.5 rounded-[12px] text-sm sm:text-base font-heading font-bold bg-black text-white hover:bg-gray-900 transition shadow-sm inline-flex items-center justify-center gap-2"
           >
             <span>Contact Us</span>

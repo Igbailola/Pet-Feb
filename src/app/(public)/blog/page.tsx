@@ -13,7 +13,7 @@ import { ProjectHeroSlider } from "@/components/public/ProjectHeroSlider";
 import { ScrollReveal } from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Blog & Field Notes | Petfeb Solar",
+  title: "Blog & Field Notes | Pet-Feb Solar",
   description:
     "Discover how Pet-Feb is powering communities, expanding across Nigeria, and equipping the next generation of renewable energy engineers.",
 };
@@ -33,7 +33,7 @@ export default async function BlogPage() {
             aria-hidden="true"
           />
           <h1 className="font-heading font-bold text-[36px] sm:text-[44px] lg:text-[48px] uppercase tracking-[2px] sm:tracking-[3px] leading-[1.1] text-shadow-[0px_4px_20px_rgba(0,0,0,0.05)]">
-            <span className="text-black block">WELCOME TO PETFEB</span>
+            <span className="text-black block">WELCOME TO PET-FEB</span>
             <span className="text-[#70A03C] block">BLOG POST.</span>
           </h1>
         </ScrollReveal>
@@ -57,12 +57,12 @@ export default async function BlogPage() {
                 "https://framerusercontent.com/images/BxR3rcFDKdHvorb8nsw4BrCQF0.png?width=1524&height=764",
                 "https://framerusercontent.com/images/xyrhLbRC9JyspLBq3TZdYJN7U.png?width=2444&height=2208",
               ]}
-              title="Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria"
+              title="Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria"
               className="relative w-full h-72 sm:h-[440px] lg:h-[520px] rounded-[24px] overflow-hidden shadow-md bg-gray-900 group select-none"
             />
 
             <h2 className="font-heading font-bold text-2xl sm:text-3xl text-gray-950 leading-snug pt-2">
-              Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
+              Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
             </h2>
 
             {/* Article Content Paragraphs matching design */}
@@ -81,57 +81,35 @@ export default async function BlogPage() {
               </p>
             </div>
 
-            {/* Author & Interactions Row matching Figma */}
+            {/* Author & Editorial Metadata Row */}
             <div className="flex flex-wrap items-center justify-between py-4 border-y border-gray-200 gap-4 text-xs sm:text-sm text-gray-600">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs text-gray-700">
+                <div className="w-8 h-8 rounded-full bg-[#E8F3DA] text-[#3F6B1A] flex items-center justify-center font-bold text-xs">
                   PF
                 </div>
-                <span className="font-bold text-gray-900">Pet-Feb Admin</span>
+                <div>
+                  <span className="font-bold text-gray-900 block font-heading">Pet-Feb Editorial</span>
+                  <span className="text-xs text-gray-500">Corporate Expansion Desk</span>
+                </div>
               </div>
 
-              <div className="flex items-center gap-5 text-gray-600">
-                <span className="flex items-center gap-1.5 cursor-pointer hover:text-[#7BB042]">
-                  <ThumbsUp className="w-4 h-4 text-[#7BB042]" />
-                  <span className="font-semibold">128</span>
-                </span>
-                <span className="flex items-center gap-1.5 cursor-pointer hover:text-gray-900">
-                  <ThumbsDown className="w-4 h-4" />
-                  <span>0</span>
-                </span>
-                <span className="flex items-center gap-1.5 cursor-pointer hover:text-gray-900">
-                  <MessageSquare className="w-4 h-4" />
-                  <span>80</span>
-                </span>
-                <span className="flex items-center gap-1.5 cursor-pointer hover:text-gray-900">
-                  <Share2 className="w-4 h-4" />
-                  <span>12</span>
-                </span>
+              <div className="flex items-center gap-4 text-gray-500 text-xs">
+                <span>Category: <strong className="text-gray-800">Renewable Energy</strong></span>
+                <span>•</span>
+                <span>3 min read</span>
               </div>
             </div>
 
-            {/* 45 Comments Section */}
+            {/* Comments Section */}
             <div className="space-y-4 pt-2">
               <h3 className="font-heading font-bold text-lg text-gray-950">
-                45 Comments
+                Comments (0)
               </h3>
 
-              <div className="p-4 rounded-2xl bg-[#F8F9FA] border border-gray-200 space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-[#E8F3DA] text-[#3F6B1A] font-bold text-xs flex items-center justify-center">
-                    MJ
-                  </div>
-                  <span className="text-xs font-semibold text-gray-800">
-                    Lorem ipsum dolor sit amet consectet
-                  </span>
-                </div>
-                <p className="text-xs text-gray-600 pl-9">
-                  Lorem ipsum dolor sit amet consectet Loolor sit amet consectetet 👍
+              <div className="p-5 rounded-2xl bg-[#F8F9FA] border border-gray-200 text-center space-y-1">
+                <p className="text-xs text-gray-500 font-medium">
+                  No public comments yet. Be the first to share your thoughts.
                 </p>
-                <div className="flex items-center gap-3 text-xs text-gray-500 pl-9 pt-1">
-                  <span className="flex items-center gap-1"><ThumbsUp className="w-3 h-3 text-[#7BB042]" /> 12</span>
-                  <span className="flex items-center gap-1"><ThumbsDown className="w-3 h-3" /> 0</span>
-                </div>
               </div>
 
               {/* Leave Comment input */}
@@ -191,7 +169,7 @@ export default async function BlogPage() {
                       Renewable Energy
                     </span>
                     <h4 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#3F6B1A] transition leading-snug line-clamp-2">
-                      Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
+                      Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria
                     </h4>
                     <p className="text-[11px] text-gray-500 line-clamp-2">
                       Pet-Feb opens a new regional office in Port Harcourt, reinforcing its commitment to clean energy access, innovation, and customer support.
@@ -323,7 +301,7 @@ export default async function BlogPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/figma-assets/mission-img-2.png"
-                alt="Petfeb hands-on solar training lab"
+                alt="Pet-Feb hands-on solar training lab"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-2">
@@ -342,7 +320,7 @@ export default async function BlogPage() {
                   </h2>
                 </div>
                 <p className="text-sm sm:text-base text-black/90 leading-relaxed font-normal max-w-xl">
-                  Petfeb Solar Training is designed to equip individuals with hands-on knowledge in solar installation,
+                  Pet-Feb Solar Training is designed to equip individuals with hands-on knowledge in solar installation,
                   maintenance, and system design. Weather you&apos;re starting out or upgrading your skills, our training
                   prepares you to work confidently in the fast-growing solar industry
                 </p>

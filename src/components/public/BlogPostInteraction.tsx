@@ -27,7 +27,7 @@ interface BlogPostInteractionProps {
 
 export function BlogPostInteraction({ postTitle, postSlug }: BlogPostInteractionProps) {
   // Like / Dislike interaction
-  const [likes, setLikes] = useState(128);
+  const [likes, setLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
   const [dislikes, setDislikes] = useState(0);
   const [hasDisliked, setHasDisliked] = useState(false);
@@ -36,16 +36,7 @@ export function BlogPostInteraction({ postTitle, postSlug }: BlogPostInteraction
   const [copiedLink, setCopiedLink] = useState(false);
 
   // Comments state
-  const [comments, setComments] = useState<CommentItem[]>([
-    {
-      id: "comment-1",
-      authorInitials: "MJ",
-      authorName: "Engr. Michael Jude",
-      text: "Pet-Feb's expansion to Port Harcourt is a timely development. Clean energy infrastructure is urgently needed across the Niger Delta region. 👍🏻👍🏻",
-      likes: 12,
-      timeAgo: "2 days ago",
-    },
-  ]);
+  const [comments, setComments] = useState<CommentItem[]>([]);
   const [newCommentText, setNewCommentText] = useState("");
   const [commentAuthor, setCommentAuthor] = useState("");
 
@@ -197,7 +188,7 @@ export function BlogPostInteraction({ postTitle, postSlug }: BlogPostInteraction
         {/* Comment Heading */}
         <div className="flex items-center gap-[10px]">
           <span className="font-heading font-medium text-[20px] text-black">
-            {45 + comments.length - 1}
+            {comments.length}
           </span>
           <span className="font-heading font-medium text-[20px] text-black">
             Comments
@@ -206,40 +197,46 @@ export function BlogPostInteraction({ postTitle, postSlug }: BlogPostInteraction
 
         {/* Comment Cards List */}
         <div className="flex flex-col gap-[12px] w-full">
-          {comments.map((c) => (
-            <div
-              key={c.id}
-              className="bg-[#EBEBEB]/40 border border-[#EBEBEB] rounded-[16px] p-[20px] flex flex-col gap-3"
-            >
-              <div className="flex items-start gap-[14px]">
-                <div className="w-[38px] h-[38px] rounded-full bg-[#D6E7C4] text-[#3F6B1A] font-heading font-bold text-xs flex items-center justify-center shrink-0">
-                  {c.authorInitials}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <span className="font-heading font-bold text-[14px] text-black">
-                      {c.authorName}
-                    </span>
-                    <span className="text-[12px] text-gray-400">{c.timeAgo}</span>
-                  </div>
-                  <p className="font-sans font-normal text-[14px] text-black leading-[1.6] mt-1">
-                    {c.text}
-                  </p>
-                </div>
-              </div>
-
-              {/* Comment Like Counter */}
-              <div className="flex items-center gap-3 pt-1 pl-[52px]">
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-black transition"
-                >
-                  <ThumbsUp className="w-3.5 h-3.5" />
-                  <span>{c.likes}</span>
-                </button>
-              </div>
+          {comments.length === 0 ? (
+            <div className="bg-[#EBEBEB]/30 border border-[#EBEBEB] rounded-[16px] p-[20px] text-center text-sm text-gray-500">
+              No comments yet. Be the first to share your feedback!
             </div>
-          ))}
+          ) : (
+            comments.map((c) => (
+              <div
+                key={c.id}
+                className="bg-[#EBEBEB]/40 border border-[#EBEBEB] rounded-[16px] p-[20px] flex flex-col gap-3"
+              >
+                <div className="flex items-start gap-[14px]">
+                  <div className="w-[38px] h-[38px] rounded-full bg-[#D6E7C4] text-[#3F6B1A] font-heading font-bold text-xs flex items-center justify-center shrink-0">
+                    {c.authorInitials}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-heading font-bold text-[14px] text-black">
+                        {c.authorName}
+                      </span>
+                      <span className="text-[12px] text-gray-400">{c.timeAgo}</span>
+                    </div>
+                    <p className="font-sans font-normal text-[14px] text-black leading-[1.6] mt-1">
+                      {c.text}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Comment Like Counter */}
+                <div className="flex items-center gap-3 pt-1 pl-[52px]">
+                  <button
+                    type="button"
+                    className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-black transition"
+                  >
+                    <ThumbsUp className="w-3.5 h-3.5" />
+                    <span>{c.likes}</span>
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         {/* Leave Comment Box matching Figma node 6147:9152 */}

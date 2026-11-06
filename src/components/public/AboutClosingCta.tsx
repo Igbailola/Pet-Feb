@@ -39,7 +39,7 @@ export function AboutClosingCta() {
           {/* Actions */}
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
-              href="/#contact"
+              href="/contact"
               className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full font-heading font-bold text-sm sm:text-base bg-[#7BB042] text-white hover:bg-[#6CA035] shadow-[0px_4px_16px_rgba(123,176,66,0.35)] active:scale-[0.98] transition-all duration-200"
             >
               <span>Get a Solar Consultation</span>

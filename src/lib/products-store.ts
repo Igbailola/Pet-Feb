@@ -109,8 +109,8 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-3kva-main",
         product_id: "prod-kit-3kva",
-        url: "/api/websitepic/installer",
-        alt_text: "3kVA Home Solar Kit installation",
+        url: "/api/websitepic/battery",
+        alt_text: "3kVA Home Solar Kit battery and inverter setup",
         sort_order: 0,
         is_main: true,
       },
@@ -231,7 +231,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-inv-growatt-main",
         product_id: "prod-inv-growatt-5kva",
-        url: "/api/websitepic/installer",
+        url: "/api/websitepic/commercial",
         alt_text: "Growatt 5kVA SPF Hybrid Inverter",
         sort_order: 0,
         is_main: true,

@@ -21,14 +21,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) {
     return {
-      title: "Article Not Found | Petfeb Solar",
+      title: "Article Not Found | Pet-Feb Solar",
     };
   }
 
   const ogImage = resolveMediaUrl(post.cover_image);
 
   return {
-    title: `${post.title} | Petfeb Blog`,
+    title: `${post.title} | Pet-Feb Blog`,
     description: post.body.slice(0, 160).trim(),
     openGraph: ogImage
       ? {
@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* Yellow dot */}
           <span className="w-[30px] h-[30px] rounded-full bg-[#F5B82E] shrink-0 mt-[46px] mr-[16px]" />
           <h1 className="font-heading font-medium text-[48px] sm:text-[64px] text-black leading-[1.0] tracking-tight">
-            Welcome to petfeb Blog post
+            Welcome to Pet-Feb Blog post
             <span className="text-[#7BB042]">.</span>
           </h1>
         </div>
@@ -203,7 +203,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/figma-assets/mission-img-2.png"
-              alt="Petfeb hands-on solar training"
+              alt="Pet-Feb hands-on solar training"
               className="absolute inset-0 w-full h-full object-cover rounded-l-[22px]"
             />
             {/* Location tag */}
@@ -227,7 +227,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </h2>
               </div>
               <p className="font-sans font-normal text-[16px] text-black leading-[1.6] max-w-[720px]">
-                Petfeb Solar Training is designed to equip individuals with
+                Pet-Feb Solar Training is designed to equip individuals with
                 hands-on knowledge in solar installation, maintenance, and
                 system design. Weather you&apos;re starting out or upgrading
                 your skills, our training prepares you to work confidently in

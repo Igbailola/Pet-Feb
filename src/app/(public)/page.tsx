@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   PackageSearch,
-  Star,
   ChevronRight,
 } from "lucide-react";
 import {
@@ -143,7 +142,7 @@ export default async function HomePage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/figma-assets/mission-img-2.png"
-                    alt="Petfeb hands-on solar training lab"
+                    alt="Pet-Feb hands-on solar training lab"
                     className="w-full h-full object-cover"
                   />
                 </ParallaxLayer>
@@ -164,7 +163,7 @@ export default async function HomePage() {
                     </h2>
                   </div>
                   <p className="text-sm sm:text-base text-black/90 leading-relaxed font-normal max-w-xl">
-                    Petfeb Solar Training is designed to equip individuals with hands-on knowledge in solar installation,
+                    Pet-Feb Solar Training is designed to equip individuals with hands-on knowledge in solar installation,
                     maintenance, and system design. Weather you&apos;re starting out or upgrading your skills, our training
                     prepares you to work confidently in the fast-growing solar industry
                   </p>
@@ -238,7 +237,7 @@ export default async function HomePage() {
                 </p>
               </ScrollReveal>
 
-              {/* 3 Real Testimonial Cards on Black Background with Staggered Reveal (matching reference video 00:07) */}
+              {/* 3 Real Testimonial Cards on Black Background with Staggered Reveal */}
               <StaggerChildren
                 staggerDelay={0.11}
                 distance={64}
@@ -246,86 +245,74 @@ export default async function HomePage() {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
               >
                 {/* Card 1: Mr Phillip */}
-                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full">
+                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full border border-white/5">
                   <div className="space-y-4">
-                    <div className="w-14 h-14 rounded-full bg-[#333] flex items-center justify-center font-heading font-bold text-xl text-white">
-                      MP
+                    <div className="w-12 h-12 rounded-full bg-[#3F6B1A] text-white flex items-center justify-center font-heading font-bold text-lg">
+                      P
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-heading font-bold text-base sm:text-lg text-white">
-                        Mr Phillip (inverter project customer)
+                        Mr. Phillip
                       </h3>
-                      <p className="text-xs text-gray-400">
-                        Pet-Feb Client
+                      <p className="text-xs text-[#7BB042] font-heading font-semibold">
+                        Inverter Backup Project Client
                       </p>
-                      <div className="flex items-center gap-1 pt-1 text-[#F5B82E]">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-current" />
-                        ))}
-                      </div>
                     </div>
-                    <p className="text-sm text-gray-300 leading-relaxed font-normal">
+                    <p className="text-sm text-gray-300 leading-relaxed font-normal italic">
                       &quot;I don&apos;t have to think about light ever again! I&apos;m so happy the installation is finished. God bless you.&quot;
                     </p>
                   </div>
-                  <div className="text-right text-xs text-gray-500 font-medium pt-2">
-                    23 - 09 - 2025
+                  <div className="flex items-center justify-between text-xs text-gray-500 font-medium pt-3 border-t border-white/10">
+                    <span className="text-gray-400">Verified Client Feedback</span>
+                    <span>Residential Installation</span>
                   </div>
                 </div>
 
                 {/* Card 2: Miss Diamond */}
-                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full">
+                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full border border-white/5">
                   <div className="space-y-4">
-                    <div className="w-14 h-14 rounded-full bg-[#333] flex items-center justify-center font-heading font-bold text-xl text-white">
-                      MD
+                    <div className="w-12 h-12 rounded-full bg-[#3F6B1A] text-white flex items-center justify-center font-heading font-bold text-lg">
+                      D
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-heading font-bold text-base sm:text-lg text-white">
-                        Miss Diamond (solar generator customer)
+                        Miss Diamond
                       </h3>
-                      <p className="text-xs text-gray-400">
-                        Pet-Feb Client
+                      <p className="text-xs text-[#7BB042] font-heading font-semibold">
+                        Solar Generator Customer
                       </p>
-                      <div className="flex items-center gap-1 pt-1 text-[#F5B82E]">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-current" />
-                        ))}
-                      </div>
                     </div>
-                    <p className="text-sm text-gray-300 leading-relaxed font-normal">
+                    <p className="text-sm text-gray-300 leading-relaxed font-normal italic">
                       &quot;Yes, I am enjoying the system, very well. And thanks for the service, too. I have to commend you guys. I really hate poor customer service, and that&apos;s what made me leave the first vendor I contacted.&quot;
                     </p>
                   </div>
-                  <div className="text-right text-xs text-gray-500 font-medium pt-2">
-                    23 - 09 - 2025
+                  <div className="flex items-center justify-between text-xs text-gray-500 font-medium pt-3 border-t border-white/10">
+                    <span className="text-gray-400">Verified Client Feedback</span>
+                    <span>Home Solar Backup</span>
                   </div>
                 </div>
 
                 {/* Card 3: MD Avoshe */}
-                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full">
+                <div className="bg-black text-white rounded-[24px] p-6 sm:p-8 flex flex-col justify-between space-y-5 shadow-lg hover-lift h-full border border-white/5">
                   <div className="space-y-4">
-                    <div className="w-14 h-14 rounded-full bg-[#333] flex items-center justify-center font-heading font-bold text-xl text-white">
-                      MP
+                    <div className="w-12 h-12 rounded-full bg-[#3F6B1A] text-white flex items-center justify-center font-heading font-bold text-lg">
+                      A
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-heading font-bold text-base sm:text-lg text-white">
-                        MD Avoshe (Estate security streetlights project)
+                        MD Avoshe
                       </h3>
-                      <p className="text-xs text-gray-400">
-                        Pet-Feb Client
+                      <p className="text-xs text-[#7BB042] font-heading font-semibold">
+                        Estate Security Streetlights Project
                       </p>
-                      <div className="flex items-center gap-1 pt-1 text-[#F5B82E]">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-current" />
-                        ))}
-                      </div>
                     </div>
-                    <p className="text-sm text-gray-300 leading-relaxed font-normal">
+                    <p className="text-sm text-gray-300 leading-relaxed font-normal italic">
                       &quot;Good Evening Boss. Security Light successfully installed and it is working. Thank You Pet-Feb. May your company continue to record more wins. Amen.&quot;
                     </p>
                   </div>
-                  <div className="text-right text-xs text-gray-500 font-medium pt-2">
-                    23 - 09 - 2025
+                  <div className="flex items-center justify-between text-xs text-gray-500 font-medium pt-3 border-t border-white/10">
+                    <span className="text-gray-400">Verified Project Feedback</span>
+                    <span>Community Street Lighting</span>
                   </div>
                 </div>
               </StaggerChildren>

@@ -165,7 +165,7 @@ export default function CheckoutPage() {
                   Engineering Dispatch Scheduled
                 </h1>
                 <p className="text-xs sm:text-sm text-[#42493A] mt-0.5">
-                  Your solar hardware order has been registered in Petfeb Central Dispatch.
+                  Your solar hardware order has been registered in Pet-Feb Central Dispatch.
                 </p>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default function CheckoutPage() {
                 <div>
                   <span className="text-[#5C5C5C] block">Account Name</span>
                   <span className="font-bold text-[#1B1C1C]">
-                    Petfeb International Company Limited
+                    Pet-Feb International Company Limited
                   </span>
                 </div>
                 <div>
@@ -256,7 +256,7 @@ export default function CheckoutPage() {
               </p>
               <p className="text-[#3F6B1A] font-medium pt-1">
                 {orderConfirmed.wantsInstaller
-                  ? `✓ Certified Petfeb Turnkey Installation included (${orderConfirmed.propertyType} · ${orderConfirmed.installWindow}).`
+                  ? `✓ Certified Pet-Feb Turnkey Installation included (${orderConfirmed.propertyType} · ${orderConfirmed.installWindow}).`
                   : "Self-installation selected. Hardware delivered for local engineering team."}
               </p>
             </div>
@@ -355,7 +355,7 @@ export default function CheckoutPage() {
     }
 
     if (!agreeTerms) {
-      setFormError("Please agree to Petfeb's Terms of Service and Warranty Terms to proceed.");
+      setFormError("Please agree to Pet-Feb's Terms of Service and Warranty Terms to proceed.");
       return;
     }
 
@@ -490,7 +490,7 @@ export default function CheckoutPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/bannerimages/cart-page-banner.jpg"
-            alt="Petfeb Solar Checkout and Delivery"
+            alt="Pet-Feb Solar Checkout and Delivery"
             className="w-full h-full object-cover"
           />
           <div
@@ -723,7 +723,7 @@ export default function CheckoutPage() {
                   </span>
                 </div>
                 <p className="text-[11px] italic text-[#5C5C5C] leading-[16.5px]">
-                  (demo placeholder, pending Petfeb approval)
+                  (demo placeholder, pending Pet-Feb approval)
                 </p>
               </div>
 
@@ -786,7 +786,7 @@ export default function CheckoutPage() {
                         Yes, I want an installer
                       </h4>
                       <p className="font-sans text-[14px] text-[#F2F7EC] leading-[19.5px]">
-                        A certified Petfeb installation engineer will contact you within 24 hours to schedule a pre-install site assessment and turnkey commissioning.
+                        A certified Pet-Feb installation engineer will contact you within 24 hours to schedule a pre-install site assessment and turnkey commissioning.
                       </p>
                     </div>
 
@@ -838,7 +838,7 @@ export default function CheckoutPage() {
                         No, I&apos;ll arrange my own
                       </h4>
                       <p className="font-sans text-[14px] text-[#EBEBEB] leading-[19.5px]">
-                        Hardware delivered to your door. Installation handled by your own qualified electrical engineer. Petfeb warranty guidelines apply.
+                        Hardware delivered to your door. Installation handled by your own qualified electrical engineer. Pet-Feb warranty guidelines apply.
                       </p>
                     </div>
 
@@ -927,7 +927,7 @@ export default function CheckoutPage() {
                         </strong>{" "}
                         — Includes DC cable trunking, array mounting hardware, earth rod resistance testing, and surge protection integration.{" "}
                         <em className="italic">
-                          (Fee to be confirmed on site audit · demo terms, pending Petfeb approval)
+                          (Fee to be confirmed on site audit · demo terms, pending Pet-Feb approval)
                         </em>
                         .
                       </p>
@@ -957,7 +957,7 @@ export default function CheckoutPage() {
                   className="mt-0.5 size-[20px] rounded-[4px] accent-[#7BB042] cursor-pointer shrink-0"
                 />
                 <span className="font-sans text-[14px] text-[#42493A] leading-[19.5px]">
-                  I agree to Petfeb&apos;s{" "}
+                  I agree to Pet-Feb&apos;s{" "}
                   <Link
                     href="/about"
                     className="font-semibold text-[#3D6A00] underline hover:text-[#2a4a00]"
@@ -1125,7 +1125,7 @@ export default function CheckoutPage() {
                   </span>
                 </div>
                 <span className="font-sans text-[11px] italic text-[#5C5C5C] text-right block leading-[16.5px]">
-                  (demo placeholder, pending Petfeb approval)
+                  (demo placeholder, pending Pet-Feb approval)
                 </span>
               </div>
             </div>
@@ -1163,7 +1163,7 @@ export default function CheckoutPage() {
 
             {/* Engineering / Compliance Note (Node 6166:2729) */}
             <p className="font-sans text-[11px] italic text-[#5C5C5C] text-center px-[8px] leading-[16.5px]">
-              *All fee calculations, installation schedules, and technical claims are demo placeholders, pending Petfeb approval. Grid synchronization subject to local distribution company compliance.
+              *All fee calculations, installation schedules, and technical claims are demo placeholders, pending Pet-Feb approval. Grid synchronization subject to local distribution company compliance.
             </p>
           </aside>
         </form>

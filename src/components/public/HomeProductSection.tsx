@@ -113,14 +113,18 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                 className="bg-white text-gray-900 rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-md hover-lift group h-full"
               >
                 {/* Image Container with light green-tinted well */}
-                <div className="h-56 sm:h-64 rounded-[16px] bg-[#F2F7EC] p-6 flex items-center justify-center overflow-hidden">
+                <Link
+                  href={`/shop/${product.slug}`}
+                  className="h-56 sm:h-64 rounded-[16px] bg-[#F2F7EC] overflow-hidden relative block"
+                  aria-label={`View ${product.name}`}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imgUrl}
                     alt={product.name}
-                    className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                </div>
+                </Link>
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between space-y-3">
@@ -142,14 +146,14 @@ export function HomeProductSection({ products }: HomeProductSectionProps) {
                     </div>
                   </div>
 
-                  {/* Buy Button matching Figma node 6139:2997 */}
+                  {/* View Details CTA */}
                   <div className="pt-2">
                     <ProductCardButton
                       href={`/shop/${product.slug}`}
                       className="w-full py-3.5 px-4 rounded-[12px] text-sm font-bold shadow-xs"
-                      ariaLabel={`Buy ${product.name} for ${formatNaira(product.price)}`}
+                      ariaLabel={`View details for ${product.name}`}
                     >
-                      Buy For {formatNaira(product.price)}
+                      View Details
                     </ProductCardButton>
                   </div>
                 </div>

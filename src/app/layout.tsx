@@ -48,8 +48,8 @@ const roboto = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://petfeb.com"),
-  title: "Petfeb Platform",
-  description: "Petfeb solar commerce, financing and internal operations",
+  title: "Pet-Feb Platform",
+  description: "Pet-Feb solar commerce, financing and internal operations",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

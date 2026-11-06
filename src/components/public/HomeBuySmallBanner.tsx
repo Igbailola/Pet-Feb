@@ -43,7 +43,7 @@ export function HomeBuySmallBanner() {
         <div className="lg:col-span-7 space-y-4">
           <div className="inline-flex items-center px-3 py-1 rounded-full">
             <span className="text-xs font-bold text-[#3F6B1A] font-heading leading-4">
-              Petfeb Buy Small Scheme
+              Pet-Feb Buy Small Scheme
             </span>
           </div>
 

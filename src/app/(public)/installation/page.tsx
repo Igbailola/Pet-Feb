@@ -22,7 +22,7 @@ import {
 } from "@/components/motion";
 
 export const metadata: Metadata = {
-  title: "Request an Installer | Petfeb Solar Engineering",
+  title: "Request an Installer | Pet-Feb Solar Engineering",
   description:
     "Installed right, built to last. Certified solar engineering ensuring optimal performance, warranty protection, and complete safety across Nigeria.",
 };
@@ -35,7 +35,7 @@ const PILLARS = [
   },
   {
     title: "Trained & Certified Techs",
-    desc: "Every installer is a certified Petfeb Academy graduate and COREN/NEMSA-licensed wireman trained in high-voltage DC safety protocols.",
+    desc: "Every installer is a certified Pet-Feb Academy graduate and licensed technician trained in high-voltage DC safety protocols.",
     tag: "NEMSA Verified Wiremen",
   },
   {
@@ -132,14 +132,14 @@ const SCOPE_EXCLUDED = [
 const FAQS = [
   {
     q: "How much does professional solar installation cost?",
-    a: "Standard residential turnkey installation ranges from ₦120,000 to ₦280,000 depending on system kVA capacity, roof pitch, DC cable run distance, and earthing soil conditions. All quotes are confirmed upfront after your free site assessment with zero hidden charges (demo placeholder, pending Petfeb approval).",
+    a: "Standard residential turnkey installation depends on system kVA capacity, roof pitch, DC cable run distance, and earthing soil conditions. All quotes are confirmed upfront after your technical site assessment with zero hidden charges.",
   },
   {
     q: "How long does an installation typically take?",
-    a: "Most residential rooftop installations (1kVA to 5kVA) are completed and commissioned within 24 to 48 hours once components arrive on site. Commercial arrays (10kVA to 30kVA+) typically require 3 to 5 business days for rigorous structural racking and distribution switchgear synchronization.",
+    a: "Most residential rooftop installations (1kVA to 5kVA) are completed and commissioned within 24 to 48 hours once components arrive on site. Commercial arrays (10kVA to 30kVA+) typically require 3 to 5 business days for structural racking and distribution switchgear synchronization.",
   },
   {
-    q: "Do Petfeb engineers install in all 36 states?",
+    q: "Do Pet-Feb engineers install in all 36 states?",
     a: "Yes. With direct regional engineering hubs in Lagos, Abuja, and Port Harcourt, our mobile installation units deploy across all 36 states and the FCT with dedicated logistics vans and certified tools.",
   },
   {
@@ -323,7 +323,7 @@ export default function InstallationPage() {
                   </h2>
                 </div>
                 <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                  In Nigeria&apos;s high-temperature, surge-prone environment, amateur solar wiring causes inverter blowouts, battery degradation, and fire hazards. Petfeb installations protect your capital.
+                  In Nigeria&apos;s high-temperature, surge-prone environment, amateur solar wiring causes inverter blowouts, battery degradation, and fire hazards. Pet-Feb installations protect your capital.
                 </p>
               </div>
 
@@ -383,7 +383,7 @@ export default function InstallationPage() {
                 </h2>
               </div>
               <p className="text-sm sm:text-base text-black/85 leading-relaxed">
-                Every Petfeb deployment follows strict international IEC standards from initial roof survey to cloud telemetry commissioning.
+                Every Pet-Feb deployment follows strict international IEC standards from initial roof survey to cloud telemetry commissioning.
               </p>
             </div>
 
@@ -562,7 +562,7 @@ export default function InstallationPage() {
                   </div>
 
                   <p className="text-xs sm:text-sm text-black/85 leading-relaxed">
-                    All Petfeb installations comply with Nigerian electrical safety standards and include full workmanship protection alongside manufacturer hardware warranties.
+                    All Pet-Feb installations comply with Nigerian electrical safety standards and include full workmanship protection alongside manufacturer hardware warranties.
                   </p>
 
                   <ul className="space-y-2.5 text-xs sm:text-sm font-medium text-black pt-1">

@@ -350,7 +350,7 @@ export default function AboutPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/figma-assets/about-event-china.png"
-                alt="Petfeb leadership delegation at international manufacturing partner facility"
+                alt="Pet-Feb leadership delegation at international manufacturing partner facility"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
               />
             </div>

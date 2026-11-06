@@ -214,7 +214,7 @@ Our vision is to see every community, big or small, powered by clean, renewable 
   },
   {
     id: "blog-ph-expansion",
-    title: "Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
+    title: "Pet-Feb Expands to Port Harcourt Bringing Solar Innovation Closer to Southern Nigeria",
     slug: "petfeb-expands-to-port-harcourt",
     cover_image: "/figma-assets/blog-ph-expansion.png",
     hero_images: [
