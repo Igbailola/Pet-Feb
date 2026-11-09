@@ -83,7 +83,9 @@ export async function publishProjectAction(formData: FormData): Promise<OtherUpd
         location,
         summary,
         impact,
-        imageUrl: imageUrl || "/api/websitepic/community",
+        imageUrl:
+          imageUrl ||
+          "https://framerusercontent.com/images/Pe6chdzlkxNa92G279oCEMkkpc.png?width=3906&height=1656",
         status,
         published_at: new Date().toISOString(),
       },
@@ -176,7 +178,9 @@ export async function publishTrainingAction(formData: FormData): Promise<OtherUp
         location,
         schedule,
         curriculum,
-        imageUrl: imageUrl || "/api/websitepic/training",
+        imageUrl:
+          imageUrl ||
+          "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656",
         status,
         published_at: new Date().toISOString(),
       },

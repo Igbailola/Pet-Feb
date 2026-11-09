@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  PackageSearch,
+  ShoppingBag,
   ChevronRight,
 } from "lucide-react";
 import {
@@ -81,11 +81,11 @@ export default async function HomePage() {
               {/* CTA Buttons — positioned over the hero video */}
               <div className="absolute left-1/2 -translate-x-1/2 bottom-8 sm:bottom-14 lg:bottom-20 flex gap-4 z-10 w-full justify-center px-4">
                 <Link
-                  href="/track-order"
+                  href="/shop"
                   className="group inline-flex items-center justify-center gap-2.5 px-6 py-[18px] rounded-[16px] text-base sm:text-lg font-bold font-heading bg-[#7BB042] text-[#F2F7EC] hover:bg-[#6AA035] transition-all shadow-md shrink-0"
                 >
-                  <span>Track Order</span>
-                  <PackageSearch className="w-[17px] h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  <span>View Shop</span>
+                  <ShoppingBag className="w-[17px] h-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/projects"
@@ -141,7 +141,7 @@ export default async function HomePage() {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/figma-assets/mission-img-2.png"
+                    src="https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656"
                     alt="Pet-Feb hands-on solar training lab"
                     className="w-full h-full object-cover"
                   />
@@ -149,7 +149,7 @@ export default async function HomePage() {
                 {/* Location badge */}
                 <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-                  Lekki Phase 1, 2024
+                  Pet-Feb Solar Academy Training
                 </div>
               </div>
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, ChevronDown, Send, AlertCircle } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const NIGERIAN_STATES = [
   "Abia",
@@ -109,6 +110,11 @@ export function ContactForm() {
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
+      trackEvent({
+        event: "contact_form_submit",
+        form_name: "dedicated_contact_page",
+        topic: formData.serviceRequired,
+      });
     }, 700);
   };
 

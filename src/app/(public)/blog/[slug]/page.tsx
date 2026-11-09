@@ -49,7 +49,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const coverUrl =
-    resolveMediaUrl(post.cover_image) || "/api/websitepic/blog";
+    resolveMediaUrl(post.cover_image) ||
+    "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656";
   const formattedDate = post.published_at
     ? new Date(post.published_at).toLocaleDateString("en-GB", {
         day: "2-digit",
@@ -65,8 +66,35 @@ export default async function BlogPostPage({ params }: PageProps) {
   // Split body into readable paragraphs
   const paragraphs = post.body.split("\n\n").filter(Boolean);
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    image: coverUrl.startsWith("http") ? coverUrl : `https://petfeb.com${coverUrl}`,
+    datePublished: post.published_at,
+    dateModified: post.updated_at || post.published_at,
+    author: {
+      "@type": "Organization",
+      name: "Pet-Feb Solar",
+      url: "https://petfeb.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Pet-Feb Solar",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://petfeb.com/api/logo",
+      },
+    },
+    description: post.body.slice(0, 160).trim(),
+  };
+
   return (
     <div className="pb-0">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* ── 1. Top Header: "Welcome to petfeb Blog post." ──────────────── */}
       <div className="max-w-[1440px] mx-auto px-[45px] pt-[80px] pb-[58px]">
         <div className="flex items-center gap-0">
@@ -134,7 +162,8 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="flex flex-col">
               {topStories.map((story, idx) => {
                 const storyCover =
-                  resolveMediaUrl(story.cover_image) || "/api/websitepic/blog";
+                  resolveMediaUrl(story.cover_image) ||
+                  "https://framerusercontent.com/images/CWkdJA2gAFDbAqRSfKsMSs3EJU.png?width=3906&height=1656";
 
                 return (
                   <div
@@ -202,7 +231,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="lg:w-[586px] relative min-h-[280px] lg:min-h-[426px] shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/figma-assets/mission-img-2.png"
+              src="https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656"
               alt="Pet-Feb hands-on solar training"
               className="absolute inset-0 w-full h-full object-cover rounded-l-[22px]"
             />
@@ -210,7 +239,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="absolute bottom-[15px] left-[15px] bg-white/95 backdrop-blur-sm border border-[#D9D9D9] rounded-full px-[12px] py-[6px] flex items-center gap-[7px] shadow-sm">
               <span className="w-[7px] h-[7px] rounded-full bg-[#7BB042]" />
               <span className="font-heading font-bold text-[11px] text-[#333]">
-                Lekki Phase 1, 2024
+                Pet-Feb Solar Academy Training
               </span>
             </div>
           </div>

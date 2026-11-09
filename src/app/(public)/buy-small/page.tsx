@@ -25,6 +25,7 @@ import {
 import { formatNaira } from "@/lib/public-types";
 import { submitBuySmallVerificationAction } from "@/app/actions/verifications";
 import { ScrollReveal, ScrollScale } from "@/components/motion";
+import { trackEvent } from "@/lib/analytics";
 
 const PACKAGES = [
   {
@@ -169,6 +170,11 @@ export default function BuySmallPage({ searchParams }: BuySmallPageProps) {
       }
 
       setSubmittedRef(res.refCode || "PET-BSV-2026-CONFIRMED");
+      trackEvent({
+        event: "buy_small_application_submit",
+        system_type: selectedPkg.name,
+        estimated_cost: selectedPkg.price,
+      });
     } catch {
       alert("Submission error. Please try again or chat with our desk.");
     } finally {

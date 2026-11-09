@@ -46,7 +46,7 @@ const FALLBACK_RECOMMENDED_PRODUCTS: Product[] = [
     product_images: [
       {
         id: "1",
-        url: "/api/websitepic/commercial",
+        url: "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020",
         is_main: true,
         product_id: "sample-1",
         sort_order: 1,
@@ -69,7 +69,7 @@ const FALLBACK_RECOMMENDED_PRODUCTS: Product[] = [
     product_images: [
       {
         id: "2",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304",
         is_main: true,
         product_id: "sample-2",
         sort_order: 1,
@@ -92,7 +92,7 @@ const FALLBACK_RECOMMENDED_PRODUCTS: Product[] = [
     product_images: [
       {
         id: "3",
-        url: "/api/websitepic/panels",
+        url: "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014",
         is_main: true,
         product_id: "sample-3",
         sort_order: 1,
@@ -274,15 +274,48 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const fallbackImg =
     product.category.toLowerCase().includes("panel") ||
     product.name.toLowerCase().includes("panel")
-      ? "/api/websitepic/panels"
-      : "/api/websitepic/battery";
+      ? "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014"
+      : "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304";
   const displayMainImg = mainImgUrl || fallbackImg;
 
   const powerMatrix = getSystemPowerMatrix(product);
   const faqs = getProductFaqs(product);
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: displayMainImg.startsWith("http")
+      ? displayMainImg
+      : `https://petfeb.com${displayMainImg}`,
+    sku: product.id,
+    brand: {
+      "@type": "Brand",
+      name: "Pet-Feb Solar",
+    },
+    offers: {
+      "@type": "Offer",
+      url: `https://petfeb.com/shop/${product.slug}`,
+      priceCurrency: "NGN",
+      price: product.price,
+      itemCondition: "https://schema.org/NewCondition",
+      availability: product.in_stock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/PreOrder",
+      seller: {
+        "@type": "Organization",
+        name: "Pet-Feb Solar",
+      },
+    },
+  };
+
   return (
     <div className="bg-white pb-16 sm:pb-24 overflow-x-clip font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
       {/* ── Page Header Band matching Figma Frame 6147:6743 ────────────────────────────── */}
       <section className="max-w-[1440px] mx-auto px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-10">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 sm:pb-6">
@@ -612,8 +645,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
               const relImg =
                 rel.product_images?.[0]?.url ||
                 (rel.category.toLowerCase().includes("battery")
-                  ? "/api/websitepic/battery"
-                  : "/api/websitepic/commercial");
+                  ? "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304"
+                  : "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020");
 
               const specSummary =
                 rel.specs?.["Min, Order"] ||

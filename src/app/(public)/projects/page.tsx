@@ -112,7 +112,10 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
                         <div className="w-20 h-16 rounded-xl overflow-hidden shrink-0 bg-gray-200">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={item.imageUrl || "/api/websitepic/commercial"}
+                            src={
+                              item.imageUrl ||
+                              "https://framerusercontent.com/images/T17xko4xI33fpTlQYYKXJeZJwk.png?width=3906&height=1656"
+                            }
                             alt={item.title}
                             className="w-full h-full object-cover"
                           />
@@ -151,13 +154,13 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
             <div className="lg:col-span-5 relative min-h-[280px] lg:min-h-[426px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/figma-assets/mission-img-2.png"
+                src="https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656"
                 alt="Pet-Feb hands-on solar training lab"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#7BB042]" />
-                Lekki Phase 1, 2024
+                Pet-Feb Solar Academy Training
               </div>
             </div>
 

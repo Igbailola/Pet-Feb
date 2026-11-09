@@ -130,7 +130,8 @@ export function BlogCatalog({ posts, initialCategory }: BlogCatalogProps) {
           {/* ── Featured Post (First Post) ──────────────────────── */}
           {featuredPost && (() => {
             const coverUrl =
-              resolveMediaUrl(featuredPost.cover_image) || "/api/websitepic/blog";
+              resolveMediaUrl(featuredPost.cover_image) ||
+              "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656";
             const formattedDate = featuredPost.published_at
               ? new Date(featuredPost.published_at).toLocaleDateString("en-NG", {
                   month: "short",
@@ -221,7 +222,8 @@ export function BlogCatalog({ posts, initialCategory }: BlogCatalogProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {remainingPosts.map((post) => {
                 const coverUrl =
-                  resolveMediaUrl(post.cover_image) || "/api/websitepic/blog";
+                  resolveMediaUrl(post.cover_image) ||
+                  "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656";
                 const formattedDate = post.published_at
                   ? new Date(post.published_at).toLocaleDateString("en-NG", {
                       month: "short",

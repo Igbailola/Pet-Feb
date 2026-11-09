@@ -173,7 +173,10 @@ export function ProjectsCatalog({
                 <div className="h-52 w-full overflow-hidden rounded-[16px] bg-gray-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={item.imageUrl || "/api/websitepic/commercial"}
+                    src={
+                      item.imageUrl ||
+                      "https://framerusercontent.com/images/T17xko4xI33fpTlQYYKXJeZJwk.png?width=3906&height=1656"
+                    }
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />

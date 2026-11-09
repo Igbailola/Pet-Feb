@@ -9,13 +9,13 @@ const FRIENDLY_MAP: Record<string, string> = {
   vission: "vission.jpg",
   training: "training.jpg",
   commercial: "30kva inverter  60kwh battery backup  27kw pv arrays.jpg",
-  battery: "Lifepo4 Lithium Battery Solar Energy System Home Generator Charger Power Station With Solar Panel F.jpg",
-  installer: "solar-battery-installer-bundaberg.jpg",
-  installation: "solar-battery-installer-bundaberg.jpg",
-  blog: "Solar energy or Blog or GSL Energy Solution.jpg",
-  panels: "Solar panel price in Lahore.jpg",
-  residential: "654147914673416097.jpg",
-  community: "699324648431502859.jpg",
+  battery: "30kva inverter  60kwh battery backup  27kw pv arrays.jpg",
+  installer: "training.jpg",
+  installation: "30kva inverter  60kwh battery backup  27kw pv arrays.jpg",
+  blog: "hero.jpg",
+  panels: "30kva inverter  60kwh battery backup  27kw pv arrays.jpg",
+  residential: "30kva inverter  60kwh battery backup  27kw pv arrays.jpg",
+  community: "hero.jpg",
 };
 
 export async function GET(

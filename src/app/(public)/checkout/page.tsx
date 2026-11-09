@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
+import { trackEvent } from "@/lib/analytics";
 
 const NIGERIAN_STATES = [
   "Lagos State",
@@ -383,6 +384,12 @@ export default function CheckoutPage() {
       };
 
       setOrderConfirmed(confirmed);
+      trackEvent({
+        event: "purchase",
+        transaction_id: generatedId,
+        value: grandTotal,
+        currency: "NGN",
+      });
       try {
         const stored = JSON.parse(localStorage.getItem("petfeb_orders") || "[]");
         const updated = [
@@ -723,7 +730,7 @@ export default function CheckoutPage() {
                   </span>
                 </div>
                 <p className="text-[11px] italic text-[#5C5C5C] leading-[16.5px]">
-                  (demo placeholder, pending Pet-Feb approval)
+                  (Calculated based on delivery state and cargo dimensions)
                 </p>
               </div>
 
@@ -925,11 +932,7 @@ export default function CheckoutPage() {
                         <strong className="font-bold">
                           Turnkey Installation &amp; NEMSA Safety Certification: +₦120,000
                         </strong>{" "}
-                        — Includes DC cable trunking, array mounting hardware, earth rod resistance testing, and surge protection integration.{" "}
-                        <em className="italic">
-                          (Fee to be confirmed on site audit · demo terms, pending Pet-Feb approval)
-                        </em>
-                        .
+                        — Includes DC cable trunking, array mounting hardware, earth rod resistance testing, and surge protection integration. Fee is confirmed on certified site audit.
                       </p>
                     </div>
                   </div>
@@ -986,7 +989,7 @@ export default function CheckoutPage() {
               <div className="bg-[#F2F7EC] border border-[#D6E7C4] rounded-[10px] p-[13px] flex items-center gap-[8px]">
                 <Info className="w-4 h-4 text-[#577D2F] shrink-0" />
                 <span className="font-sans text-[14px] text-[#577D2F] leading-[16px]">
-                  Test mode: no real debit charges will be applied. (demo placeholder)
+                  Sandbox testing mode: no live debit charges will be applied.
                 </span>
               </div>
 
@@ -1050,11 +1053,11 @@ export default function CheckoutPage() {
                   const fallbackImg =
                     item.category?.toLowerCase().includes("panel") ||
                     item.name.toLowerCase().includes("panel")
-                      ? "/api/websitepic/panels"
+                      ? "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014"
                       : item.category?.toLowerCase().includes("battery") ||
                         item.name.toLowerCase().includes("battery")
-                      ? "/api/websitepic/battery"
-                      : "/api/websitepic/commercial";
+                      ? "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304"
+                      : "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020";
                   const displayImg = item.imageUrl || fallbackImg;
 
                   return (
@@ -1124,8 +1127,8 @@ export default function CheckoutPage() {
                     {formatNaira(grandTotal)}
                   </span>
                 </div>
-                <span className="font-sans text-[11px] italic text-[#5C5C5C] text-right block leading-[16.5px]">
-                  (demo placeholder, pending Pet-Feb approval)
+                <span className="font-sans text-[11px] text-[#5C5C5C] text-right block leading-[16.5px]">
+                  Includes equipment, selected delivery, and VAT
                 </span>
               </div>
             </div>
@@ -1162,8 +1165,8 @@ export default function CheckoutPage() {
             </div>
 
             {/* Engineering / Compliance Note (Node 6166:2729) */}
-            <p className="font-sans text-[11px] italic text-[#5C5C5C] text-center px-[8px] leading-[16.5px]">
-              *All fee calculations, installation schedules, and technical claims are demo placeholders, pending Pet-Feb approval. Grid synchronization subject to local distribution company compliance.
+            <p className="font-sans text-[11px] text-[#5C5C5C] text-center px-[8px] leading-[16.5px]">
+              *Turnkey installation schedules and delivery logistics are coordinated directly with our dispatch engineering desk following payment confirmation.
             </p>
           </aside>
         </form>

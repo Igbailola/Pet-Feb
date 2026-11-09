@@ -48,8 +48,51 @@ const roboto = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://petfeb.com"),
-  title: "Pet-Feb Platform",
-  description: "Pet-Feb solar commerce, financing and internal operations",
+  title: {
+    default: "Pet-Feb Solar | Reliable Clean Energy Solutions in Nigeria",
+    template: "%s | Pet-Feb Solar",
+  },
+  description:
+    "Nigeria's trusted clean energy partner. High-efficiency solar kits, smart hybrid inverters, lithium battery storage, professional installation, and Buy Small solar financing.",
+  keywords: [
+    "Solar Nigeria",
+    "Pet-Feb Solar",
+    "Solar inverters Port Harcourt",
+    "Buy Small solar financing",
+    "Solar panels Nigeria",
+    "Lithium battery solar system",
+    "Commercial solar installation",
+  ],
+  authors: [{ name: "Pet-Feb Solar" }],
+  creator: "Pet-Feb Solar",
+  publisher: "Pet-Feb Solar",
+  openGraph: {
+    type: "website",
+    locale: "en_NG",
+    url: "https://petfeb.com",
+    siteName: "Pet-Feb Solar",
+    title: "Pet-Feb Solar | Reliable Clean Energy Solutions in Nigeria",
+    description:
+      "Nigeria's trusted clean energy partner. High-efficiency solar kits, smart hybrid inverters, lithium battery storage, and flexible Buy Small solar financing.",
+    images: [
+      {
+        url: "/api/websitepic/hero",
+        width: 1200,
+        height: 630,
+        alt: "Pet-Feb Solar Clean Energy Solutions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pet-Feb Solar | Reliable Clean Energy Solutions in Nigeria",
+    description:
+      "Nigeria's trusted clean energy partner. High-efficiency solar kits, smart hybrid inverters, lithium battery storage, and flexible Buy Small solar financing.",
+    images: ["/api/websitepic/hero"],
+  },
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

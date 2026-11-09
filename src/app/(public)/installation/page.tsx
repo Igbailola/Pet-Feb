@@ -207,8 +207,8 @@ export default function InstallationPage() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/api/websitepic/installer"
-                  alt="Petfeb Certified Level-3 Solar Installation Engineer"
+                  src="https://framerusercontent.com/images/T17xko4xI33fpTlQYYKXJeZJwk.png?width=3906&height=1656"
+                  alt="Pet-Feb Certified Solar Installation Engineers"
                   className="w-full h-full object-cover"
                 />
               </ParallaxLayer>
@@ -225,7 +225,7 @@ export default function InstallationPage() {
 
                 <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-black/65 text-white backdrop-blur-md border border-white/20">
                   <MapPin className="w-3.5 h-3.5 text-[#F5B82E]" />
-                  <span>Lekki Phase 1 Commercial Installation · 60kVA Turnkey</span>
+                  <span>Pet-Feb Nationwide Operations · Turnkey Solar Hybrid Systems</span>
                 </span>
               </div>
 

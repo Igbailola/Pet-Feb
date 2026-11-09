@@ -158,19 +158,19 @@ const STEPS = [
 const WORKSHOP_PHOTOS = [
   {
     title: "Practical Wiring & Inverter Lab",
-    img: "/api/websitepic/training",
+    img: "https://framerusercontent.com/images/h86onno5G4w20Bz4ZvuI3lx6wc.png?width=2444&height=2208",
   },
   {
     title: "Commercial Solar Array Installation",
-    img: "/api/websitepic/commercial",
+    img: "https://framerusercontent.com/images/Sp6K5CQBjMLpUy8FDCjH6bqF4k.png?width=3906&height=1656",
   },
   {
     title: "Battery Storage & BMS Integration",
-    img: "/api/websitepic/battery",
+    img: "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304",
   },
   {
     title: "Community Street Lighting Practicum",
-    img: "/api/websitepic/community",
+    img: "https://framerusercontent.com/images/Pe6chdzlkxNa92G279oCEMkkpc.png?width=3906&height=1656",
   },
 ];
 
@@ -273,7 +273,7 @@ export default function TrainingPage() {
               <div className="relative rounded-2xl overflow-hidden border border-emerald-800/80 shadow-2xl bg-gray-900 h-72 sm:h-84">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/api/websitepic/training"
+                  src="https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656"
                   alt="Pet-Feb Practical Solar Training Workshop"
                   className="w-full h-full object-cover"
                 />

@@ -6,7 +6,7 @@ export const DEFAULT_ACCESSORIES: Accessory[] = [
     name: "Heavy-Duty Aluminium Mounting Rails (Set of 4)",
     description: "Anodized corrosion-resistant aluminum roof rails with stainless steel mid/end clamps.",
     price: 45000,
-    image_url: "/api/websitepic/installation",
+    image_url: "https://framerusercontent.com/images/EXCRnZqS5vjWrfe5Td4tp0W0KM.jpg?width=3580&height=2014",
     status: "published",
   },
   {
@@ -14,7 +14,7 @@ export const DEFAULT_ACCESSORIES: Accessory[] = [
     name: "Telescopic Solar Panel Cleaning Kit (6-Meter)",
     description: "Soft anti-scratch water-fed brush and extendable pole for rooftop solar panel maintenance.",
     price: 18000,
-    image_url: "/api/websitepic/installer",
+    image_url: "https://framerusercontent.com/images/h86onno5G4w20Bz4ZvuI3lx6wc.png?width=2444&height=2208",
     status: "published",
   },
   {
@@ -22,7 +22,7 @@ export const DEFAULT_ACCESSORIES: Accessory[] = [
     name: "Smart Wi-Fi & Cloud Telemetry Dongle",
     description: "Plug-and-play remote monitoring dongle with iOS/Android mobile dashboard and SMS fault alerts.",
     price: 35000,
-    image_url: "/api/websitepic/battery",
+    image_url: "https://framerusercontent.com/images/ouN3rsXAKyw7PjwEu9a9id2jDhk.png?width=1524&height=764",
     status: "published",
   },
   {
@@ -30,7 +30,7 @@ export const DEFAULT_ACCESSORIES: Accessory[] = [
     name: "Industrial DC Surge Protective Device (SPD) & Breaker Box",
     description: "600V/1000V DC surge arrester with dual bipolar circuit breakers for lightning protection.",
     price: 32000,
-    image_url: "/api/websitepic/installation",
+    image_url: "https://framerusercontent.com/images/Y3j8zNOm4nfoGxKBpqE07Vb5Nq8.png?width=4032&height=2268",
     status: "published",
   },
   {
@@ -38,7 +38,7 @@ export const DEFAULT_ACCESSORIES: Accessory[] = [
     name: "25mm² Pure Copper Battery Interconnect Cables (Pair)",
     description: "Double-insulated high-amperage copper battery cables with crimped tinned copper lugs.",
     price: 24000,
-    image_url: "/api/websitepic/battery",
+    image_url: "https://framerusercontent.com/images/1QjfCy9Y4m1AwsOYggwt8cs8oY.png?width=1524&height=764",
     status: "published",
   },
 ];
@@ -69,7 +69,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-1kva-main",
         product_id: "prod-kit-1kva",
-        url: "/api/websitepic/residential",
+        url: "https://framerusercontent.com/images/xyrhLbRC9JyspLBq3TZdYJN7U.png?width=2444&height=2208",
         alt_text: "1kVA Starter Solar Kit overview",
         sort_order: 0,
         is_main: true,
@@ -77,7 +77,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-1kva-sub1",
         product_id: "prod-kit-1kva",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/efiej2HT5dZ6MwrkRwMLnlZWxmc.png?width=2444&height=2208",
         alt_text: "1kVA Inverter and battery storage setup",
         sort_order: 1,
         is_main: false,
@@ -109,7 +109,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-3kva-main",
         product_id: "prod-kit-3kva",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/deArVjqIqIE4OtCEUKDRX7zBOic.jpg?width=810&height=1080",
         alt_text: "3kVA Home Solar Kit battery and inverter setup",
         sort_order: 0,
         is_main: true,
@@ -117,7 +117,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-3kva-sub1",
         product_id: "prod-kit-3kva",
-        url: "/api/websitepic/panels",
+        url: "https://framerusercontent.com/images/BxR3rcFDKdHvorb8nsw4BrCQF0.png?width=1524&height=764",
         alt_text: "3kVA High-efficiency solar array",
         sort_order: 1,
         is_main: false,
@@ -149,7 +149,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-5kva-main",
         product_id: "prod-kit-5kva",
-        url: "/api/websitepic/residential",
+        url: "https://framerusercontent.com/images/k3UxjsxWY7q0d2c3pDXZuFtjkZU.jpg?width=810&height=1080",
         alt_text: "5kVA Premium Hybrid Solar Kit system",
         sort_order: 0,
         is_main: true,
@@ -157,7 +157,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-5kva-sub1",
         product_id: "prod-kit-5kva",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/JORmT3dRQeNsBXHZG9XJj2Yjg.jpg?width=810&height=1080",
         alt_text: "5kVA Lithium rack battery storage",
         sort_order: 1,
         is_main: false,
@@ -189,7 +189,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-10kva-main",
         product_id: "prod-kit-10kva",
-        url: "/api/websitepic/commercial",
+        url: "https://framerusercontent.com/images/T17xko4xI33fpTlQYYKXJeZJwk.png?width=3906&height=1656",
         alt_text: "10kVA Commercial Hybrid Solar Kit",
         sort_order: 0,
         is_main: true,
@@ -197,7 +197,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-kit-10kva-sub1",
         product_id: "prod-kit-10kva",
-        url: "/api/websitepic/panels",
+        url: "https://framerusercontent.com/images/EXCRnZqS5vjWrfe5Td4tp0W0KM.jpg?width=3580&height=2014",
         alt_text: "10kVA Commercial solar array installation",
         sort_order: 1,
         is_main: false,
@@ -231,7 +231,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-inv-growatt-main",
         product_id: "prod-inv-growatt-5kva",
-        url: "/api/websitepic/commercial",
+        url: "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020",
         alt_text: "Growatt 5kVA SPF Hybrid Inverter",
         sort_order: 0,
         is_main: true,
@@ -263,7 +263,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-inv-felicity-main",
         product_id: "prod-inv-felicity-10kva",
-        url: "/api/websitepic/commercial",
+        url: "https://framerusercontent.com/images/Sp6K5CQBjMLpUy8FDCjH6bqF4k.png?width=3906&height=1656",
         alt_text: "Felicity Solar 10kVA Low-Frequency Inverter",
         sort_order: 0,
         is_main: true,
@@ -295,7 +295,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-inv-petfeb-main",
         product_id: "prod-inv-petfeb-3kva",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/a6DOUEq20lFRdDXv9iWn451LSA.jpg?width=1020&height=459",
         alt_text: "Pet-Feb 3kVA Smart Pure Sine Wave Inverter",
         sort_order: 0,
         is_main: true,
@@ -329,7 +329,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-bat-felicity-main",
         product_id: "prod-bat-felicity-5kwh",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304",
         alt_text: "Felicity 5.12kWh LiFePO4 Lithium Battery",
         sort_order: 0,
         is_main: true,
@@ -361,7 +361,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-bat-powerwall-main",
         product_id: "prod-bat-powerwall-10kwh",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/P4Zw0jXn2FrApnGeMrSatZeSEPc.png?width=4096&height=2304",
         alt_text: "Pet-Feb 10kWh Wall-Mounted LiFePO4 Powerwall",
         sort_order: 0,
         is_main: true,
@@ -392,7 +392,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-bat-amaron-main",
         product_id: "prod-bat-amaron-200ah",
-        url: "/api/websitepic/battery",
+        url: "https://framerusercontent.com/images/sP2hoh0nwA36XvBioDrY5MDpFI.png?width=4032&height=2268",
         alt_text: "Amaron 200Ah 12V Tall Tubular Battery",
         sort_order: 0,
         is_main: true,
@@ -426,7 +426,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-pan-550w-main",
         product_id: "prod-pan-mono-550w",
-        url: "/api/websitepic/panels",
+        url: "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014",
         alt_text: "550W Tier-1 Monocrystalline Solar Panel",
         sort_order: 0,
         is_main: true,
@@ -458,7 +458,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-pan-450w-main",
         product_id: "prod-pan-bifacial-450w",
-        url: "/api/websitepic/panels",
+        url: "https://framerusercontent.com/images/g8xmMiR01Ay441WhMmGWX2D4jU.png?width=2444&height=2208",
         alt_text: "450W Bifacial Dual-Glass Monocrystalline Panel",
         sort_order: 0,
         is_main: true,
@@ -492,7 +492,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-cc-60a-main",
         product_id: "prod-cc-mppt-60a",
-        url: "/api/websitepic/installer",
+        url: "https://framerusercontent.com/images/50LeTCmNyusbHkKeDFtzG7XcuI0.png?width=2444&height=2208",
         alt_text: "60A MPPT Smart Solar Charge Controller",
         sort_order: 0,
         is_main: true,
@@ -524,7 +524,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-cc-100a-main",
         product_id: "prod-cc-mppt-100a",
-        url: "/api/websitepic/commercial",
+        url: "https://framerusercontent.com/images/LyQItTyVKaZ2rEqNlufBHms8.png?width=2444&height=2208",
         alt_text: "100A High-Voltage Solar MPPT Controller",
         sort_order: 0,
         is_main: true,
@@ -558,7 +558,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-fl-300w-main",
         product_id: "prod-fl-solar-300w",
-        url: "/api/websitepic/community",
+        url: "https://framerusercontent.com/images/Pe6chdzlkxNa92G279oCEMkkpc.png?width=3906&height=1656",
         alt_text: "300W Commercial Solar Street and Flood Light",
         sort_order: 0,
         is_main: true,
@@ -590,7 +590,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
       {
         id: "img-fl-500w-main",
         product_id: "prod-fl-stadium-500w",
-        url: "/api/websitepic/community",
+        url: "https://framerusercontent.com/images/t9tRc4eUkv0WKXcaxW9yAYUscc.png?width=2444&height=2208",
         alt_text: "500W Ultra-Bright Compound Solar Floodlight",
         sort_order: 0,
         is_main: true,

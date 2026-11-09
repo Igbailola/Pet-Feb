@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Your Cart | Petfeb Solar",
+  title: "Your Solar Cart | Pet-Feb Solar",
+  description:
+    "Review your chosen solar kits, inverters, batteries, and accessories before proceeding to secure order checkout with Pet-Feb Solar.",
 };
 
 export default function CartLayout({

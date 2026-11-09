@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Official WhatsApp brand mark SVG
@@ -49,9 +50,20 @@ function WhatsAppComingSoonBody() {
           connect with our team.
         </p>
 
-        <p className="text-[#333333] text-[14px] sm:text-[14.5px]">
-          Stay tuned. We’ll be ready to assist you shortly!
-        </p>
+        <div className="pt-2">
+          <a
+            href="https://wa.me/2348135854054?text=Hello%20Pet-Feb%2C%20I%20would%20like%20to%20enquire%20about%20your%20solar%20systems"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() =>
+              trackEvent({ event: "whatsapp_click", location: "ai_preview_direct_desk" })
+            }
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#25D366] text-white font-heading font-semibold text-xs hover:bg-[#20BD5A] transition shadow-xs"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
+            <span>Chat With Human Support Now</span>
+          </a>
+        </div>
       </div>
     </div>
   );

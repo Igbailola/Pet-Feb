@@ -184,8 +184,25 @@ const SUGGESTED_FAQS: FaqItem[] = [
 ];
 
 export default function SupportPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SUGGESTED_FAQS.filter((f) => f.answer).map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
+    })),
+  };
+
   return (
     <div className="bg-[#F8F9FA] pb-20 font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* ── Section 1: Support Hero ── */}
       <section className="bg-white border-b border-gray-100 pt-10 sm:pt-16 pb-12 sm:pb-16">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">

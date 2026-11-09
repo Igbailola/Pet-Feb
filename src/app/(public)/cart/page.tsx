@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
+import { trackEvent } from "@/lib/analytics";
 
 interface BOSProduct {
   id: string;
@@ -37,7 +38,7 @@ const RECOMMENDED_BOS: BOSProduct[] = [
     category: "INVERTERS",
     specs: "Min, Order : 1unit",
     price: 567900,
-    imageUrl: "/api/websitepic/commercial",
+    imageUrl: "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020",
   },
   {
     id: "bos-lithium-battery",
@@ -45,7 +46,7 @@ const RECOMMENDED_BOS: BOSProduct[] = [
     category: "BATTERIES",
     specs: "Min, Order : 1unit",
     price: 567900,
-    imageUrl: "/api/websitepic/battery",
+    imageUrl: "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304",
   },
   {
     id: "bos-g12v-battery",
@@ -53,7 +54,7 @@ const RECOMMENDED_BOS: BOSProduct[] = [
     category: "BATTERIES",
     specs: "Min, Order : 1unit",
     price: 567900,
-    imageUrl: "/api/websitepic/panels",
+    imageUrl: "https://framerusercontent.com/images/sP2hoh0nwA36XvBioDrY5MDpFI.png?width=4032&height=2268",
   },
 ];
 
@@ -341,11 +342,11 @@ export default function CartPage() {
                   const fallbackImg =
                     item.category?.toLowerCase().includes("panel") ||
                     item.name.toLowerCase().includes("panel")
-                      ? "/api/websitepic/panels"
+                      ? "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014"
                       : item.category?.toLowerCase().includes("battery") ||
                         item.name.toLowerCase().includes("battery")
-                      ? "/api/websitepic/battery"
-                      : "/api/websitepic/commercial";
+                      ? "https://framerusercontent.com/images/9U0RV4PI8oglCnV4u5NLQd7ybU.png?width=4096&height=2304"
+                      : "https://framerusercontent.com/images/ocdKtoAy5td6vuIpwSctRNAePKU.jpg?width=765&height=1020";
                   const displayImg = item.imageUrl || fallbackImg;
                   const isLowStock = index === 1;
 
@@ -626,7 +627,7 @@ export default function CartPage() {
                         Includes certified earthing rods, DC isolator switches, surge suppression &amp; formal NEMSA safety certification signoff.
                       </p>
                       <p className="font-mono font-bold text-[12px] text-[#3F6B1A]">
-                        +₦120,000 (demo placeholder)
+                        +₦120,000 (standard residential estimate)
                       </p>
                     </div>
                   </label>
@@ -661,6 +662,14 @@ export default function CartPage() {
                 <div className="space-y-[12px] pt-[4px]">
                   <Link
                     href="/checkout"
+                    onClick={() =>
+                      trackEvent({
+                        event: "begin_checkout",
+                        value: finalPayable,
+                        currency: "NGN",
+                        items_count: itemCount,
+                      })
+                    }
                     className="bg-[#7BB042] hover:bg-[#70A03C] text-white rounded-[10px] h-[48px] px-4 flex items-center justify-center gap-[8px] font-heading font-bold text-[14px] tracking-[0.28px] shadow-[0px_1px_1px_rgba(0,0,0,0.05)] transition w-full"
                   >
                     <Lock className="w-4 h-4 text-white" />

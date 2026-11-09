@@ -126,12 +126,12 @@ export function Header() {
             {/* Standalone Accessible Circular Cart Control */}
             <Link
               href="/cart"
-              className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0 group"
+              className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-[#F5B82E] hover:bg-[#e2a220] hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0 group cursor-pointer"
               aria-label={cartAccessibleLabel}
               title="Shopping Cart"
             >
               <span className="relative inline-flex items-center justify-center">
-                <ShoppingCart className="w-5 h-5 text-black shrink-0 transition-transform duration-200 group-hover:scale-105" />
+                <ShoppingCart className="w-5 h-5 text-black shrink-0 transition-transform duration-200 group-hover:scale-110" />
                 {isHydrated && itemCount > 0 && (
                   <span
                     className="absolute -top-1.5 -right-2 bg-black text-white text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center shadow-xs border border-white pointer-events-none z-10 leading-none"
@@ -157,7 +157,7 @@ export function Header() {
             {/* Mobile Standalone Circular Cart Shortcut */}
             <Link
               href="/cart"
-              className="w-10 h-10 rounded-full bg-[#F5B82E] hover:bg-[#e8ac25] active:scale-95 transition-all flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0"
+              className="w-10 h-10 rounded-full bg-[#F5B82E] hover:bg-[#e2a220] hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center text-black shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shrink-0 cursor-pointer"
               aria-label={cartAccessibleLabel}
               title="Shopping Cart"
             >

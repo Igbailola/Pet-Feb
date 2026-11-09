@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/public-types";
+import { trackEvent } from "@/lib/analytics";
 
 interface CompatibleAccessoryItem {
   id: string;
@@ -60,6 +61,14 @@ export function AddToCartSection({
 
   const executeAddToCart = () => {
     if (!product.in_stock) return;
+
+    trackEvent({
+      event: "add_to_cart",
+      item_id: product.id,
+      item_name: product.name,
+      price: product.price,
+      quantity,
+    });
 
     // 1. Add main solar product
     addItem(

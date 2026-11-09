@@ -292,7 +292,9 @@ export function ShopCatalog({ products, initialCategory }: ShopCatalogProps) {
               const mainImg =
                 product.product_images?.find((img) => img.is_main) ||
                 product.product_images?.[0];
-              const imgUrl = (mainImg ? resolveMediaUrl(mainImg.url) : null) || "/api/websitepic/panels";
+              const imgUrl =
+                (mainImg ? resolveMediaUrl(mainImg.url) : null) ||
+                "https://framerusercontent.com/images/cZDf2guX31QP3GfZxLvShnzGxwk.jpg?width=3580&height=2014";
               const capacity = getProductCapacity(product);
 
               // Subtle alternation matching Figma: indices 2 and 5 on pure white, others on #F2F7EC

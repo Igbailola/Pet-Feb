@@ -92,7 +92,9 @@ export function RecentBlogPostsSection({
       {/* Blog Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[8px]">
         {filteredPosts.map((post) => {
-          const coverUrl = post.cover_image || "/api/websitepic/blog";
+          const coverUrl =
+            post.cover_image ||
+            "https://framerusercontent.com/images/3nbXbY6KeeNsRkGhg0TmSY1jlU.png?width=3906&height=1656";
           const formattedDate = post.published_at
             ? new Date(post.published_at).toLocaleDateString("en-US", {
                 month: "long",
